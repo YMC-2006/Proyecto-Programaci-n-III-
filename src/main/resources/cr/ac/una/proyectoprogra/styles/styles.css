@@ -7,3 +7,291 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : vjjcu
 */
 
+@font-face {
+    font-family: "Voga";
+    src: url("../resource/Voga.otf");
+}
+
+@font-face {
+    font-family: "Candara";
+    src: url("../resource/Candara.ttf");
+}
+
+
+
+*{
+    -fx-color-tinta: #212d47; 
+    -fx-color-crema: #fef7ef; 
+    -fx-color-dorado: #c5a75f;  
+    -fx-color-mostaza: #cc9a24;  
+    -fx-color-azul: #5c80cc;  
+    -fx-color-gris: #cad5ee;  
+    -fx-color-carton: #958067;  
+    -fx-color-blanco: #FFFFFF; 
+}
+
+.panelLogin {
+    -fx-background-image: url("../resource/Fondo.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.panelEncabezado {
+    -fx-background-image: url("../resource/Encabezado.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.panelLogin2{
+    -fx-border-color: -fx-color-mostaza;
+    -fx-background-color: -fx-color-blanco;
+    -fx-border-width: 3;  
+    -fx-border-radius: 20; 
+    -fx-background-radius: 20;
+}
+
+.panelRegistro{
+    -fx-background-color: -fx-color-blanco;  
+}
+
+.panelRegistro2{
+    -fx-border-color: -fx-color-gris; 
+    -fx-border-width: 3;
+    -fx-border-radius: 20; 
+    -fx-background-radius: 20; 
+}
+
+.TituloLogin {
+    -fx-font-family: "Voga";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-color-dorado;
+}
+
+.TituloLogin2 {
+    -fx-font-family: "Voga";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-color-blanco;
+}
+
+.Texto1 {
+    -fx-font-family: "Candara";
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-color-carton;
+}
+
+.Texto2 {
+    -fx-font-family: "Candara";
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-color-blanco;
+}
+
+.Texto3 {
+    -fx-font-family: "Voga";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-color-tinta;
+}
+
+.lblEnlace {
+    -fx-text-fill: -fx-color-azul;
+    -fx-font-size: 11px;
+    -fx-font-family: "Candara";
+}
+
+.lblEnlace:hover {
+    -fx-text-fill: -fx-color-mostaza;   
+    -fx-underline: true;                
+    -fx-cursor: hand;                   
+}
+
+
+
+.mfx-button, .mfx-button:armed, .mfx-button:focused{
+    -mfx-button-type:RAISED;
+    -mfx-opacity: 0.8;
+    -fx-content-display:left;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-font-weight: bold;
+    -fx-font-size:16px;
+    -fx-alignment:CENTER;
+    -fx-background-color: -fx-color-tinta;
+    -fx-min-height: 45px;
+    -fx-font-family: "Voga";
+}
+
+.button:hover{
+    -fx-background-color: -fx-color-azul;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-cursor: hand;
+}
+
+.BotonIdioma, .BotonIdioma:armed, .BotonIdioma:focused{
+    -mfx-button-type:RAISED;
+    -mfx-opacity: 0.8;
+    -fx-content-display:left;
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-weight: bold;
+    -fx-font-size:12px;
+    -fx-alignment:CENTER;
+    -fx-background-color: -fx-color-blanco;
+    -fx-min-height: 25px;
+    -fx-font-family: "Candara";
+}
+
+.BotonIdioma:hover{
+    -fx-background-color: -fx-color-azul;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-cursor: hand;
+}
+
+.BotonRegistro, .BotonRegistro:armed, .BotonRegistro:focused{
+    -mfx-button-type:RAISED;
+    -mfx-opacity: 0.8;
+    -fx-content-display:left;
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-weight: bold;
+    -fx-font-size:16px;
+    -fx-alignment:CENTER;
+    -fx-background-color: -fx-color-blanco;
+    -fx-min-height: 45px;
+    -fx-font-family: "Voga";
+}
+
+.BotonRegistro:hover{
+    -fx-background-color: -fx-color-tinta;
+    -fx-text-fill: -fx-color-blanco;
+    -fx-cursor: hand;
+}
+
+
+.mfx-text-field{
+    -mfx-float-mode: BORDER;
+    -fx-font-size: 16px;
+    -fx-pref-height: 40px;
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-alignment:TOP_LEFT;
+    -fx-text-fill: -fx-color-tinta;
+    -fx-prompt-text-fill: -fx-color-tinta;
+    -fx-font-family: "Candara";
+}
+
+.mfx-text-field .text-field {
+    -fx-highlight-fill: -fx-color-azul;
+}
+
+.mfx-text-field:floating .floating-text {
+    -fx-font-weight: bold;
+}
+
+.mfx-password-field:masked{
+    -fx-font-size: 10px;
+}
+
+.mfx-password-field:masked .floating-text{
+    -fx-font-size: 14px;
+}
+
+.loginTextField, .loginTextField:armed{
+    -mfx-main: -fx-color-tinta;                 
+    -mfx-float-mode: INLINE;                    
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -fx-color-carton transparent !important;
+    -fx-border-width: 0 0 1.5px 0;
+    -fx-border-style: solid;
+    -fx-border-radius: 0;
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-size: 16px;
+    -fx-font-style: italic;
+    -fx-padding: 8px 4px 8px 4px;
+    -fx-pref-height: 56px;                       
+    -fx-min-height: 56px;
+    -fx-max-height: 56px;
+}
+
+.loginTextField:focused .floating-text,.loginTextField:floating .floating-text {
+    -fx-text-fill: -fx-color-azul;             
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.loginTextField .mfx-font-icon {
+    -mfx-color: -fx-color-azul;
+    -mfx-size: 14;
+}
+
+.mfx-combo-box-cell {
+    -fx-background-color: -fx-color-blanco;
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 12px 8px 12px;
+}
+
+.mfx-combo-box-cell:hover {
+    -fx-background-color: -fx-color-crema;
+}
+
+.mfx-combo-box-cell:selected {
+    -fx-background-color: -fx-color-dorado;
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-weight: bold;
+}
+
+.btnImg{
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.imgSicobuUNA{
+    -fx-image: url(../resource/LogoSicobuUNA.png);
+}
+
+.imgSicobuUNA2{
+    -fx-image: url(../resource/LogoSicobuUNA2.png);
+}
+
+.imgExplorador {
+    -fx-image: url("../resource/Explorador1.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
+.imgExplorador:hover {
+    -fx-image: url("../resource/Explorador2.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
+.imgCamara {
+    -fx-image: url("../resource/Camara1.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
+.imgCamara:hover {
+    -fx-image: url("../resource/Camara2.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
+.imgCancelar {
+    -fx-image: url("../resource/Cancelar1.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
+.imgCancelar:hover {
+    -fx-image: url("../resource/Cancelar2.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
+.imgFotoPredeterminada {
+    -fx-image: url("../resource/FotoPredeterminada.png");
+    -fx-fit-height: 175px;
+    -fx-fit-width: 200px;
+}

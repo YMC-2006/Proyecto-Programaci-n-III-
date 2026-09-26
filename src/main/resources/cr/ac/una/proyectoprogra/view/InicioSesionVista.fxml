@@ -1,8 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="649.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InicioSesionController">
-    
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="400.0" styleClass="panelLogin" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InicioSesionController">
+   <children>
+      <HBox layoutX="199.0" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="586.0" prefWidth="362.0" styleClass="panelFormulario" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="436.0" prefWidth="465.0" styleClass="panelLogin2" VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="imgSicobuUNA" />
+                                 </styleClass>
+                                 <HBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="Texto1" text="SicobuUNA" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <MFXButton alignment="CENTER_RIGHT" styleClass="BotonIdioma" text="ES" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets right="1.0" top="3.0" />
+                                       </HBox.margin>
+                                    </MFXButton>
+                                    <MFXButton alignment="CENTER_RIGHT" styleClass="BotonIdioma" text="EN">
+                                       <HBox.margin>
+                                          <Insets right="10.0" top="3.0" />
+                                       </HBox.margin>
+                                    </MFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="TituloLogin" text="INICIO SESIÓN" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="30.0" />
+                           </VBox.margin>
+                        </Label>
+                        <MFXFilterComboBox fx:id="cbxBufete" floatMode="DISABLED" floatingText="Bufete" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="60.0" right="60.0" top="20.0" />
+                           </VBox.margin>
+                        </MFXFilterComboBox>
+                        <MFXTextField fx:id="txtUsuario" floatingText="Usuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="345.0" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="60.0" right="60.0" top="20.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXPasswordField fx:id="txtClave" floatingText="Contraseña" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="60.0" right="60.0" top="20.0" />
+                           </VBox.margin>
+                        </MFXPasswordField>
+                        <Label fx:id="lblRecuperarClave" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#OnMouseClickedRecuperarClave" prefHeight="42.0" prefWidth="345.0" styleClass="lblEnlace" text="Recuperar contraseña" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets right="60.0" />
+                           </VBox.margin>
+                        </Label>
+                        <MFXButton fx:id="btnIngresar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#OnActionBtnIngresar" text="Ingresar " VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="80.0" right="80.0" top="30.0" />
+                           </VBox.margin>
+                        </MFXButton>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="134.0" prefWidth="382.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="345.0" styleClass="Texto1" text="¿Su bufete no se ha registrado?" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="60.0" right="60.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <MFXButton fx:id="btnRegistrar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#OnActionBtnRegistrar" text="Registrar Bufete" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" left="80.0" right="80.0" />
+                                 </VBox.margin>
+                              </MFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>

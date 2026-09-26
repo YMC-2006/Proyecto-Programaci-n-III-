@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="664.0" prefWidth="1105.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarseController">
+   <children>
+      <VBox layoutX="227.0" layoutY="91.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="545.0" prefWidth="1018.0" styleClass="panelRegistro" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" styleClass="panelEncabezado" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="TituloLogin2" text="REGISTRAR NUEVO BUFETE" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="460.0" prefWidth="347.0" styleClass="panelRegistro2" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="Texto3" text="DATOS DEL BUFETE" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="378.0" prefWidth="573.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <MFXTextField fx:id="txtBufete" floatingText="Bufete" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtTelefono" floatingText="Telefono" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtCorreoBufete" floatingText="Correo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtDireccion" floatingText="Dirección" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fx:id="imgBufete" fitHeight="197.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true" styleClass="imgFotoPredeterminada" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </ImageView>
+                                    <ImageView fx:id="imgBufeteExplorador" fitHeight="58.0" fitWidth="63.0" onMouseClicked="#OnMouseClickedExploradorBufete" pickOnBounds="true" preserveRatio="true" styleClass="imgExplorador">
+                                       <VBox.margin>
+                                          <Insets bottom="30.0" />
+                                       </VBox.margin>
+                                    </ImageView>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" styleClass="panelRegistro2" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="Texto3" text="DATOS DEL USUARIO ADMINISTRADOR" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="20.0" top="15.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="378.0" prefWidth="573.0">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <MFXComboBox fx:id="cbxTipoId" floatingText="Tipo Identificación" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+                                       </VBox.margin>
+                                    </MFXComboBox>
+                                    <MFXTextField fx:id="txtId" floatingText="Identificación" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtUsuario" floatingText="Usuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtNombre" floatingText="Nombre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtApellido1" floatingText="Primer Apellido" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtApellido2" floatingText="Segundo Apellido" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <MFXTextField fx:id="txtCelular" floatingText="Celular" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="20.0" top="20.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXTextField fx:id="txtCorreo" floatingText="Correo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="20.0" top="10.0" />
+                                       </VBox.margin>
+                                    </MFXTextField>
+                                    <MFXComboBox fx:id="cbxIdioma" floatingText="Idioma" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="20.0" top="10.0" />
+                                       </VBox.margin>
+                                    </MFXComboBox>
+                                    <MFXPasswordField fx:id="pswClave" floatingText="Contraseña" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="20.0" top="10.0" />
+                                       </VBox.margin>
+                                    </MFXPasswordField>
+                                    <MFXPasswordField fx:id="pswConfirmarClave" floatingText="Confirmar Contraseña" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="10.0" right="20.0" top="10.0" />
+                                       </VBox.margin>
+                                    </MFXPasswordField>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <ImageView fx:id="imgUsuarioAdmin" fitHeight="179.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgFotoPredeterminada" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets top="10.0" />
+                                       </VBox.margin>
+                                    </ImageView>
+                                    <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="146.0">
+                                       <children>
+                                          <ImageView fx:id="imgUsuarioExplorador" fitHeight="58.0" fitWidth="63.0" onMouseClicked="#OnMouseClickedExploradorUsuario" pickOnBounds="true" preserveRatio="true" styleClass="imgExplorador">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </ImageView>
+                                          <ImageView fx:id="imgCamara" fitHeight="58.0" fitWidth="63.0" onMouseClicked="#OnMouseClickedImgCamara" pickOnBounds="true" preserveRatio="true" styleClass="imgCamara" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="30.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
+                  <MFXButton fx:id="btnCancelar" maxWidth="1.7976931348623157E308" onAction="#OnActionBtnCancelar" styleClass="BotonRegistro" text="Cancelar" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="60.0" top="20.0" />
+                     </HBox.margin>
+                  </MFXButton>
+                  <MFXButton fx:id="btnRegistrar" maxWidth="1.7976931348623157E308" onAction="#OnActionBtnRegistrar" styleClass="BotonRegistro" text="Registrar" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </MFXButton>
+               </children>
+            </HBox>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="898.0" styleClass="panelEncabezado" VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="20.0" top="5.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="btnImg" />
+                        <String fx:value="imgSicobuUNA2" />
+                     </styleClass>
+                  </ImageView>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="Texto2" text="SicobuUNA" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

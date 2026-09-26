@@ -7,7 +7,10 @@ module cr.ac.una.proyectoprogra {
     requires javafx.base;
     requires MaterialFX;
     
-     requires java.logging;
+    requires webcam.capture;
+    
+    requires java.logging;
+    requires java.base;
 
     
     opens cr.ac.una.proyectoprogra to javafx.fxml, MaterialFX;
