@@ -28,6 +28,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-color-gris: #cad5ee;  
     -fx-color-carton: #958067;  
     -fx-color-blanco: #FFFFFF; 
+    
+    -fx-color-fondo:#385d87;
+    -fx-color-btn:#385b83;
+    -fx-color-fondo2:#dce2ee;
+        /*#f5f8ff*/
+    
+     /* Paleta azul grisácea */
+    -fx-color-azul-gris-claro: #B5C2D2;
+    -fx-color-azul-medio: #3F6084;
+    -fx-color-azul-oscuro: #2F3E54;
+    -fx-color-azul-negro: #22252E;
+
+    /* Blancos y grises */
+    -fx-color-blanco: #FCFCFC;
+    -fx-color-gris-azulado: #DEE4ED;
+    -fx-color-gris-muy-claro: #F0F2F6;
+    -fx-color-gris-claro: #A6B4C3;
 }
 
 .panelLogin {
@@ -294,4 +311,87 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-image: url("../resource/FotoPredeterminada.png");
     -fx-fit-height: 175px;
     -fx-fit-width: 200px;
+}
+
+/*
+************************* Principal View ********************
+*/
+
+.hboxLogo{
+    -fx-alignment:CENTER_LEFT;
+    -fx-spacing: 5px;
+}
+
+.hboxUser{
+    -fx-alignment:CENTER_RIGHT;
+    -fx-spacing: 5px;
+}
+
+.hboxMenu{
+    -fx-alignment:CENTER;
+    -fx-spacing: 5px;
+    -fx-background-color:#b3c0d1;
+    -fx-padding: 5px;
+}
+
+.vboxMenu{
+    -fx-alignment:CENTER;
+    -fx-spacing: 5px;
+}
+
+.imgLogo{
+    -fx-image: url("../resource/logoPrueba.png");
+    -fx-fit-height: 70px;
+    -fx-fit-width: 70px;
+}
+
+.imgUsuario{
+    -fx-image: url("../resource/logoPrueba.png");
+    -fx-fit-height: 60px;
+    -fx-fit-width: 60px;
+}
+
+.btnMenu, .btnMenu:armed{
+    -mfx-button-type:FLAT;
+    -fx-background-color: #b3c0d1;
+    -fx-text-fill: white;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-border-color:#DEE4ED;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+}
+
+.btnMenu:hover{
+    -mfx-button-type:FLAT;
+    -fx-background-color: #2a2c38;
+    -fx-text-fill: white;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+}
+
+.btnMenu:focused{
+    -mfx-button-type:FLAT;
+    -fx-background-color: #24364a;
+    -fx-text-fill: white;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+}
+
+.mainDisplay{
+    -fx-background-color: white;
+}
+
+.titlMenu{
+    -fx-font-family: "Voga";
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
 }

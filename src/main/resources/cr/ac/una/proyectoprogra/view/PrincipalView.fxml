@@ -1,8 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="543.0" prefWidth="966.0" stylesheets="@../styles/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.PrincipalController">
-    
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="688.0" prefWidth="1108.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.PrincipalController">
+   <top>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxMenu" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="222.0" styleClass="hboxLogo" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgLogo" />
+                  <Label styleClass="titlMenu" text="Bufete Abogados" />
+               </children>
+            </HBox>
+            <VBox prefHeight="100.0" prefWidth="711.0" styleClass="vboxMenu">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxMenu">
+                     <children>
+                        <MFXButton prefHeight="46.0" prefWidth="173.0" styleClass="btnMenu" text="Indicadores" />
+                        <MFXButton prefHeight="46.0" prefWidth="185.0" styleClass="btnMenu" text="M. Abogados" />
+                        <MFXButton prefHeight="46.0" prefWidth="176.0" styleClass="btnMenu" text="M. Clientes" />
+                        <MFXButton prefHeight="46.0" prefWidth="165.0" styleClass="btnMenu" text="M. Sociedades" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="497.0" styleClass="hboxMenu">
+                     <children>
+                        <MFXButton prefHeight="46.0" prefWidth="186.0" styleClass="btnMenu" text="M. Instrumentos" />
+                        <MFXButton layoutX="474.0" layoutY="10.0" prefHeight="46.0" prefWidth="192.0" styleClass="btnMenu" text="C. Instrumentos" />
+                        <MFXButton layoutX="620.0" layoutY="10.0" prefHeight="46.0" prefWidth="168.0" styleClass="btnMenu" text="M. Contable" />
+                        <MFXButton layoutX="296.0" layoutY="10.0" prefHeight="46.0" prefWidth="146.0" styleClass="btnMenu" text="Agenda" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox layoutX="129.0" layoutY="10.0" prefHeight="100.0" prefWidth="194.0" styleClass="hboxUser" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgUsuario" />
+                  <Label styleClass="titlMenu" text="Usuario" />
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="mainDisplay" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
