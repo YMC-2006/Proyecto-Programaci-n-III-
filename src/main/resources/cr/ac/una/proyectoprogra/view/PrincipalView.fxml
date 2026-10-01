@@ -65,8 +65,22 @@
                   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="926.0" spacing="40.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnOnActionIndicadores" styleClass="btnMenu" text="Indicadores" />
-                        <Button mnemonicParsing="false" onAction="#btnOnActionMantenimientos" styleClass="btnMenu" text="Mantenimientos" />
-                        <Button mnemonicParsing="false" onAction="#btnOnActionInstrumentos" styleClass="btnMenu" text="Instrumentos" />
+                        <Button fx:id="btnMantenimientos" mnemonicParsing="false" onAction="#btnOnActionMantenimientos" styleClass="btnMenu" text="Mantenimientos">
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/flecha_abajo_normal.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                        <Button fx:id="btnInstrumentos" mnemonicParsing="false" onAction="#btnOnActionInstrumentos" styleClass="btnMenu" text="Instrumentos">
+                           <graphic>
+                              <ImageView fitHeight="16.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/flecha_abajo_normal.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                         <Button mnemonicParsing="false" onAction="#btnOnActionAgenda" styleClass="btnMenu" text="Agenda" />
                         <Button mnemonicParsing="false" onAction="#btnOnActionContable" styleClass="btnMenu" text="Contable" />
                      </children>

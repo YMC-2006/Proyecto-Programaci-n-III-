@@ -14,6 +14,15 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import javafx.geometry.Bounds;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+
 
 /**
  * FXML Controller class
@@ -22,17 +31,65 @@ import javafx.fxml.Initializable;
  */
 public class PrincipalController extends Controller implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private Button btnMantenimientos;
+    @FXML
+    private Button btnInstrumentos;
+
+    private Popup menuMantenimientos = new Popup();
+    private Popup menuInstrumentos = new Popup();
+
+    // Temporizadores para cerrar cada menú con un pequeño retraso
+    private PauseTransition esperaMantenimientos = new PauseTransition(Duration.millis(200));
+    private PauseTransition esperaInstrumentos = new PauseTransition(Duration.millis(200));
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-
-    @Override
-    public void initialize() {
+       //menu de mantenimientos
+        VBox opsMantenimiento = new VBox();
+        opsMantenimiento.getStyleClass().add("menuDesplegable");
+        opsMantenimiento.getChildren().addAll(
+            crearBotonMenu("Abogados", "AbogadosView", menuMantenimientos),
+            crearBotonMenu("Clientes", "ClientesView", menuMantenimientos),
+            crearBotonMenu("Sociedades", "SociedadesView", menuMantenimientos)
+        );
         
+        menuMantenimientos.getContent().add(opsMantenimiento);
+        
+        esperaMantenimientos.setOnFinished(e -> menuMantenimientos.hide());
+        btnMantenimientos.setOnMouseEntered(e -> {
+            esperaMantenimientos.stop();
+            menuInstrumentos.hide();
+            mostrarMenu(btnMantenimientos, menuMantenimientos, opsMantenimiento);
+            
+        });
+        
+        btnMantenimientos.setOnMouseExited(e -> esperaMantenimientos.playFromStart());
+        opsMantenimiento.setOnMouseEntered(e -> esperaMantenimientos.stop());
+        opsMantenimiento.setOnMouseExited(e -> esperaMantenimientos.playFromStart());
+        
+    }
+
+    private Button crearBotonMenu(String nombre, String vista, Popup menu) {
+      Button boton = new Button(nombre);
+      boton.getStyleClass().add("opcionMenu");
+      boton.setMaxWidth(Double.MAX_VALUE);
+      boton.setOnAction(e -> {
+          menu.hide();
+          FlowController.getInstance().goView(vista);
+      });
+      return boton;
+    }
+    
+     private void mostrarMenu(Button boton, Popup menu, VBox opciones) {
+        if(opciones.getStylesheets().isEmpty()){
+            opciones.getStylesheets().addAll(boton.getScene().getRoot().getStylesheets());
+        }
+        
+        // la pos de donde quiero que se vea el menu que es justo debajo de cualquiera de los botones ue tengan un desplegable
+        Bounds pos = boton.localToScreen(boton.getBoundsInLocal());
+        menu.show(boton, pos.getMinX(), pos.getMaxY());
     }
 
     @FXML
@@ -41,25 +98,28 @@ public class PrincipalController extends Controller implements Initializable {
     }
 
     @FXML
-    private void btnOnActionMantenimientos(ActionEvent event) {
-        FlowController.getInstance().goView("MantenimientoOpcionesView");
-    }
-
-    @FXML
-    private void btnOnActionInstrumentos(ActionEvent event) {
-        FlowController.getInstance().goView("InstrumentosView");
-    }
-
-    @FXML
     private void btnOnActionAgenda(ActionEvent event) {
-            FlowController.getInstance().goView("AgendaView");
+        FlowController.getInstance().goView("AgendaView");
 
     }
 
     @FXML
     private void btnOnActionContable(ActionEvent event) {
-            FlowController.getInstance().goView("ContableView");
+        FlowController.getInstance().goView("ContableView");
 
     }
-    
+
+    @Override
+    public void initialize() {
+
+    }
+
+    @FXML
+    private void btnOnActionMantenimientos(ActionEvent event) {
+    }
+
+    @FXML
+    private void btnOnActionInstrumentos(ActionEvent event) {
+    }
+
 }

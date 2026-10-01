@@ -334,7 +334,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color:#FFFFFF;
     -fx-padding: 5px;
     -fx-border-color: transparent transparent #DDE4EE transparent; /* arriba, derecha, abajo, izquierda, para la linea de abajo para que se vea elegante*/
-    -fx-border-width: 0 0 1 0;
+    -fx-border-width: 0 0 1.5 0;
 }
 
 
@@ -399,3 +399,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 
 
+/* Caja blanca del menú */
+.menuDesplegable{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14;
+    -fx-border-color: #DDE4EE;
+    -fx-border-radius: 14;
+    -fx-padding: 8;
+    -fx-spacing: 2;
+    -fx-pref-width: 260;
+    -fx-effect: dropshadow(gaussian, rgba(30,35,48,0.18), 30, 0, 0, 10);
+}
+
+/* Cada opción del menú */
+.opcionMenu{
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-text-fill: #1E2330;
+    -fx-font-family: "Manrope SemiBold";
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12 14 12 14;
+    -fx-cursor: hand;
+}
+
+.opcionMenu:hover{
+    -fx-background-color: #2F5689;
+    -fx-text-fill: #FFFFFF;
+}
