@@ -6,7 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import java.util.ResourceBundle;
+import java.util.Locale;
 import java.io.IOException;
 
 /**
@@ -19,7 +20,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         
-        FlowController.getInstance().InitializeFlow(stage, null);
+        ResourceBundle idioma = ResourceBundle.getBundle("cr/ac/una/proyectoprogra/resource/idioma", Locale.of("en"));
+        FlowController.getInstance().InitializeFlow(stage, idioma);
         FlowController.getInstance().goViewInWindow("InicioSesionVista");
         
     }

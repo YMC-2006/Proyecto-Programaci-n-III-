@@ -56,12 +56,13 @@ public class PrincipalController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         //menu de mantenimientos
+        mostrarFechaActual();
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
         opsMantenimiento.getChildren().addAll(
-                crearBotonMenu("Abogados", "AbogadosView", menuMantenimientos),
-                crearBotonMenu("Clientes", "ClientesView", menuMantenimientos),
-                crearBotonMenu("Sociedades", "SociedadesView", menuMantenimientos)
+                crearBotonMenu("Abogados", "AbogadosView","abogados", menuMantenimientos),
+                crearBotonMenu("Clientes", "ClientesView", "clientes", menuMantenimientos),
+                crearBotonMenu("Sociedades", "SociedadesView", "sociedades", menuMantenimientos)
         );
 
         menuMantenimientos.getContent().add(opsMantenimiento);
@@ -82,9 +83,9 @@ public class PrincipalController extends Controller implements Initializable {
         VBox opsInstrumentos = new VBox();
         opsInstrumentos.getStyleClass().add("menuDesplegable");
         opsInstrumentos.getChildren().addAll(
-            crearBotonMenu("Mantenimiento Instrumentos", "InstrumentoMantenimientoView", menuInstrumentos),
-            crearBotonMenu("Estados Instrumentos", "InstrumentoMantenimientoEstadoView", menuInstrumentos),
-            crearBotonMenu("Control Instrumentos", "InstrumentoMantenimientoControlView", menuInstrumentos)
+            crearBotonMenu("Mantenimiento Instrumentos", "InstrumentoMantenimientoView", "instrumentos",  menuInstrumentos),
+            crearBotonMenu("Estados Instrumentos", "InstrumentoMantenimientoEstadoView", "instrumentos",menuInstrumentos),
+            crearBotonMenu("Control Instrumentos", "InstrumentoMantenimientoControlView", "instrumentos",menuInstrumentos)
         );
 
         menuInstrumentos.getContent().add(opsInstrumentos);
@@ -103,18 +104,19 @@ public class PrincipalController extends Controller implements Initializable {
 
     }
 
-    private Button crearBotonMenu(String nombre, String vista, Popup menu) {
+    private Button crearBotonMenu(String nombre, String vista, String icono, Popup menu) {
         Button boton = new Button(nombre);
         boton.getStyleClass().add("opcionMenu");
         boton.setMaxWidth(Double.MAX_VALUE);
         System.out.println("Cree boton " + nombre);
         
-//        ImageView imagen = new ImageView(new Image("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/bufete.png"));
-//        imagen.setFitHeight(18);
-//        imagen.setFitWidth(18);
-//        
-//        boton.setGraphicTextGap(10);
-//        boton.setGraphic(imagen);
+        Image img = new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/"+icono+".png"));
+        ImageView imagen = new ImageView(img);
+        imagen.setFitHeight(18);
+        imagen.setFitWidth(18);
+        
+        boton.setGraphicTextGap(10);
+        boton.setGraphic(imagen);
 
         boton.setOnAction(e -> {
             menu.hide();
@@ -135,7 +137,7 @@ public class PrincipalController extends Controller implements Initializable {
     
     
     // dura 1s en arrancar
-    private void startClock() {
+    private void mostrarFechaActual() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             LocalDateTime ahora = LocalDateTime.now();
             fechaActualLabel.setText(ahora.format(formatoFecha));

@@ -3,9 +3,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="1066.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
+<AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="1066.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
    <children>
-      <Label layoutX="519.0" layoutY="284.0" text="Mantenimiento de Abogados" />
+      <Label layoutX="519.0" layoutY="284.0" text="Mantenimiento de abogados" />
    </children>
 </AnchorPane>
