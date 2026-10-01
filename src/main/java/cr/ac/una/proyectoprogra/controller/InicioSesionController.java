@@ -52,7 +52,7 @@ public class InicioSesionController extends Controller implements Initializable 
 
     @FXML
     private void OnActionBtnIngresar(ActionEvent event) {
-        FlowController.getInstance().goViewInWindow("PrincipalView");
+        FlowController.getInstance().goMain();
         ((Stage)btnIngresar.getScene().getWindow()).close();
     }
 

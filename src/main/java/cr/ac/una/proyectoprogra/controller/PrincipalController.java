@@ -34,5 +34,32 @@ public class PrincipalController extends Controller implements Initializable {
     public void initialize() {
         
     }
+
+    @FXML
+    private void btnOnActionIndicadores(ActionEvent event) {
+        FlowController.getInstance().goView("IndicadoresView");
+    }
+
+    @FXML
+    private void btnOnActionMantenimientos(ActionEvent event) {
+        FlowController.getInstance().goView("MantenimientoOpcionesView");
+    }
+
+    @FXML
+    private void btnOnActionInstrumentos(ActionEvent event) {
+        FlowController.getInstance().goView("InstrumentosView");
+    }
+
+    @FXML
+    private void btnOnActionAgenda(ActionEvent event) {
+            FlowController.getInstance().goView("AgendaView");
+
+    }
+
+    @FXML
+    private void btnOnActionContable(ActionEvent event) {
+            FlowController.getInstance().goView("ContableView");
+
+    }
     
 }
