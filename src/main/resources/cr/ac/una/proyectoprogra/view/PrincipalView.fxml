@@ -21,7 +21,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="26.0" prefWidth="100.0" spacing="30.0" styleClass="hboxPrincipalHeader">
                <children>
-                  <Label prefHeight="18.0" prefWidth="105.0" styleClass="textoBlancoHeader" text="Fecha Actual :D">
+                  <Label fx:id="fechaActualLabel" prefHeight="18.0" prefWidth="105.0" styleClass="textoBlancoHeader" text="Fecha Actual :D">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -61,7 +61,10 @@
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin></ImageView>
-                  <Label styleClass="tituloMenu" text="Bufete Abogados" />
+                  <Label styleClass="tituloMenu" text="Bufete Abogados">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin></Label>
                   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="926.0" spacing="40.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#btnOnActionIndicadores" styleClass="btnMenu" text="Indicadores" />
@@ -83,9 +86,13 @@
                            </graphic></Button>
                         <Button mnemonicParsing="false" onAction="#btnOnActionAgenda" styleClass="btnMenu" text="Agenda" />
                         <Button mnemonicParsing="false" onAction="#btnOnActionContable" styleClass="btnMenu" text="Contable" />
+                        <Button mnemonicParsing="false" onAction="#btnOnActionReportes" styleClass="btnMenu" text="Reportes" />
                      </children>
                   </HBox>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgUsuario" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgUsuario">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></ImageView>
                   <Label styleClass="tituloMenu" text="Usuario" />
                </children>
                <VBox.margin>

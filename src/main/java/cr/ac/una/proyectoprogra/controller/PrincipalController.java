@@ -10,7 +10,10 @@ import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import javafx.animation.KeyFrame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,10 +22,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.geometry.Bounds;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.scene.control.Label;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
 
 /**
  * FXML Controller class
@@ -30,6 +34,8 @@ import javafx.scene.image.Image;
  * @author alond
  */
 public class PrincipalController extends Controller implements Initializable {
+
+    private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' YYYY");
 
     @FXML
     private Button btnMantenimientos;
@@ -44,52 +50,98 @@ public class PrincipalController extends Controller implements Initializable {
     private PauseTransition esperaInstrumentos = new PauseTransition(Duration.millis(200));
     
     
+    @FXML private Label fechaActualLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       //menu de mantenimientos
+        
+        //menu de mantenimientos
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
         opsMantenimiento.getChildren().addAll(
-            crearBotonMenu("Abogados", "AbogadosView", menuMantenimientos),
-            crearBotonMenu("Clientes", "ClientesView", menuMantenimientos),
-            crearBotonMenu("Sociedades", "SociedadesView", menuMantenimientos)
+                crearBotonMenu("Abogados", "AbogadosView", menuMantenimientos),
+                crearBotonMenu("Clientes", "ClientesView", menuMantenimientos),
+                crearBotonMenu("Sociedades", "SociedadesView", menuMantenimientos)
         );
-        
+
         menuMantenimientos.getContent().add(opsMantenimiento);
-        
+
         esperaMantenimientos.setOnFinished(e -> menuMantenimientos.hide());
         btnMantenimientos.setOnMouseEntered(e -> {
             esperaMantenimientos.stop();
             menuInstrumentos.hide();
             mostrarMenu(btnMantenimientos, menuMantenimientos, opsMantenimiento);
-            
+
         });
-        
+
         btnMantenimientos.setOnMouseExited(e -> esperaMantenimientos.playFromStart());
         opsMantenimiento.setOnMouseEntered(e -> esperaMantenimientos.stop());
         opsMantenimiento.setOnMouseExited(e -> esperaMantenimientos.playFromStart());
-        
+
+        // menu de instrumentos
+        VBox opsInstrumentos = new VBox();
+        opsInstrumentos.getStyleClass().add("menuDesplegable");
+        opsInstrumentos.getChildren().addAll(
+            crearBotonMenu("Mantenimiento Instrumentos", "InstrumentoMantenimientoView", menuInstrumentos),
+            crearBotonMenu("Estados Instrumentos", "InstrumentoMantenimientoEstadoView", menuInstrumentos),
+            crearBotonMenu("Control Instrumentos", "InstrumentoMantenimientoControlView", menuInstrumentos)
+        );
+
+        menuInstrumentos.getContent().add(opsInstrumentos);
+
+        esperaInstrumentos.setOnFinished(e -> menuInstrumentos.hide());
+        btnInstrumentos.setOnMouseEntered(e -> {
+            esperaInstrumentos.stop();
+            menuMantenimientos.hide();
+            mostrarMenu(btnInstrumentos, menuInstrumentos, opsInstrumentos);
+
+        });
+
+        btnInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
+        opsInstrumentos.setOnMouseEntered(e -> esperaInstrumentos.stop());
+        opsInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
+
     }
 
     private Button crearBotonMenu(String nombre, String vista, Popup menu) {
-      Button boton = new Button(nombre);
-      boton.getStyleClass().add("opcionMenu");
-      boton.setMaxWidth(Double.MAX_VALUE);
-      boton.setOnAction(e -> {
-          menu.hide();
-          FlowController.getInstance().goView(vista);
-      });
-      return boton;
+        Button boton = new Button(nombre);
+        boton.getStyleClass().add("opcionMenu");
+        boton.setMaxWidth(Double.MAX_VALUE);
+        System.out.println("Cree boton " + nombre);
+        
+//        ImageView imagen = new ImageView(new Image("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/bufete.png"));
+//        imagen.setFitHeight(18);
+//        imagen.setFitWidth(18);
+//        
+//        boton.setGraphicTextGap(10);
+//        boton.setGraphic(imagen);
+
+        boton.setOnAction(e -> {
+            menu.hide();
+            FlowController.getInstance().goView(vista);
+        });
+        return boton;
     }
-    
-     private void mostrarMenu(Button boton, Popup menu, VBox opciones) {
-        if(opciones.getStylesheets().isEmpty()){
+
+    private void mostrarMenu(Button boton, Popup menu, VBox opciones) {
+        if (opciones.getStylesheets().isEmpty()) {
             opciones.getStylesheets().addAll(boton.getScene().getRoot().getStylesheets());
         }
-        
+
         // la pos de donde quiero que se vea el menu que es justo debajo de cualquiera de los botones ue tengan un desplegable
         Bounds pos = boton.localToScreen(boton.getBoundsInLocal());
         menu.show(boton, pos.getMinX(), pos.getMaxY());
+    }
+    
+    
+    // dura 1s en arrancar
+    private void startClock() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            LocalDateTime ahora = LocalDateTime.now();
+            fechaActualLabel.setText(ahora.format(formatoFecha));
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     @FXML
@@ -121,5 +173,11 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private void btnOnActionInstrumentos(ActionEvent event) {
     }
+
+    @FXML
+    private void btnOnActionReportes(ActionEvent event) {
+        FlowController.getInstance().goView("ReportesView");
+    }
+    
 
 }
