@@ -427,3 +427,318 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: #2F5689;
     -fx-text-fill: #FFFFFF;
 }
+
+
+/********************* INDICADORES *************************/
+.vbox{
+    -fx-alignment: CENTER_LEFT;
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+}
+
+.hbox{
+    -fx-alignment: CENTER;
+    -fx-spacing: 10px;
+    -fx-padding: 10px;
+}
+
+.hboxI{
+    -fx-alignment: CENTER;
+    -fx-spacing: 10px;
+}
+
+.hboxIcon{
+    -fx-alignment: CENTER;
+}
+
+.vboxH{
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0px 0px 0px 10px;
+}
+
+.titl{
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
+
+.card{
+    -fx-background-color: white;
+    -fx-background-radius: 25px;
+    -fx-alignment:CENTER;
+    -fx-spacing: 10px;
+    -fx-padding: 20px;
+}
+
+.card2{
+    -fx-alignment:CENTER_LEFT;
+}
+
+.cardIcon{
+    -fx-background-color: #0a7fc2;
+    -fx-background-radius: 15px;
+    -fx-padding: 5px;
+    -fx-max-height: 50px;
+    -fx-max-width: 50px;
+}
+
+.titlCard{
+    -fx-font-family: "Candara";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.numCard{
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
+
+.file{
+    -fx-image: url("../resource/iconos_sicobu/file-text.png");
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.ing{
+    -fx-image: url("../resource/iconos_sicobu/move-up-right.png");
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.gas{
+    -fx-image: url("../resource/iconos_sicobu/move-down-right.png");
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.cal{
+    -fx-image: url("../resource/iconos_sicobu/calendar-days.png");
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.tblAg .column-header-background {
+    -fx-max-height: 0px;
+    -fx-pref-height: 0px;
+    -fx-min-height: 0px;
+    -fx-visibility: hidden;
+}
+
+.tblAg, .tblAg .column-header {
+    -fx-background-color: transparent;
+}
+
+.tblAg .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+    -fx-padding: 8px 0;
+}
+
+.tblAg .table-row-cell:filled:selected {
+    -fx-background-color: #f8fafc;
+}
+
+.tblAg .table-cell {
+    -fx-alignment: CENTER-LEFT;
+    -fx-text-fill: #1e293b;
+}
+
+.hboxProgres{
+    -fx-alignment:CENTER;
+    -fx-spacing: 80px;
+}
+
+/********************* 
+      SOCIEDADES 
+*************************/
+.hboxS{
+    -fx-alignment:CENTER;
+    -fx-spacing: 30px;
+    -fx-padding: 10px;
+}
+
+.hboxR{
+    -fx-alignment:CENTER_LEFT;
+    -fx-spacing: 30px;
+    -fx-padding: 10px;
+}
+
+.agregar{
+    -fx-image: url("../resource/iconos_sicobu/agregar.png");
+}
+
+.buscar{
+    -fx-image: url("../resource/iconos_sicobu/buscar.png");
+}
+
+.editar{
+    -fx-image: url("../resource/iconos_sicobu/editar.png");
+}
+
+.guardar{
+    -fx-image: url("../resource/iconos_sicobu/guardar.png");
+}
+
+.cancelar{
+    -fx-image: url("../resource/iconos_sicobu/cancelar.png");
+}
+
+.titl2{
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+}
+
+.prompt{
+    -fx-font-family: "Candara";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.texto{
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tblSoci {
+    -fx-background-color: transparent;
+    -fx-base: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.tblSoci .column-header-background,
+.tblSoci .corner {
+    -fx-background-color: transparent;
+}
+
+.tblSoci .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10px 5px;
+}
+
+.tblSoci .column-header .label {
+    -fx-text-fill: #64748B;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tblSoci .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 48px;
+}
+
+.tblSoci .table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.tblSoci .table-row-cell:filled:selected {
+    -fx-background-color: #E0F2FE;
+}
+
+.tblSoci .table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: #0F172A;
+}
+
+.tblSoci .table-cell {
+    -fx-text-fill: #334155;
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-size: 13px;
+}
+
+.tblSoci .table-column:first-child .table-cell {
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.tblSoci .table-column:last-child .table-cell {
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.badge {
+    -fx-padding: 4px 12px;
+    -fx-background-radius: 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.badge-comunes {
+    -fx-background-color: #E0F2FE;
+    -fx-text-fill: #0284C7;
+}
+
+.badge-preferentes {
+    -fx-background-color: #FEF3C7;
+    -fx-text-fill: #D97706;
+}
+
+.btnW {
+    -mfx-button-type:FLAT;
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #1E293B;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 18px;
+    -fx-cursor: hand;
+    
+    -mfx-ripple-color: rgba(226, 232, 240, 0.5);
+}
+
+.btnW:hover {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #0a7fc2;
+    -fx-text-fill:#0a7fc2;
+    -mfx-button-type:FLAT;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.btnW:focused {
+    -mfx-button-type:FLAT;
+    -fx-border-color: #94A3B8;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.btnNS {
+    -mfx-button-type:FLAT;
+    -fx-background-color: #b6d9ed;
+    -fx-border-color: #54a5d4;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #0a7fc2;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 18px;
+    -fx-cursor: hand;
+    
+    /*-mfx-ripple-color: rgba(226, 232, 240, 0.5);*/
+}
+
+.btnNS:hover {
+    -fx-background-color: #064c74;
+    -fx-border-color: #04334e;
+    -fx-text-fill:white;
+    -mfx-button-type:FLAT;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.btnNS:focused {
+    -mfx-button-type:FLAT;
+    -fx-background-color: #064c74;
+    -fx-border-color: #04334e;
+    -fx-text-fill:white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}

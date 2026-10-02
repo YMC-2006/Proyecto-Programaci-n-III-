@@ -4,8 +4,11 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.util.FlowController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -26,6 +29,24 @@ public class SociedadesController extends Controller implements Initializable {
     @Override
     public void initialize() {
 
+    }
+
+    @FXML
+    private void onActionBtnBuscar(ActionEvent event) {
+        FlowController.getInstance().goViewInWindowModal("BusquedaSociedadView", stage, Boolean.FALSE);
+    }
+
+    @FXML
+    private void onActionBtnNueva(ActionEvent event) {
+        FlowController.getInstance().goViewInWindowModal("RegistrarSociedadView", stage, Boolean.FALSE);
+    }
+
+    @FXML
+    private void onActionBtnEditar(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionBtnAgregarRepresentante(ActionEvent event) {
     }
     
 }

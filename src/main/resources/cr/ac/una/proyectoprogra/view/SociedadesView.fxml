@@ -1,11 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="651.0" prefWidth="940.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.SociedadesController">
+<AnchorPane id="AnchorPane" prefHeight="784.0" prefWidth="1388.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.SociedadesController">
    <children>
-      <Label layoutX="370.0" layoutY="262.0" text="Mantenimiento de Sociedades" />
+      <VBox layoutX="144.0" layoutY="54.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+               <children>
+                  <VBox prefHeight="79.0" prefWidth="885.0" styleClass="vboxH">
+                     <children>
+                        <Label styleClass="titl" text="Sociedades" />
+                        <Label styleClass="titlCard" text="Mantenimiento de sociedades: Registro, Modificación, Eliminación y Vizualización de Sociedades " />
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="79.0" prefWidth="557.0" styleClass="hbox">
+                     <children>
+                        <MFXButton onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="112.0" styleClass="btnW" text="Buscar">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="buscar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                        <MFXButton layoutX="10.0" layoutY="10.0" onAction="#onActionBtnNueva" prefHeight="46.0" prefWidth="166.0" styleClass="btnNS" text="Nueva Sociedad">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="agregar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="636.0" prefWidth="1038.0" styleClass="hbox">
+               <children>
+                  <VBox prefHeight="615.0" prefWidth="903.0" styleClass="card">
+                     <children>
+                        <TableView prefHeight="458.0" prefWidth="438.0" styleClass="tblSoci">
+                          <columns>
+                            <TableColumn prefWidth="140.80000686645508" text="Sociedad" />
+                            <TableColumn prefWidth="156.79998779296875" text="Cédula Jurídica" />
+                              <TableColumn prefWidth="144.79998779296875" text="Teléfono" />
+                              <TableColumn prefWidth="188.7999267578125" text="Acciones" />
+                              <TableColumn prefWidth="184.79998779296875" text="Capital" />
+                          </columns>
+                          <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                          </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="425.0" prefWidth="424.0">
+                     <children>
+                        <HBox prefHeight="34.0" prefWidth="384.0" styleClass="hboxS">
+                           <children>
+                              <Label prefHeight="26.0" prefWidth="180.0" styleClass="titl2" text="Sociedad S.A" />
+                              <MFXButton onAction="#onActionBtnEditar" prefHeight="46.0" prefWidth="110.0" styleClass="btnW" text="Editar">
+                                 <graphic>
+                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                       <styleClass>
+                                          <String fx:value="btnImg" />
+                                          <String fx:value="editar" />
+                                       </styleClass>
+                                    </ImageView>
+                                 </graphic>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="43.0" prefWidth="324.0" styleClass="hboxI">
+                           <children>
+                              <VBox prefHeight="100.0" prefWidth="178.0">
+                                 <children>
+                                    <Label styleClass="prompt" text="Domicilio" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto" text="Pérez Zeledón, San Jose" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="178.0">
+                                 <children>
+                                    <Label styleClass="prompt" text="Inscripción" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto" text="01/10/2026" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="30.0" layoutY="256.0" prefHeight="43.0" prefWidth="324.0" styleClass="hboxI">
+                           <children>
+                              <VBox prefHeight="100.0" prefWidth="178.0">
+                                 <children>
+                                    <Label styleClass="prompt" text="Tomo" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto" text="2018" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="178.0">
+                                 <children>
+                                    <Label styleClass="prompt" text="Folio" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto" text="112" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="30.0" layoutY="283.0" prefHeight="43.0" prefWidth="324.0" styleClass="hboxI">
+                           <children>
+                              <VBox prefHeight="100.0" prefWidth="178.0">
+                                 <children>
+                                    <Label styleClass="prompt" text="Asiento" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto" text="4856" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="178.0">
+                                 <children>
+                                    <Label styleClass="prompt" text="Títulos" />
+                                    <Label layoutX="10.0" layoutY="10.0" styleClass="texto" text="100 x 100000" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Label styleClass="titl2" text="Representantes" />
+                        <TableView prefHeight="238.0" prefWidth="384.0" styleClass="tblAg">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <MFXButton onAction="#onActionBtnAgregarRepresentante" prefHeight="46.0" prefWidth="441.0" styleClass="btnW" text="Agregar Representante">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="agregar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                     <styleClass>
+                        <String fx:value="card" />
+                        <String fx:value="card2" />
+                     </styleClass>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

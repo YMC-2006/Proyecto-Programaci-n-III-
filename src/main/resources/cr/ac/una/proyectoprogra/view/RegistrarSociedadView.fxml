@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="458.0" prefWidth="927.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarSociedadController">
+   <children>
+      <VBox layoutX="140.0" layoutY="128.0" prefHeight="200.0" prefWidth="100.0" styleClass="vboxH" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <children>
+            <Label styleClass="titl" text="Registro de Nueva Sociedad" />
+            <VBox prefHeight="200.0" prefWidth="100.0" styleClass="card">
+               <children>
+                  <HBox prefHeight="92.0" prefWidth="858.0" styleClass="hbox">
+                     <children>
+                        <MFXTextField floatingText="Cédula Jurídica" prefWidth="222.0" />
+                        <MFXTextField floatingText="Nombre" layoutX="10.0" layoutY="10.0" prefWidth="222.0" />
+                        <MFXTextField floatingText="Teléfono" layoutX="232.0" layoutY="10.0" prefWidth="222.0" />
+                        <MFXTextField floatingText="Domicilio" layoutX="455.0" layoutY="10.0" prefWidth="222.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="92.0" prefWidth="858.0" styleClass="hbox">
+                     <children>
+                        <MFXTextField floatingText="Tomo" prefWidth="222.0" />
+                        <MFXTextField floatingText="Folio" layoutX="10.0" layoutY="10.0" prefWidth="222.0" />
+                        <MFXTextField floatingText="Asiento" layoutX="232.0" layoutY="10.0" prefWidth="222.0" />
+                        <DatePicker prefHeight="39.0" prefWidth="174.0" promptText="Fecha de Inscripción" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="92.0" prefWidth="858.0" styleClass="hboxR">
+                     <children>
+                        <VBox prefHeight="71.0" prefWidth="219.0">
+                           <children>
+                              <Label styleClass="titlCard" text="Tipo de Acciones" />
+                              <ComboBox prefHeight="38.0" prefWidth="215.0" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="344.0" layoutY="20.0" prefHeight="71.0" prefWidth="219.0">
+                           <children>
+                              <Label styleClass="titlCard" text="Cantidad de Títulos" />
+                              <Spinner prefHeight="38.0" prefWidth="219.0" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="459.0" layoutY="20.0" prefHeight="71.0" prefWidth="219.0">
+                           <children>
+                              <Label styleClass="titlCard" text="Valor del Título" />
+                              <Spinner prefHeight="38.0" prefWidth="219.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+                     <children>
+                        <MFXButton prefHeight="46.0" prefWidth="274.0" styleClass="btnNS" text="Guardar Sociedad">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="guardar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                        <MFXButton layoutX="10.0" layoutY="10.0" prefHeight="46.0" prefWidth="172.0" styleClass="btnW" text="Cancelar">
+                           <graphic>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="cancelar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -23,6 +23,7 @@ import javafx.stage.Popup;
 import javafx.geometry.Bounds;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
@@ -51,6 +52,10 @@ public class PrincipalController extends Controller implements Initializable {
     
     
     @FXML private Label fechaActualLabel;
+    @FXML
+    private VBox mainDisplay;
+    @FXML
+    private Button btnIndicadores;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -101,7 +106,10 @@ public class PrincipalController extends Controller implements Initializable {
         btnInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
         opsInstrumentos.setOnMouseEntered(e -> esperaInstrumentos.stop());
         opsInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
-
+        
+        Platform.runLater(() -> {
+            FlowController.getInstance().goView("IndicadoresView");
+        });
     }
 
     private Button crearBotonMenu(String nombre, String vista, String icono, Popup menu) {

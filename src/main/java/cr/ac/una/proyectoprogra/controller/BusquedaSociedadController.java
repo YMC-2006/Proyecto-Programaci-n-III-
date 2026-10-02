@@ -6,33 +6,26 @@ package cr.ac.una.proyectoprogra.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
  *
- * @author vjjcu
+ * @author Nikole
  */
-public class IndicadoresController extends Controller implements Initializable {
-
-    @FXML
-    private VBox cardAgenda;
-    @FXML
-    private HBox filaCentral;
+public class BusquedaSociedadController extends Controller implements Initializable {
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cardAgenda.prefHeightProperty().bind(filaCentral.heightProperty());
+        // TODO
     }    
 
     @Override
     public void initialize() {
+        
     }
     
 }

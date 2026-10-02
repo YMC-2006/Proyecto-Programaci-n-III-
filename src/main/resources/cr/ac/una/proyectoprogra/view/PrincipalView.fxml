@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1512.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.PrincipalController">
+<BorderPane prefHeight="890.0" prefWidth="1512.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.PrincipalController">
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="mainDisplay" BorderPane.alignment="CENTER">
+      <VBox fx:id="mainDisplay" prefHeight="200.0" prefWidth="100.0" styleClass="mainDisplay" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin></VBox>
@@ -67,7 +67,7 @@
                      </HBox.margin></Label>
                   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="926.0" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#btnOnActionIndicadores" styleClass="btnMenu" text="%menu.indicadores" />
+                        <Button fx:id="btnIndicadores" mnemonicParsing="false" onAction="#btnOnActionIndicadores" styleClass="btnMenu" text="%menu.indicadores" />
                         <Button fx:id="btnMantenimientos" mnemonicParsing="false" onAction="#btnOnActionMantenimientos" prefHeight="26.0" prefWidth="176.0" styleClass="btnMenu" text="%menu.mantenimientos">
                            <graphic>
                               <ImageView fitHeight="16.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
