@@ -107,6 +107,7 @@ public class PrincipalController extends Controller implements Initializable {
         opsInstrumentos.setOnMouseEntered(e -> esperaInstrumentos.stop());
         opsInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
         
+        
         Platform.runLater(() -> {
             FlowController.getInstance().goView("IndicadoresView");
         });
@@ -144,7 +145,7 @@ public class PrincipalController extends Controller implements Initializable {
     }
     
     
-    // dura 1s en arrancar
+    // dura 1s en arrancar, to-do creo que con platform run later se puede arreglar
     private void mostrarFechaActual() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             LocalDateTime ahora = LocalDateTime.now();

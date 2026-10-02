@@ -742,3 +742,71 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
 }
+
+
+/********************* 
+      ABOGADOS 
+*************************/
+
+
+.tblAbogados{
+    -fx-background-color: transparent;
+    -fx-base: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.tblAbogados .column-header-background,
+.tblAbogados .corner {
+    -fx-background-color: transparent;
+}
+
+.tblAbogados .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10px 5px;
+}
+
+.tblAbogados .column-header .label {
+    -fx-text-fill: #64748B;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.tblAbogados .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #E2E8F0 transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-cell-size: 48px;
+}
+
+.tblAbogados .table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.tblAbogados .table-row-cell:filled:selected {
+    -fx-background-color: #E0F2FE;
+}
+
+.tblAbogados .table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: #0F172A;
+}
+
+.tblAbogados .table-cell {
+    -fx-text-fill: #334155;
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-size: 13px;
+}
+
+.tblAbogados .table-column:first-child .table-cell {
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.tblAbogados .table-column:last-child .table-cell {
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER-RIGHT;
+}

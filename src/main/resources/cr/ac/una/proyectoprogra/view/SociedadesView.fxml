@@ -18,13 +18,13 @@
                <children>
                   <VBox prefHeight="79.0" prefWidth="885.0" styleClass="vboxH">
                      <children>
-                        <Label styleClass="titl" text="Sociedades" />
-                        <Label styleClass="titlCard" text="Mantenimiento de sociedades: Registro, Modificación, Eliminación y Vizualización de Sociedades " />
+                        <Label styleClass="titl" text="%sociedades.titulo" />
+                        <Label styleClass="titlCard" text="%sociedades.descripcion" />
                      </children>
                   </VBox>
                   <HBox prefHeight="79.0" prefWidth="557.0" styleClass="hbox">
                      <children>
-                        <MFXButton onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="112.0" styleClass="btnW" text="Buscar">
+                        <MFXButton onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="112.0" styleClass="btnW" text="%btn.buscar">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <styleClass>
@@ -71,7 +71,7 @@
                         <HBox prefHeight="34.0" prefWidth="384.0" styleClass="hboxS">
                            <children>
                               <Label prefHeight="26.0" prefWidth="180.0" styleClass="titl2" text="Sociedad S.A" />
-                              <MFXButton onAction="#onActionBtnEditar" prefHeight="46.0" prefWidth="110.0" styleClass="btnW" text="Editar">
+                              <MFXButton onAction="#onActionBtnEditar" prefHeight="46.0" prefWidth="110.0" styleClass="btnW" text="%btn.editar">
                                  <graphic>
                                     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                        <styleClass>

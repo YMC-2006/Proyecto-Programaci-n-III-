@@ -26,7 +26,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" styleClass="btnIdioma" text="Español">
+                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" styleClass="btnIdioma" text="%menu.espanol">
                      <graphic>
                         <ImageView fitHeight="19.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -38,7 +38,7 @@
                         <Insets left="900.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0" styleClass="btnIdioma" text="Inglés">
+                  <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="92.0" styleClass="btnIdioma" text="%menu.ingles">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
