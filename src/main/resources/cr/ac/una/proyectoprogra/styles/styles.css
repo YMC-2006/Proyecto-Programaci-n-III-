@@ -22,11 +22,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 *{
     -fx-color-tinta: #212d47;
     -fx-color-crema: #fef7ef;
-    -fx-color-dorado: #c5a75f;
-    -fx-color-mostaza: #cc9a24;
     -fx-color-azul: #5c80cc;
     -fx-color-gris: #cad5ee;
-    -fx-color-carton: #958067;
     -fx-color-blanco: #FFFFFF;
 
     -fx-color-fondo:#385d87;
@@ -57,7 +54,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-position: center;
 }
 
-.panelEncabezado {
+.panelRegistro {
     -fx-background-image: url("../resource/Encabezado.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
@@ -65,7 +62,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .panelLogin2{
-    -fx-border-color: -fx-color-mostaza;
     -fx-background-color: -fx-color-blanco;
     -fx-border-width: 3;
     -fx-border-radius: 20;
@@ -77,30 +73,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .panelRegistro2{
-    -fx-border-color: -fx-color-gris;
-    -fx-border-width: 3;
+    -fx-border-color: -fx-color-gris-muy-claro;
+    -fx-border-width: 4;
     -fx-border-radius: 20;
     -fx-background-radius: 20;
 }
 
 .TituloLogin {
     -fx-font-family: "Voga";
-    -fx-font-size: 28px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
-    -fx-text-fill: -fx-color-dorado;
+    -fx-text-fill: -fx-color-blanco;
+
 }
 
 .TituloLogin2 {
     -fx-font-family: "Voga";
-    -fx-font-size: 30px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
-    -fx-text-fill: -fx-color-blanco;
+    -fx-text-fill: -fx-color-azul-negro;
 }
 
 .Texto1 {
     -fx-font-family: "Candara";
     -fx-font-size: 13px;
-    -fx-text-fill: -fx-color-carton;
+    -fx-text-fill:  -fx-color-azul-oscuro;
 }
 
 .Texto2 {
@@ -113,17 +110,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-family: "Voga";
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: -fx-color-tinta;
+    -fx-text-fill: -fx-color-azul;
 }
 
 .lblEnlace {
     -fx-text-fill: -fx-color-azul;
-    -fx-font-size: 11px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
     -fx-font-family: "Candara";
 }
 
 .lblEnlace:hover {
-    -fx-text-fill: -fx-color-mostaza;
+    -fx-text-fill:  -fx-color-azul-oscuro;
     -fx-underline: true;
     -fx-cursor: hand;
 }
@@ -220,13 +218,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -mfx-main: -fx-color-tinta;
     -mfx-float-mode: INLINE;
     -fx-background-color: transparent;
-    -fx-border-color: transparent transparent -fx-color-carton transparent !important;
+    -fx-border-color: transparent transparent  -fx-color-azul-oscuro transparent !important;
     -fx-border-width: 0 0 1.5px 0;
     -fx-border-style: solid;
     -fx-border-radius: 0;
     -fx-text-fill: -fx-color-tinta;
     -fx-font-size: 16px;
-    -fx-font-style: italic;
     -fx-padding: 8px 4px 8px 4px;
     -fx-pref-height: 56px;
     -fx-min-height: 56px;
@@ -256,11 +253,97 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .mfx-combo-box-cell:selected {
-    -fx-background-color: -fx-color-dorado;
+    -fx-background-color: -fx-color-fondo;
     -fx-text-fill: -fx-color-tinta;
     -fx-font-weight: bold;
 }
 
+.tabla {
+    -fx-background-color: -fx-color-blanco;
+    -fx-background-radius: 14;
+    -fx-border-color: -fx-color-gris-azulado;
+    -fx-border-radius: 14;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;         
+    -fx-faint-focus-color: transparent;
+}
+
+.tabla .column-header-background {
+    -fx-background-color: -fx-color-gris-muy-claro;
+    -fx-background-radius: 14 14 0 0;    
+}
+.tabla .column-header,
+.tabla .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-pref-height: 40px;
+    -fx-padding: 0 0 0 12;
+}
+.tabla .column-header .label {
+    -fx-text-fill: -fx-color-azul-medio;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+.tabla .column-header .arrow {             
+    -fx-background-color: -fx-color-gris-claro;
+}
+
+/* Filas */
+.tabla .table-row-cell,
+.tabla .table-row-cell:odd {
+    -fx-background-color: -fx-color-blanco; 
+    -fx-border-color: transparent transparent -fx-color-gris-muy-claro transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-cell-size: 56px;                     
+}
+.tabla .table-row-cell:hover {
+    -fx-background-color: -fx-color-fondo-principal-claro;
+    -fx-cursor: hand;
+}
+.tabla .table-row-cell:selected {
+    -fx-background-color: -fx-color-fondo2;
+    -fx-border-color: transparent transparent -fx-color-gris-muy-claro -fx-color-azul;
+    -fx-border-width: 0 0 1 4;              
+}
+
+/* Celdas */
+.tabla .table-cell {
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 12 0 12;
+    -fx-border-color: transparent;           
+}
+.tabla .table-row-cell:selected .table-cell {
+    -fx-text-fill: -fx-color-tinta;          
+}
+
+
+.celdaTitulo {
+    -fx-text-fill: -fx-color-tinta;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.celdaDetalle {
+    -fx-text-fill: -fx-color-azul-medio;
+    -fx-font-size: 12px;
+}
+
+
+.tabla .placeholder .label {
+    -fx-text-fill: -fx-color-azul-medio;
+    -fx-font-size: 14px;
+}
+
+
+.tabla .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 10; }
+.tabla .scroll-bar .thumb { -fx-background-color: -fx-color-azul-gris-claro; -fx-background-radius: 5; }
+.tabla .scroll-bar .increment-button,
+.tabla .scroll-bar .decrement-button { -fx-pref-height: 0; -fx-padding: 0; }
+
+
+.tarjeta .tabla { -fx-border-color: transparent; -fx-background-radius: 0; }
 .btnImg{
     -fx-fit-height: 20px;
     -fx-fit-width: 20px;
@@ -299,13 +382,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .imgCancelar {
-    -fx-image: url("../resource/Cancelar1.png");
+    -fx-image: url("../resource/iconos_sicobu/cancelar_hover.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }
 
 .imgCancelar:hover {
-    -fx-image: url("../resource/Cancelar2.png");
+    -fx-image: url("../resource/iconos_sicobu/cancelar.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }

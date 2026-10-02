@@ -2,7 +2,6 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
@@ -10,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="400.0" styleClass="panelLogin" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RecuperarClaveController">
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="780.0" prefWidth="1512.0" styleClass="panelLogin" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RecuperarClaveController">
    <children>
-      <HBox layoutX="199.0" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <HBox layoutX="199.0" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="150.0">
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="586.0" prefWidth="362.0" styleClass="panelFormulario" HBox.hgrow="ALWAYS">
                <children>
@@ -24,23 +23,19 @@
                                  <children>
                                     <Label fx:id="lblRegresar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#OnMouseClickedRegresar" styleClass="lblEnlace" text="&lt;  Regresar" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
-                                          <Insets left="10.0" />
+                                          <Insets left="25.0" top="15.0" />
                                        </HBox.margin>
                                     </Label>
                                  </children>
                               </HBox>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                                 <styleClass>
-                                    <String fx:value="btnImg" />
-                                    <String fx:value="imgSicobuUNA" />
-                                 </styleClass>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgLogo" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="15.0" top="10.0" />
+                                    <Insets left="15.0" top="15.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="Texto1" text="SicobuUNA" HBox.hgrow="ALWAYS">
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="TituloLogin2" text="SicobuUNA" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
-                                    <Insets left="5.0" />
+                                    <Insets left="5.0" top="10.0" />
                                  </HBox.margin>
                               </Label>
                            </children>
@@ -55,9 +50,9 @@
                               <Insets left="60.0" right="60.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXButton fx:id="btnEnviar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" onAction="#OnActionBtnEnviar" prefHeight="0.0" prefWidth="294.0" text="Enviar Contraseña Temporal" VBox.vgrow="ALWAYS">
+                        <MFXButton fx:id="btnEnviar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" onAction="#OnActionBtnEnviar" prefHeight="0.0" prefWidth="294.0" styleClass="btnNS" text="Enviar Contraseña Temporal" VBox.vgrow="ALWAYS">
                            <VBox.margin>
-                              <Insets bottom="200.0" left="30.0" right="30.0" top="30.0" />
+                              <Insets bottom="100.0" left="40.0" right="40.0" top="30.0" />
                            </VBox.margin>
                         </MFXButton>
                      </children>

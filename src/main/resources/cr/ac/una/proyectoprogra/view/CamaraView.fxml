@@ -32,11 +32,7 @@
                         <Insets bottom="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fx:id="imgCancelar" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#OnMouseClickedCancelar" pickOnBounds="true" preserveRatio="true">
-                     <styleClass>
-                        <String fx:value="btnImg" />
-                        <String fx:value="imgCancelar" />
-                     </styleClass>
+                  <ImageView fx:id="imgCancelar" fitHeight="150.0" fitWidth="200.0" onMouseClicked="#OnMouseClickedCancelar" pickOnBounds="true" preserveRatio="true" styleClass="imgCancelar">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" />
                      </HBox.margin>
