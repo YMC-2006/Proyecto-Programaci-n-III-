@@ -1,11 +1,298 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXSpinner?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="1063.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
+<AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="1063.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
    <children>
-      <Label layoutX="382.0" layoutY="232.0" text="Vista Contable :o" />
+      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+               <children>
+                  <VBox prefHeight="79.0" prefWidth="636.0">
+                     <children>
+                        <Label styleClass="titl" text="Modulo Contable" />
+                        <Label styleClass="titlCard" text="Ingresos, Gastos y Tributación" />
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="79.0" prefWidth="408.0" styleClass="hboxI">
+                     <children>
+                        <MFXDatePicker prefWidth="241.0" promptText="Inicio" styleClass="loginTextField" />
+                        <MFXDatePicker prefWidth="241.0" promptText="Fin" styleClass="loginTextField" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <VBox prefHeight="516.0" prefWidth="1002.0">
+               <children>
+                  <TabPane prefHeight="518.0" prefWidth="1002.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Información Contable">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox layoutX="38.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" styleClass="vbox" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                                       <children>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+                                             <children>
+                                                <HBox prefHeight="100.0" prefWidth="268.0" styleClass="card">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="ing" />
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="cardIcon" />
+                                                            <String fx:value="hboxIcon" />
+                                                         </styleClass>
+                                                      </VBox>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="Ingresos" />
+                                                            <Label styleClass="numCard" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox layoutX="367.0" layoutY="10.0" prefHeight="100.0" prefWidth="268.0" styleClass="card">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="gas" />
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="cardIcon" />
+                                                            <String fx:value="hboxIcon" />
+                                                         </styleClass>
+                                                      </VBox>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="Gastos" />
+                                                            <Label styleClass="numCard" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox layoutX="506.0" layoutY="10.0" prefHeight="100.0" prefWidth="268.0" styleClass="card">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="ig" />
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="cardIcon" />
+                                                            <String fx:value="hboxIcon" />
+                                                         </styleClass>
+                                                      </VBox>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="Utilidad" />
+                                                            <Label styleClass="numCard" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox layoutX="645.0" layoutY="10.0" prefHeight="100.0" prefWidth="268.0" styleClass="card">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="po" />
+                                                         </children>
+                                                         <styleClass>
+                                                            <String fx:value="cardIcon" />
+                                                            <String fx:value="hboxIcon" />
+                                                         </styleClass>
+                                                      </VBox>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="Total Tributado" />
+                                                            <Label styleClass="numCard" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </HBox>
+                                          <VBox prefHeight="322.0" prefWidth="961.0">
+                                             <children>
+                                                <HBox prefHeight="19.0" prefWidth="921.0">
+                                                   <children>
+                                                      <VBox prefHeight="38.0" prefWidth="806.0">
+                                                         <children>
+                                                            <Label styleClass="titl2" text="Movientos" />
+                                                         </children>
+                                                      </VBox>
+                                                      <HBox prefHeight="77.0" prefWidth="235.0" styleClass="segmented-group">
+                                                         <children>
+                                                            <ToggleButton mnemonicParsing="false" styleClass="segmented-btn" text="Todos">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="filtroTabla" />
+                                                               </toggleGroup>
+                                                            </ToggleButton>
+                                                            <ToggleButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="segmented-btn" text="Ingresos" toggleGroup="$filtroTabla" />
+                                                            <ToggleButton layoutX="59.0" layoutY="10.0" mnemonicParsing="false" styleClass="segmented-btn" text="Gastos" toggleGroup="$filtroTabla" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </HBox>
+                                                <TableView prefHeight="310.0" prefWidth="921.0" styleClass="tblSoci">
+                                                  <columns>
+                                                    <TableColumn prefWidth="131.20003128051758" text="Fecha" />
+                                                    <TableColumn minWidth="0.0" prefWidth="234.3999786376953" text="Detalle" />
+                                                      <TableColumn prefWidth="142.39996337890625" text="Origen" />
+                                                      <TableColumn prefWidth="164.0" text="Tributa" />
+                                                      <TableColumn prefWidth="249.5999755859375" text="Monto" />
+                                                  </columns>
+                                                </TableView>
+                                             </children>
+                                             <styleClass>
+                                                <String fx:value="card" />
+                                                <String fx:value="card2" />
+                                             </styleClass>
+                                          </VBox>
+                                       </children></VBox>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Instrumentos: ingresos y gastos">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="233.0" prefWidth="1002.0">
+                                 <children>
+                                    <VBox layoutX="137.0" layoutY="82.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                       <children>
+                                          <HBox prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                                   <styleClass>
+                                                      <String fx:value="card" />
+                                                      <String fx:value="card2" />
+                                                   </styleClass>
+                                                   <children>
+                                                      <Label text="Label" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children></AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab text="Movimientos Varios">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox layoutX="83.0" layoutY="42.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                                       <children>
+                                          <VBox prefHeight="200.0" prefWidth="100.0">
+                                             <styleClass>
+                                                <String fx:value="card" />
+                                                <String fx:value="card2" />
+                                             </styleClass>
+                                             <children>
+                                                <Label styleClass="titl2" text="Registrar Movimiento" />
+                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                   <children>
+                                                      <VBox prefHeight="100.0" prefWidth="151.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="Tipo" />
+                                                            <HBox prefHeight="34.0" prefWidth="100.0" styleClass="segmented-group">
+                                                               <children>
+                                                                  <ToggleButton mnemonicParsing="false" styleClass="segmented-btn" text="Ingreso">
+                                                                     <toggleGroup>
+                                                                        <ToggleGroup fx:id="tggTipo" />
+                                                                     </toggleGroup>
+                                                                  </ToggleButton>
+                                                                  <ToggleButton layoutX="14.0" layoutY="35.0" mnemonicParsing="false" styleClass="segmented-btn" text="Gasto" toggleGroup="$tggTipo" />
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                      <MFXDatePicker promptText="Fecha" styleClass="loginTextField" />
+                                                      <MFXTextField floatingText="Detalle" prefWidth="412.0" styleClass="loginTextField" />
+                                                   </children>
+                                                   <styleClass>
+                                                      <String fx:value="hbox" />
+                                                      <String fx:value="card2" />
+                                                   </styleClass>
+                                                </HBox>
+                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                   <children>
+                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="Monto" />
+                                                            <MFXSpinner styleClass="loginTextField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="76.0" prefWidth="246.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" />
+                                                            <MFXTextField floatingText="Factura" prefWidth="219.0" styleClass="loginTextField" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox layoutX="419.0" layoutY="20.0" prefHeight="76.0" prefWidth="164.0">
+                                                         <children>
+                                                            <Label styleClass="titlCard" text="¿Tributa?" />
+                                                            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxProgres">
+                                                               <children>
+                                                                  <MFXRadioButton text="Sí">
+                                                                     <toggleGroup>
+                                                                        <ToggleGroup fx:id="tggTributa" />
+                                                                     </toggleGroup>
+                                                                  </MFXRadioButton>
+                                                                  <MFXRadioButton layoutX="10.0" layoutY="10.0" text="No" toggleGroup="$tggTributa" />
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <styleClass>
+                                                      <String fx:value="hbox" />
+                                                      <String fx:value="card2" />
+                                                   </styleClass>
+                                                </HBox>
+                                                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+                                                   <children>
+                                                      <MFXButton styleClass="btnNS" text="Guardar Movimiento">
+                                                         <graphic>
+                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                               <styleClass>
+                                                                  <String fx:value="btnImg" />
+                                                                  <String fx:value="guardar" />
+                                                               </styleClass>
+                                                            </ImageView>
+                                                         </graphic>
+                                                      </MFXButton>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

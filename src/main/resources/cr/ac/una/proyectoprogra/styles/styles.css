@@ -44,7 +44,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-color-gris-claro: #A6B4C3;
 
     -fx-color-fondo-principal-claro: #EEF2F7;
-
 }
 
 .panelLogin {
@@ -823,13 +822,166 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .btnNS:focused {
     -mfx-button-type:FLAT;
-    -fx-background-color: #064c74;
-    -fx-border-color: #04334e;
-    -fx-text-fill:white;
+    -fx-background-color: #b6d9ed;
+    -fx-border-color: #54a5d4;
+    -fx-text-fill:#0a7fc2;
     -fx-background-radius: 10px;
     -fx-border-radius: 10px;
 }
 
+.mfx-spinner .next-button,
+.mfx-spinner .prev-button,
+.mfx-spinner .mfx-icon-wrapper {
+    -fx-background-color: #F1F5F9 !important;
+}
+
+.mfx-spinner .next-button .mfx-font-icon,
+.mfx-spinner .prev-button .mfx-font-icon,
+.mfx-spinner .mfx-icon-wrapper .mfx-font-icon,
+.mfx-spinner .mfx-icon-wrapper MFXFontIcon {
+    -mfx-color: #1E293B !important;
+    -fx-text-fill: #1E293B !important;
+    -fx-fill: #1E293B !important;
+}
+
+.mfx-spinner .next-button:hover,
+.mfx-spinner .prev-button:hover {
+    -fx-background-color: #2F3E54 !important;
+}
+
+.mfx-spinner .mfx-icon-wrapper {
+    -fx-background-color: #F1F5F9 !important;
+    -fx-cursor: hand;
+}
+
+.mfx-spinner .mfx-icon-wrapper:hover {
+    -fx-background-color: #b6d9ed !important;
+}
+
+.mfx-spinner .mfx-icon-wrapper:pressed {
+    -fx-background-color: #CBD5E1 !important;
+}
+
+/***********************
+    CONTABILIDAD
+************************/
+.tab-pane {
+    -fx-tab-min-height: 38px;
+    -fx-tab-max-height: 38px;
+    -fx-background-color: transparent !important;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: transparent !important;
+    -fx-border-color: #E2E8F0 !important;
+    -fx-border-width: 0 0 1.5px 0 !important;
+    -fx-padding: 0 !important;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent !important;
+}
+
+.tab-pane .tab-header-area .headers-region {
+    -fx-border-width: 0 !important;
+    -fx-border-color: transparent !important;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent !important;
+    -fx-background-insets: 0 !important;
+    -fx-background-radius: 0 !important;
+    -fx-border-color: transparent !important;
+    -fx-border-width: 0 0 3px 0 !important;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #64748B;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.tab-pane .tab:hover .tab-label {
+    -fx-text-fill: #0F172A;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: transparent !important;
+    -fx-border-color: #0284C7 !important;
+    -fx-border-width: 0 0 3px 0 !important;
+    -fx-margin: 0 0 -1.5px 0 !important;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #0284C7 !important;
+    -fx-font-weight: bold;
+}
+
+.tab-pane .tab:focused,
+.tab-pane:focused .tab-header-area .headers-region .tab:selected .focus-indicator {
+    -fx-faint-focus-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent !important;
+}
+
+.tab-pane .control-buttons-tab {
+    -fx-padding: 0;
+    -fx-shape: null;
+}
+
+.ig{
+    -fx-image: url("../resource/iconos_sicobu/equal.png");
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.po{
+    -fx-image: url("../resource/iconos_sicobu/percent.png");
+    -fx-fit-height: 20px;
+    -fx-fit-width: 20px;
+}
+
+.segmented-group {
+    -fx-background-color: #F1F5F9;
+    -fx-background-radius: 12px;
+    -fx-padding: 4px;
+    -fx-alignment: center;
+}
+
+.segmented-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748B;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 8px;
+    -fx-padding: 6px 16px;
+    -fx-cursor: hand;
+}
+
+.segmented-btn:hover {
+    -fx-text-fill: #1E293B;
+}
+
+.segmented-btn:selected {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #0F172A;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.06), 6, 0, 0, 2);
+}
+
+.segmented-btn:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.table-view .corner,
+.table-view .filler,
+.table-view .column-header-background,
+.table-view .show-hide-columns-button,
+.table-view .show-hide-columns {
+    -fx-background-color: transparent !important;
+}
 
 /********************* 
       ABOGADOS 

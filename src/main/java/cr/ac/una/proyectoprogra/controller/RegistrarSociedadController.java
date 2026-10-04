@@ -4,8 +4,10 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import io.github.palexdev.materialfx.controls.MFXSpinner;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 /**
@@ -14,6 +16,9 @@ import javafx.fxml.Initializable;
  * @author Nikole
  */
 public class RegistrarSociedadController extends Controller implements Initializable {
+
+    @FXML
+    private MFXSpinner<Integer> spCantidad;
 
     /**
      * Initializes the controller class.
