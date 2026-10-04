@@ -47,8 +47,8 @@ public class PrincipalController extends Controller implements Initializable {
     private Popup menuInstrumentos = new Popup();
 
     // Temporizadores para cerrar cada menú con un pequeño retraso
-    private PauseTransition esperaMantenimientos = new PauseTransition(Duration.millis(200));
-    private PauseTransition esperaInstrumentos = new PauseTransition(Duration.millis(200));
+    private PauseTransition esperaMantenimientos = new PauseTransition(Duration.millis(100));
+    private PauseTransition esperaInstrumentos = new PauseTransition(Duration.millis(100));
     
     
     @FXML private Label fechaActualLabel;
@@ -56,18 +56,23 @@ public class PrincipalController extends Controller implements Initializable {
     private VBox mainDisplay;
     @FXML
     private Button btnIndicadores;
+    @FXML
+    private Button btnEspanol;
+    @FXML
+    private Button btnIngles;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         //menu de mantenimientos
-        mostrarFechaActual();
+       // mostrarFechaActual();
+       ResourceBundle resB = rb;
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
         opsMantenimiento.getChildren().addAll(
-                crearBotonMenu("Abogados", "AbogadosView","abogados", menuMantenimientos),
-                crearBotonMenu("Clientes", "ClientesView", "clientes", menuMantenimientos),
-                crearBotonMenu("Sociedades", "SociedadesView", "sociedades", menuMantenimientos)
+                crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView","abogados", menuMantenimientos),
+                crearBotonMenu(FlowController.getIdioma().getString("menu.clientes"), "ClientesView", "clientes", menuMantenimientos),
+                crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"),"SociedadesView", "sociedades", menuMantenimientos)
         );
 
         menuMantenimientos.getContent().add(opsMantenimiento);
@@ -109,7 +114,13 @@ public class PrincipalController extends Controller implements Initializable {
         
         
         Platform.runLater(() -> {
-            FlowController.getInstance().goView("IndicadoresView");
+            
+            String vistaActual = FlowController.getVistaActual();
+            if(vistaActual == null){
+                FlowController.getInstance().goView("IndicadoresView");
+            }else{
+                FlowController.getInstance().goView(vistaActual);
+            }
         });
     }
 
@@ -126,7 +137,7 @@ public class PrincipalController extends Controller implements Initializable {
         
         boton.setGraphicTextGap(10);
         boton.setGraphic(imagen);
-
+        
         boton.setOnAction(e -> {
             menu.hide();
             FlowController.getInstance().goView(vista);
@@ -188,6 +199,18 @@ public class PrincipalController extends Controller implements Initializable {
     @FXML
     private void btnOnActionReportes(ActionEvent event) {
         FlowController.getInstance().goView("ReportesView");
+    }
+
+    @FXML
+    private void btnOnActionEspanol(ActionEvent event) {
+       
+        FlowController.getInstance().cambiarIdioma("es");
+    }
+
+    @FXML
+    private void btnOnActionIngles(ActionEvent event) {
+        
+        FlowController.getInstance().cambiarIdioma("en");
     }
     
 

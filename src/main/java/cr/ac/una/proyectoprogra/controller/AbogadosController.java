@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.util.FlowController;
 
 /**
  * FXML Controller class
@@ -25,21 +27,23 @@ public class AbogadosController extends Controller implements Initializable {
     @FXML
     private MFXButton btnAgregar;
     @FXML
-    private TableView<?> tblAbogados;
+    private TableView<Abogado> tblAbogados;
     @FXML
-    private TableColumn<?, ?> colNombre;
+    private TableColumn<Abogado, String> colNombre;
     @FXML
-    private TableColumn<?, ?> colCedula;
+    private TableColumn<Abogado, String> colCedula;
     @FXML
-    private TableColumn<?, ?> colTelefono;
+    private TableColumn<Abogado, String> colTelefono;
     @FXML
-    private TableColumn<?, ?> colCelular;
+    private TableColumn<Abogado, String> colCelular;
     @FXML
-    private TableColumn<?, ?> colCorreo;
+    private TableColumn<Abogado, String> colCorreo;
     @FXML
-    private TableColumn<?, ?> colDireccion;
+    private TableColumn<Abogado, String> colDireccion;
     @FXML
-    private TableColumn<?, ?> colAcciones;
+    private TableColumn<Abogado, ?> colAcciones;
+    @FXML
+    private TableColumn<Abogado, Boolean> colPropietario;
 
     /**
      * Initializes the controller class.
@@ -48,6 +52,7 @@ public class AbogadosController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         tblAbogados.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS); // para que las cols se ajusten al contenido
+       
     }    
 
     @Override
@@ -58,10 +63,12 @@ public class AbogadosController extends Controller implements Initializable {
 
     @FXML
     private void onActionBtnBuscar(ActionEvent event) {
+        FlowController.getInstance().goViewInWindow("BusquedaAbogadoView");
     }
 
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
+        FlowController.getInstance().goViewInWindow("RegistrarAbogadoView");
     }
     
 }

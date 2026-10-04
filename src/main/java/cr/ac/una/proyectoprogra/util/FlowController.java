@@ -1,6 +1,5 @@
 package cr.ac.una.proyectoprogra.util;
 
-
 import cr.ac.una.proyectoprogra.controller.Controller;
 import java.util.logging.Level;
 import cr.ac.una.proyectoprogra.App;
@@ -19,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
 import io.github.palexdev.materialfx.css.themes.Themes;
+import java.util.Locale;
 import javafx.scene.layout.HBox;
 
 public class FlowController {
@@ -27,6 +27,9 @@ public class FlowController {
     private static Stage mainStage;
     private static ResourceBundle idioma;
     private static HashMap<String, FXMLLoader> loaders = new HashMap<>();
+
+    // para el idioma guardamos el nombre de la vista en la que estamos para luego cuando se cambia el idioma el sistema recarga en principal view y luego la vista en la que estabamos
+    private static String vistaActual = null;
 
     private FlowController() {
     }
@@ -112,6 +115,9 @@ public class FlowController {
     }
 
     public void goView(String viewName, String location, String accion) {
+        if (location.equals("Center")) { // o sea si estoy en algun lado y ese lado es en una vista dentro del principal view ocupamos el nombre de esa vista
+            vistaActual = viewName;
+        }
         FXMLLoader loader = getLoader(viewName);
         Controller controller = loader.getController();
         //controller.setAccion(accion);
@@ -227,6 +233,34 @@ public class FlowController {
 
     public Stage getMainStage() {
         return mainStage;
+    }
+
+    public static ResourceBundle getIdioma() {
+        return idioma;
+    }
+
+
+    public static String getVistaActual(){
+        return vistaActual;
+    }
+
+    public void cambiarIdioma(String idioma) {
+
+        try {
+            ResourceBundle nuevoIdioma = ResourceBundle.getBundle( "cr/ac/una/proyectoprogra/resource/idioma",Locale.of(idioma));
+            FlowController.idioma = nuevoIdioma;
+            loaders.clear();
+
+            // Cargar nuevamente PrincipalView con el nuevo idioma
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("view/PrincipalView.fxml"),nuevoIdioma);
+
+            Parent root = loader.load();
+            mainStage.getScene().setRoot(root);
+            mainStage.show();
+
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE,"Error cambiando el idioma.",ex);
+        }
     }
 
 }

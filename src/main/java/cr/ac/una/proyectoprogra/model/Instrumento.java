@@ -4,11 +4,10 @@
  */
 package cr.ac.una.proyectoprogra.model;
 
-
 /**
  *
  * @author vjjcu
  */
-public class Prueba {
-  
+public class Instrumento {
+    
 }

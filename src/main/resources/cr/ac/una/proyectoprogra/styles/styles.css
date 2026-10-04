@@ -400,8 +400,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 /*
-************************* Principal View OP0 ********************
+************************* Principal View  ********************
 */
+
 
 .hboxPrincipalHeader{
     -fx-background-color: #1E2330 ;
@@ -480,6 +481,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-text-fill: #EEF2F7;
 }
 
+.btnIdioma:hover{
+    -fx-text-fill: #2F5689;
+}
 
 
 /* Caja blanca del menú */

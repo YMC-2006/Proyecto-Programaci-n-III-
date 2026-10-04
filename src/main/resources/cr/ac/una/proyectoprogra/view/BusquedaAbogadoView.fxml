@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="643.0" prefWidth="1259.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.BusquedaAbogadoController">
+   <children>
+      <VBox prefHeight="643.0" prefWidth="1110.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+               <children>
+                  <Label styleClass="texto" text="Busqueda de un Abogado" />
+               </children>
+            </HBox>
+            <HBox prefHeight="534.0" prefWidth="939.0" spacing="20.0">
+               <children>
+                  <VBox prefHeight="495.0" prefWidth="274.0" styleClass="vbox">
+                     <children>
+                        <MFXTextField prefWidth="174.0" text="Nombre" />
+                        <MFXTextField prefWidth="176.0" text="Cédula" />
+                        <MFXTextField prefWidth="176.0" text="Telefono" />
+                        <MFXTextField prefWidth="178.0" text="Celular" />
+                        <MFXTextField prefWidth="177.0" text="Correo" />
+                        <MFXTextField prefWidth="178.0" text="Dirección" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="495.0" prefWidth="915.0">
+                     <children>
+                        <TableView fx:id="tblAbogados" prefHeight="550.0" prefWidth="876.0" styleClass="tblAbogados">
+                          <columns>
+                            <TableColumn fx:id="colNombre" prefWidth="105.60000419616699" text="%tablaA.nombre" />
+                            <TableColumn fx:id="colCedula" prefWidth="112.80001068115234" text="%tablaA.cedula" />
+                              <TableColumn fx:id="colTelefono" prefWidth="133.6000213623047" text="%tablaA.telefono" />
+                              <TableColumn fx:id="colCelular" prefWidth="141.5999755859375" text="%tablaA.celular" />
+                              <TableColumn fx:id="colCorreo" prefWidth="145.60003662109375" text="%tablaA.correo" />
+                              <TableColumn fx:id="colDireccion" prefWidth="139.20001220703125" text="%tablaA.dir" />
+                              <TableColumn fx:id="colPropietario" prefWidth="132.79998779296875" text="%tablaA.propietario" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="88.0" prefWidth="939.0" styleClass="hbox">
+               <children>
+                  <MFXButton text="Buscar" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
