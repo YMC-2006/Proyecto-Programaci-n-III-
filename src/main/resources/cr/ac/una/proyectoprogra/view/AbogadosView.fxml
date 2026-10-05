@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
@@ -16,11 +15,11 @@
 
 <AnchorPane id="AnchorPane" prefHeight="798.0" prefWidth="1387.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="30.0">
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox prefHeight="66.0" prefWidth="802.0" styleClass="vboxH">
+                  <VBox prefHeight="66.0" prefWidth="937.0" styleClass="vboxH">
                      <children>
                         <Label styleClass="titl" text="%abogados.titulo">
                            <VBox.margin>
@@ -35,9 +34,9 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <HBox prefHeight="94.0" prefWidth="464.0" styleClass="hbox">
+                  <HBox prefHeight="66.0" prefWidth="198.0" styleClass="hbox">
                      <children>
-                        <MFXButton fx:id="btnBuscar" onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="142.0" styleClass="btnW" text="%btn.buscar">
+                        <MFXButton fx:id="btnBuscar" onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="230.0" styleClass="btnW" text="%btn.buscar">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <styleClass>
@@ -53,18 +52,18 @@
             </HBox>
             <HBox prefHeight="650.0" prefWidth="950.0" styleClass="hbox">
                <children>
-                  <VBox prefHeight="590.0" prefWidth="1098.0" styleClass="cardRegistroAbo">
+                  <VBox prefHeight="623.0" prefWidth="1245.0" styleClass="cardRegistroAbo">
                      <children>
                         <TableView fx:id="tblAbogados" prefHeight="550.0" prefWidth="876.0" styleClass="tblAbogados">
                           <columns>
-                            <TableColumn fx:id="colNombre" prefWidth="88.80002021789551" text="%tablaA.nombre" />
-                            <TableColumn fx:id="colCedula" prefWidth="98.39999389648438" text="%tablaA.cedula" />
-                              <TableColumn fx:id="colTelefono" prefWidth="80.79998779296875" text="%tablaA.telefono" />
-                              <TableColumn fx:id="colCelular" prefWidth="90.4000244140625" text="%tablaA.celular" />
-                              <TableColumn fx:id="colCorreo" prefWidth="107.99996948242188" text="%tablaA.correo" />
-                              <TableColumn fx:id="colDireccion" prefWidth="104.79998779296875" text="%tablaA.dir" />
-                              <TableColumn fx:id="colPropietario" prefWidth="57.60003662109375" text="%tablaA.propietario" />
-                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="72.0" text=" " />
+                            <TableColumn fx:id="colNombre" prefWidth="120.8000316619873" text="%abog.nombre" />
+                            <TableColumn fx:id="colCedula" prefWidth="89.59999084472656" text="%abog.cedula" />
+                              <TableColumn fx:id="colTelefono" prefWidth="94.4000244140625" text="%abog.telefono" />
+                              <TableColumn fx:id="colCelular" prefWidth="89.5999755859375" text="%abog.celular" />
+                              <TableColumn fx:id="colCorreo" prefWidth="123.99996948242188" text="%abog.correo" />
+                              <TableColumn fx:id="colDireccion" prefWidth="98.40008544921875" text="%abog.dir" />
+                              <TableColumn fx:id="colPropietario" prefWidth="83.19989013671875" text="%abog.propietario" />
+                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="89.60009765625" text=" " />
                           </columns>
                         </TableView>
                      </children>
@@ -73,7 +72,7 @@
                      <children>
                         <HBox prefHeight="30.0" prefWidth="386.0">
                            <children>
-                              <Label styleClass="lblTitulo" text="Datos del Abogado" />
+                              <Label styleClass="lblTitulo" text="%abog.datos" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="20.0" />
@@ -83,7 +82,7 @@
                            <children>
                               <VBox prefHeight="82.0" prefWidth="540.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Nombre" />
+                                    <Label styleClass="lblCampo" text="%abog.nombre" />
                                     <TextField fx:id="txtNombre" prefHeight="30.0" prefWidth="439.0" styleClass="txtCampo" />
                                  </children>
                               </VBox>
@@ -93,13 +92,13 @@
                            <children>
                               <VBox prefHeight="82.0" prefWidth="238.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Cedula" />
+                                    <Label styleClass="lblCampo" text="%abog.cedula" />
                                     <TextField fx:id="txtCedula" styleClass="txtCampo" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="82.0" prefWidth="232.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Correo" />
+                                    <Label styleClass="lblCampo" text="%abog.correo" />
                                     <TextField fx:id="txtCorreo" styleClass="txtCampo" />
                                  </children>
                               </VBox>
@@ -109,13 +108,13 @@
                            <children>
                               <VBox prefHeight="82.0" prefWidth="256.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Telefono" />
+                                    <Label styleClass="lblCampo" text="%abog.telefono" />
                                     <TextField fx:id="txtTelefono" styleClass="txtCampo" />
                                  </children>
                               </VBox>
                               <VBox prefHeight="82.0" prefWidth="243.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Célular" />
+                                    <Label styleClass="lblCampo" text="%abog.celular" />
                                     <TextField fx:id="txtCelular" styleClass="txtCampo" />
                                  </children>
                               </VBox>
@@ -125,7 +124,7 @@
                            <children>
                               <VBox prefHeight="82.0" prefWidth="543.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Dirección" />
+                                    <Label styleClass="lblCampo" text="%abog.dir" />
                                     <TextField fx:id="txaDireccion" prefHeight="84.0" prefWidth="386.0" styleClass="txtArea" />
                                  </children>
                               </VBox>
@@ -133,8 +132,8 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                            <children>
-                              <CheckBox fx:id="chkPropietario" mnemonicParsing="false" styleClass="chkCampo" text="Propietario" />
-                              <CheckBox fx:id="chkNotario" mnemonicParsing="false" styleClass="chkCampo" text="Es Notario" />
+                              <CheckBox fx:id="chkPropietario" mnemonicParsing="false" styleClass="chkCampo" text="%abog.propietario" />
+                              <CheckBox fx:id="chkNotario" mnemonicParsing="false" styleClass="chkCampo" text="%abog.notario" />
                            </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
@@ -163,11 +162,6 @@
                         </HBox>
                      </children>
                   </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
-               <children>
-                  <MFXCheckbox text="Mostrar Papelera" />
                </children>
             </HBox>
          </children>

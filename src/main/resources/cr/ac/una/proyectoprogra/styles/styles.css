@@ -1057,7 +1057,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /*Dentro de la misma vista de abogados la tarjetita de la par que es para registrar el abogado ahi mismo :p*/
 .cardRegistroAbo{
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #DEE4ED;
     -fx-background-radius: 20;
     -fx-padding: 24;
     -fx-effect: dropshadow(gaussian, rgba(20, 34, 51, 0.06), 12, 0, 0, 2);

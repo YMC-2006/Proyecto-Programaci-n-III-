@@ -34,13 +34,13 @@
                      <children>
                         <TableView fx:id="tblAbogados" prefHeight="550.0" prefWidth="876.0" styleClass="tblAbogados">
                           <columns>
-                            <TableColumn fx:id="colNombre" prefWidth="105.60000419616699" text="%tablaA.nombre" />
-                            <TableColumn fx:id="colCedula" prefWidth="112.80001068115234" text="%tablaA.cedula" />
-                              <TableColumn fx:id="colTelefono" prefWidth="133.6000213623047" text="%tablaA.telefono" />
-                              <TableColumn fx:id="colCelular" prefWidth="141.5999755859375" text="%tablaA.celular" />
-                              <TableColumn fx:id="colCorreo" prefWidth="145.60003662109375" text="%tablaA.correo" />
-                              <TableColumn fx:id="colDireccion" prefWidth="139.20001220703125" text="%tablaA.dir" />
-                              <TableColumn fx:id="colPropietario" prefWidth="132.79998779296875" text="%tablaA.propietario" />
+                            <TableColumn fx:id="colNombre" prefWidth="105.60000419616699" text="%abog.nombre" />
+                            <TableColumn fx:id="colCedula" prefWidth="112.80001068115234" text="%abog.cedula" />
+                              <TableColumn fx:id="colTelefono" prefWidth="133.6000213623047" text="%abog.telefono" />
+                              <TableColumn fx:id="colCelular" prefWidth="141.5999755859375" text="%abog.celular" />
+                              <TableColumn fx:id="colCorreo" prefWidth="145.60003662109375" text="%abog.correo" />
+                              <TableColumn fx:id="colDireccion" prefWidth="139.20001220703125" text="%abog.dir" />
+                              <TableColumn fx:id="colPropietario" prefWidth="132.79998779296875" text="%abog.propietario" />
                           </columns>
                         </TableView>
                      </children>

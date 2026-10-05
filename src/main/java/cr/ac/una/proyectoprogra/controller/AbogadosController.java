@@ -20,12 +20,14 @@ import cr.ac.una.proyectoprogra.util.Mensaje;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -42,6 +44,7 @@ import javafx.scene.layout.VBox;
  *
  * @author vjjcu
  */
+// FALTA AÑDAIR LO DE NOTARIO PQ NO ESTOY SEGURA SI SI VA ENTONCES HAY QUE PREGUNTAR AL PROFE
 public class AbogadosController extends Controller implements Initializable {
 
     @FXML
@@ -90,6 +93,8 @@ public class AbogadosController extends Controller implements Initializable {
 
     private ObservableList<Abogado> listaAbogados = FXCollections.observableArrayList();
 
+    private Abogado abogadoEditando;
+
     /**
      * Initializes the controller class.
      */
@@ -97,7 +102,7 @@ public class AbogadosController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
 
-        // revisar el correo que letras format no acepta @ y etc...
+        // revisar
         txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(150));
         txtCedula.setTextFormatter(Formato.getInstance().cedulaFormat(30));
         txtCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
@@ -114,12 +119,12 @@ public class AbogadosController extends Controller implements Initializable {
             {
 
                 ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
-                iconoEliminar.setFitHeight(20);
-                iconoEliminar.setFitWidth(20);
+                iconoEliminar.setFitHeight(30);
+                iconoEliminar.setFitWidth(30);
 
                 ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
-                iconoEditar.setFitHeight(20);
-                iconoEditar.setFitWidth(20);
+                iconoEditar.setFitHeight(30);
+                iconoEditar.setFitWidth(30);
 
                 btnEliminar.setGraphic(iconoEliminar);
                 btnEditar.setGraphic(iconoEditar);
@@ -135,11 +140,12 @@ public class AbogadosController extends Controller implements Initializable {
 
                 btnEliminar.setOnAction(e -> {
                     Abogado abogado = getItem();
+                    eliminarAbogado(abogado);
                 });
 
                 btnEditar.setOnAction(e -> {
                     Abogado abogado = getItem();
-
+                    cargarAbogado(abogado); // cargamos los datos para editarlo en el form
                 });
             }
 
@@ -183,7 +189,7 @@ public class AbogadosController extends Controller implements Initializable {
         Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
-            listaAbogados.setAll(abogadosService); // cargamos los abogados del servidor no se si haga falta asi capaz y si por la observable list
+            listaAbogados.setAll(abogadosService);
         } else {
             new Mensaje().show(Alert.AlertType.ERROR, "Abogados", "Error cargando los abogados desde el service " + respuesta.getMensaje());
         }
@@ -247,25 +253,101 @@ public class AbogadosController extends Controller implements Initializable {
             return;
         }
 
-        // mando notario false por el momento falta preguntarle al profe
-        Abogado abogado = new Abogado(nombre, cedula, telefono, celular, correo, direccion, propietario, chkNotario.isSelected());
-        abogado.setAboBufeteId(1L);
-        Respuesta respuesta = abogadoService.guardarAbogado(abogado);
+        // estoy creando
+        if (abogadoEditando == null) {
 
-        if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            mostrarExito("Se guardo correctamente");
-            onActionBtnLimpiarCampos(null);
+            // mando notario false por el momento falta preguntarle al profe
+            Abogado abogado = new Abogado(nombre, cedula, telefono, celular, correo, direccion, propietario, chkNotario.isSelected());
+            abogado.setAboBufeteId(1L);
+            Respuesta respuesta = abogadoService.guardarAbogado(abogado);
 
-        } else {
-            mostrarError(respuesta.getMensaje());
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                mostrarExito("Se guardo correctamente");
+                onActionBtnLimpiarCampos(null);
+
+                cargarTabla();
+
+            } else {
+                mostrarError(respuesta.getMensaje());
+            }
+
+        } else { // estoy editando
+            
+            
+            
+            abogadoEditando.setAboNombre(nombre);
+            abogadoEditando.setAboCedula(cedula);
+            abogadoEditando.setAboCorreo(correo);
+            abogadoEditando.setAboTelefono(telefono);
+            abogadoEditando.setAboCelular(celular);
+            abogadoEditando.setAboDireccion(direccion);
+            abogadoEditando.setAboNotario(chkNotario.isSelected());
+            abogadoEditando.setAboPropietario(chkPropietario.isSelected());
+            abogadoEditando.setAboBufeteId(1L);
+            Respuesta respuesta = abogadoService.guardarAbogado(abogadoEditando);
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                mostrarExito("Abogado modificado exitosamente");
+                onActionBtnLimpiarCampos(null);
+                cargarTabla();
+            } else {
+                mostrarError(respuesta.getMensaje());
+            }
+
         }
+
     }
+    
 
-    private void modificarAbogado(Abogado abogado) {
+    // se puede mejorar preguntar al profe
+    private void cargarAbogado(Abogado abogado) {
+        abogadoEditando = abogado;
 
+        txtNombre.setText(abogado.getAboNombre());
+        txtCedula.setText(abogado.getAboCedula());
+        txtCorreo.setText(abogado.getAboCorreo());
+        txtTelefono.setText(abogado.getAboTelefono());
+        txtCelular.setText(abogado.getAboCelular());
+        txaDireccion.setText(abogado.getAboDireccion());
+        chkNotario.setSelected(abogado.getAboNotario());
+        chkPropietario.setSelected(abogado.getAboPropietario());
+
+        this.btnAgregar.setText("Editar");
     }
 
     private void eliminarAbogado(Abogado abogado) {
+
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmación");
+        alerta.setHeaderText(null);
+        alerta.setContentText("\n Desea eliminar a " + abogado.getAboNombre()+ " permanentemente?");
+
+        ButtonType btnEliminar = new ButtonType("Eliminar", ButtonBar.ButtonData.OK_DONE);
+        ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        alerta.getButtonTypes().setAll(btnEliminar, btnCancelar);
+
+        Button botonCancelar = (Button) alerta.getDialogPane().lookupButton(btnCancelar);
+        Button botonEliminar = (Button) alerta.getDialogPane().lookupButton(btnEliminar);
+
+        botonCancelar.setDefaultButton(true);
+        botonEliminar.setDefaultButton(false);
+
+        Optional<ButtonType> respuestaDialogo = alerta.showAndWait();
+
+        if (respuestaDialogo.isPresent() && respuestaDialogo.get() == btnEliminar) {
+            Respuesta respuesta = abogadoService.eliminarAbogado(abogado.getAboId());
+
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                
+                // validacion pinche hermosa
+                if(abogadoEditando != null && abogadoEditando.getAboId().equals(abogado.getAboId())){
+                    onActionBtnLimpiarCampos(null);
+                }
+                mostrarExito("Se elimino correctamente el abogado");
+                cargarTabla();
+            } else {
+              mostrarError(respuesta.getMensaje());
+            }
+        }
 
     }
 
@@ -283,6 +365,8 @@ public class AbogadosController extends Controller implements Initializable {
         if (chkPropietario.isSelected()) {
             chkPropietario.setSelected(false);
         }
+        abogadoEditando = null;
+        this.btnAgregar.setText("Guardar");
     }
 
     private void mostrarError(String mensaje) {
