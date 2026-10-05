@@ -24,9 +24,7 @@ public class Abogado {
     public Abogado() {
     }
 
-    public Abogado(Long aboId, Long aboBufeteId, String aboNombre, String aboCedula, String aboTelefono, String aboCelular, String aboCorreo, String aboDireccion, Boolean aboPropietario, Boolean aboNotario) {
-        this.aboId = aboId;
-        this.aboBufeteId = aboBufeteId;
+    public Abogado(String aboNombre, String aboCedula, String aboTelefono, String aboCelular, String aboCorreo, String aboDireccion, Boolean aboPropietario, Boolean aboNotario) {
         this.aboNombre = aboNombre;
         this.aboCedula = aboCedula;
         this.aboTelefono = aboTelefono;

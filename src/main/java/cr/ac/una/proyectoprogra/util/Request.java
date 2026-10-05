@@ -41,7 +41,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;*/
-
 /**
  *
  * @author ccarranza
@@ -72,8 +71,26 @@ public class Request {
         // TODO
         builder.headers(headers);
     }
-    
-    
+
+    // ocupamos tambien un constructor que use queryparam
+    public Request(String target, Map<String, Object> queryParams) {
+        this();
+        WebTarget t = client.target(AppContext.getInstance().get("resturl") + target);
+        if (queryParams != null) {
+            for (Map.Entry<String, Object> e : queryParams.entrySet()) {
+                Object valor = e.getValue();
+                if (valor != null && !valor.toString().isBlank()) {
+                    t = t.queryParam(e.getKey(), valor);
+                }
+            }
+        }
+        this.webTarget = t;
+        this.builder = webTarget.request(MediaType.APPLICATION_JSON);
+        System.out.println("Llamando a: " + webTarget.getUri());
+        MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+        builder.headers(headers);
+    }
 
     /**
      * Ingresa el objetivo de la petición
@@ -108,22 +125,21 @@ public class Request {
     }
 
     //TODO
-
     public void post(Object clazz) {
         //TODO
-            Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
-            response = builder.post(entity);
+        Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
+        response = builder.post(entity);
     }
 
     public void put(Object clazz) {
         // TODO
-            Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
-            response = builder.put(entity);
+        Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
+        response = builder.put(entity);
     }
 
     public void delete() {
         // TODO
-            response = builder.delete();
+        response = builder.delete();
     }
 
     public int getStatus() {
@@ -169,7 +185,5 @@ public class Request {
     }
 
     // TODO
-
     // TODO
-
 }

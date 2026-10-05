@@ -13,7 +13,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.service.AbogadoService;
 import cr.ac.una.proyectoprogra.util.FlowController;
+import cr.ac.una.proyectoprogra.util.Formato;
+import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Respuesta;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -41,9 +63,32 @@ public class AbogadosController extends Controller implements Initializable {
     @FXML
     private TableColumn<Abogado, String> colDireccion;
     @FXML
-    private TableColumn<Abogado, ?> colAcciones;
+    private TableColumn<Abogado, String> colPropietario;
     @FXML
-    private TableColumn<Abogado, Boolean> colPropietario;
+    private TableColumn<Abogado, Abogado> colAcciones;
+
+    @FXML
+    private TextField txtNombre;
+    @FXML
+    private TextField txtCedula;
+    @FXML
+    private TextField txtCorreo;
+    @FXML
+    private TextField txtTelefono;
+    @FXML
+    private TextField txtCelular;
+    @FXML
+    private TextField txaDireccion;
+    @FXML
+    private CheckBox chkPropietario;
+    @FXML
+    private CheckBox chkNotario;
+    @FXML
+    private MFXButton btnLimpiar;
+
+    private AbogadoService abogadoService = new AbogadoService();
+
+    private ObservableList<Abogado> listaAbogados = FXCollections.observableArrayList();
 
     /**
      * Initializes the controller class.
@@ -51,14 +96,103 @@ public class AbogadosController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+
+        // revisar el correo que letras format no acepta @ y etc...
+        txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(150));
+        txtCedula.setTextFormatter(Formato.getInstance().cedulaFormat(30));
+        txtCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
+        txtTelefono.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
+        txtCelular.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
+        txaDireccion.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
+
+        colAcciones.setCellFactory(col -> new TableCell<Abogado, Abogado>() {
+
+            private final Button btnEditar = new Button();
+            private final Button btnEliminar = new Button();
+            private final HBox contenedor = new HBox();
+
+            {
+
+                ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
+                iconoEliminar.setFitHeight(20);
+                iconoEliminar.setFitWidth(20);
+
+                ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
+                iconoEditar.setFitHeight(20);
+                iconoEditar.setFitWidth(20);
+
+                btnEliminar.setGraphic(iconoEliminar);
+                btnEditar.setGraphic(iconoEditar);
+
+                btnEliminar.setMinWidth(30);
+                btnEditar.setMinWidth(30);
+
+                btnEliminar.setStyle("-fx-background-color: transparent;");
+                btnEditar.setStyle("-fx-background-color: transparent;");
+
+                contenedor.setStyle("-fx-alignment: CENTER;");
+                contenedor.setSpacing(10);
+
+                btnEliminar.setOnAction(e -> {
+                    Abogado abogado = getItem();
+                });
+
+                btnEditar.setOnAction(e -> {
+                    Abogado abogado = getItem();
+
+                });
+            }
+
+            @Override
+            protected void updateItem(Abogado abogado, boolean empty) {
+                super.updateItem(abogado, empty);
+
+                if (empty || abogado == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                contenedor.getChildren().clear();
+                contenedor.getChildren().add(btnEliminar);
+                contenedor.getChildren().add(btnEditar);
+                setGraphic(contenedor);
+            }
+
+        });
+
         tblAbogados.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS); // para que las cols se ajusten al contenido
-       
-    }    
+
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("aboNombre"));
+        colCedula.setCellValueFactory(new PropertyValueFactory<>("aboCedula"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("aboTelefono"));
+        colCelular.setCellValueFactory(new PropertyValueFactory<>("aboCelular"));
+        colCorreo.setCellValueFactory(new PropertyValueFactory<>("aboCorreo"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("aboDireccion"));
+        colPropietario.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getAboPropietario()) ? "Sí" : "No"));
+
+        colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
+
+        this.tblAbogados.setPlaceholder(new Label("No hay abogados registrados por el momento"));
+
+        tblAbogados.setItems(listaAbogados);
+
+    }
+
+    private void cargarTabla() {
+        Long bufeteId = 1L;
+        Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
+            listaAbogados.setAll(abogadosService); // cargamos los abogados del servidor no se si haga falta asi capaz y si por la observable list
+        } else {
+            new Mensaje().show(Alert.AlertType.ERROR, "Abogados", "Error cargando los abogados desde el service " + respuesta.getMensaje());
+        }
+
+    }
 
     @Override
     public void initialize() {
-
-
+        cargarTabla();
     }
 
     @FXML
@@ -68,7 +202,98 @@ public class AbogadosController extends Controller implements Initializable {
 
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
-        FlowController.getInstance().goViewInWindow("RegistrarAbogadoView");
+
+        String nombre = txtNombre.getText();
+        String cedula = txtCedula.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+        String celular = txtCelular.getText();
+        String direccion = txaDireccion.getText();
+        boolean propietario = chkPropietario.isSelected();
+
+        if (nombre.isBlank()) {
+            mostrarError("El campo del nombre no puede estar vacido");
+            txtNombre.requestFocus();
+            return;
+        }
+
+        if (cedula.isBlank()) {
+            mostrarError("El campo de la cedula no puede estar vacido");
+            txtCedula.requestFocus();
+            return;
+        }
+
+        if (correo.isBlank()) {
+            mostrarError("El campo del correo no puede estar vacido");
+            txtCorreo.requestFocus();
+            return;
+        }
+
+        if (telefono.isBlank()) {
+            mostrarError("El campo del telefono no puede estar vacido");
+            txtTelefono.requestFocus();
+            return;
+        }
+
+        if (celular.isBlank()) {
+            mostrarError("El campo del celular no puede estar vacido");
+            txtCelular.requestFocus();
+            return;
+        }
+
+        if (direccion.isBlank()) {
+            mostrarError("El campo de la direccion no puede estar vacido");
+            txaDireccion.requestFocus();
+            return;
+        }
+
+        // mando notario false por el momento falta preguntarle al profe
+        Abogado abogado = new Abogado(nombre, cedula, telefono, celular, correo, direccion, propietario, chkNotario.isSelected());
+        abogado.setAboBufeteId(1L);
+        Respuesta respuesta = abogadoService.guardarAbogado(abogado);
+
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Se guardo correctamente");
+            onActionBtnLimpiarCampos(null);
+
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
     }
-    
+
+    private void modificarAbogado(Abogado abogado) {
+
+    }
+
+    private void eliminarAbogado(Abogado abogado) {
+
+    }
+
+    @FXML
+    private void onActionBtnLimpiarCampos(ActionEvent event) {
+        txtNombre.clear();
+        txtCedula.clear();
+        txtCorreo.clear();
+        txtTelefono.clear();
+        txtCelular.clear();
+        txaDireccion.clear();
+        if (chkNotario.isSelected()) {
+            chkNotario.setSelected(false);
+        }
+        if (chkPropietario.isSelected()) {
+            chkPropietario.setSelected(false);
+        }
+    }
+
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    private void mostrarExito(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
 }

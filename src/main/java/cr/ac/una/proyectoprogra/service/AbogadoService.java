@@ -49,7 +49,7 @@ public class AbogadoService {
             parametros.put("notario", notario);
             parametros.put("bufeteId", bufeteId);
 
-            Request request = new Request("Abogados","",parametros);
+            Request request = new Request("Abogados",parametros);
 
             request.get();
 

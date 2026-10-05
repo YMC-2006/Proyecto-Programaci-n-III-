@@ -12,7 +12,8 @@ module cr.ac.una.proyectoprogra {
     requires java.logging;
     requires java.base;
 
-    requires jakarta.ws.rs;    
+    requires jakarta.ws.rs;
+    requires jakarta.json.bind;    
     requires jakarta.json;
     
     opens cr.ac.una.proyectoprogra to javafx.fxml, MaterialFX;

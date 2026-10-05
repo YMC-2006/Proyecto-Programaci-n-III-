@@ -263,13 +263,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-border-color: -fx-color-gris-azulado;
     -fx-border-radius: 14;
     -fx-padding: 0;
-    -fx-focus-color: transparent;         
+    -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
 
 .tabla .column-header-background {
     -fx-background-color: -fx-color-gris-muy-claro;
-    -fx-background-radius: 14 14 0 0;    
+    -fx-background-radius: 14 14 0 0;
 }
 .tabla .column-header,
 .tabla .filler {
@@ -284,17 +284,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-weight: bold;
     -fx-alignment: CENTER_LEFT;
 }
-.tabla .column-header .arrow {             
+.tabla .column-header .arrow {
     -fx-background-color: -fx-color-gris-claro;
 }
 
 /* Filas */
 .tabla .table-row-cell,
 .tabla .table-row-cell:odd {
-    -fx-background-color: -fx-color-blanco; 
+    -fx-background-color: -fx-color-blanco;
     -fx-border-color: transparent transparent -fx-color-gris-muy-claro transparent;
     -fx-border-width: 0 0 1 0;
-    -fx-cell-size: 56px;                     
+    -fx-cell-size: 56px;
 }
 .tabla .table-row-cell:hover {
     -fx-background-color: -fx-color-fondo-principal-claro;
@@ -303,7 +303,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .tabla .table-row-cell:selected {
     -fx-background-color: -fx-color-fondo2;
     -fx-border-color: transparent transparent -fx-color-gris-muy-claro -fx-color-azul;
-    -fx-border-width: 0 0 1 4;              
+    -fx-border-width: 0 0 1 4;
 }
 
 /* Celdas */
@@ -312,10 +312,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-size: 14px;
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 0 12 0 12;
-    -fx-border-color: transparent;           
+    -fx-border-color: transparent;
 }
 .tabla .table-row-cell:selected .table-cell {
-    -fx-text-fill: -fx-color-tinta;          
+    -fx-text-fill: -fx-color-tinta;
 }
 
 
@@ -336,13 +336,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 
-.tabla .scroll-bar:vertical { -fx-background-color: transparent; -fx-pref-width: 10; }
-.tabla .scroll-bar .thumb { -fx-background-color: -fx-color-azul-gris-claro; -fx-background-radius: 5; }
+.tabla .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10;
+}
+.tabla .scroll-bar .thumb {
+    -fx-background-color: -fx-color-azul-gris-claro;
+    -fx-background-radius: 5;
+}
 .tabla .scroll-bar .increment-button,
-.tabla .scroll-bar .decrement-button { -fx-pref-height: 0; -fx-padding: 0; }
+.tabla .scroll-bar .decrement-button {
+    -fx-pref-height: 0;
+    -fx-padding: 0;
+}
 
 
-.tarjeta .tabla { -fx-border-color: transparent; -fx-background-radius: 0; }
+.tarjeta .tabla {
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+}
 .btnImg{
     -fx-fit-height: 20px;
     -fx-fit-width: 20px;
@@ -775,7 +787,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-weight: bold;
     -fx-padding: 8px 18px;
     -fx-cursor: hand;
-    
+
     -mfx-ripple-color: rgba(226, 232, 240, 0.5);
 }
 
@@ -807,7 +819,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-weight: bold;
     -fx-padding: 8px 18px;
     -fx-cursor: hand;
-    
+
     /*-mfx-ripple-color: rgba(226, 232, 240, 0.5);*/
 }
 
@@ -987,65 +999,140 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
       ABOGADOS 
 *************************/
 
-
-.tblAbogados{
-    -fx-background-color: transparent;
-    -fx-base: transparent;
-    -fx-control-inner-background: transparent;
-    -fx-table-cell-border-color: transparent;
+.tblAbogados {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3E8EF;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
     -fx-padding: 0;
+    -fx-focus-color: transparent;            /* quita el borde azul de foco */
+    -fx-faint-focus-color: transparent;
+    -fx-selection-bar: #CFE3F5;               /* fila seleccionada */
+    -fx-selection-bar-non-focused: #CFE3F5;
 }
-
-.tblAbogados .column-header-background,
-.tblAbogados .corner {
-    -fx-background-color: transparent;
+.tblAbogados .column-header-background {
+    -fx-background-color: #E2EFF9;
+    -fx-background-radius: 14 14 0 0;
 }
-
-.tblAbogados .column-header {
+.tblAbogados .column-header,
+.tblAbogados .column-header-background .filler {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-padding: 10px 5px;
+    -fx-pref-height: 44;
 }
 
 .tblAbogados .column-header .label {
-    -fx-text-fill: #64748B;
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
-    -fx-alignment: CENTER-LEFT;
-}
-
-.tblAbogados .table-row-cell {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent transparent #E2E8F0 transparent;
-    -fx-border-width: 0 0 1px 0;
-    -fx-cell-size: 48px;
-}
-
-.tblAbogados .table-row-cell:empty {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
-
-.tblAbogados .table-row-cell:filled:selected {
-    -fx-background-color: #E0F2FE;
-}
-
-.tblAbogados .table-row-cell:filled:selected .table-cell {
-    -fx-text-fill: #0F172A;
-}
-
-.tblAbogados .table-cell {
-    -fx-text-fill: #334155;
-    -fx-alignment: CENTER-LEFT;
+    -fx-text-fill: #0B5C94;
     -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 12;
+}
+.tblAbogados .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-cell-size: 46;
+    -fx-border-color: #EEF1F6 transparent transparent transparent;
 }
 
-.tblAbogados .table-column:first-child .table-cell {
-    -fx-font-weight: bold;
-    -fx-text-fill: #0F172A;
+.tblAbogados .table-row-cell:hover {
+    -fx-background-color: #EAF3FB;
+}
+.tblAbogados .table-row-cell:selected {
+    -fx-background-color: #CFE3F5;
+}
+.tblAbogados .table-cell {
+    -fx-text-fill: #1A2233;
+    -fx-font-size: 14px;
+    -fx-padding: 0 12;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent;            /* quita las líneas verticales */
+}
+.tblAbogados .table-row-cell:selected .table-cell {
+    -fx-text-fill: #1A2233;                   /* evita que el texto se ponga blanco */
+}
+.tblAbogados .placeholder .label {
+    -fx-text-fill: #556070;
+    -fx-font-size: 14px;
 }
 
-.tblAbogados .table-column:last-child .table-cell {
+/*Dentro de la misma vista de abogados la tarjetita de la par que es para registrar el abogado ahi mismo :p*/
+.cardRegistroAbo{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(gaussian, rgba(20, 34, 51, 0.06), 12, 0, 0, 2);
+}
+
+.lblTitulo{
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-alignment: CENTER-RIGHT;
+}
+
+.lblCampo{
+    -fx-font-size: 13px;
+    -fx-text-fill: #4A5568;
+}
+
+.txtCampo{
+    -fx-background-color: #CBD3E1, #FAFBFD;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10, 9;
+    -fx-padding: 10 12;
+    -fx-pref-height: 44;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1A2233;
+    -fx-prompt-text-fill: #8A94A6;
+}
+
+.txtCampo:hover {
+    -fx-background-color: #9FB0C6, #FAFBFD;
+}
+
+.txtCampo:focused {
+    -fx-background-color: #0B6FB0, #FFFFFF;
+    -fx-background-insets: 0, 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(11, 111, 176, 0.25), 6, 0.2, 0, 0);
+}
+
+
+.txtArea{
+    -fx-background-color: #CBD3E1, #FAFBFD;
+    -fx-background-insets: 0,1 ;
+    -fx-background-radius: 10, 9;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1A2233;
+    -fx-prompt-text-fill: #8A94A6;
+}
+
+.txtArea .content {
+    -fx-background-color: transparent;
+    -fx-padding: 6 8;
+}
+
+.txtArea:focused{
+    -fx-background-color: #0B6FB0, #FFFFFF;
+    -fx-background-insets: 0, 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(11, 111, 176, 0.25), 6, 0.2, 0, 0);
+}
+
+/*Agregar un campo con error donde se ponga el borde rojo si se ingresan mal los datos y desde codigo cambiamos la clase TO-DO DONT FORGETT*/
+
+/*le podria dar un nombre mas especifico cualqueir cosa*/
+.chkCampo{
+    -fx-font-size: 14px;
+    -fx-text-fill: #1A2233;
+}
+
+.chkCampo .box{
+    -fx-background-color: #CBD3E1, #FFFFFF;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 5, 4;
+    -fx-padding: 3;
+}
+
+.chkCampo:selected .box {
+    -fx-background-color: #0B6FB0;
+}
+.chkCampo:selected .mark {
+    -fx-background-color: #FFFFFF;
 }

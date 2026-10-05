@@ -45,7 +45,7 @@ public class Mensaje {
     
     private void cssMensaje(Alert alert){
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("/cr/ac/una/tareaprogra/styles/styles.css").toExternalForm());
+        dialogPane.getStylesheets().add(getClass().getResource("/cr/ac/una/proyectoprogra/styles/styles.css").toExternalForm());
         dialogPane.getStyleClass().add("mensaje");
     }
 
