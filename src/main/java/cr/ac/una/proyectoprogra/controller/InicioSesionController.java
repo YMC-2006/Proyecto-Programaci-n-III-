@@ -67,5 +67,15 @@ public class InicioSesionController extends Controller implements Initializable 
         FlowController.getInstance().goViewInWindow("RecuperarClaveView");
         ((Stage)lblRecuperarClave.getScene().getWindow()).close();
     }
+
+    @FXML
+    private void btnOnActionEspanol(ActionEvent event) {
+        FlowController.getInstance().cambiarIdioma("es");
+    }
+
+    @FXML
+    private void btnOnActionIngles(ActionEvent event) {
+        FlowController.getInstance().cambiarIdioma("en");
+    }
     
 }

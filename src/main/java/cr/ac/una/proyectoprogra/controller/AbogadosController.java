@@ -218,37 +218,37 @@ public class AbogadosController extends Controller implements Initializable {
         boolean propietario = chkPropietario.isSelected();
 
         if (nombre.isBlank()) {
-            mostrarError("El campo del nombre no puede estar vacido");
+            mostrarError(FlowController.getIdioma().getString("abogado.error.nombre"));
             txtNombre.requestFocus();
             return;
         }
 
         if (cedula.isBlank()) {
-            mostrarError("El campo de la cedula no puede estar vacido");
+            mostrarError(FlowController.getIdioma().getString("abogado.error.cedula"));
             txtCedula.requestFocus();
             return;
         }
 
         if (correo.isBlank()) {
-            mostrarError("El campo del correo no puede estar vacido");
+            mostrarError(FlowController.getIdioma().getString("abogado.error.correo"));
             txtCorreo.requestFocus();
             return;
         }
 
         if (telefono.isBlank()) {
-            mostrarError("El campo del telefono no puede estar vacido");
+            mostrarError(FlowController.getIdioma().getString("abogado.error.telefono"));
             txtTelefono.requestFocus();
             return;
         }
 
         if (celular.isBlank()) {
-            mostrarError("El campo del celular no puede estar vacido");
+            mostrarError(FlowController.getIdioma().getString("abogado.error.celular"));
             txtCelular.requestFocus();
             return;
         }
 
         if (direccion.isBlank()) {
-            mostrarError("El campo de la direccion no puede estar vacido");
+            mostrarError(FlowController.getIdioma().getString("abogado.error.direccion"));
             txaDireccion.requestFocus();
             return;
         }
@@ -262,7 +262,7 @@ public class AbogadosController extends Controller implements Initializable {
             Respuesta respuesta = abogadoService.guardarAbogado(abogado);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                mostrarExito("Se guardo correctamente");
+                mostrarExito(FlowController.getIdioma().getString("abogado.exito.guardar"));
                 onActionBtnLimpiarCampos(null);
 
                 cargarTabla();
@@ -286,7 +286,7 @@ public class AbogadosController extends Controller implements Initializable {
             abogadoEditando.setAboBufeteId(1L);
             Respuesta respuesta = abogadoService.guardarAbogado(abogadoEditando);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                mostrarExito("Abogado modificado exitosamente");
+                mostrarExito(FlowController.getIdioma().getString("abogado.exito.modificar"));
                 onActionBtnLimpiarCampos(null);
                 cargarTabla();
             } else {
@@ -338,7 +338,7 @@ public class AbogadosController extends Controller implements Initializable {
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
                 
-                // validacion pinche hermosa
+                // validacion pinche hermosa mostrar al profe
                 if(abogadoEditando != null && abogadoEditando.getAboId().equals(abogado.getAboId())){
                     onActionBtnLimpiarCampos(null);
                 }

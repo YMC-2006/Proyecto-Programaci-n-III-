@@ -20,7 +20,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         
-        ResourceBundle idioma = ResourceBundle.getBundle("cr/ac/una/proyectoprogra/resource/idioma", Locale.of("en"));
+        ResourceBundle idioma = ResourceBundle.getBundle("cr/ac/una/proyectoprogra/resource/idioma", Locale.of("es"));
         FlowController.getInstance().InitializeFlow(stage, idioma);
         FlowController.getInstance().goViewInWindow("InicioSesionVista");
         
