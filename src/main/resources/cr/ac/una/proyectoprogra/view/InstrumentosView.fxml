@@ -3,8 +3,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosController">
+<AnchorPane id="AnchorPane" prefHeight="793.0" prefWidth="1187.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosController">
    <children>
       <Label layoutX="157.0" layoutY="138.0" text="Vista que contendra tooodo lo relacionado con los instrumentos" />
       <Label layoutX="157.0" layoutY="170.0" text="La hace yuli :D" />

@@ -63,9 +63,9 @@ public class PrincipalController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        System.out.println("aaaaa");
         //menu de mantenimientos
-       // mostrarFechaActual();
+        mostrarFechaActual();
        ResourceBundle resB = rb;
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
@@ -93,9 +93,11 @@ public class PrincipalController extends Controller implements Initializable {
         VBox opsInstrumentos = new VBox();
         opsInstrumentos.getStyleClass().add("menuDesplegable");
         opsInstrumentos.getChildren().addAll(
-            crearBotonMenu("Mantenimiento Instrumentos", "InstrumentoMantenimientoView", "instrumentos",  menuInstrumentos),
-            crearBotonMenu("Estados Instrumentos", "InstrumentoMantenimientoEstadoView", "instrumentos",menuInstrumentos),
-            crearBotonMenu("Control Instrumentos", "InstrumentoMantenimientoControlView", "instrumentos",menuInstrumentos)
+            crearBotonMenu("Tipos Instrumentos", "InstrumentoMantenimientoView", "tipos_instrumento",  menuInstrumentos),
+            crearBotonMenu("Estados Instrumentos", "InstrumentoMantenimientoEstadoView", "estados_instrumento",menuInstrumentos),
+            crearBotonMenu("Control Instrumentos", "InstrumentoMantenimientoControlView", "instrumentos",menuInstrumentos),
+            crearBotonMenu("Busqueda Instrumentos", "BusquedaInstrumentoView", "buscar",menuInstrumentos)
+                
         );
 
         menuInstrumentos.getContent().add(opsInstrumentos);
