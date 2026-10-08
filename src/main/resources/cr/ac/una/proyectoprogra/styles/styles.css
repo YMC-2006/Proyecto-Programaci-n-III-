@@ -680,6 +680,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-image: url("../resource/iconos_sicobu/cancelar.png");
 }
 
+.limpiar{
+    -fx-image: url("../resource/iconos_sicobu/limpiar.png");
+}
+
 .titl2{
     -fx-font-size: 17px;
     -fx-font-weight: bold;
@@ -995,10 +999,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: transparent !important;
 }
 
-/********************* 
-      ABOGADOS 
-*************************/
-
+/*********************
+      ABOGADOS
+*********************/
 .tblAbogados {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #E3E8EF;
@@ -1055,84 +1058,181 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-size: 14px;
 }
 
-/*Dentro de la misma vista de abogados la tarjetita de la par que es para registrar el abogado ahi mismo :p*/
-.cardRegistroAbo{
-    -fx-background-color: #DEE4ED;
-    -fx-background-radius: 20;
-    -fx-padding: 24;
-    -fx-effect: dropshadow(gaussian, rgba(20, 34, 51, 0.06), 12, 0, 0, 2);
-}
-
-.lblTitulo{
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-}
-
-.lblCampo{
-    -fx-font-size: 13px;
-    -fx-text-fill: #4A5568;
-}
-
-.txtCampo{
-    -fx-background-color: #CBD3E1, #FAFBFD;
+.comboBox {
+    -fx-background-color: #C9D3E1, #FFFFFF;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 10, 9;
-    -fx-padding: 10 12;
-    -fx-pref-height: 44;
+    -fx-pref-height: 40;
     -fx-font-size: 14px;
-    -fx-text-fill: #1A2233;
-    -fx-prompt-text-fill: #8A94A6;
+}
+.comboBox:focused {
+    -fx-background-color: #2F5689, #FFFFFF;
+}
+.comboBox .arrow-button {
+    -fx-background-color: transparent;
 }
 
-.txtCampo:hover {
-    -fx-background-color: #9FB0C6, #FAFBFD;
-}
-
-.txtCampo:focused {
-    -fx-background-color: #0B6FB0, #FFFFFF;
-    -fx-background-insets: 0, 1.5;
-    -fx-effect: dropshadow(gaussian, rgba(11, 111, 176, 0.25), 6, 0.2, 0, 0);
-}
-
-
-.txtArea{
-    -fx-background-color: #CBD3E1, #FAFBFD;
-    -fx-background-insets: 0,1 ;
+.combo-box-popup .list-view {
+    -fx-background-color: #DDE4EE, #FFFFFF;
+    -fx-background-insets: 0, 1;
     -fx-background-radius: 10, 9;
-    -fx-font-size: 14px;
-    -fx-text-fill: #1A2233;
-    -fx-prompt-text-fill: #8A94A6;
+}
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #EEF2F7;
+}
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #2F5689;
+    -fx-text-fill: #FFFFFF;
 }
 
+/* ------- Modal de registro ----------  */
+.modalRoot {
+    -fx-background-color: #EEF2F7;
+}
+
+/* card para que se vea mas bonito y moderno el effecto dropshadow es el que le da el toque*/
+.cardRegistro {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(30, 35, 48, 0.12), 24, 0, 0, 8);
+}
+
+.lblSubModal {
+    -fx-text-fill: #E3EAF4;
+    -fx-font-family: "Manrope SemiBold";
+    -fx-font-size: 12.5px;
+}
+.lblTituloModal {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Manrope Bold";
+    -fx-font-size: 20px;
+}
+
+.vboxModal {
+    -fx-padding: 22 26 18 26;
+    -fx-spacing: 14;
+}
+.lblCampo {
+    -fx-text-fill: #3A4252;
+    -fx-font-family: "Manrope SemiBold";
+    -fx-font-size: 12.5px;
+}
+
+
+.txtCampo {
+    -fx-background-color: #C9D3E1, #FFFFFF;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10, 9;
+    -fx-padding: 0 12;
+    -fx-pref-height: 40;
+    -fx-font-family: "Manrope";
+    -fx-font-size: 14px;
+    -fx-text-fill: #1E2330;
+    -fx-prompt-text-fill: #9AA6B8;
+}
+.txtCampo:hover {
+    -fx-background-color: #9AA6B8, #FFFFFF;
+}
+.txtCampo:focused {
+    -fx-background-color: #2F5689, #FFFFFF;
+    -fx-background-insets: 0, 1.5;
+    -fx-effect: dropshadow(gaussian, rgba(47, 86, 137, 0.22), 8, 0.2, 0, 0);
+}
+
+
+.txtArea {
+    -fx-background-color: #C9D3E1, #FFFFFF;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10, 9;
+    -fx-font-family: "Manrope";
+    -fx-font-size: 14px;
+    -fx-text-fill: #1E2330;
+    -fx-prompt-text-fill: #9AA6B8;
+}
 .txtArea .content {
     -fx-background-color: transparent;
-    -fx-padding: 6 8;
+    -fx-background-radius: 9;
+    -fx-padding: 8 10;
 }
-
-.txtArea:focused{
-    -fx-background-color: #0B6FB0, #FFFFFF;
+.txtArea .scroll-pane,
+.txtArea .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+.txtArea:hover {
+    -fx-background-color: #9AA6B8, #FFFFFF;
+}
+.txtArea:focused {
+    -fx-background-color: #2F5689, #FFFFFF;
     -fx-background-insets: 0, 1.5;
-    -fx-effect: dropshadow(gaussian, rgba(11, 111, 176, 0.25), 6, 0.2, 0, 0);
+    -fx-effect: dropshadow(gaussian, rgba(47, 86, 137, 0.22), 8, 0.2, 0, 0);
 }
 
-/*Agregar un campo con error donde se ponga el borde rojo si se ingresan mal los datos y desde codigo cambiamos la clase TO-DO DONT FORGETT*/
+/* campo con error agregar/quitar la clase "error" desde código TO-DOOOO
+.txtCampo.error, .txtArea.error {
+    -fx-background-color: #D64535, #FFFFFF;
+}
 
-/*le podria dar un nombre mas especifico cualqueir cosa*/
-.chkCampo{
+/* checkboxes */
+.chkCampo {
+    -fx-font-family: "Manrope SemiBold";
     -fx-font-size: 14px;
-    -fx-text-fill: #1A2233;
+    -fx-text-fill: #1E2330;
+    -fx-cursor: hand;
 }
-
-.chkCampo .box{
-    -fx-background-color: #CBD3E1, #FFFFFF;
-    -fx-background-insets: 0, 1;
-    -fx-background-radius: 5, 4;
-    -fx-padding: 3;
+.chkCampo .box {
+    -fx-background-color: #C9D3E1, #FFFFFF;
+    -fx-background-insets: 0, 1.5;
+    -fx-background-radius: 6, 5;
+    -fx-padding: 4;
 }
-
+.chkCampo:hover .box {
+    -fx-background-color: #9AA6B8, #FFFFFF;
+}
 .chkCampo:selected .box {
-    -fx-background-color: #0B6FB0;
+    -fx-background-color: #2F5689;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6;
 }
 .chkCampo:selected .mark {
     -fx-background-color: #FFFFFF;
+}
+
+.modalFooter {
+    -fx-padding: 16 26;
+}
+
+.btnPrimario {
+    -fx-background-color: #2F5689;
+    -fx-background-radius: 999;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Manrope SemiBold";
+    -fx-font-size: 14px;
+    -fx-padding: 0 22;
+    -fx-pref-height: 42;
+    -fx-cursor: hand;
+}
+.btnPrimario:hover   {
+    -fx-background-color: #1E3A60; 
+}
+.btnPrimario:pressed {
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97; 
+}
+
+.btnSecundario {
+    -fx-background-color: #C9D3E1, #FFFFFF;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 999;
+    -fx-text-fill: #1E2330;
+    -fx-font-family: "Manrope SemiBold";
+    -fx-font-size: 14px;
+    -fx-padding: 0 20;
+    -fx-pref-height: 42;
+    -fx-cursor: hand;
+}
+.btnSecundario:hover   {
+    -fx-background-color: #9AA6B8, #F5F7FA; 
+}
+.btnSecundario:pressed {
+    -fx-scale-x: 0.97; -fx-scale-y: 0.97; 
 }

@@ -3,7 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,19 +13,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="798.0" prefWidth="1387.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="798.0" prefWidth="1387.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+      <VBox prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="34.0" prefWidth="1286.0">
                <children>
-                  <VBox prefHeight="66.0" prefWidth="937.0" styleClass="vboxH">
+                  <VBox prefHeight="66.0" prefWidth="1042.0" styleClass="vboxH">
                      <children>
                         <Label styleClass="titl" text="%abogados.titulo">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin></Label>
-                        <Label prefHeight="20.0" prefWidth="796.0" styleClass="titlCard" text="%abogados.descripcion">
+                        <Label prefHeight="20.0" prefWidth="1033.0" styleClass="titlCard" text="%abogados.descripcion">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin></Label>
@@ -34,18 +34,52 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <HBox prefHeight="66.0" prefWidth="198.0" styleClass="hbox">
+                  <HBox prefHeight="94.0" prefWidth="281.0" styleClass="hbox">
                      <children>
-                        <MFXButton fx:id="btnBuscar" onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="230.0" styleClass="btnW" text="%btn.buscar">
+                        <MFXButton fx:id="btnAgregarAbogado" onAction="#onActionBtnAgregarAbogado" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
                            <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                  <styleClass>
                                     <String fx:value="btnImg" />
-                                    <String fx:value="buscar" />
+                                    <String fx:value="agregar" />
                                  </styleClass>
                               </ImageView>
                            </graphic>
                         </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="192.0" prefWidth="1286.0" styleClass="bhox">
+               <children>
+                  <HBox prefHeight="114.0" prefWidth="360.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="67.0" prefWidth="312.0" styleClass="vboxH">
+                           <children>
+                              <Label text="Nombre o Cédula" />
+                              <TextField prefWidth="242.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="67.0" prefWidth="241.0" styleClass="vboxH">
+                           <children>
+                              <Label text="Correo" />
+                              <TextField prefWidth="242.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="234.0" styleClass="hbox">
+                     <children>
+                        <ComboBox prefWidth="214.0" promptText="Propietario" styleClass="comboBox" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="278.0" styleClass="hbox">
+                     <children>
+                        <ComboBox prefWidth="213.0" promptText="Propietario" styleClass="comboBox" />
                      </children>
                   </HBox>
                </children>
@@ -56,110 +90,16 @@
                      <children>
                         <TableView fx:id="tblAbogados" prefHeight="550.0" prefWidth="876.0" styleClass="tblAbogados">
                           <columns>
-                            <TableColumn fx:id="colNombre" prefWidth="120.8000316619873" text="%abog.nombre" />
-                            <TableColumn fx:id="colCedula" prefWidth="89.59999084472656" text="%abog.cedula" />
-                              <TableColumn fx:id="colTelefono" prefWidth="94.4000244140625" text="%abog.telefono" />
-                              <TableColumn fx:id="colCelular" prefWidth="89.5999755859375" text="%abog.celular" />
-                              <TableColumn fx:id="colCorreo" prefWidth="123.99996948242188" text="%abog.correo" />
-                              <TableColumn fx:id="colDireccion" prefWidth="98.40008544921875" text="%abog.dir" />
-                              <TableColumn fx:id="colPropietario" prefWidth="83.19989013671875" text="%abog.propietario" />
-                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="89.60009765625" text=" " />
+                            <TableColumn fx:id="colNombre" prefWidth="186.40003490447998" text="%abog.nombre" />
+                            <TableColumn fx:id="colCedula" prefWidth="126.39997863769531" text="%abog.cedula" />
+                              <TableColumn fx:id="colTelefono" prefWidth="175.19992065429688" text="%abog.telefono" />
+                              <TableColumn fx:id="colCelular" prefWidth="167.2000732421875" text="%abog.celular" />
+                              <TableColumn fx:id="colCorreo" prefWidth="142.4000244140625" text="%abog.correo" />
+                              <TableColumn fx:id="colDireccion" prefWidth="162.4000244140625" text="%abog.dir" />
+                              <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="131.19989013671875" text="%abog.propietario" />
+                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="144.0000244140624" text=" " />
                           </columns>
                         </TableView>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="590.0" prefWidth="818.0" styleClass="cardRegistroAbo">
-                     <children>
-                        <HBox prefHeight="30.0" prefWidth="386.0">
-                           <children>
-                              <Label styleClass="lblTitulo" text="%abog.datos" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-                           <children>
-                              <VBox prefHeight="82.0" prefWidth="540.0">
-                                 <children>
-                                    <Label styleClass="lblCampo" text="%abog.nombre" />
-                                    <TextField fx:id="txtNombre" prefHeight="30.0" prefWidth="439.0" styleClass="txtCampo" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-                           <children>
-                              <VBox prefHeight="82.0" prefWidth="238.0">
-                                 <children>
-                                    <Label styleClass="lblCampo" text="%abog.cedula" />
-                                    <TextField fx:id="txtCedula" styleClass="txtCampo" />
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="82.0" prefWidth="232.0">
-                                 <children>
-                                    <Label styleClass="lblCampo" text="%abog.correo" />
-                                    <TextField fx:id="txtCorreo" styleClass="txtCampo" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-                           <children>
-                              <VBox prefHeight="82.0" prefWidth="256.0">
-                                 <children>
-                                    <Label styleClass="lblCampo" text="%abog.telefono" />
-                                    <TextField fx:id="txtTelefono" styleClass="txtCampo" />
-                                 </children>
-                              </VBox>
-                              <VBox prefHeight="82.0" prefWidth="243.0">
-                                 <children>
-                                    <Label styleClass="lblCampo" text="%abog.celular" />
-                                    <TextField fx:id="txtCelular" styleClass="txtCampo" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-                           <children>
-                              <VBox prefHeight="82.0" prefWidth="543.0">
-                                 <children>
-                                    <Label styleClass="lblCampo" text="%abog.dir" />
-                                    <TextField fx:id="txaDireccion" prefHeight="84.0" prefWidth="386.0" styleClass="txtArea" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-                           <children>
-                              <CheckBox fx:id="chkPropietario" mnemonicParsing="false" styleClass="chkCampo" text="%abog.propietario" />
-                              <CheckBox fx:id="chkNotario" mnemonicParsing="false" styleClass="chkCampo" text="%abog.notario" />
-                           </children>
-                        </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
-                           <children>
-                              <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" prefHeight="46.0" prefWidth="148.0" styleClass="btnNS" text="%btn.agregar">
-                                 <graphic>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <styleClass>
-                                          <String fx:value="btnImg" />
-                                          <String fx:value="agregar" />
-                                       </styleClass>
-                                    </ImageView>
-                                 </graphic>
-                              </MFXButton>
-                              <MFXButton fx:id="btnLimpiar" onAction="#onActionBtnLimpiarCampos" prefHeight="46.0" prefWidth="148.0" styleClass="btnNS" text="%btn.limpiar">
-                                 <graphic>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <styleClass>
-                                          <String fx:value="btnImg" />
-                                          <String fx:value="agregar" />
-                                       </styleClass>
-                                    </ImageView>
-                                 </graphic>
-                              </MFXButton>
-                           </children>
-                        </HBox>
                      </children>
                   </VBox>
                </children>

@@ -36,8 +36,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -47,10 +49,6 @@ import javafx.scene.layout.VBox;
 // FALTA AÑDAIR LO DE NOTARIO PQ NO ESTOY SEGURA SI SI VA ENTONCES HAY QUE PREGUNTAR AL PROFE
 public class AbogadosController extends Controller implements Initializable {
 
-    @FXML
-    private MFXButton btnBuscar;
-    @FXML
-    private MFXButton btnAgregar;
     @FXML
     private TableView<Abogado> tblAbogados;
     @FXML
@@ -70,30 +68,14 @@ public class AbogadosController extends Controller implements Initializable {
     @FXML
     private TableColumn<Abogado, Abogado> colAcciones;
 
-    @FXML
-    private TextField txtNombre;
-    @FXML
-    private TextField txtCedula;
-    @FXML
-    private TextField txtCorreo;
-    @FXML
-    private TextField txtTelefono;
-    @FXML
-    private TextField txtCelular;
-    @FXML
-    private TextField txaDireccion;
-    @FXML
-    private CheckBox chkPropietario;
-    @FXML
-    private CheckBox chkNotario;
-    @FXML
-    private MFXButton btnLimpiar;
-
     private AbogadoService abogadoService = new AbogadoService();
 
     private ObservableList<Abogado> listaAbogados = FXCollections.observableArrayList();
 
-    private Abogado abogadoEditando;
+    @FXML
+    private MFXButton btnAgregarAbogado;
+    @FXML
+    private AnchorPane root;
 
     /**
      * Initializes the controller class.
@@ -101,15 +83,6 @@ public class AbogadosController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
-        // revisar
-        txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(150));
-        txtCedula.setTextFormatter(Formato.getInstance().cedulaFormat(30));
-        txtCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
-        txtTelefono.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
-        txtCelular.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
-        txaDireccion.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
-
         colAcciones.setCellFactory(col -> new TableCell<Abogado, Abogado>() {
 
             private final Button btnEditar = new Button();
@@ -145,7 +118,7 @@ public class AbogadosController extends Controller implements Initializable {
 
                 btnEditar.setOnAction(e -> {
                     Abogado abogado = getItem();
-                    cargarAbogado(abogado); // cargamos los datos para editarlo en el form
+                    modificarAbogado(abogado);
                 });
             }
 
@@ -181,7 +154,7 @@ public class AbogadosController extends Controller implements Initializable {
         this.tblAbogados.setPlaceholder(new Label("No hay abogados registrados por el momento"));
 
         tblAbogados.setItems(listaAbogados);
-
+        cargarTabla();
     }
 
     private void cargarTabla() {
@@ -202,116 +175,20 @@ public class AbogadosController extends Controller implements Initializable {
     }
 
     @FXML
-    private void onActionBtnBuscar(ActionEvent event) {
-        FlowController.getInstance().goViewInWindow("BusquedaAbogadoView");
+    private void onActionBtnAgregarAbogado(ActionEvent event) {
+        FlowController.getInstance().goViewInWindowModal("RegistrarAbogadoView", stage, false);
+        cargarTabla();
     }
 
-    @FXML
-    private void onActionBtnAgregar(ActionEvent event) {
+    private void modificarAbogado(Abogado abogado) {
+        FlowController.getInstance().goViewInWindow("RegistrarAbogadoView");
+        RegistrarAbogadoController controlador = (RegistrarAbogadoController) FlowController.getInstance().getController("RegistrarAbogadoView");
+        controlador.cargarAbogado(abogado);
+        Stage stage = (Stage) controlador.getRoot().getScene().getWindow();
 
-        String nombre = txtNombre.getText();
-        String cedula = txtCedula.getText();
-        String correo = txtCorreo.getText();
-        String telefono = txtTelefono.getText();
-        String celular = txtCelular.getText();
-        String direccion = txaDireccion.getText();
-        boolean propietario = chkPropietario.isSelected();
-
-        if (nombre.isBlank()) {
-            mostrarError(FlowController.getIdioma().getString("abogado.error.nombre"));
-            txtNombre.requestFocus();
-            return;
-        }
-
-        if (cedula.isBlank()) {
-            mostrarError(FlowController.getIdioma().getString("abogado.error.cedula"));
-            txtCedula.requestFocus();
-            return;
-        }
-
-        if (correo.isBlank()) {
-            mostrarError(FlowController.getIdioma().getString("abogado.error.correo"));
-            txtCorreo.requestFocus();
-            return;
-        }
-
-        if (telefono.isBlank()) {
-            mostrarError(FlowController.getIdioma().getString("abogado.error.telefono"));
-            txtTelefono.requestFocus();
-            return;
-        }
-
-        if (celular.isBlank()) {
-            mostrarError(FlowController.getIdioma().getString("abogado.error.celular"));
-            txtCelular.requestFocus();
-            return;
-        }
-
-        if (direccion.isBlank()) {
-            mostrarError(FlowController.getIdioma().getString("abogado.error.direccion"));
-            txaDireccion.requestFocus();
-            return;
-        }
-
-        // estoy creando
-        if (abogadoEditando == null) {
-
-            // mando notario false por el momento falta preguntarle al profe
-            Abogado abogado = new Abogado(nombre, cedula, telefono, celular, correo, direccion, propietario, chkNotario.isSelected());
-            abogado.setAboBufeteId(1L);
-            Respuesta respuesta = abogadoService.guardarAbogado(abogado);
-
-            if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                mostrarExito(FlowController.getIdioma().getString("abogado.exito.guardar"));
-                onActionBtnLimpiarCampos(null);
-
-                cargarTabla();
-
-            } else {
-                mostrarError(respuesta.getMensaje());
-            }
-
-        } else { // estoy editando
-            
-            
-            
-            abogadoEditando.setAboNombre(nombre);
-            abogadoEditando.setAboCedula(cedula);
-            abogadoEditando.setAboCorreo(correo);
-            abogadoEditando.setAboTelefono(telefono);
-            abogadoEditando.setAboCelular(celular);
-            abogadoEditando.setAboDireccion(direccion);
-            abogadoEditando.setAboNotario(chkNotario.isSelected());
-            abogadoEditando.setAboPropietario(chkPropietario.isSelected());
-            abogadoEditando.setAboBufeteId(1L);
-            Respuesta respuesta = abogadoService.guardarAbogado(abogadoEditando);
-            if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                mostrarExito(FlowController.getIdioma().getString("abogado.exito.modificar"));
-                onActionBtnLimpiarCampos(null);
-                cargarTabla();
-            } else {
-                mostrarError(respuesta.getMensaje());
-            }
-
-        }
-
-    }
-    
-
-    // se puede mejorar preguntar al profe
-    private void cargarAbogado(Abogado abogado) {
-        abogadoEditando = abogado;
-
-        txtNombre.setText(abogado.getAboNombre());
-        txtCedula.setText(abogado.getAboCedula());
-        txtCorreo.setText(abogado.getAboCorreo());
-        txtTelefono.setText(abogado.getAboTelefono());
-        txtCelular.setText(abogado.getAboCelular());
-        txaDireccion.setText(abogado.getAboDireccion());
-        chkNotario.setSelected(abogado.getAboNotario());
-        chkPropietario.setSelected(abogado.getAboPropietario());
-
-        this.btnAgregar.setText("Editar");
+        stage.setOnHiding(e -> {
+            this.tblAbogados.refresh();
+        });
     }
 
     private void eliminarAbogado(Abogado abogado) {
@@ -319,7 +196,7 @@ public class AbogadosController extends Controller implements Initializable {
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmación");
         alerta.setHeaderText(null);
-        alerta.setContentText("\n Desea eliminar a " + abogado.getAboNombre()+ " permanentemente?");
+        alerta.setContentText("\n Desea eliminar a " + abogado.getAboNombre() + " permanentemente?");
 
         ButtonType btnEliminar = new ButtonType("Eliminar", ButtonBar.ButtonData.OK_DONE);
         ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -337,36 +214,14 @@ public class AbogadosController extends Controller implements Initializable {
             Respuesta respuesta = abogadoService.eliminarAbogado(abogado.getAboId());
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                
-                // validacion pinche hermosa mostrar al profe
-                if(abogadoEditando != null && abogadoEditando.getAboId().equals(abogado.getAboId())){
-                    onActionBtnLimpiarCampos(null);
-                }
+
                 mostrarExito("Se elimino correctamente el abogado");
                 cargarTabla();
             } else {
-              mostrarError(respuesta.getMensaje());
+                mostrarError(respuesta.getMensaje());
             }
         }
 
-    }
-
-    @FXML
-    private void onActionBtnLimpiarCampos(ActionEvent event) {
-        txtNombre.clear();
-        txtCedula.clear();
-        txtCorreo.clear();
-        txtTelefono.clear();
-        txtCelular.clear();
-        txaDireccion.clear();
-        if (chkNotario.isSelected()) {
-            chkNotario.setSelected(false);
-        }
-        if (chkPropietario.isSelected()) {
-            chkPropietario.setSelected(false);
-        }
-        abogadoEditando = null;
-        this.btnAgregar.setText("Guardar");
     }
 
     private void mostrarError(String mensaje) {
@@ -379,5 +234,9 @@ public class AbogadosController extends Controller implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
+    }
+
+    public AnchorPane getRoot(){
+        return root;
     }
 }
