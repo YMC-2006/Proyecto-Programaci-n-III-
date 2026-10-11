@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="530.0" prefWidth="590.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarEstadoInstrumentoController">
+    <children>
+        <VBox prefHeight="618.0" prefWidth="560.0" styleClass="cardRegistro" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+            <children>
+
+                <StackPane alignment="CENTER_LEFT" prefHeight="100.0">
+                    <children>
+                        <ImageView fitHeight="100.0" fitWidth="566.0" preserveRatio="false">
+                            <image>
+                                <Image url="@../resource/fondo_modal.png" />
+                            </image>
+                        </ImageView>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="522.0" spacing="14.0">
+                            <padding>
+                                <Insets left="26.0" />
+                            </padding>
+                            <children>
+                                <StackPane styleClass="avatarModal">
+                                    <children>
+                                        <ImageView fitHeight="63.0" fitWidth="62.0" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../resource/iconos_sicobu/estados_instrumento_hover.png" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </StackPane>
+                                <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                    <children>
+                                        <Label styleClass="lblSubModal" text="%ein.modal.subtitulo" />
+                                        <Label fx:id="lblTituloModal" styleClass="lblTituloModal" text="%ein.modal.titulo" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </StackPane>
+
+                <VBox prefHeight="556.0" prefWidth="566.0" spacing="14.0" styleClass="vboxModal" VBox.vgrow="ALWAYS">
+                    <children>
+
+                        <VBox prefHeight="591.0" prefWidth="514.0" spacing="6.0">
+                            <children>
+                                <Label styleClass="lblCampo" text="%ein.descripcion" />
+                                <TextField fx:id="txtDescripcion" prefHeight="27.0" prefWidth="263.0" styleClass="txtCampo" />
+                            </children>
+                        </VBox>
+
+                        <VBox prefHeight="58.0" prefWidth="514.0" spacing="14.0">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" prefHeight="0.0" prefWidth="514.0" spacing="12.0" styleClass="hbox">
+                                    <children>
+                                        <CheckBox fx:id="chkActivo" mnemonicParsing="false" styleClass="chkCampo" />
+                                        <VBox prefHeight="41.0" prefWidth="396.0" spacing="4.0">
+                                            <children>
+                                                <Label styleClass="lblCampo" text="%ein.activo" />
+                                                <Label text="%ein.activo.desc" wrapText="true" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <HBox alignment="CENTER_LEFT" prefHeight="121.0" prefWidth="514.0" spacing="12.0" styleClass="hbox">
+                                    <children>
+                                        <CheckBox fx:id="chkNotifica" mnemonicParsing="false" styleClass="chkCampo" />
+                                        <VBox prefHeight="41.0" prefWidth="391.0" spacing="4.0">
+                                            <children>
+                                                <Label styleClass="lblCampo" text="%ein.notifica" />
+                                                <Label text="%ein.notifica.desc" wrapText="true" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="hbox">
+                                    <children>
+                                        <CheckBox fx:id="chkEstadoFinal" mnemonicParsing="false" styleClass="chkCampo" />
+                                        <VBox prefHeight="41.0" prefWidth="394.0" spacing="4.0">
+                                            <children>
+                                                <Label styleClass="lblCampo" text="%ein.estado" />
+                                                <Label text="%ein.estado.desc" wrapText="true" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                    </children>
+                </VBox>
+
+                <HBox alignment="CENTER_RIGHT" prefHeight="298.0" prefWidth="566.0" spacing="10.0" styleClass="modalFooter">
+                    <children>
+                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onActionBtnCancelar" styleClass="btnSecundario" text="%btn.cancelar">
+                            <graphic>
+                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <styleClass>
+                                        <String fx:value="btnImg" />
+                                        <String fx:value="cancelar" />
+                                    </styleClass>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#onActionBtnAgregar" styleClass="btnPrimario" text="%btn.agregar">
+                            <graphic>
+                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <styleClass>
+                                        <String fx:value="btnImg" />
+                                        <String fx:value="agregar" />
+                                    </styleClass>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

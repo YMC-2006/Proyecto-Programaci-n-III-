@@ -102,11 +102,25 @@
                         </VBox>
                      </children>
                   </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+                     <children>
+                        <MFXButton fx:id="btnAgregarAbogado1" onAction="#onActionBtnAgregarAbogado" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
+                           <graphic>
+                              <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="agregar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
             <HBox prefHeight="650.0" prefWidth="950.0" styleClass="hbox">
                <children>
-                  <VBox prefHeight="623.0" prefWidth="1245.0" styleClass="cardRegistroAbo">
+                  <VBox prefHeight="622.0" prefWidth="1266.0" styleClass="cardRegistroAbo">
                      <children>
                         <TableView fx:id="tblAbogados" prefHeight="550.0" prefWidth="876.0" styleClass="tblAbogados">
                           <columns>

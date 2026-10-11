@@ -13,7 +13,7 @@ import javafx.fxml.Initializable;
  *
  * @author vjjcu
  */
-public class BusquedaInstrumentoController extends Controller implements Initializable {
+public class InstrumentosBusquedaController extends Controller implements Initializable {
 
     /**
      * Initializes the controller class.

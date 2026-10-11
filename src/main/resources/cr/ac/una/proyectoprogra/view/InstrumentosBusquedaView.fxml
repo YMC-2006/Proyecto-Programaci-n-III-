@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="962.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.BusquedaInstrumentoController">
+<AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="962.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosBusquedaController">
    <children>
       <Label layoutX="453.0" layoutY="41.0" text="Busqueda de Instrumentos" />
    </children>

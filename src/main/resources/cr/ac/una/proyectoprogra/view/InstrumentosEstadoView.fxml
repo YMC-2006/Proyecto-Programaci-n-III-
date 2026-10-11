@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="854.0" prefWidth="1161.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosEstadoController">
+    <children>
+        <VBox prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+            <children>
+                <HBox prefHeight="34.0" prefWidth="1286.0">
+                    <children>
+                        <VBox prefHeight="66.0" prefWidth="799.0" styleClass="vboxH">
+                            <children>
+                                <Label styleClass="titl" text="%ein.modal.titulo">
+                                    <VBox.margin>
+                                        <Insets left="20.0" />
+                                    </VBox.margin>
+                                </Label>
+                            </children>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </VBox>
+                        <HBox prefHeight="94.0" prefWidth="281.0" styleClass="hbox">
+                            <children>
+                                <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
+                                    <graphic>
+                                        <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                            <styleClass>
+                                                <String fx:value="btnImg" />
+                                                <String fx:value="agregar" />
+                                            </styleClass>
+                                        </ImageView>
+                                    </graphic>
+                                </MFXButton>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="192.0" prefWidth="1286.0" styleClass="bhox">
+                    <children>
+                        <HBox prefHeight="142.0" prefWidth="391.0" styleClass="hbox">
+                            <children>
+                                <VBox prefHeight="121.0" prefWidth="347.0" styleClass="vboxH">
+                                    <children>
+                                        <Label text="%ein.descripcion" />
+                                        <TextField fx:id="txtBuscarDescripcion" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="192.0" styleClass="txtCampo" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="142.0" prefWidth="305.0" styleClass="hbox">
+                            <children>
+                                <VBox prefHeight="121.0" prefWidth="218.0" styleClass="vboxH">
+                                    <children>
+                                        <Label text="%ein.activo" />
+                                        <ComboBox fx:id="cmbFiltroEstado" onAction="#onActionFiltrar" prefWidth="246.0" promptText="Estado" styleClass="comboBox" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="142.0" prefWidth="341.0" styleClass="hbox">
+                            <children>
+                                <VBox prefHeight="121.0" prefWidth="229.0" styleClass="vboxH">
+                                    <children>
+                                        <Label text="%ein.notifica" />
+                                        <ComboBox fx:id="cmbFiltroNotifica" onAction="#onActionFiltrar" prefWidth="213.0" promptText="Notifica" styleClass="comboBox" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <HBox prefHeight="650.0" prefWidth="950.0" styleClass="hbox">
+                    <children>
+                        <VBox prefHeight="622.0" prefWidth="1266.0" styleClass="cardRegistro">
+                            <children>
+                                <TableView fx:id="tblEstadosInstrumento" prefHeight="550.0" prefWidth="876.0" styleClass="tblEstadosInstrumento">
+                                    <columns>
+                                        <TableColumn fx:id="colDescripcion" prefWidth="195.2000049352646" text="%ein.col.descripcion" />
+                                        <TableColumn fx:id="colEstado" prefWidth="228.79998779296875" text="%ein.col.estado" />
+                                        <TableColumn fx:id="colNotifica" prefWidth="199.9998779296875" text="%ein.col.notifica" />
+                                        <TableColumn fx:id="colFinal" minWidth="0.0" prefWidth="149.60003662109375" text="%ein.col.estadoFinal" />
+                                        <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="264.7999267578125" text=" " />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-//necesite el Request del prof carranza y sea agregaron dependencias que hay q preguntar -> json y jakarta
 public class AbogadoService {
 
     public Respuesta getAbogado(Long id) {

@@ -93,10 +93,10 @@ public class PrincipalController extends Controller implements Initializable {
         VBox opsInstrumentos = new VBox();
         opsInstrumentos.getStyleClass().add("menuDesplegable");
         opsInstrumentos.getChildren().addAll(
-            crearBotonMenu("Tipos Instrumentos", "InstrumentoMantenimientoView", "tipos_instrumento",  menuInstrumentos),
-            crearBotonMenu("Estados Instrumentos", "InstrumentoMantenimientoEstadoView", "estados_instrumento",menuInstrumentos),
-            crearBotonMenu("Control Instrumentos", "InstrumentoMantenimientoControlView", "instrumentos",menuInstrumentos),
-            crearBotonMenu("Busqueda Instrumentos", "BusquedaInstrumentoView", "buscar",menuInstrumentos)
+            crearBotonMenu("Tipos Instrumentos", "InstrumentosTipoView", "tipos_instrumento",  menuInstrumentos),
+            crearBotonMenu("Estados Instrumentos", "InstrumentosEstadoView", "estados_instrumento",menuInstrumentos),
+            crearBotonMenu("Control Instrumentos", "InstrumentosView", "instrumentos",menuInstrumentos),
+            crearBotonMenu("Busqueda Instrumentos", "InstrumentosBusquedaView", "buscar",menuInstrumentos)
                 
         );
 
