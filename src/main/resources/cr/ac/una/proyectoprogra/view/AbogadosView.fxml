@@ -82,14 +82,24 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="114.0" prefWidth="159.0" styleClass="hbox">
+                  <HBox prefHeight="114.0" prefWidth="190.0" styleClass="hbox">
                      <children>
-                        <ComboBox prefWidth="214.0" promptText="Propietario" styleClass="comboBox" />
+                        <VBox prefHeight="93.0" prefWidth="166.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.propietario" />
+                              <ComboBox fx:id="cmbFiltroPropietario" onAction="#onActionFiltrar" prefWidth="132.0" promptText="Propietario" styleClass="comboBox" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="114.0" prefWidth="154.0" styleClass="hbox">
+                  <HBox prefHeight="114.0" prefWidth="196.0" styleClass="hbox">
                      <children>
-                        <ComboBox prefWidth="213.0" promptText="Notario" styleClass="comboBox" />
+                        <VBox prefHeight="93.0" prefWidth="162.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.notario" />
+                              <ComboBox fx:id="cmbFiltroNotario" onAction="#onActionFiltrar" prefWidth="213.0" promptText="Notario" styleClass="comboBox" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>

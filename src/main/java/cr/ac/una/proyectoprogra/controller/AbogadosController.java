@@ -32,6 +32,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
@@ -86,13 +87,28 @@ public class AbogadosController extends Controller implements Initializable {
     private TextField txtBuscarCedula;
     @FXML
     private TextField txtBuscarCorreo;
-
+    @FXML
+    private ComboBox<String> cmbFiltroPropietario;
+    @FXML
+    private ComboBox<String> cmbFiltroNotario;
+    
+    private final String[] filtroPropietario = {"Todos", "Sí", "No"};
+    private final String[] filtroNotario = {"Todos", "Sí", "No"};
+    
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        cmbFiltroPropietario.getItems().setAll(filtroPropietario);
+        cmbFiltroPropietario.getSelectionModel().selectFirst();
+        
+        cmbFiltroNotario.getItems().setAll(filtroNotario);
+        cmbFiltroNotario.getSelectionModel().selectFirst();
+        
         colAcciones.setCellFactory(col -> new TableCell<Abogado, Abogado>() {
 
             private final Button btnEditar = new Button();
@@ -240,10 +256,14 @@ public class AbogadosController extends Controller implements Initializable {
          String cedula = texto(txtBuscarCedula);
          String correo = texto(txtBuscarCorreo);
          
+         // falta evaluar los cmb les puse texto pero las propiedades son bool
+
          List<Abogado> filtrados = todosLosAbogados.stream()
                  .filter(a -> contiene(a.getAboNombre(), nombre))
                  .filter(a -> contiene(a.getAboCedula(), cedula))
                  .filter(a -> contiene(a.getAboCorreo(), correo))
+                 .filter(a -> coincide(a.getAboPropietario(), cmbFiltroPropietario))
+                 .filter(a -> coincide(a.getAboNotario(), cmbFiltroNotario))
                  .collect(Collectors.toList());
          
         listaAbogados.setAll(filtrados);
@@ -261,6 +281,19 @@ public class AbogadosController extends Controller implements Initializable {
         
         return dato != null && dato.toLowerCase().contains(buscado); // devuelve true entonces lo contiene
     }
+    
+    private boolean coincide(Boolean valor, ComboBox cm){
+        // num del 0 a 2
+        int num = cm.getSelectionModel().getSelectedIndex();
+        if(num <= 0){
+            return true;
+        }
+        
+        boolean esSi = Boolean.TRUE.equals(valor); // si el abogado del filtro es propietario o notario si es
+        // y si si es entonces hacemos que pase el filtro
+        return num == 1 ? esSi : !esSi;
+    }
+    
     
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
@@ -280,6 +313,11 @@ public class AbogadosController extends Controller implements Initializable {
 
     @FXML
     private void onKeyReleasedFiltrar(KeyEvent event) {
+        filtrar();
+    }
+
+    @FXML
+    private void onActionFiltrar(ActionEvent event) {
         filtrar();
     }
 }
