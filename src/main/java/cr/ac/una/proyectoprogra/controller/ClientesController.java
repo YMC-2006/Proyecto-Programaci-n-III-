@@ -200,6 +200,7 @@ public class ClientesController extends Controller implements Initializable {
         listaClientes.setAll(filtrados);
     }
  
+    // para obtener el texto en minuscula a la hora de hacer los filtros
     private String texto(TextField txt) {
         return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
     }

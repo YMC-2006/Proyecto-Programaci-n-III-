@@ -22,6 +22,7 @@ import cr.ac.una.proyectoprogra.util.Respuesta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -72,11 +74,18 @@ public class AbogadosController extends Controller implements Initializable {
     private AbogadoService abogadoService = new AbogadoService();
 
     private ObservableList<Abogado> listaAbogados = FXCollections.observableArrayList();
-
+    private List<Abogado> todosLosAbogados = new ArrayList<>();
+    
     @FXML
     private MFXButton btnAgregarAbogado;
     @FXML
     private AnchorPane root;
+    @FXML
+    private TextField txtBuscarNombre;
+    @FXML
+    private TextField txtBuscarCedula;
+    @FXML
+    private TextField txtBuscarCorreo;
 
     /**
      * Initializes the controller class.
@@ -163,7 +172,10 @@ public class AbogadosController extends Controller implements Initializable {
         Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
-            listaAbogados.setAll(abogadosService);
+            todosLosAbogados = abogadosService; 
+            filtrar();
+            
+            
         } else {
             new Mensaje().show(Alert.AlertType.ERROR, "Abogados", "Error cargando los abogados desde el service " + respuesta.getMensaje());
         }
@@ -220,7 +232,36 @@ public class AbogadosController extends Controller implements Initializable {
         }
 
     }
+    
+    // TODO DONT FORGET AGREGAR UN BOTONCITO PARA LIMPIAR TANTO EN CLIENTE COMO EN ABOGADO
+    
+    private void filtrar(){
+         String nombre = texto(txtBuscarNombre);
+         String cedula = texto(txtBuscarCedula);
+         String correo = texto(txtBuscarCorreo);
+         
+         List<Abogado> filtrados = todosLosAbogados.stream()
+                 .filter(a -> contiene(a.getAboNombre(), nombre))
+                 .filter(a -> contiene(a.getAboCedula(), cedula))
+                 .filter(a -> contiene(a.getAboCorreo(), correo))
+                 .collect(Collectors.toList());
+         
+        listaAbogados.setAll(filtrados);
+    }
+    
+    // para obtener el texto del filtro en minuscula
+    private String texto(TextField txt){
+       return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
+    }
 
+    private boolean contiene(String dato, String buscado){
+        if(buscado.isEmpty()){
+            return true;
+        }
+        
+        return dato != null && dato.toLowerCase().contains(buscado); // devuelve true entonces lo contiene
+    }
+    
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
@@ -235,5 +276,10 @@ public class AbogadosController extends Controller implements Initializable {
 
     public AnchorPane getRoot(){
         return root;
+    }
+
+    @FXML
+    private void onKeyReleasedFiltrar(KeyEvent event) {
+        filtrar();
     }
 }

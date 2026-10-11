@@ -52,12 +52,22 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="192.0" prefWidth="1286.0" styleClass="bhox">
                <children>
-                  <HBox prefHeight="114.0" prefWidth="360.0" styleClass="hbox">
+                  <HBox prefHeight="114.0" prefWidth="322.0" styleClass="hbox">
                      <children>
-                        <VBox prefHeight="67.0" prefWidth="312.0" styleClass="vboxH">
+                        <VBox prefHeight="93.0" prefWidth="257.0" styleClass="vboxH">
                            <children>
-                              <Label text="Nombre o Cédula" />
-                              <TextField prefWidth="242.0" styleClass="txtCampo" />
+                              <Label text="%abog.nombre" />
+                              <TextField fx:id="txtBuscarNombre" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="192.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="322.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="93.0" prefWidth="257.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.cedula" />
+                              <TextField fx:id="txtBuscarCedula" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="192.0" styleClass="txtCampo" />
                            </children>
                         </VBox>
                      </children>
@@ -66,20 +76,20 @@
                      <children>
                         <VBox prefHeight="67.0" prefWidth="241.0" styleClass="vboxH">
                            <children>
-                              <Label text="Correo" />
-                              <TextField prefWidth="242.0" styleClass="txtCampo" />
+                              <Label text="%abog.correo" />
+                              <TextField fx:id="txtBuscarCorreo" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="114.0" prefWidth="234.0" styleClass="hbox">
+                  <HBox prefHeight="114.0" prefWidth="159.0" styleClass="hbox">
                      <children>
                         <ComboBox prefWidth="214.0" promptText="Propietario" styleClass="comboBox" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="114.0" prefWidth="278.0" styleClass="hbox">
+                  <HBox prefHeight="114.0" prefWidth="154.0" styleClass="hbox">
                      <children>
-                        <ComboBox prefWidth="213.0" promptText="Propietario" styleClass="comboBox" />
+                        <ComboBox prefWidth="213.0" promptText="Notario" styleClass="comboBox" />
                      </children>
                   </HBox>
                </children>
