@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import cr.ac.una.proyectoprogra.model.Cliente;
 import cr.ac.una.proyectoprogra.service.ClienteService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
 import cr.ac.una.proyectoprogra.util.Respuesta;
@@ -217,6 +218,7 @@ public class ClientesController extends Controller implements Initializable {
  
     @FXML
     private void onActionBtnAgregarCliente(ActionEvent event) {
+        AppContext.getInstance().delete("clienteEditar");
         FlowController.getInstance().goViewInWindowModal("RegistrarClienteView", stage, false);
         cargarTabla();
     }
@@ -227,14 +229,9 @@ public class ClientesController extends Controller implements Initializable {
     }
  
     private void modificarCliente(Cliente cliente) {
-        FlowController.getInstance().goViewInWindow("RegistrarClienteView");
-        RegistrarClienteController controlador = (RegistrarClienteController) FlowController.getInstance().getController("RegistrarClienteView");
-        controlador.cargarCliente(cliente);
-        Stage stage = (Stage) controlador.getRoot().getScene().getWindow();
- 
-        stage.setOnHiding(e -> {
-            this.tblClientes.refresh();
-        });
+        AppContext.getInstance().set("clienteEditar", cliente);
+        FlowController.getInstance().goViewInWindowModal("RegistrarClienteView", stage, false);
+        cargarTabla();
     }
  
     private void eliminarCliente(Cliente cliente) {

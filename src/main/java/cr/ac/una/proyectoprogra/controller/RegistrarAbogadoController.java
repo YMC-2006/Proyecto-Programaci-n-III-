@@ -6,6 +6,7 @@ package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.service.AbogadoService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
 import cr.ac.una.proyectoprogra.util.Respuesta;
@@ -89,7 +90,12 @@ public class RegistrarAbogadoController extends Controller implements Initializa
 
     @Override
     public void initialize() {
-
+        limpiarCampos();
+        Abogado abogado = (Abogado) AppContext.getInstance().get("abogadoEditar");
+        if(abogado != null){
+            cargarAbogado(abogado);
+            AppContext.getInstance().delete("abogadoEditar");
+        }
     }
 
     @FXML

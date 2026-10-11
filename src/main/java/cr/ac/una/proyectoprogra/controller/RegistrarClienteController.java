@@ -23,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import cr.ac.una.proyectoprogra.model.Cliente;
 import cr.ac.una.proyectoprogra.service.ClienteService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 
 /**
  * FXML Controller class
@@ -30,7 +31,7 @@ import cr.ac.una.proyectoprogra.service.ClienteService;
  * @author alond
  */
 public class RegistrarClienteController extends Controller implements Initializable {
- 
+
     @FXML
     private Label lblTituloModal;
     @FXML
@@ -61,23 +62,22 @@ public class RegistrarClienteController extends Controller implements Initializa
     private Button btnAgregar;
     @FXML
     private AnchorPane root;
- 
+
     private Cliente clienteEditando;
     private ClienteService clienteService = new ClienteService();
- 
+
     private final String[] siglasTipoId = {"FIS", "JUR", "DIM", "PAS", "NIT"};
     private final String[] nombresTipoId = {"Física nacional", "Jurídica", "DIMEX", "Pasaporte", "NITE"};
- 
+
     /**
      * Initializes the controller class.
      */
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         cbxTipoId.getItems().setAll(nombresTipoId);
         cbxTipoId.getSelectionModel().selectFirst();
- 
+
         txtCedula.setTextFormatter(Formato.getInstance().cedulaFormat(30));
         txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(60));
         txtApellido1.setTextFormatter(Formato.getInstance().letrasFormat(60));
@@ -89,29 +89,35 @@ public class RegistrarClienteController extends Controller implements Initializa
         txtDireccion.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
         txtObservaciones.setTextFormatter(Formato.getInstance().maxLengthFormat(1000));
     }
- 
+
     @Override
     public void initialize() {
- 
+        limpiarCampos();
+        Cliente cliente = (Cliente) AppContext.getInstance().get("clienteEditar");
+        if (cliente != null) {
+            cargarCliente(cliente);
+            AppContext.getInstance().delete("clienteEditar");
+        }
+
     }
- 
+
     private void mostrarError(String mensaje) {
-        
+
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
- 
+
     private void mostrarExito(String mensaje) {
-        
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
- 
+
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
- 
+
         int indiceTipo = cbxTipoId.getSelectionModel().getSelectedIndex();
         String cedula = txtCedula.getText();
         String nombre = txtNombre.getText();
@@ -123,33 +129,33 @@ public class RegistrarClienteController extends Controller implements Initializa
         String correo = txtCorreo.getText();
         String direccion = txtDireccion.getText();
         String observaciones = txtObservaciones.getText();
- 
+
         if (indiceTipo < 0) {
             mostrarError(FlowController.getIdioma().getString("cliente.error.tipoId"));
             cbxTipoId.requestFocus();
             return;
         }
- 
+
         if (cedula.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("cliente.error.cedula"));
             txtCedula.requestFocus();
             return;
         }
- 
+
         if (nombre.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("cliente.error.nombre"));
             txtNombre.requestFocus();
             return;
         }
- 
+
         if (apellido1.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("cliente.error.apellido1"));
             txtApellido1.requestFocus();
             return;
         }
- 
+
         if (clienteEditando == null) {
- 
+
             Cliente cliente = new Cliente();
             cliente.setCliTipoIdentificacion(siglasTipoId[indiceTipo]);
             cliente.setCliIdentificacion(cedula);
@@ -164,18 +170,17 @@ public class RegistrarClienteController extends Controller implements Initializa
             cliente.setCliObservaciones(observaciones);
             cliente.setCliBufeteId(1L); // Por el momento va a ser el bufete 1 porque no he hcho lo del login
             Respuesta respuesta = clienteService.guardarCliente(cliente);
- 
+
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                
                 mostrarExito(FlowController.getIdioma().getString("cliente.exito.guardar"));
                 limpiarCampos();
                 ((Stage) btnAgregar.getScene().getWindow()).close();
             } else {
                 mostrarError(respuesta.getMensaje());
             }
- 
+
         } else {
- 
+
             clienteEditando.setCliTipoIdentificacion(siglasTipoId[indiceTipo]);
             clienteEditando.setCliIdentificacion(cedula);
             clienteEditando.setCliNombre(nombre);
@@ -189,7 +194,7 @@ public class RegistrarClienteController extends Controller implements Initializa
             clienteEditando.setCliObservaciones(observaciones);
             clienteEditando.setCliBufeteId(1L);
             Respuesta respuesta = clienteService.guardarCliente(clienteEditando);
-            
+
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
                 mostrarExito(FlowController.getIdioma().getString("cliente.exito.modificar"));
                 limpiarCampos();
@@ -197,11 +202,11 @@ public class RegistrarClienteController extends Controller implements Initializa
             } else {
                 mostrarError(respuesta.getMensaje());
             }
- 
+
         }
- 
+
     }
- 
+
     private void limpiarCampos() {
         cbxTipoId.getSelectionModel().selectFirst();
         txtCedula.clear();
@@ -217,10 +222,10 @@ public class RegistrarClienteController extends Controller implements Initializa
         clienteEditando = null;
         this.btnAgregar.setText("Guardar");
     }
- 
+
     public void cargarCliente(Cliente cliente) {
         this.clienteEditando = cliente;
- 
+
         int indiceTipo = Arrays.asList(siglasTipoId).indexOf(cliente.getCliTipoIdentificacion());
         if (indiceTipo >= 0) {
             cbxTipoId.getSelectionModel().select(indiceTipo);
@@ -235,19 +240,18 @@ public class RegistrarClienteController extends Controller implements Initializa
         txtCorreo.setText(cliente.getCliCorreo());
         txtDireccion.setText(cliente.getCliDireccion());
         txtObservaciones.setText(cliente.getCliObservaciones());
- 
+
         this.btnAgregar.setText("Editar");
     }
- 
+
     public AnchorPane getRoot() {
         return root;
     }
- 
+
     @FXML
     private void onActionBtnCancelar(ActionEvent event) {
         limpiarCampos();
         ((Stage) btnCancelar.getScene().getWindow()).close();
     }
- 
+
 }
- 

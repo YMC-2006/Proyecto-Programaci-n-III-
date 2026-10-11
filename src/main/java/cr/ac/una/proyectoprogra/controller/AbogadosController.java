@@ -14,6 +14,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.service.AbogadoService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
 import cr.ac.una.proyectoprogra.util.Mensaje;
@@ -176,19 +177,15 @@ public class AbogadosController extends Controller implements Initializable {
 
     @FXML
     private void onActionBtnAgregarAbogado(ActionEvent event) {
+        AppContext.getInstance().delete("abogadoEditar"); // cuando vamos a crear queremos que la ventana se abra vacida
         FlowController.getInstance().goViewInWindowModal("RegistrarAbogadoView", stage, false);
         cargarTabla();
     }
 
     private void modificarAbogado(Abogado abogado) {
-        FlowController.getInstance().goViewInWindow("RegistrarAbogadoView");
-        RegistrarAbogadoController controlador = (RegistrarAbogadoController) FlowController.getInstance().getController("RegistrarAbogadoView");
-        controlador.cargarAbogado(abogado);
-        Stage stage = (Stage) controlador.getRoot().getScene().getWindow();
-
-        stage.setOnHiding(e -> {
-            this.tblAbogados.refresh();
-        });
+        AppContext.getInstance().set("abogadoEditar", abogado);
+        FlowController.getInstance().goViewInWindowModal("RegistrarAbogadoView", stage, false);
+        cargarTabla();
     }
 
     private void eliminarAbogado(Abogado abogado) {
