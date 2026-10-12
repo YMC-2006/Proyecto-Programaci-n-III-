@@ -6,6 +6,7 @@ package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
 import cr.ac.una.proyectoprogra.util.Respuesta;
@@ -56,7 +57,12 @@ public class RegistrarEstadoInstrumentoController extends Controller implements 
 
     @Override
     public void initialize() {
-
+        limpiarCampos();
+        EstadoInstrumento estadoInstrumento = (EstadoInstrumento) AppContext.getInstance().get("estadoInstrumentoEditar");
+        if (estadoInstrumento != null) {
+            cargarEstadoInstrumento(estadoInstrumento);
+            AppContext.getInstance().delete("estadoInstrumentoEditar");
+        }
     }
 
     @FXML
@@ -126,6 +132,7 @@ public class RegistrarEstadoInstrumentoController extends Controller implements 
     }
 
     private void cargarEstadoInstrumento(EstadoInstrumento estadoInstrumento) {
+        estadoInstrumentoEditando = estadoInstrumento;
         this.txtDescripcion.setText(estadoInstrumento.getEinDescripcion());
         this.chkActivo.setSelected(estadoInstrumento.getEinActivo());
         this.chkNotifica.setSelected(estadoInstrumento.getEinNotifica());

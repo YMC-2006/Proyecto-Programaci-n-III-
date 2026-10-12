@@ -81,7 +81,7 @@
                         </HBox>
                         <HBox prefHeight="118.0" prefWidth="362.0" styleClass="hbox">
                             <children>
-                                <MFXButton fx:id="btnLimpiar" minHeight="35.0" onAction="#onActionBtnLimpiarFiltros" prefHeight="35.0" prefWidth="230.0" styleClass="btnWS" text="%btn.limpiar">
+                                <MFXButton fx:id="btnLimpiar" minHeight="35.0" onAction="#onActionBtnLimpiarFiltros" prefHeight="35.0" prefWidth="230.0" styleClass="btnW" text="%btn.limpiar">
                                     <graphic>
                                         <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                             <styleClass>
@@ -97,7 +97,7 @@
                 </HBox>
                 <HBox prefHeight="650.0" prefWidth="950.0" styleClass="hbox">
                     <children>
-                        <VBox prefHeight="622.0" prefWidth="1266.0" styleClass="cardRegistro">
+                        <VBox prefHeight="622.0" prefWidth="1266.0">
                             <children>
                                 <TableView fx:id="tblEstadosInstrumento" prefHeight="550.0" prefWidth="876.0" styleClass="tblEstadosInstrumento">
                                     <columns>

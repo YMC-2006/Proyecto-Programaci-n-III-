@@ -69,7 +69,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
     // TRADUCIR LATER ON 
     private final String[] filtroEstado = {"Todos", "Activo", "Inactivo"};
     private final String[] filtroNotifica = {"Todos", "Notifica", "No notifica"};
-   // private final String[] filtroEstadoFinal = {"Todos", "Estado Final", ""};
+    // private final String[] filtroEstadoFinal = {"Todos", "Estado Final", ""};
 
     private ObservableList<EstadoInstrumento> listaEstadosIntrumento = FXCollections.observableArrayList();
     private List<EstadoInstrumento> todosLosEstados = new ArrayList<>();
@@ -81,16 +81,12 @@ public class InstrumentosEstadoController extends Controller implements Initiali
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
-
-    @Override
-    public void initialize() {
         cmbFiltroEstado.getItems().setAll(filtroEstado);
         cmbFiltroEstado.getSelectionModel().selectFirst();
 
         cmbFiltroNotifica.getItems().setAll(filtroNotifica);
         cmbFiltroNotifica.getSelectionModel().selectFirst();
-        
+
         colAcciones.setCellFactory(col -> new TableCell<EstadoInstrumento, EstadoInstrumento>() {
 
             private final Button btnEditar = new Button();
@@ -106,7 +102,6 @@ public class InstrumentosEstadoController extends Controller implements Initiali
                 btnEditar.setStyle("-fx-background-color: transparent;");
                 contenedor.setStyle("-fx-alignment: CENTER;");
                 contenedor.setSpacing(5);
-
 
                 btnEditar.setOnAction(e -> {
                     EstadoInstrumento estadoInstrumento = getItem();
@@ -129,7 +124,6 @@ public class InstrumentosEstadoController extends Controller implements Initiali
             }
 
         });
-        
 
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("einDescripcion"));
         colEstado.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinActivo()) ? "Sí" : "No"));
@@ -139,7 +133,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
 
         this.tblEstadosInstrumento.setPlaceholder(new Label("No hay estados registrados por el momento"));
         this.tblEstadosInstrumento.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
-        
+
         this.tblEstadosInstrumento.setItems(listaEstadosIntrumento);
     }
 
@@ -157,6 +151,11 @@ public class InstrumentosEstadoController extends Controller implements Initiali
 
     }
 
+    @Override
+    public void initialize() {
+        cargarTabla();
+    }
+
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
         AppContext.getInstance().delete("estadoInstrumentoEditar");
@@ -164,22 +163,21 @@ public class InstrumentosEstadoController extends Controller implements Initiali
         cargarTabla();
     }
 
-    
-        private void modificarEstadoInstrumento(EstadoInstrumento estadoInstrumento) {
+    private void modificarEstadoInstrumento(EstadoInstrumento estadoInstrumento) {
         AppContext.getInstance().set("estadoInstrumentoEditar", estadoInstrumento);
-        FlowController.getInstance().goViewInWindowModal("RegistrarAbogadoView", stage, false);
+        FlowController.getInstance().goViewInWindowModal("RegistrarEstadoInstrumentoView", stage, false);
         cargarTabla();
     }
 
     private void filtrar() {
         String descripcion = txtBuscarDescripcion.getText().trim().toLowerCase();
-        
+
         List<EstadoInstrumento> filtro = todosLosEstados.stream()
                 .filter(e -> contiene(e.getEinDescripcion(), descripcion))
                 .filter(e -> coincide(e.getEinActivo(), cmbFiltroEstado))
                 .filter(e -> coincide(e.getEinNotifica(), cmbFiltroNotifica))
                 .collect(Collectors.toList());
-                
+
         listaEstadosIntrumento.setAll(filtro);
     }
 
@@ -197,7 +195,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
             return true;
         }
 
-        boolean esSi = Boolean.TRUE.equals(valor); 
+        boolean esSi = Boolean.TRUE.equals(valor);
         return num == 1 ? esSi : !esSi;
     }
 
@@ -216,7 +214,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
         this.txtBuscarDescripcion.clear();
         this.cmbFiltroEstado.getSelectionModel().selectFirst();
         this.cmbFiltroNotifica.getSelectionModel().selectFirst();
-        
+
     }
 
 }
