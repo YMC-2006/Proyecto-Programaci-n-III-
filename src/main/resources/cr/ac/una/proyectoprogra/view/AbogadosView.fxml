@@ -13,13 +13,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="798.0" prefWidth="1387.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="812.0" prefWidth="1712.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AbogadosController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+      <VBox layoutY="31.2" prefHeight="200.0" prefWidth="1529.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="31.0">
          <children>
             <HBox prefHeight="34.0" prefWidth="1286.0">
                <children>
-                  <VBox prefHeight="66.0" prefWidth="1042.0" styleClass="vboxH">
+                  <VBox prefHeight="66.0" prefWidth="1482.0" styleClass="vboxH">
                      <children>
                         <Label styleClass="titl" text="%abogados.titulo">
                            <VBox.margin>
@@ -31,7 +31,7 @@
                            </VBox.margin></Label>
                      </children>
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="50.0" />
                      </HBox.margin>
                   </VBox>
                   <HBox prefHeight="94.0" prefWidth="281.0" styleClass="hbox">
@@ -50,7 +50,7 @@
                   </HBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="192.0" prefWidth="1286.0" styleClass="bhox">
+            <HBox alignment="CENTER" prefHeight="192.0" prefWidth="1528.0" styleClass="bhox">
                <children>
                   <HBox prefHeight="114.0" prefWidth="322.0" styleClass="hbox">
                      <children>
@@ -61,6 +61,9 @@
                            </children>
                         </VBox>
                      </children>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
                   </HBox>
                   <HBox prefHeight="114.0" prefWidth="322.0" styleClass="hbox">
                      <children>
@@ -74,7 +77,7 @@
                   </HBox>
                   <HBox prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
                      <children>
-                        <VBox prefHeight="67.0" prefWidth="241.0" styleClass="vboxH">
+                        <VBox prefHeight="112.0" prefWidth="270.0" styleClass="vboxH">
                            <children>
                               <Label text="%abog.correo" />
                               <TextField fx:id="txtBuscarCorreo" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" />
@@ -82,17 +85,17 @@
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="114.0" prefWidth="190.0" styleClass="hbox">
+                  <HBox prefHeight="133.0" prefWidth="222.0" styleClass="hbox">
                      <children>
-                        <VBox prefHeight="93.0" prefWidth="166.0" styleClass="vboxH">
+                        <VBox prefHeight="112.0" prefWidth="196.0" styleClass="vboxH">
                            <children>
                               <Label text="%abog.propietario" />
-                              <ComboBox fx:id="cmbFiltroPropietario" onAction="#onActionFiltrar" prefWidth="132.0" promptText="Propietario" styleClass="comboBox" />
+                              <ComboBox fx:id="cmbFiltroPropietario" onAction="#onActionFiltrar" prefWidth="159.0" promptText="Propietario" styleClass="comboBox" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <HBox prefHeight="114.0" prefWidth="196.0" styleClass="hbox">
+                  <HBox prefHeight="133.0" prefWidth="254.0" styleClass="hbox">
                      <children>
                         <VBox prefHeight="93.0" prefWidth="162.0" styleClass="vboxH">
                            <children>
@@ -104,12 +107,12 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
                      <children>
-                        <MFXButton fx:id="btnAgregarAbogado1" onAction="#onActionBtnAgregarAbogado" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
+                        <MFXButton fx:id="btnLimpiar" minHeight="21.0" onAction="#onActionBtnLimpiarFiltro" prefHeight="50.0" prefWidth="162.0" styleClass="btnW" text="%btn.limpiar">
                            <graphic>
                               <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                  <styleClass>
                                     <String fx:value="btnImg" />
-                                    <String fx:value="agregar" />
+                                    <String fx:value="limpiar" />
                                  </styleClass>
                               </ImageView>
                            </graphic>
@@ -120,18 +123,19 @@
             </HBox>
             <HBox prefHeight="650.0" prefWidth="950.0" styleClass="hbox">
                <children>
-                  <VBox prefHeight="622.0" prefWidth="1266.0" styleClass="cardRegistroAbo">
+                  <VBox prefHeight="558.0" prefWidth="1470.0" styleClass="cardRegistroAbo">
                      <children>
                         <TableView fx:id="tblAbogados" prefHeight="550.0" prefWidth="876.0" styleClass="tblAbogados">
                           <columns>
-                            <TableColumn fx:id="colNombre" prefWidth="186.40003490447998" text="%abog.nombre" />
-                            <TableColumn fx:id="colCedula" prefWidth="126.39997863769531" text="%abog.cedula" />
-                              <TableColumn fx:id="colTelefono" prefWidth="175.19992065429688" text="%abog.telefono" />
-                              <TableColumn fx:id="colCelular" prefWidth="167.2000732421875" text="%abog.celular" />
-                              <TableColumn fx:id="colCorreo" prefWidth="142.4000244140625" text="%abog.correo" />
-                              <TableColumn fx:id="colDireccion" prefWidth="162.4000244140625" text="%abog.dir" />
-                              <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="131.19989013671875" text="%abog.propietario" />
-                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="144.0000244140624" text=" " />
+                            <TableColumn fx:id="colNombre" prefWidth="171.1999832391739" text="%abog.nombre" />
+                            <TableColumn fx:id="colCedula" prefWidth="152.80001831054688" text="%abog.cedula" />
+                              <TableColumn fx:id="colTelefono" prefWidth="167.199951171875" text="%abog.telefono" />
+                              <TableColumn fx:id="colCelular" prefWidth="175.99993896484375" text="%abog.celular" />
+                              <TableColumn fx:id="colCorreo" prefWidth="160.0" text="%abog.correo" />
+                              <TableColumn fx:id="colDireccion" prefWidth="164.0" text="%abog.dir" />
+                              <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="144.0" text="%abog.propietario" />
+                              <TableColumn fx:id="colNotario" minWidth="0.0" prefWidth="155.199951171875" text="%abog.notario" />
+                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="86.39990234375" text=" " />
                           </columns>
                         </TableView>
                      </children>

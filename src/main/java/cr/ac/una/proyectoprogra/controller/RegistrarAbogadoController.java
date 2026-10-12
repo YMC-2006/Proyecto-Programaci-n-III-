@@ -77,22 +77,11 @@ public class RegistrarAbogadoController extends Controller implements Initializa
         txaDireccion.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
     }
 
-//    
-    private void limpiarFormulario() {
-
-    }
-
-    private void mostrarError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
     @Override
     public void initialize() {
         limpiarCampos();
         Abogado abogado = (Abogado) AppContext.getInstance().get("abogadoEditar");
-        if(abogado != null){
+        if (abogado != null) {
             cargarAbogado(abogado);
             AppContext.getInstance().delete("abogadoEditar");
         }
@@ -185,12 +174,6 @@ public class RegistrarAbogadoController extends Controller implements Initializa
 
     }
 
-    private void mostrarExito(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
     private void limpiarCampos() {
         txtNombre.clear();
         txtCedula.clear();
@@ -233,6 +216,18 @@ public class RegistrarAbogadoController extends Controller implements Initializa
         limpiarCampos();
         ((Stage) btnCancelar.getScene().getWindow()).close();
 
+    }
+
+    private void mostrarExito(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
     }
 
 }

@@ -41,8 +41,8 @@
                                 </StackPane>
                                 <VBox alignment="CENTER_LEFT" spacing="2.0">
                                     <children>
-                                        <Label styleClass="lblSubModal" text="%ein.modal.subtitulo" />
-                                        <Label fx:id="lblTituloModal" styleClass="lblTituloModal" text="%ein.modal.titulo" />
+                                        <Label styleClass="lblSubModal" text="%ein.modal.titulo" />
+                                        <Label styleClass="lblTituloModal" text="%ein.registrar" />
                                     </children>
                                 </VBox>
                             </children>

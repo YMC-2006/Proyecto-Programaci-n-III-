@@ -11,7 +11,7 @@ package cr.ac.una.proyectoprogra.model;
 public class EstadoInstrumento {
     
     private Long einId;
-    private Long aboBufeteId;
+    private Long einBufeteId;
     private String einDescripcion;
     private Boolean einActivo;
     private Boolean einNotifica;
@@ -32,12 +32,12 @@ public class EstadoInstrumento {
         this.einId = einId;
     }
 
-    public Long getAboBufeteId() {
-        return aboBufeteId;
+    public Long getEinBufeteId() {
+        return einBufeteId;
     }
 
-    public void setAboBufeteId(Long aboBufeteId) {
-        this.aboBufeteId = aboBufeteId;
+    public void setEinBufeteId(Long einBufeteId) {
+        this.einBufeteId = einBufeteId;
     }
     
     

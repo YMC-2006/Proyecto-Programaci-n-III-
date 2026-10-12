@@ -70,13 +70,15 @@ public class AbogadosController extends Controller implements Initializable {
     @FXML
     private TableColumn<Abogado, String> colPropietario;
     @FXML
+    private TableColumn<Abogado, String> colNotario;
+    @FXML
     private TableColumn<Abogado, Abogado> colAcciones;
 
     private AbogadoService abogadoService = new AbogadoService();
 
     private ObservableList<Abogado> listaAbogados = FXCollections.observableArrayList();
     private List<Abogado> todosLosAbogados = new ArrayList<>();
-    
+
     @FXML
     private MFXButton btnAgregarAbogado;
     @FXML
@@ -91,24 +93,25 @@ public class AbogadosController extends Controller implements Initializable {
     private ComboBox<String> cmbFiltroPropietario;
     @FXML
     private ComboBox<String> cmbFiltroNotario;
-    
+
     private final String[] filtroPropietario = {"Todos", "Sí", "No"};
     private final String[] filtroNotario = {"Todos", "Sí", "No"};
-    
-    
+    @FXML
+    private MFXButton btnLimpiar;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
+
         cmbFiltroPropietario.getItems().setAll(filtroPropietario);
         cmbFiltroPropietario.getSelectionModel().selectFirst();
-        
+
         cmbFiltroNotario.getItems().setAll(filtroNotario);
         cmbFiltroNotario.getSelectionModel().selectFirst();
-        
+
         colAcciones.setCellFactory(col -> new TableCell<Abogado, Abogado>() {
 
             private final Button btnEditar = new Button();
@@ -174,7 +177,7 @@ public class AbogadosController extends Controller implements Initializable {
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("aboCorreo"));
         colDireccion.setCellValueFactory(new PropertyValueFactory<>("aboDireccion"));
         colPropietario.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getAboPropietario()) ? "Sí" : "No"));
-
+        colNotario.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getAboNotario()) ? "Sí" : "No"));
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
 
         this.tblAbogados.setPlaceholder(new Label("No hay abogados registrados por el momento"));
@@ -188,10 +191,9 @@ public class AbogadosController extends Controller implements Initializable {
         Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
-            todosLosAbogados = abogadosService; 
+            todosLosAbogados = abogadosService;
             filtrar();
-            
-            
+
         } else {
             new Mensaje().show(Alert.AlertType.ERROR, "Abogados", "Error cargando los abogados desde el service " + respuesta.getMensaje());
         }
@@ -248,53 +250,50 @@ public class AbogadosController extends Controller implements Initializable {
         }
 
     }
-    
-    // TODO DONT FORGET AGREGAR UN BOTONCITO PARA LIMPIAR TANTO EN CLIENTE COMO EN ABOGADO
-    
-    private void filtrar(){
-         String nombre = texto(txtBuscarNombre);
-         String cedula = texto(txtBuscarCedula);
-         String correo = texto(txtBuscarCorreo);
-         
-         // falta evaluar los cmb les puse texto pero las propiedades son bool
 
-         List<Abogado> filtrados = todosLosAbogados.stream()
-                 .filter(a -> contiene(a.getAboNombre(), nombre))
-                 .filter(a -> contiene(a.getAboCedula(), cedula))
-                 .filter(a -> contiene(a.getAboCorreo(), correo))
-                 .filter(a -> coincide(a.getAboPropietario(), cmbFiltroPropietario))
-                 .filter(a -> coincide(a.getAboNotario(), cmbFiltroNotario))
-                 .collect(Collectors.toList());
-         
+    // TODO DONT FORGET AGREGAR UN BOTONCITO PARA LIMPIAR TANTO EN CLIENTE COMO EN ABOGADO
+    private void filtrar() {
+        String nombre = texto(txtBuscarNombre);
+        String cedula = texto(txtBuscarCedula);
+        String correo = texto(txtBuscarCorreo);
+
+        // falta evaluar los cmb les puse texto pero las propiedades son bool
+        List<Abogado> filtrados = todosLosAbogados.stream()
+                .filter(a -> contiene(a.getAboNombre(), nombre))
+                .filter(a -> contiene(a.getAboCedula(), cedula))
+                .filter(a -> contiene(a.getAboCorreo(), correo))
+                .filter(a -> coincide(a.getAboPropietario(), cmbFiltroPropietario))
+                .filter(a -> coincide(a.getAboNotario(), cmbFiltroNotario))
+                .collect(Collectors.toList());
+
         listaAbogados.setAll(filtrados);
     }
-    
+
     // para obtener el texto del filtro en minuscula
-    private String texto(TextField txt){
-       return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
+    private String texto(TextField txt) {
+        return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
     }
 
-    private boolean contiene(String dato, String buscado){
-        if(buscado.isEmpty()){
+    private boolean contiene(String dato, String buscado) {
+        if (buscado.isEmpty()) {
             return true;
         }
-        
+
         return dato != null && dato.toLowerCase().contains(buscado); // devuelve true entonces lo contiene
     }
-    
-    private boolean coincide(Boolean valor, ComboBox cm){
+
+    private boolean coincide(Boolean valor, ComboBox cm) {
         // num del 0 a 2
         int num = cm.getSelectionModel().getSelectedIndex();
-        if(num <= 0){
+        if (num <= 0) {
             return true;
         }
-        
+
         boolean esSi = Boolean.TRUE.equals(valor); // si el abogado del filtro es propietario o notario si es
         // y si si es entonces hacemos que pase el filtro
         return num == 1 ? esSi : !esSi;
     }
-    
-    
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
@@ -307,7 +306,7 @@ public class AbogadosController extends Controller implements Initializable {
         alert.showAndWait();
     }
 
-    public AnchorPane getRoot(){
+    public AnchorPane getRoot() {
         return root;
     }
 
@@ -318,6 +317,16 @@ public class AbogadosController extends Controller implements Initializable {
 
     @FXML
     private void onActionFiltrar(ActionEvent event) {
+        filtrar();
+    }
+
+    @FXML
+    private void onActionBtnLimpiarFiltro(ActionEvent event) {
+        this.txtBuscarNombre.clear();
+        this.txtBuscarCorreo.clear();
+        this.txtBuscarCedula.clear();
+        this.cmbFiltroNotario.getSelectionModel().selectFirst();
+        this.cmbFiltroPropietario.getSelectionModel().selectFirst();
         filtrar();
     }
 }

@@ -26,7 +26,7 @@ public class EstadoInstrumentoService {
 
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("id", id);
-            Request request = new Request("EstadoInstrumento", "/{id}", parametros);
+            Request request = new Request("EstadosInstrumentos", "/{id}", parametros);
             request.get();
 
             if (request.isError()) {
@@ -82,10 +82,10 @@ public class EstadoInstrumentoService {
 
             EstadoInstrumento estadoInstrumentoGuardado = (EstadoInstrumento) request.readEntity(EstadoInstrumento.class);
 
-            return new Respuesta(true,"","","Abogado",estadoInstrumentoGuardado);
+            return new Respuesta(true,"","","EstadosInstrumentos",estadoInstrumentoGuardado);
         } catch (Exception ex) {
             Logger.getLogger(AbogadoService.class.getName()).log(Level.SEVERE,"Ocurrió un error al guardar el estadoInstrumento.",ex);
-            return new Respuesta(false,"Ocurrió un error al guardar el estadoInstrumento.","guardarestadoInstrumento " + ex.getMessage());
+            return new Respuesta(false,"Ocurrió un error al guardar el estadoInstrumento.","guardarEstadoInstrumento " + ex.getMessage());
         }
     }
 
@@ -94,8 +94,8 @@ public class EstadoInstrumentoService {
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("id", id);
 
-            // aqui hacemos una peticion al endpoint /EstadoInstrumento
-            Request request = new Request("EstadoInstrumento", "/{id}", parametros);
+            // aqui hacemos una peticion al endpoint /EstadosInstrumentos
+            Request request = new Request("EstadosInstrumentos", "/{id}", parametros);
             request.delete();
 
             if (request.isError()) {
