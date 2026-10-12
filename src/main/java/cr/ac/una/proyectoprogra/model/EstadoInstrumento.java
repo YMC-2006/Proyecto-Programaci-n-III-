@@ -16,6 +16,10 @@ public class EstadoInstrumento {
     private Boolean einActivo;
     private Boolean einNotifica;
     private Boolean einFinal;
+    
+    public EstadoInstrumento(){
+        
+    }
 
     public EstadoInstrumento(String einDescripcion, Boolean einActivo, Boolean einNotifica, Boolean einFinal) {
         this.einDescripcion = einDescripcion;
