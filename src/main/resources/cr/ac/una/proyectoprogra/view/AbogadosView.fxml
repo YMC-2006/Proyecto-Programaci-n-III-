@@ -130,12 +130,12 @@
                             <TableColumn fx:id="colNombre" prefWidth="171.1999832391739" text="%abog.nombre" />
                             <TableColumn fx:id="colCedula" prefWidth="152.80001831054688" text="%abog.cedula" />
                               <TableColumn fx:id="colTelefono" prefWidth="167.199951171875" text="%abog.telefono" />
-                              <TableColumn fx:id="colCelular" prefWidth="175.99993896484375" text="%abog.celular" />
-                              <TableColumn fx:id="colCorreo" prefWidth="160.0" text="%abog.correo" />
-                              <TableColumn fx:id="colDireccion" prefWidth="164.0" text="%abog.dir" />
-                              <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="144.0" text="%abog.propietario" />
-                              <TableColumn fx:id="colNotario" minWidth="0.0" prefWidth="155.199951171875" text="%abog.notario" />
-                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="86.39990234375" text=" " />
+                              <TableColumn fx:id="colCelular" prefWidth="150.39996337890625" text="%abog.celular" />
+                              <TableColumn fx:id="colCorreo" prefWidth="159.20001220703125" text="%abog.correo" />
+                              <TableColumn fx:id="colDireccion" prefWidth="168.79998779296875" text="%abog.dir" />
+                              <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="192.00018310546875" text="%abog.propietario" />
+                              <TableColumn fx:id="colNotario" minWidth="0.0" prefWidth="164.7999267578125" text="%abog.notario" />
+                              <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="147.2000732421875" text=" " />
                           </columns>
                         </TableView>
                      </children>

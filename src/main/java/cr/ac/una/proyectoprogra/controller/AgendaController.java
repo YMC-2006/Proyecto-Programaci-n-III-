@@ -7,6 +7,7 @@ package cr.ac.una.proyectoprogra.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -25,6 +26,12 @@ public class AgendaController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+
+    }
+    
+    
+    
+    private void generarCalendario(){
 
     }
     

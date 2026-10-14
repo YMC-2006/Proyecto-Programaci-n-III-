@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="410.0" prefWidth="588.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarTipoInstrumentoController">
+   <children>
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="389.0" prefWidth="566.0" styleClass="cardRegistro">
+         <children>
+            <StackPane alignment="CENTER_LEFT" prefHeight="100.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="566.0" preserveRatio="false">
+                     <image>
+                        <Image url="@../resource/fondo_modal.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="522.0" spacing="14.0">
+                     <padding>
+                        <Insets left="26.0" />
+                     </padding>
+                     <children>
+                        <StackPane styleClass="avatarModal">
+                           <children>
+                              <ImageView fitHeight="63.0" fitWidth="62.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/tipos_instrumento_hover.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0">
+                           <children>
+                              <Label styleClass="lblSubModal" text="Ingrese datos requeridos" />
+                              <Label styleClass="lblTituloModal" text="Registrar Tipo Instrumento" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+            <VBox prefHeight="449.0" prefWidth="566.0" spacing="14.0" styleClass="vboxModal" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefHeight="529.0" prefWidth="514.0" spacing="6.0">
+                     <children>
+                        <Label styleClass="lblCampo" text="Nombre" />
+                        <TextField fx:id="txtNombre" prefHeight="27.0" prefWidth="263.0" styleClass="txtCampo" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="550.0" prefWidth="514.0" spacing="14.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="hbox">
+                           <children>
+                              <CheckBox fx:id="chkEstado" mnemonicParsing="false" styleClass="chkCampo" />
+                              <VBox prefHeight="41.0" prefWidth="394.0" spacing="4.0">
+                                 <children>
+                                    <Label styleClass="lblCampo" text="Estado" />
+                                    <Label text="Estado del tipo de instrumento" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="298.0" prefWidth="566.0" spacing="10.0" styleClass="modalFooter">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onActionBtnCancelar" styleClass="btnSecundario" text="%btn.cancelar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="cancelar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#onActionBtnAgregar" styleClass="btnPrimario" text="%btn.agregar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="agregar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
