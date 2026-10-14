@@ -18,19 +18,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="662.0" prefWidth="1063.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
+<AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="1314.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
    <children>
       <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
                <children>
-                  <VBox prefHeight="79.0" prefWidth="636.0">
+                  <VBox prefHeight="79.0" prefWidth="1029.0">
                      <children>
                         <Label styleClass="titl" text="Modulo Contable" />
                         <Label styleClass="titlCard" text="Ingresos, Gastos y Tributación" />
                      </children>
                   </VBox>
-                  <HBox prefHeight="79.0" prefWidth="408.0" styleClass="hboxI">
+                  <HBox prefHeight="79.0" prefWidth="700.0" styleClass="hboxI">
                      <children>
                         <MFXDatePicker prefWidth="241.0" promptText="Inicio" styleClass="loginTextField" />
                         <MFXDatePicker prefWidth="241.0" promptText="Fin" styleClass="loginTextField" />

@@ -126,7 +126,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
         });
 
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("einDescripcion"));
-        colEstado.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinActivo()) ? "Sí" : "No"));
+        colEstado.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinActivo()) ? "Activo" : "Inactivo"));
         colNotifica.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinNotifica()) ? "Sí" : "No"));
         colEstadoFinal.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinNotifica()) ? "Sí" : "No"));
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
@@ -214,7 +214,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
         this.txtBuscarDescripcion.clear();
         this.cmbFiltroEstado.getSelectionModel().selectFirst();
         this.cmbFiltroNotifica.getSelectionModel().selectFirst();
-
+        filtrar();
     }
 
 }
