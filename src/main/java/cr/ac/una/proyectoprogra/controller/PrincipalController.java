@@ -28,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -49,9 +50,9 @@ public class PrincipalController extends Controller implements Initializable {
     // Temporizadores para cerrar cada menú con un pequeño retraso
     private PauseTransition esperaMantenimientos = new PauseTransition(Duration.millis(100));
     private PauseTransition esperaInstrumentos = new PauseTransition(Duration.millis(100));
-    
-    
-    @FXML private Label fechaActualLabel;
+
+    @FXML
+    private Label fechaActualLabel;
     @FXML
     private VBox mainDisplay;
     @FXML
@@ -60,19 +61,21 @@ public class PrincipalController extends Controller implements Initializable {
     private Button btnEspanol;
     @FXML
     private Button btnIngles;
+    @FXML
+    private Button btnCerrar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("aaaaa");
         //menu de mantenimientos
         mostrarFechaActual();
-       ResourceBundle resB = rb;
+        ResourceBundle resB = rb;
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
         opsMantenimiento.getChildren().addAll(
-                crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView","abogados", menuMantenimientos),
+                crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView", "abogados", menuMantenimientos),
                 crearBotonMenu(FlowController.getIdioma().getString("menu.clientes"), "ClientesView", "clientes", menuMantenimientos),
-                crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"),"SociedadesView", "sociedades", menuMantenimientos)
+                crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"), "SociedadesView", "sociedades", menuMantenimientos)
         );
 
         menuMantenimientos.getContent().add(opsMantenimiento);
@@ -93,11 +96,10 @@ public class PrincipalController extends Controller implements Initializable {
         VBox opsInstrumentos = new VBox();
         opsInstrumentos.getStyleClass().add("menuDesplegable");
         opsInstrumentos.getChildren().addAll(
-            crearBotonMenu("Tipos Instrumentos", "InstrumentosTipoView", "tipos_instrumento",  menuInstrumentos),
-            crearBotonMenu("Estados Instrumentos", "InstrumentosEstadoView", "estados_instrumento",menuInstrumentos),
-            crearBotonMenu("Control Instrumentos", "InstrumentosView", "instrumentos",menuInstrumentos),
-            crearBotonMenu("Busqueda Instrumentos", "InstrumentosBusquedaView", "buscar",menuInstrumentos)
-                
+                crearBotonMenu("Tipos Instrumentos", "InstrumentosTipoView", "tipos_instrumento", menuInstrumentos),
+                crearBotonMenu("Estados Instrumentos", "InstrumentosEstadoView", "estados_instrumento", menuInstrumentos),
+                crearBotonMenu("Control Instrumentos", "InstrumentosView", "instrumentos", menuInstrumentos),
+                crearBotonMenu("Busqueda Instrumentos", "InstrumentosBusquedaView", "buscar", menuInstrumentos)
         );
 
         menuInstrumentos.getContent().add(opsInstrumentos);
@@ -113,14 +115,13 @@ public class PrincipalController extends Controller implements Initializable {
         btnInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
         opsInstrumentos.setOnMouseEntered(e -> esperaInstrumentos.stop());
         opsInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
-        
-        
+
         Platform.runLater(() -> {
-            
+
             String vistaActual = FlowController.getVistaActual();
-            if(vistaActual == null){
+            if (vistaActual == null) {
                 FlowController.getInstance().goView("IndicadoresView");
-            }else{
+            } else {
                 FlowController.getInstance().goView(vistaActual);
             }
         });
@@ -131,15 +132,15 @@ public class PrincipalController extends Controller implements Initializable {
         boton.getStyleClass().add("opcionMenu");
         boton.setMaxWidth(Double.MAX_VALUE);
         System.out.println("Cree boton " + nombre);
-        
-        Image img = new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/"+icono+".png"));
+
+        Image img = new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/" + icono + ".png"));
         ImageView imagen = new ImageView(img);
         imagen.setFitHeight(18);
         imagen.setFitWidth(18);
-        
+
         boton.setGraphicTextGap(10);
         boton.setGraphic(imagen);
-        
+
         boton.setOnAction(e -> {
             menu.hide();
             FlowController.getInstance().goView(vista);
@@ -156,8 +157,7 @@ public class PrincipalController extends Controller implements Initializable {
         Bounds pos = boton.localToScreen(boton.getBoundsInLocal());
         menu.show(boton, pos.getMinX(), pos.getMaxY());
     }
-    
-    
+
     // dura 1s en arrancar, to-do creo que con platform run later se puede arreglar
     private void mostrarFechaActual() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
@@ -205,15 +205,21 @@ public class PrincipalController extends Controller implements Initializable {
 
     @FXML
     private void btnOnActionEspanol(ActionEvent event) {
-       
+
         FlowController.getInstance().cambiarIdioma("es");
     }
 
     @FXML
     private void btnOnActionIngles(ActionEvent event) {
-        
+
         FlowController.getInstance().cambiarIdioma("en");
     }
-    
+
+    @FXML
+    private void btnOnActionCerrarSesion(ActionEvent event) {
+
+        FlowController.getInstance().goViewInWindow("InicioSesionVista");
+        ((Stage) btnCerrar.getScene().getWindow()).close();
+    }
 
 }

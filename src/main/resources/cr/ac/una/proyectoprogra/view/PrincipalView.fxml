@@ -26,7 +26,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="btnEspanol" mnemonicParsing="false" onAction="#btnOnActionEspanol" prefHeight="27.0" prefWidth="110.0" styleClass="btnIdioma" text="%menu.espanol">
+                  <Button fx:id="btnEspanol" mnemonicParsing="false" onAction="#btnOnActionEspanol" prefHeight="27.0" prefWidth="141.0" styleClass="btnIdioma" text="%menu.espanol">
                      <graphic>
                         <ImageView fitHeight="19.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -38,11 +38,20 @@
                         <Insets left="900.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btnIngles" mnemonicParsing="false" onAction="#btnOnActionIngles" prefHeight="27.0" prefWidth="92.0" styleClass="btnIdioma" text="%menu.ingles">
+                  <Button fx:id="btnIngles" mnemonicParsing="false" onAction="#btnOnActionIngles" prefHeight="27.0" prefWidth="143.0" styleClass="btnIdioma" text="%menu.ingles">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resource/ing.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnCerrar" mnemonicParsing="false" onAction="#btnOnActionCerrarSesion" prefHeight="30.0" prefWidth="170.0" styleClass="btnIdioma" text="Cerrar sesion">
+                     <graphic>
+                        <ImageView fitHeight="78.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="btnImg">
+                           <image>
+                              <Image url="@../resource/iconos_sicobu/iniciar_sesion.png" />
                            </image>
                         </ImageView>
                      </graphic>

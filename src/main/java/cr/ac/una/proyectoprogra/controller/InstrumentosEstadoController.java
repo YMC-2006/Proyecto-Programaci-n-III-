@@ -57,7 +57,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
     @FXML
     private TableColumn<EstadoInstrumento, String> colDescripcion;
     @FXML
-    private TableColumn<EstadoInstrumento, String> colEstado;
+    private TableColumn<EstadoInstrumento, Boolean> colEstado;
     @FXML
     private TableColumn<EstadoInstrumento, String> colNotifica;
     @FXML
@@ -110,10 +110,10 @@ public class InstrumentosEstadoController extends Controller implements Initiali
             }
 
             @Override
-            protected void updateItem(EstadoInstrumento estadoInstrumento, boolean empty) {
-                super.updateItem(estadoInstrumento, empty);
+            protected void updateItem(EstadoInstrumento estadoInstrumento, boolean vacido) {
+                super.updateItem(estadoInstrumento, vacido);
 
-                if (empty || estadoInstrumento == null) {
+                if (vacido || estadoInstrumento == null) {
                     setGraphic(null);
                     return;
                 }
@@ -125,10 +125,41 @@ public class InstrumentosEstadoController extends Controller implements Initiali
 
         });
 
+        // how did you knew you had to use new PropertyValueFactory
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("einDescripcion"));
-        colEstado.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinActivo()) ? "Activo" : "Inactivo"));
+
+        colEstado.setCellFactory(col -> new TableCell<EstadoInstrumento, Boolean>() {
+            @Override
+            protected void updateItem(Boolean activo, boolean vacido) {
+                super.updateItem(activo, vacido);
+
+                if (vacido || activo == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                Label chip = new Label();
+                chip.getStyleClass().add("chip");
+                
+                if(activo){
+                    chip.setText(FlowController.getIdioma().getString("ein.activo"));
+                    chip.getStyleClass().add("chipActivo");
+                }else{
+                     chip.setText(FlowController.getIdioma().getString("ein.inactivo"));
+                    chip.getStyleClass().add("chipInactivo");
+                }
+                
+                setGraphic(chip);
+                setText(null);
+               
+            }
+
+        });
+
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("einActivo"));
         colNotifica.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinNotifica()) ? "Sí" : "No"));
-        colEstadoFinal.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinNotifica()) ? "Sí" : "No"));
+        colEstadoFinal.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getEinFinal()) ? "Sí" : "No"));
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
 
         this.tblEstadosInstrumento.setPlaceholder(new Label("No hay estados registrados por el momento"));

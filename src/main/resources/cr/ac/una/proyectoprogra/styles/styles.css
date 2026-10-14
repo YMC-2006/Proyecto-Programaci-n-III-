@@ -1240,6 +1240,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /*--------------------- INSTRUMENTOS ---------------------------*/
 
+.chip{
+    -fx-padding: 4 10;
+    -fx-background-radius: 999;
+    -fx-font-size: 12px ;
+    
+}
+
+.chipActivo{
+    -fx-background-color: #DCEFE3;
+    -fx-text-fill:#1D5B36;
+}
+
+.chipInactivo{
+    -fx-background-color: #E6E9EE;
+    -fx-text-fill: #4A5260;
+}
+
 /* Mantenimiento de estados de intrumentos */
 .tblEstadosInstrumento {
     -fx-background-color: #FFFFFF;
