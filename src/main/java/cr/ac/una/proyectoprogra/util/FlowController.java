@@ -27,6 +27,7 @@ public class FlowController {
     private static Stage mainStage;
     private static ResourceBundle idioma;
     private static HashMap<String, FXMLLoader> loaders = new HashMap<>();
+    private static Controller inicioSesionController;
 
     // para el idioma guardamos el nombre de la vista en la que estamos para luego cuando se cambia el idioma el sistema recarga en principal view y luego la vista en la que estabamos
     private static String vistaActual = null;
@@ -211,6 +212,11 @@ public class FlowController {
 
     }
 
+    public void goLogInWindowModal(Boolean resizable) {
+        goViewInWindowModal("InicioSesionVista", this.inicioSesionController.getStage(), resizable);
+
+    }
+
     public Controller getController(String viewName) {
         return getLoader(viewName).getController();
     }
@@ -239,27 +245,26 @@ public class FlowController {
         return idioma;
     }
 
-
-    public static String getVistaActual(){
+    public static String getVistaActual() {
         return vistaActual;
     }
 
     public void cambiarIdioma(String idioma) {
 
         try {
-            ResourceBundle nuevoIdioma = ResourceBundle.getBundle( "cr/ac/una/proyectoprogra/resource/idioma",Locale.of(idioma));
+            ResourceBundle nuevoIdioma = ResourceBundle.getBundle("cr/ac/una/proyectoprogra/resource/idioma", Locale.of(idioma));
             FlowController.idioma = nuevoIdioma;
             loaders.clear();
 
             // Cargar nuevamente PrincipalView con el nuevo idioma
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("view/PrincipalView.fxml"),nuevoIdioma);
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("view/PrincipalView.fxml"), nuevoIdioma);
 
             Parent root = loader.load();
             mainStage.getScene().setRoot(root);
             mainStage.show();
 
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE,"Error cambiando el idioma.",ex);
+            java.util.logging.Logger.getLogger(FlowController.class.getName()).log(Level.SEVERE, "Error cambiando el idioma.", ex);
         }
     }
 
