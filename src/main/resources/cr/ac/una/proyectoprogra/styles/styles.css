@@ -1214,10 +1214,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-cursor: hand;
 }
 .btnPrimario:hover   {
-    -fx-background-color: #1E3A60; 
+    -fx-background-color: #1E3A60;
 }
 .btnPrimario:pressed {
-    -fx-scale-x: 0.97; -fx-scale-y: 0.97; 
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
 }
 
 .btnSecundario {
@@ -1232,10 +1233,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-cursor: hand;
 }
 .btnSecundario:hover   {
-    -fx-background-color: #9AA6B8, #F5F7FA; 
+    -fx-background-color: #9AA6B8, #F5F7FA;
 }
 .btnSecundario:pressed {
-    -fx-scale-x: 0.97; -fx-scale-y: 0.97; 
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
 }
 
 /*--------------------- INSTRUMENTOS ---------------------------*/
@@ -1244,7 +1246,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-padding: 4 10;
     -fx-background-radius: 999;
     -fx-font-size: 12px ;
-    
+
 }
 
 .chipActivo{
@@ -1258,7 +1260,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 /* Mantenimiento de estados de intrumentos */
-.tblEstadosInstrumento {
+.tblInstrumento {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 16;
     -fx-border-color: #DDE4EE;
@@ -1266,19 +1268,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-padding: 6;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
+    -fx-selection-bar: #CFE3F5;               /* fila seleccionada */
+    -fx-selection-bar-non-focused: #CFE3F5;
 }
 
 /* encabezado */
-.tblEstadosInstrumento .column-header-background {
+.tblInstrumento .column-header-background {
     -fx-background-color: #F5F7FA;
     -fx-background-radius: 10;
 }
-.tblEstadosInstrumento .column-header, .tblEstadosInstrumento .filler {
+.tblInstrumento .column-header, .tblInstrumento .filler {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-pref-height: 42;
 }
-.tblEstadosInstrumento .column-header .label {
+.tblInstrumento .column-header .label {
     -fx-text-fill: #5A6475;
     -fx-font-family: "Manrope Bold";
     -fx-font-size: 12px;
@@ -1286,23 +1290,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-padding: 0 0 0 14;
 }
 
-.tblEstadosInstrumento .table-row-cell {
+.tblInstrumento .table-row-cell {
     -fx-background-color: #FFFFFF;
     -fx-cell-size: 52;
     -fx-border-color: transparent transparent #EEF2F7 transparent;
 }
-.tblEstadosInstrumento .table-row-cell:hover    {
-    -fx-background-color: #F5F7FA; 
+.tblInstrumento .table-row-cell:hover    {
+    -fx-background-color: #F5F7FA;
 }
-.tblEstadosInstrumento .table-row-cell:selected {
-    -fx-background-color: #EEF2F7; 
+.tblInstrumento .table-row-cell:selected {
+    -fx-background-color: #CFE3F5;
 }
-.tblEstadosInstrumento .table-row-cell:empty    {
-    -fx-background-color: transparent; -fx-border-color: transparent; 
+.tblInstrumento .table-row-cell:empty    {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 /* celdas */
-.tblEstadosInstrumento .table-cell {
+.tblInstrumento .table-cell {
     -fx-text-fill: #1E2330;
     -fx-font-size: 14px;
     -fx-padding: 0 14;

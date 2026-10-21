@@ -4,6 +4,8 @@
  */
 package cr.ac.una.proyectoprogra.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,8 +17,15 @@ public class TipoInstrumento {
     private Long tinId;
     private String tinNombre;
     private Boolean tinEstado;
-    private String rutaMachote; // agregar al cons?
+    private String tinRutaMachote;
     private Long tinBufeteId;
+    private List<TipoInstRequisito> tipoInstRequisitoList = new ArrayList<>();
+    private List<TipoInstRequisito> tipoInstRequisitoEliminadosList = new ArrayList<>();
+    
+    
+    public TipoInstrumento(){
+        
+    }
     
     public TipoInstrumento(String nombre, Boolean estado){
         this.tinNombre = nombre;
@@ -55,6 +64,16 @@ public class TipoInstrumento {
         this.tinBufeteId = tinBufeteId;
     }
 
+    public String getTinRutaMachote() {
+        return tinRutaMachote;
+    }
+
+    public void setTinRutaMachote(String tinRutaMachote) {
+        this.tinRutaMachote = tinRutaMachote;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;

@@ -47,12 +47,13 @@ public class RegistrarTipoInstrumentoController extends Controller implements In
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         this.txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(50)); // en la BD tenemos 100 pero aca dejare 50
+        this.chkEstado.setSelected(true);
     }
 
     @Override
     public void initialize() {
         limpiarCampos();
-        TipoInstrumento tipoInstrumento = (TipoInstrumento) AppContext.getInstance().get("tipoInstrumentoEditando");
+        TipoInstrumento tipoInstrumento = (TipoInstrumento) AppContext.getInstance().get("tipoInstrumentoEditar");
         if(tipoInstrumento != null){
             cargarTipoInstrumento(tipoInstrumento);
             AppContext.getInstance().delete("tipoInstrumentoEditar");
@@ -108,7 +109,7 @@ public class RegistrarTipoInstrumentoController extends Controller implements In
     private void limpiarCampos() {
         this.tipoInstrumentoEditando = null;
         this.txtNombre.clear();
-        this.chkEstado.setSelected(false);
+        this.chkEstado.setSelected(true); // se espera que este activo
         this.btnAgregar.setText("Guardar");
     }
 

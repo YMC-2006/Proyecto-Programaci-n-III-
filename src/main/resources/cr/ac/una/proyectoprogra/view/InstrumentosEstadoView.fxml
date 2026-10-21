@@ -99,7 +99,7 @@
                     <children>
                         <VBox prefHeight="556.0" prefWidth="1645.0">
                             <children>
-                                <TableView fx:id="tblEstadosInstrumento" prefHeight="550.0" prefWidth="876.0" styleClass="tblEstadosInstrumento">
+                                <TableView fx:id="tblEstadosInstrumento" prefHeight="550.0" prefWidth="876.0" styleClass="tblInstrumento">
                                     <columns>
                                         <TableColumn fx:id="colDescripcion" prefWidth="256.800076007843" text="%ein.col.descripcion" />
                                         <TableColumn fx:id="colEstado" prefWidth="238.39993286132812" text="%ein.col.estado" />

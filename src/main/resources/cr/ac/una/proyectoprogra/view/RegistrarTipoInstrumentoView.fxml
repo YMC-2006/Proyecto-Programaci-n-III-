@@ -63,8 +63,8 @@
                               <CheckBox fx:id="chkEstado" mnemonicParsing="false" styleClass="chkCampo" />
                               <VBox prefHeight="41.0" prefWidth="394.0" spacing="4.0">
                                  <children>
-                                    <Label styleClass="lblCampo" text="Estado" />
-                                    <Label text="Estado del tipo de instrumento" wrapText="true" />
+                                    <Label styleClass="lblCampo" text="Activo" />
+                                    <Label text="Estado actual del tipo de instrumento" wrapText="true" />
                                  </children>
                               </VBox>
                            </children>
