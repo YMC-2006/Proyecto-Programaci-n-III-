@@ -94,7 +94,7 @@ public class EstadoInstrumentoService {
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("id", id);
 
-            // aqui hacemos una peticion al endpoint /EstadosInstrumentos
+            // aqui hacemos una peticion al endpoint /EstadosInstrumentos en el ws
             Request request = new Request("EstadosInstrumentos", "/{id}", parametros);
             request.delete();
 

@@ -4,10 +4,108 @@
  */
 package cr.ac.una.proyectoprogra.service;
 
+import cr.ac.una.proyectoprogra.model.TipoInstrumento;
+import cr.ac.una.proyectoprogra.util.Request;
+import cr.ac.una.proyectoprogra.util.Respuesta;
+import jakarta.ws.rs.core.GenericType;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author vjjcu
  */
 public class TipoInstrumentoService {
+    
+        public Respuesta getTipoInstrumento(Long id) {
+
+        try {
+
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("id", id);
+            Request request = new Request("TipoInstrumentos", "/{id}", parametros);
+            request.get();
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            TipoInstrumento tipoInstrumento = (TipoInstrumento) request.readEntity(TipoInstrumento.class);
+            return new Respuesta(true, "", "", "TipoInstrumento", tipoInstrumento);
+
+        } catch (Exception ex) {
+            Logger.getLogger(TipoInstrumento.class.getName()).log(Level.SEVERE, "Error obteniendo el tipoInstrumento [" + id + "]", ex);
+            return new Respuesta(false, "Error obteniendo el tipoInstrumento", "getTipoInstrumento" + ex.getMessage());
+        }
+
+    }
+
+    public Respuesta getTipoInstrumentos(String nombre, Boolean activo, Long bufeteId) {
+        try {
+
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("nombre", nombre);
+            parametros.put("activo", activo);
+            parametros.put("bufeteId", bufeteId);
+            //aqui los parametros que tienen que coincidir con los queryparam del controllador TipoInstrumento del WS
+
+            Request request = new Request("TipoInstrumentos", parametros);
+            request.get();
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            List<TipoInstrumento> tipoInstrumentos = (List<TipoInstrumento>) request.readEntity(new GenericType<List<TipoInstrumento>>() {
+            });
+
+             return new Respuesta(true,"","","TipoInstrumentos",tipoInstrumentos);
+        } catch (Exception ex) {
+            Logger.getLogger(TipoInstrumento.class.getName()).log(Level.SEVERE, "Error obteniendo tipoInstrumentos", ex);
+            return new Respuesta(false, "Error obteniendo lista tipoInstrumentos", "getTipoInstrumentos" + ex.getMessage());
+
+        }
+    }
+
+    public Respuesta guardarTipoInstrumento(TipoInstrumento tipoInstrumento) {
+       try {
+            Request request = new Request("TipoInstrumentos/tipoInstrumento");
+            request.post(tipoInstrumento);
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            TipoInstrumento tipoInstrumentoGuardado = (TipoInstrumento) request.readEntity(TipoInstrumento.class);
+
+            return new Respuesta(true,"","","TipoInstrumentos",tipoInstrumentoGuardado);
+        } catch (Exception ex) {
+            Logger.getLogger(AbogadoService.class.getName()).log(Level.SEVERE,"Ocurrió un error al guardar el tipoInstrumento.",ex);
+            return new Respuesta(false,"Ocurrió un error al guardar el tipoInstrumento.","guardarTipoInstrumento " + ex.getMessage());
+        }
+    }
+
+    public Respuesta eliminarTipoInstrumento(Long id) {
+       try {
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("id", id);
+
+            Request request = new Request("TipoInstrumentos", "/{id}", parametros);
+            request.delete();
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            return new Respuesta(true, "", "");
+
+        } catch (Exception ex) {
+            Logger.getLogger(AbogadoService.class.getName()).log(Level.SEVERE,"Error eliminando el tipoInstrumento.",ex);
+            return new Respuesta(false,"Error eliminando el tipoInstrumento.","eliminarTipoInstrumento " + ex.getMessage());
+        }
+
+    }
     
 }
