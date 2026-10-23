@@ -404,6 +404,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-fit-width: 50px;
 }
 
+.imgExcel {
+    -fx-image: url("../resource/iconos_sicobu/Excel1.png");
+    -fx-fit-height: 25px;
+    -fx-fit-width: 25px;
+}
+
+.imgExcel:hover {
+    -fx-image: url("../resource/iconos_sicobu/Excel2.png");
+    -fx-fit-height: 25px;
+    -fx-fit-width: 25px;
+}
+
 .imgFotoPredeterminada {
     -fx-image: url("../resource/FotoPredeterminada.png");
     -fx-fit-height: 175px;
@@ -549,6 +561,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .hboxIcon{
     -fx-alignment: CENTER;
 }
+
+.panelRedondo {
+    -fx-background-color: -fx-color-blanco;
+    -fx-background-radius: 14;
+}
+
 
 .vboxH{
     -fx-alignment: CENTER_LEFT;
@@ -812,6 +830,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-border-radius: 10px;
 }
 
+.btnX {
+    -mfx-button-type: FLAT;
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-text-fill: #1E293B;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-cursor: hand;
+
+    -mfx-ripple-color: rgba(226, 232, 240, 0.5);
+}
+
+.btnX:hover {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #0a7fc2;
+    -fx-text-fill: #0a7fc2;
+}
+
+.btnX:focused {
+    -fx-border-color: #94A3B8;
+}
 .btnNS {
     -mfx-button-type:FLAT;
     -fx-background-color: #b6d9ed;
@@ -1119,7 +1166,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-font-family: "Manrope SemiBold";
     -fx-font-size: 12.5px;
 }
+.dpCampo {
+    -fx-background-color: #C9D3E1, #FFFFFF;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10, 9;
+    -fx-pref-height: 40;
+    -fx-padding: 0;
+}
 
+.dpCampo:focused {
+    -fx-background-color: #5c80cc, #FFFFFF;
+}
+
+.dpCampo > .text-field {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 12;
+    -fx-font-family: "Manrope";
+    -fx-font-size: 14px;
+    -fx-text-fill: #1E2330;
+    -fx-prompt-text-fill: #9AA6B8;
+}
+
+.dpCampo > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 12 0 6;
+    -fx-cursor: hand;
+}
+
+.dpCampo > .arrow-button > .arrow {
+    -fx-background-color: #3F6084;
+}
 
 .txtCampo {
     -fx-background-color: #C9D3E1, #FFFFFF;

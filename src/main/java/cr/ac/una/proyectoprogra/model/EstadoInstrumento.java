@@ -76,8 +76,6 @@ public class EstadoInstrumento {
 
     public void setEinFinal(Boolean einFinal) {
         this.einFinal = einFinal;
-    }
-
-    
+    }  
     
 }
