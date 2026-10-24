@@ -1390,3 +1390,45 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-alignment: CENTER_LEFT;
     -fx-border-color: transparent;
 }
+
+
+/* --------------------------------- Calendario ------------------------------- */
+
+.labelCalendario{
+    
+}
+
+
+.btnCalendario {
+    -mfx-button-type:FLAT;
+    -fx-background-color: #b6d9ed;
+    -fx-border-color: #54a5d4;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #0a7fc2;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 18px;
+    -fx-cursor: hand;
+
+    /*-mfx-ripple-color: rgba(226, 232, 240, 0.5);*/
+}
+
+.btnCalendario:hover {
+    -fx-background-color: #064c74;
+    -fx-border-color: #04334e;
+    -fx-text-fill:white;
+    -mfx-button-type:FLAT;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.btnCalendario:focused {
+    -mfx-button-type:FLAT;
+    -fx-background-color: #b6d9ed;
+    -fx-border-color: #54a5d4;
+    -fx-text-fill:#0a7fc2;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}

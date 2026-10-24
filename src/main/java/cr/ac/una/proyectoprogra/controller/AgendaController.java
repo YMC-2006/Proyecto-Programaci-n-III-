@@ -5,8 +5,12 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -16,12 +20,23 @@ import javafx.scene.layout.VBox;
  */
 public class AgendaController extends Controller implements Initializable {
 
+    @FXML
+    private GridPane gridCalendario; 
+    private YearMonth mesActual = YearMonth.now(); // navegar entre meses es solo cambiar el mes actual
+    private int columnaSemanaInicio = 0;
+    private LocalDate diaSemanaDiaUno = LocalDate.now();
+    /*
+    mi columna de inicio sera igual a al dia de la semana de inicio menos uno
+    por ejemplo una mes donde el dia 1 cae un lunes, si le resto 1, queda en 0 esa sera mi primera coluna
+    */
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        this.gridCalendario.getChildren().clear();
     }    
 
     @Override

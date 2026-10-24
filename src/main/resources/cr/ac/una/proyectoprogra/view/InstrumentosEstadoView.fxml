@@ -19,7 +19,7 @@
             <children>
                 <HBox prefHeight="66.0" prefWidth="1555.0">
                     <children>
-                        <VBox prefHeight="66.0" prefWidth="1210.0" styleClass="vboxH">
+                        <VBox prefHeight="66.0" prefWidth="1335.0" styleClass="vboxH">
                             <children>
                                 <Label prefHeight="36.0" prefWidth="706.0" styleClass="titl" text="%ein.modal.titulo">
                                     <VBox.margin>
@@ -31,7 +31,7 @@
                                 <Insets />
                             </HBox.margin>
                         </VBox>
-                        <HBox prefHeight="66.0" prefWidth="464.0" styleClass="hbox">
+                        <HBox prefHeight="66.0" prefWidth="408.0" styleClass="hbox">
                             <children>
                                 <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
                                     <graphic>
