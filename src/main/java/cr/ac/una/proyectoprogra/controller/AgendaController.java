@@ -8,8 +8,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
@@ -29,6 +32,12 @@ public class AgendaController extends Controller implements Initializable {
     mi columna de inicio sera igual a al dia de la semana de inicio menos uno
     por ejemplo una mes donde el dia 1 cae un lunes, si le resto 1, queda en 0 esa sera mi primera coluna
     */
+    @FXML
+    private Button btnAnterior;
+    @FXML
+    private Label lblMesAnio;
+    @FXML
+    private Button btnSiguiente;
     
     /**
      * Initializes the controller class.
@@ -48,6 +57,14 @@ public class AgendaController extends Controller implements Initializable {
     
     private void generarCalendario(){
 
+    }
+
+    @FXML
+    private void onMesAnterior(ActionEvent event) {
+    }
+
+    @FXML
+    private void onMesSiguiente(ActionEvent event) {
     }
     
 }
