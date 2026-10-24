@@ -39,7 +39,7 @@
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="titlCard" text="Instrumentos Activos" />
-                              <Label styleClass="numCard" text="128" />
+                              <Label fx:id="txtIntrumentos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
@@ -58,7 +58,7 @@
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="titlCard" text="Ingresos del Mes" />
-                              <Label styleClass="numCard" text="128" />
+                              <Label fx:id="txtIngresos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
@@ -77,7 +77,7 @@
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="titlCard" text="Gastos del Mes" />
-                              <Label styleClass="numCard" text="128" />
+                              <Label fx:id="txtGastos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
@@ -96,7 +96,7 @@
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="titlCard" text="Eventos del día" />
-                              <Label styleClass="numCard" text="128" />
+                              <Label fx:id="txtEventos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
@@ -110,7 +110,7 @@
                         <VBox minHeight="270.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label styleClass="titlCard" text="Ingresos vs Gastos" />
-                              <BarChart VBox.vgrow="ALWAYS">
+                              <BarChart fx:id="grBarras" VBox.vgrow="ALWAYS">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
@@ -131,7 +131,7 @@
                            </styleClass>
                            <children>
                               <Label styleClass="titlCard" text="Tributado vs No Tributado" />
-                              <ProgressBar maxWidth="1.7976931348623157E308" progress="0.0" />
+                              <ProgressBar fx:id="prBarra" maxWidth="1.7976931348623157E308" progress="0.0" />
                               <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxProgres">
                                  <children>
                                     <Label text="\% Tributado" />
@@ -150,7 +150,7 @@
                      </styleClass>
                      <children>
                         <Label styleClass="titlCard" text="Agenda de hoy" />
-                        <TableView prefHeight="310.0" prefWidth="260.0" styleClass="tblAg" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="lvAgenda" prefHeight="310.0" prefWidth="260.0" styleClass="tblAg" VBox.vgrow="ALWAYS">
                           <columns>
                             <TableColumn prefWidth="80.0" text="Hora" />
                             <TableColumn prefWidth="200.0" text="Descripción" />

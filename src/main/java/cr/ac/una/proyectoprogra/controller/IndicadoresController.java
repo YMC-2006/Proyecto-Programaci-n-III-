@@ -8,6 +8,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -22,6 +26,20 @@ public class IndicadoresController extends Controller implements Initializable {
     private VBox cardAgenda;
     @FXML
     private HBox filaCentral;
+    @FXML
+    private Label txtIntrumentos;
+    @FXML
+    private Label txtIngresos;
+    @FXML
+    private Label txtGastos;
+    @FXML
+    private Label txtEventos;
+    @FXML
+    private BarChart<?, ?> grBarras;
+    @FXML
+    private ProgressBar prBarra;
+    @FXML
+    private TableView<?> lvAgenda;
 
     /**
      * Initializes the controller class.

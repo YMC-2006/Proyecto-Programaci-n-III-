@@ -3,7 +3,6 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
-<?import io.github.palexdev.materialfx.controls.MFXSpinner?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Label?>
@@ -32,8 +31,8 @@
                   </VBox>
                   <HBox prefHeight="79.0" prefWidth="700.0" styleClass="hboxI">
                      <children>
-                        <MFXDatePicker prefWidth="241.0" promptText="Inicio" styleClass="loginTextField" />
-                        <MFXDatePicker prefWidth="241.0" promptText="Fin" styleClass="loginTextField" />
+                        <MFXDatePicker prefWidth="241.0" promptText="Inicio" styleClass="txtCampo" />
+                        <MFXDatePicker prefWidth="241.0" promptText="Fin" styleClass="txtCampo" />
                      </children>
                   </HBox>
                </children>
@@ -170,30 +169,6 @@
                               </AnchorPane>
                         </content>
                       </Tab>
-                      <Tab text="Instrumentos: ingresos y gastos">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="233.0" prefWidth="1002.0">
-                                 <children>
-                                    <VBox layoutX="137.0" layoutY="82.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                                       <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <VBox prefHeight="200.0" prefWidth="100.0">
-                                                   <styleClass>
-                                                      <String fx:value="card" />
-                                                      <String fx:value="card2" />
-                                                   </styleClass>
-                                                   <children>
-                                                      <Label text="Label" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                    </VBox>
-                                 </children></AnchorPane>
-                        </content>
-                      </Tab>
                         <Tab text="Movimientos Varios">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -224,8 +199,8 @@
                                                             </HBox>
                                                          </children>
                                                       </VBox>
-                                                      <MFXDatePicker promptText="Fecha" styleClass="loginTextField" />
-                                                      <MFXTextField floatingText="Detalle" prefWidth="412.0" styleClass="loginTextField" />
+                                                      <MFXDatePicker promptText="Fecha" styleClass="txtCampo" />
+                                                      <MFXTextField floatingText="Detalle" prefWidth="412.0" styleClass="txtCampo" />
                                                    </children>
                                                    <styleClass>
                                                       <String fx:value="hbox" />
@@ -237,13 +212,13 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Monto" />
-                                                            <MFXSpinner styleClass="loginTextField" />
+                                                            <MFXTextField floatMode="DISABLED" prefWidth="219.0" styleClass="txtCampo" />
                                                          </children>
                                                       </VBox>
                                                       <VBox prefHeight="76.0" prefWidth="246.0">
                                                          <children>
                                                             <Label styleClass="titlCard" />
-                                                            <MFXTextField floatingText="Factura" prefWidth="219.0" styleClass="loginTextField" />
+                                                            <MFXTextField floatingText="Factura" prefWidth="219.0" styleClass="txtCampo" />
                                                          </children>
                                                       </VBox>
                                                       <VBox layoutX="419.0" layoutY="20.0" prefHeight="76.0" prefWidth="164.0">

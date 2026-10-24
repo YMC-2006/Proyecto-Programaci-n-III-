@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="696.0" prefWidth="600.0" styleClass="modalRoot" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AgregarRepresentanteController">
+   <children>
+      <VBox layoutX="20.0" layoutY="20.0" prefHeight="462.0" prefWidth="566.0" styleClass="cardRegistro" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <children>
+            <StackPane alignment="CENTER_LEFT" prefHeight="100.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="566.0" preserveRatio="false">
+                     <image>
+                        <Image url="@../resource/fondo_modal.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="522.0" spacing="14.0">
+                     <padding>
+                        <Insets left="26.0" />
+                     </padding>
+                     <children>
+                        <StackPane styleClass="avatarModal">
+                           <children>
+                              <ImageView fitHeight="63.0" fitWidth="62.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/abogados_hover.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0">
+                           <children>
+                              <Label styleClass="lblSubModal" text="%socRepresentante.modal.sub" />
+                              <Label fx:id="lblTituloModal" styleClass="lblTituloModal" text="%socRepresentante.modal.titulo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+            <VBox prefHeight="266.0" prefWidth="576.0" spacing="14.0" styleClass="vboxModal" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="83.0" prefWidth="518.0" spacing="16.0">
+                     <children>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%socRepresentante.cedula" />
+                              <TextField fx:id="txtCedula" onAction="#onActionBuscarCliente" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%socRepresentante.cargo" />
+                              <TextField fx:id="txtCargo" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="80.0" prefWidth="518.0" spacing="6.0">
+                     <children>
+                        <Label styleClass="lblCampo" text="%socRepresentante.nombre" />
+                        <TextField fx:id="txtNombre" styleClass="txtCampo" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="172.0" prefWidth="576.0" spacing="10.0" styleClass="modalFooter">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onActionBtnCancelar" styleClass="btnSecundario" text="%btn.cancelar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="cancelar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#onActionBtnAgregar" styleClass="btnPrimario" text="%btn.agregar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="agregar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+            <VBox prefHeight="422.0" prefWidth="576.0" styleClass="vboxModal">
+               <children>
+                  <Label styleClass="lblCampo" text="%socRepresentante.representantes" />
+                  <TableView fx:id="tblRepresentantes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="876.0" styleClass="tabla">
+                     <columns>
+                        <TableColumn fx:id="colCedula" prefWidth="139.19998586177826" text="%socRepresentante.cedula" />
+                        <TableColumn fx:id="colNombre" prefWidth="149.60000610351562" text="%socRepresentante.nombre" />
+                        <TableColumn fx:id="colCargo" prefWidth="152.79998779296875" text="%socRepresentante.cargo" />
+                        <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="144.0000244140624" text=" " />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

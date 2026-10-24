@@ -94,6 +94,31 @@ public class Formato {
         return numericFormat;
     }
     
+    public TextFormatter integerFormat(Integer maxLength) {
+        TextFormatter numericFormat = new TextFormatter<>(c
+                -> {
+            if (maxLength > 0) {
+                if (((TextInputControl) c.getControl()).getLength() >= maxLength && !c.isDeleted()) {
+                    return null;
+                }
+                if (c.getText().length() > maxLength && !c.isDeleted()) {
+                    return null;
+                }
+            }
+            if (c.getControlNewText().isEmpty()) {
+                return c;
+            }
+
+            Pattern validDoubleText = Pattern.compile("\\d+");
+            if (validDoubleText.matcher(c.getControlNewText()).matches()) {
+                return c;
+            } else {
+                return null;
+            }
+        });
+        return numericFormat;
+    }
+    
     public TextFormatter folioFormat(Integer maxLength){
        TextFormatter<String> folioFormat = new TextFormatter<>(c -> {
             if (c.getControlNewText().isEmpty()) {

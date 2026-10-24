@@ -6,7 +6,9 @@ package cr.ac.una.proyectoprogra.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * FXML Controller class
@@ -14,6 +16,13 @@ import javafx.fxml.Initializable;
  * @author vjjcu
  */
 public class ContableController extends Controller implements Initializable {
+
+    @FXML
+    private ToggleGroup filtroTabla;
+    @FXML
+    private ToggleGroup tggTipo;
+    @FXML
+    private ToggleGroup tggTributa;
 
     /**
      * Initializes the controller class.

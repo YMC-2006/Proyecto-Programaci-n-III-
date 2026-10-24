@@ -1,93 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
-<?import io.github.palexdev.materialfx.controls.MFXSpinner?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="458.0" prefWidth="927.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarSociedadController">
+<AnchorPane id="AnchorPane" prefHeight="780.0" prefWidth="594.0" styleClass="modalRoot" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarSociedadController">
    <children>
-      <VBox layoutX="140.0" layoutY="128.0" prefHeight="200.0" prefWidth="100.0" styleClass="hbox" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="618.0" prefWidth="560.0" styleClass="cardRegistro" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
          <children>
-            <Label styleClass="TituloLogin2" text="Registro de Nueva Sociedad" />
-            <VBox prefHeight="200.0" prefWidth="100.0" styleClass="card">
+            <StackPane alignment="CENTER_LEFT" prefHeight="100.0">
                <children>
-                  <HBox prefHeight="92.0" prefWidth="858.0" styleClass="hbox">
+                  <ImageView fitHeight="100.0" fitWidth="566.0" preserveRatio="false">
+                     <image>
+                        <Image url="@../resource/fondo_modal.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="522.0" spacing="14.0">
+                     <padding>
+                        <Insets left="26.0" />
+                     </padding>
                      <children>
-                        <MFXTextField floatingText="Cédula Jurídica" prefWidth="222.0" styleClass="loginTextField" />
-                        <MFXTextField floatingText="Nombre" layoutX="10.0" layoutY="10.0" prefWidth="222.0" styleClass="loginTextField" />
-                        <MFXTextField floatingText="Teléfono" layoutX="232.0" layoutY="10.0" prefWidth="222.0" styleClass="loginTextField" />
-                        <MFXTextField floatingText="Domicilio" layoutX="455.0" layoutY="10.0" prefWidth="222.0" styleClass="loginTextField" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="92.0" prefWidth="858.0" styleClass="hbox">
-                     <children>
-                        <MFXTextField floatingText="Tomo" prefWidth="222.0" styleClass="loginTextField" />
-                        <MFXTextField floatingText="Folio" layoutX="10.0" layoutY="10.0" prefWidth="222.0" styleClass="loginTextField" />
-                        <MFXTextField floatingText="Asiento" layoutX="232.0" layoutY="10.0" prefWidth="222.0" styleClass="loginTextField" />
-                        <MFXDatePicker styleClass="loginTextField" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="92.0" prefWidth="858.0" styleClass="hboxR">
-                     <children>
-                        <VBox prefHeight="71.0" prefWidth="219.0">
+                        <StackPane styleClass="avatarModal">
                            <children>
-                              <Label styleClass="titlCard" text="Tipo de Acciones" />
-                              <ComboBox prefHeight="38.0" prefWidth="215.0" styleClass="loginTextField" />
-                           </children>
-                        </VBox>
-                        <VBox layoutX="344.0" layoutY="20.0" prefHeight="71.0" prefWidth="219.0">
-                           <children>
-                              <Label styleClass="titlCard" text="Cantidad de Títulos" />
-                              <MFXSpinner fx:id="spCantidad">
-                                 <styleClass>
-                                    <String fx:value="loginTextField" />
-                                    <String fx:value="mfx-spinner" />
-                                 </styleClass>
-                              </MFXSpinner>
-                           </children>
-                        </VBox>
-                        <VBox layoutX="459.0" layoutY="20.0" prefHeight="71.0" prefWidth="219.0">
-                           <children>
-                              <Label styleClass="titlCard" text="Valor del Título" />
-                              <MFXSpinner styleClass="loginTextField" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
-                     <children>
-                        <MFXButton prefHeight="46.0" prefWidth="274.0" styleClass="btnNS" text="Guardar Sociedad">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <styleClass>
-                                    <String fx:value="btnImg" />
-                                    <String fx:value="guardar" />
-                                 </styleClass>
+                              <ImageView fitHeight="63.0" fitWidth="62.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/abogados_hover.png" />
+                                 </image>
                               </ImageView>
-                           </graphic>
-                        </MFXButton>
-                        <MFXButton layoutX="10.0" layoutY="10.0" prefHeight="46.0" prefWidth="172.0" styleClass="btnW" text="Cancelar">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <styleClass>
-                                    <String fx:value="btnImg" />
-                                    <String fx:value="cancelar" />
-                                 </styleClass>
-                              </ImageView>
-                           </graphic>
-                        </MFXButton>
+                           </children>
+                        </StackPane>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0">
+                           <children>
+                              <Label styleClass="lblSubModal" text="%sociedad.modal.sub" />
+                              <Label fx:id="lblTituloModal" styleClass="lblTituloModal" text="%sociedad.modal.titulo" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
+            </StackPane>
+            <VBox prefHeight="414.0" prefWidth="570.0" spacing="14.0" styleClass="vboxModal" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefHeight="80.0" prefWidth="518.0" spacing="6.0">
+                     <children>
+                        <Label styleClass="lblCampo" text="%sociedad.nombre" />
+                        <TextField fx:id="txtNombre" styleClass="txtCampo" />
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="83.0" prefWidth="518.0" spacing="16.0">
+                     <children>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.cedula" />
+                              <TextField fx:id="txtCedula" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.telefono" />
+                              <TextField fx:id="txtTelefono" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="36.0" layoutY="224.0" prefHeight="79.0" prefWidth="518.0" spacing="16.0">
+                     <children>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.tomo" />
+                              <TextField fx:id="txtTomo" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.folio" />
+                              <TextField fx:id="txtFolio" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="36.0" layoutY="296.0" prefHeight="79.0" prefWidth="518.0" spacing="16.0">
+                     <children>
+                        <VBox maxWidth="Infinity" prefHeight="66.0" prefWidth="141.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.asiento" />
+                              <TextField fx:id="txtAsiento" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.fecha" />
+                              <MFXDatePicker fx:id="dtpFecha" prefWidth="269.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="36.0" layoutY="272.0" prefHeight="79.0" prefWidth="518.0" spacing="16.0">
+                     <children>
+                        <VBox maxWidth="Infinity" prefHeight="66.0" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.acciones" />
+                              <ComboBox fx:id="cbxAcciones" prefHeight="30.0" prefWidth="254.0" styleClass="comboBox" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="Infinity" prefHeight="66.0" prefWidth="42.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.correo" />
+                              <TextField fx:id="txtCorreo" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="36.0" layoutY="436.0" prefHeight="79.0" prefWidth="518.0" spacing="16.0">
+                     <children>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.titulos" />
+                              <TextField fx:id="txtTitulos" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                        <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label styleClass="lblCampo" text="%sociedad.valor" />
+                              <TextField fx:id="txtValor" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <VBox layoutX="36.0" layoutY="32.0" prefHeight="80.0" prefWidth="518.0" spacing="6.0">
+                     <children>
+                        <Label styleClass="lblCampo" text="%sociedad.domicilio" />
+                        <TextField fx:id="txtDomicilio" styleClass="txtCampo" />
+                     </children>
+                  </VBox>
+               </children>
             </VBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="104.0" prefWidth="570.0" spacing="10.0" styleClass="modalFooter">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onActionBtnCancelar" styleClass="btnSecundario" text="%btn.cancelar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="cancelar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnAgregar" mnemonicParsing="false" onAction="#onActionBtnAgregar" styleClass="btnPrimario" text="%btn.agregar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="agregar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>
