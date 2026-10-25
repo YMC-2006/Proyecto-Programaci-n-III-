@@ -8,13 +8,6 @@ package cr.ac.una.proyectoprogra.model;
  *
  * @author vjjcu
  */
-public class RequisitoInstrumento {
-
-    private Long irqId;
-    private Long irqInstrumentoId;
-    private Long irqRequisitoId;
-    private String irqEstado;
-    private String irqDescripcion;
-    private int irqOrden;
-
+public class PartePago {
+    
 }

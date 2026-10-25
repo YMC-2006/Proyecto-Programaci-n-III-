@@ -82,7 +82,7 @@ public class TipoInstrumentoService {
 
             return new Respuesta(true,"","","TipoInstrumentos",tipoInstrumentoGuardado);
         } catch (Exception ex) {
-            Logger.getLogger(AbogadoService.class.getName()).log(Level.SEVERE,"Ocurrió un error al guardar el tipoInstrumento.",ex);
+            Logger.getLogger(TipoInstrumentoService.class.getName()).log(Level.SEVERE,"Ocurrió un error al guardar el tipoInstrumento.",ex);
             return new Respuesta(false,"Ocurrió un error al guardar el tipoInstrumento.","guardarTipoInstrumento " + ex.getMessage());
         }
     }
@@ -102,7 +102,7 @@ public class TipoInstrumentoService {
             return new Respuesta(true, "", "");
 
         } catch (Exception ex) {
-            Logger.getLogger(AbogadoService.class.getName()).log(Level.SEVERE,"Error eliminando el tipoInstrumento.",ex);
+            Logger.getLogger(TipoInstrumentoService.class.getName()).log(Level.SEVERE,"Error eliminando el tipoInstrumento.",ex);
             return new Respuesta(false,"Error eliminando el tipoInstrumento.","eliminarTipoInstrumento " + ex.getMessage());
         }
 

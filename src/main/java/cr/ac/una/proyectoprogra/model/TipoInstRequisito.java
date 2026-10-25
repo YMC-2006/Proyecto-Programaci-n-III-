@@ -55,6 +55,9 @@ public class TipoInstRequisito {
         this.trqTipoId = trqTipoId;
     }
     
-    
+    @Override
+    public String toString(){
+        return trqDescripcion;    // para la listview que pueda mostrar bien el texto del tipo inst requisito
+    }
 
 }

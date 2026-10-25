@@ -72,6 +72,22 @@ public class TipoInstrumento {
         this.tinRutaMachote = tinRutaMachote;
     }
 
+    public List<TipoInstRequisito> getTipoInstRequisitoList() {
+        return tipoInstRequisitoList;
+    }
+
+    public void setTipoInstRequisitoList(List<TipoInstRequisito> tipoInstRequisitoList) {
+        this.tipoInstRequisitoList = tipoInstRequisitoList;
+    }
+
+    public List<TipoInstRequisito> getTipoInstRequisitoEliminadosList() {
+        return tipoInstRequisitoEliminadosList;
+    }
+
+    public void setTipoInstRequisitoEliminadosList(List<TipoInstRequisito> tipoInstRequisitoEliminadosList) {
+        this.tipoInstRequisitoEliminadosList = tipoInstRequisitoEliminadosList;
+    }
+
     
     
     @Override

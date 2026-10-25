@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -13,19 +14,18 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="914.0" prefWidth="1729.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosTipoController">
+<AnchorPane id="AnchorPane" prefHeight="857.0" prefWidth="1523.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosTipoController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          <children>
-            <HBox prefHeight="65.0" prefWidth="1629.0">
+            <HBox prefHeight="0.0" prefWidth="1422.0">
                <children>
                   <VBox prefHeight="100.0" prefWidth="644.0">
                      <children>
                         <Label styleClass="TituloLogin2" text="%tin.titulo" />
-                        <Label text="%tin.descripcion" />
+                        <Label prefHeight="18.0" prefWidth="478.0" text="%tin.descripcion" />
                      </children>
                   </VBox>
                </children>
@@ -34,13 +34,16 @@
                <children>
                   <VBox prefHeight="726.0" prefWidth="409.0">
                      <children>
-                        <HBox prefHeight="135.0" prefWidth="410.0" styleClass="hboxI">
+                        <HBox prefHeight="135.0" prefWidth="406.0" styleClass="hboxI">
                            <children>
                               <TextField fx:id="txtBuscarInstrumento" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="303.0" styleClass="txtCampo" />
                               <ComboBox fx:id="cmbFiltroEstado" onAction="#onActionFiltrar" prefWidth="150.0" promptText="%estado" styleClass="comboBox" />
                            </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
-                        <TableView fx:id="tblTipoInstrumentos" prefHeight="646.0" prefWidth="410.0">
+                        <TableView fx:id="tblTipoInstrumentos" prefHeight="585.0" prefWidth="406.0">
                           <columns>
                             <TableColumn fx:id="colNombre" prefWidth="161.60003900527954" text="%nombre" />
                             <TableColumn fx:id="colEstado" prefWidth="122.40010070800781" text="%estado" />
@@ -61,34 +64,77 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="260.0" prefWidth="858.0">
+                  <VBox fx:id="panelDerecho" prefHeight="743.0" prefWidth="816.0">
                      <children>
-                        <HBox prefHeight="138.0" prefWidth="749.0" styleClass="hboxI">
+                        <HBox prefHeight="225.0" prefWidth="858.0" styleClass="hboxI">
                            <children>
-                              <MFXButton fx:id="btnSubirWord" onAction="#onActionBtnSubirMachoteWord" styleClass="btnNS" text="Subir documento word">
-                                 <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../resource/iconos_sicobu/subir_archivo.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </MFXButton>
+                              <ImageView fitHeight="57.0" fitWidth="83.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/generar_documento_hover.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox prefHeight="76.0" prefWidth="536.0" styleClass="vboxH">
+                                 <children>
+                                    <Label fx:id="lblTituloDocWord" prefHeight="18.0" prefWidth="566.0" text="DOCUMENTO DE WORD" />
+                                    <Label fx:id="lblCantidadComodinesDetectados" text="N comodines detectados" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="117.0" prefWidth="259.0" styleClass="vbox">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onActionBtnGuardarCambios" prefHeight="40.0" prefWidth="33.0">
+                                       <graphic>
+                                          <ImageView fitHeight="32.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/iconos_sicobu/guardar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <MFXButton fx:id="btnSubirWord" onAction="#onActionBtnSubirMachoteWord" styleClass="btnNS" text="Subir Archivo">
+                                       <graphic>
+                                          <ImageView fitHeight="40.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/iconos_sicobu/subir_archivo.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </MFXButton>
+                                 </children>
+                              </VBox>
                            </children>
                         </HBox>
-                        <VBox prefHeight="624.0" prefWidth="749.0">
+                        <VBox prefHeight="451.0" prefWidth="816.0">
                            <children>
-                              <Label styleClass="texto" text="Arrastre el requisito para ordenarlo por prioridad" />
-                              <Pane prefHeight="681.0" prefWidth="811.0" />
-                              <HBox prefHeight="298.0" prefWidth="811.0" styleClass="hbox">
+                              <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <TextField fx:id="txtRequisito" prefHeight="26.0" prefWidth="342.0" styleClass="txtCampo" />
-                                    <Button fx:id="btnRequisito" mnemonicParsing="false" onAction="#onActionBtnAgregarRequisito" prefHeight="22.0" prefWidth="170.0" styleClass="btnPrimario" text="Agregar requisito" />
+                                    <Label styleClass="subTituloInstrumentos" text="Comodines detectados del WORD" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="177.0" prefWidth="858.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="662.0" prefWidth="759.0">
+                           <children>
+                              <Label styleClass="subTituloInstrumentos" text="Arrastre el requisito para ordenarlo por prioridad" />
+                              <ListView fx:id="lstRequisitos" prefHeight="342.0" prefWidth="816.0" styleClass="lstRequisitos" />
+                              <HBox prefHeight="100.0" prefWidth="858.0" styleClass="hbox">
+                                 <children>
+                                    <TextField fx:id="txtRequisito" prefHeight="26.0" prefWidth="587.0" styleClass="txtCampo" />
+                                    <Button fx:id="btnRequisito" mnemonicParsing="false" onAction="#onActionBtnAgregarRequisito" prefHeight="46.0" prefWidth="209.0" styleClass="btnW" text="Agregar requisito" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="60.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
             </HBox>

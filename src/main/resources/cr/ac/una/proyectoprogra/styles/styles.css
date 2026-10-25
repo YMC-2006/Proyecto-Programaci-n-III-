@@ -1318,6 +1318,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /*--------------------- INSTRUMENTOS ---------------------------*/
 
+.subTituloInstrumentos {
+    -fx-font-family: "Candara";
+    -fx-font-size: 16px;
+    -font-weight: bold;
+    -fx-text-fill:  -fx-color-azul-oscuro;
+}
+
 .chip{
     -fx-padding: 4 10;
     -fx-background-radius: 999;
@@ -1391,11 +1398,77 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-border-color: transparent;
 }
 
+/* ===== ListView de requisitos ===== */
+.lstRequisitos {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Cada celda transparente le damos el estilo a cada fila*/
+.lstRequisitos .list-cell,
+.lstRequisitos .list-cell:selected,
+.lstRequisitos .list-cell:filled:hover {
+    -fx-background-color: transparent;  /* sin esto se ve el fondo celeste que viene por defecto */
+    -fx-padding: 4 2;
+}
+
+/* La fila con aspecto de tarjeta */
+.filaRequisito {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 13;
+    -fx-border-color: #E3E8EF;
+    -fx-border-radius: 13;
+    -fx-padding: 10 14;
+    -fx-cursor: hand;
+}
+.lstRequisitos .list-cell:filled:hover .filaRequisito {
+    -fx-border-color: #b6d9ed;
+    -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.10), 35, 0, 0, 6);
+}
+.lstRequisitos .list-cell:selected .filaRequisito {
+    -fx-background-color: #F2F8FD;
+    -fx-border-color: #b6d9ed;
+}
+
+/* Celda sobre la que se va a soltar */
+.lstRequisitos .list-cell.dropTarget .filaRequisito {
+    -fx-background-color: #E2EFF9;
+    -fx-border-color: #0B6FB0;
+    -fx-border-style: dashed;
+}
+
+.numeroRequisito {
+    -fx-font-weight: bold;
+    -fx-text-fill: #556070;
+    -fx-min-width: 24;
+}
+.textoRequisito {
+    -fx-font-size: 14px;
+    -fx-text-fill: #1A2233;
+}
+
+.btnEliminarRequisito {
+    -fx-background-color: transparent;
+    -fx-text-fill: #556070;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+.btnEliminarRequisito:hover {
+    -fx-text-fill: #A11F14;
+}
+
+.btnIndicadorDrag{
+    -fx-mouse-cursor: hand;
+    -fx-background-color: transparent;
+}
 
 /* --------------------------------- Calendario ------------------------------- */
 
 .labelCalendario{
-    
+
 }
 
 

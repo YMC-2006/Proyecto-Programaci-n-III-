@@ -30,12 +30,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -43,8 +46,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 /**
@@ -79,6 +88,18 @@ public class InstrumentosTipoController extends Controller implements Initializa
     // agregar el service del requisito del tipo de instrumento 
     @FXML
     private MFXButton btnSubirWord;
+    @FXML
+    private Label lblTituloDocWord;
+    @FXML
+    private Label lblCantidadComodinesDetectados;
+
+    @FXML
+    private ListView<TipoInstRequisito> lstRequisitos;
+    private ObservableList<TipoInstRequisito> listaRequisitos = FXCollections.observableArrayList();
+    private List<TipoInstRequisito> requisitosEliminados = new ArrayList<>();   // si un requisito esta siendo usado por algun tipo de instrumento entonces no se deberia eliminar, el WS se encarga de validar esto ig
+    private TipoInstrumento tipoInsSeleccionado;
+    @FXML
+    private VBox panelDerecho;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -183,12 +204,149 @@ public class InstrumentosTipoController extends Controller implements Initializa
 
         this.tblTipoInstrumentos.setPlaceholder(new Label("No hay tipo de instrumentos por el momento"));
         this.tblTipoInstrumentos.setItems(listaTipoInstrumentos);
+
+        this.lstRequisitos.setItems(listaRequisitos);
         cargarTabla();
+
+        panelDerecho.setDisable(true);
+        //cuando clickeo en un elem de la tabla el metodo de mostrar detalle me deja editar el panel derecho
+        tblTipoInstrumentos.getSelectionModel().selectedItemProperty().addListener((obs, anterior, nuevo) -> mostrarDetalle(nuevo));
+        lstRequisitos.setCellFactory(lista -> new ListCell<TipoInstRequisito>() {
+
+            // cada fila de la listview
+            Button btnIndicadorDrag = new Button();
+            Label lblNumero = new Label();
+            Label lblTexto = new Label();
+            Button btnEliminarRequisito = new Button("x");
+            HBox fila = new HBox(8, btnIndicadorDrag, lblNumero, lblTexto, btnEliminarRequisito);
+
+            {
+
+                ImageView iconoDrag = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/drag.png")));
+                iconoDrag.setFitWidth(20);
+                iconoDrag.setFitHeight(20);
+
+                btnIndicadorDrag.setGraphic(iconoDrag);
+                btnIndicadorDrag.setMinWidth(20);
+
+                fila.getStyleClass().add("filaRequisito");
+                lblNumero.getStyleClass().add("numeroRequisito");
+                lblTexto.getStyleClass().add("textoRequisito");
+                btnEliminarRequisito.getStyleClass().add("btnEliminarRequisito");
+                btnIndicadorDrag.getStyleClass().add("btnIndicadorDrag");
+
+                fila.setAlignment(Pos.CENTER);
+                HBox.setHgrow(lblTexto, Priority.ALWAYS);   // el texto ocupa el espacio sobrante
+                lblTexto.setMaxWidth(Double.MAX_VALUE);
+                lblTexto.setWrapText(true);
+
+                btnEliminarRequisito.setOnAction(e -> eliminarRequisito(getIndex()));
+
+                //1
+                setOnDragDetected(event -> {
+
+                    if (getItem() == null) {
+                        return;
+                    }
+
+                    Dragboard db = startDragAndDrop(TransferMode.MOVE); // tiene la pos de esa fila
+                    db.setDragView(fila.snapshot(null, null)); // mejorar talvez movindo toda la fila !to-do
+                    ClipboardContent cc = new ClipboardContent();
+                    cc.putString(String.valueOf(getIndex()));
+                    db.setContent(cc);
+                    event.consume();
+                });
+
+                //2 pasamos por encima
+                setOnDragOver(event -> {
+                    Dragboard db = event.getDragboard();
+                    if (db.hasString()) {
+                        event.acceptTransferModes(TransferMode.MOVE);
+                    }
+                    event.consume();
+                });
+
+                // estos dos contribuye nd mas en la aestetica del programa
+                setOnDragEntered(event -> {
+
+                    if (getItem() != null) {
+                        if (!getStyleClass().contains("dropTarget")) {
+                            getStyleClass().add("dropTarget");
+                        }
+                    }
+
+                });
+                setOnDragExited(event -> getStyleClass().remove("dropTarget"));
+
+                //3
+                setOnDragDropped(event -> {
+
+                    Dragboard db = event.getDragboard();
+                    boolean completado = false;
+
+                    if (db.hasString()) {
+                        int desde = Integer.parseInt(db.getString()); // indice
+                        TipoInstRequisito movido = listaRequisitos.remove(desde);
+
+                        int hasta;
+                        if (getItem() == null) {
+                            hasta = listaRequisitos.size();
+                        } else {
+                            hasta = getIndex();
+                        }
+
+                        listaRequisitos.add(hasta, movido);
+                        lstRequisitos.getSelectionModel().select(hasta);
+                        completado = true;
+                    }
+                    event.setDropCompleted(completado);
+                    event.consume();
+                });
+            }
+
+            // si hay muchos requerimientos seria practico que se arresten y se escrolee al mismo tiempo
+            @Override
+            protected void updateItem(TipoInstRequisito requisito, boolean vacido) {
+                super.updateItem(requisito, vacido);
+                setText(null);
+
+                if (vacido || requisito == null) {
+                    setGraphic(null);   // nada que mostrar
+                    return;
+                }
+
+                lblNumero.setText(String.valueOf(getIndex() + 1));
+                lblTexto.setText(requisito.getTrqDescripcion());
+                setGraphic(fila);
+            }
+        });
+
+    }
+
+    private void eliminarRequisito(int id) {
+
+        TipoInstRequisito requisitoEliminado = listaRequisitos.remove(id);
+        requisitosEliminados.add(requisitoEliminado);
     }
 
     @Override
     public void initialize() {
         cargarTabla();
+    }
+
+    // hizo falta pq
+    private void mostrarDetalle(TipoInstrumento tipo) {
+        tipoInsSeleccionado = tipo;
+        requisitosEliminados.clear();
+
+        if (tipo == null) {
+            panelDerecho.setDisable(true);
+            listaRequisitos.clear();
+            return;
+        }
+
+        panelDerecho.setDisable(false);
+        listaRequisitos.setAll(tipo.getTipoInstRequisitoList());
     }
 
     @FXML
@@ -202,7 +360,36 @@ public class InstrumentosTipoController extends Controller implements Initializa
         }
 
         TipoInstRequisito requisito = new TipoInstRequisito(descRequisito);
+        listaRequisitos.add(requisito);
+        this.txtRequisito.clear();
 
+    }
+
+    @FXML
+    private void onActionBtnGuardarCambios(ActionEvent event) {
+        tipoInsSeleccionado.setTipoInstRequisitoList(new ArrayList<>(listaRequisitos));
+        tipoInsSeleccionado.setTipoInstRequisitoEliminadosList(new ArrayList<>(requisitosEliminados));
+        tipoInsSeleccionado.setTinBufeteId(1L);
+
+        // guardar el tipo de instrumentos ya tienen para actualizar los requisitos
+        Respuesta respuesta = tipoInstrumentoService.guardarTipoInstrumento(tipoInsSeleccionado);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Cambios guardados exitosamente!");
+            Long idGuardado = tipoInsSeleccionado.getTinId();
+            cargarTabla();
+            seleccionarTipo(idGuardado);    // sol para cuando se guardan los reqs ya que el WS les asigna un id pero si no se recarga se queda con los que no tienen id
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+    }
+
+    private void seleccionarTipo(Long id) {
+        for (TipoInstrumento tipoIns : listaTipoInstrumentos) {
+            if (tipoIns.getTinId().equals(id)) {
+                tblTipoInstrumentos.getSelectionModel().select(tipoIns);
+                return;
+            }
+        }
     }
 
     private void cargarTabla() {
@@ -335,6 +522,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
                 return;
             }
             try {
+                this.lblTituloDocWord.setText(archivoSeleccionado.getName());
                 byte[] contenidoWord = Files.readAllBytes(archivoSeleccionado.toPath());
                 // este es lo que tenemos que mandar al ws
                 // preguntar al profe si asi eestara bien TO-DO
@@ -343,5 +531,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
             }
 
         }
+
     }
+
 }
