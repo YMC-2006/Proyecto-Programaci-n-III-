@@ -253,9 +253,9 @@ public class AbogadosController extends Controller implements Initializable {
 
     // TODO DONT FORGET AGREGAR UN BOTONCITO PARA LIMPIAR TANTO EN CLIENTE COMO EN ABOGADO
     private void filtrar() {
-        String nombre = texto(txtBuscarNombre);
-        String cedula = texto(txtBuscarCedula);
-        String correo = texto(txtBuscarCorreo);
+        String nombre = txtBuscarNombre.getText().trim().toLowerCase();
+        String cedula = txtBuscarCedula.getText().trim().toLowerCase();
+        String correo = txtBuscarCorreo.getText().trim().toLowerCase();
 
         // falta evaluar los cmb les puse texto pero las propiedades son bool
         List<Abogado> filtrados = todosLosAbogados.stream()
@@ -269,10 +269,6 @@ public class AbogadosController extends Controller implements Initializable {
         listaAbogados.setAll(filtrados);
     }
 
-    // para obtener el texto del filtro en minuscula
-    private String texto(TextField txt) {
-        return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
-    }
 
     private boolean contiene(String dato, String buscado) {
         if (buscado.isEmpty()) {

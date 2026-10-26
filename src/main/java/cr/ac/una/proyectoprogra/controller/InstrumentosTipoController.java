@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -85,7 +87,6 @@ public class InstrumentosTipoController extends Controller implements Initializa
 
     @FXML
     private TableColumn<TipoInstrumento, TipoInstrumento> colAcciones;
-    // agregar el service del requisito del tipo de instrumento 
     @FXML
     private MFXButton btnSubirWord;
     @FXML
@@ -100,6 +101,8 @@ public class InstrumentosTipoController extends Controller implements Initializa
     private TipoInstrumento tipoInsSeleccionado;
     @FXML
     private VBox panelDerecho;
+    @FXML
+    private FlowPane flowPaneComodines;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -268,8 +271,8 @@ public class InstrumentosTipoController extends Controller implements Initializa
 
                 // estos dos contribuye nd mas en la aestetica del programa
                 setOnDragEntered(event -> {
-
-                    if (getItem() != null) {
+                    // esta valid es para que no se resalte a si mismo hace que se se vea mejor nada mas    
+                    if (getItem() != null && event.getGestureSource() != this) {
                         if (!getStyleClass().contains("dropTarget")) {
                             getStyleClass().add("dropTarget");
                         }
@@ -334,21 +337,6 @@ public class InstrumentosTipoController extends Controller implements Initializa
         cargarTabla();
     }
 
-    // hizo falta pq
-    private void mostrarDetalle(TipoInstrumento tipo) {
-        tipoInsSeleccionado = tipo;
-        requisitosEliminados.clear();
-
-        if (tipo == null) {
-            panelDerecho.setDisable(true);
-            listaRequisitos.clear();
-            return;
-        }
-
-        panelDerecho.setDisable(false);
-        listaRequisitos.setAll(tipo.getTipoInstRequisitoList());
-    }
-
     @FXML
     private void onActionBtnAgregarRequisito(ActionEvent event) {
 
@@ -367,6 +355,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
 
     @FXML
     private void onActionBtnGuardarCambios(ActionEvent event) {
+
         tipoInsSeleccionado.setTipoInstRequisitoList(new ArrayList<>(listaRequisitos));
         tipoInsSeleccionado.setTipoInstRequisitoEliminadosList(new ArrayList<>(requisitosEliminados));
         tipoInsSeleccionado.setTinBufeteId(1L);
@@ -377,7 +366,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
             mostrarExito("Cambios guardados exitosamente!");
             Long idGuardado = tipoInsSeleccionado.getTinId();
             cargarTabla();
-            seleccionarTipo(idGuardado);    // sol para cuando se guardan los reqs ya que el WS les asigna un id pero si no se recarga se queda con los que no tienen id
+            seleccionarTipo(idGuardado);
         } else {
             mostrarError(respuesta.getMensaje());
         }
@@ -390,6 +379,36 @@ public class InstrumentosTipoController extends Controller implements Initializa
                 return;
             }
         }
+    }
+
+    private void mostrarDetalle(TipoInstrumento tipo) {
+        tipoInsSeleccionado = tipo;
+        requisitosEliminados.clear();
+
+        if (tipo == null) {
+            panelDerecho.setDisable(true);
+            listaRequisitos.clear();
+            limpiarMachote("");
+            return;
+        }
+
+        panelDerecho.setDisable(false);
+        listaRequisitos.setAll(tipo.getTipoInstRequisitoList());
+
+        String ruta = tipo.getTinRutaMachote();
+        if (ruta == null || ruta.isBlank()) {
+            limpiarMachote("Sin machote");
+        } else {
+            // de la ruta completa del servidor solo mostramos el nombre del archivo
+            lblTituloDocWord.setText(Paths.get(ruta).getFileName().toString());
+            cargarComodines(tipo.getTinId());
+        }
+    }
+
+    private void limpiarMachote(String titulo) {
+        lblTituloDocWord.setText(titulo);
+        lblCantidadComodinesDetectados.setText("0 comodines detectados");
+        flowPaneComodines.getChildren().clear();
     }
 
     private void cargarTabla() {
@@ -410,23 +429,15 @@ public class InstrumentosTipoController extends Controller implements Initializa
     private void filtrar() {
         String tinNombre = txtBuscarInstrumento.getText().trim().toLowerCase();
 
-        Function<String, Predicate<TipoInstrumento>> contieneTexto = x -> t -> t.getTinNombre().equals(x);
+        Function<String, Predicate<TipoInstrumento>> contieneTexto = x -> t -> t.getTinNombre().toLowerCase().contains(x);
 
         List<TipoInstrumento> listaFiltrada = todosLosTiposInstrumentos.stream()
-                .filter(t -> contiene(t.getTinNombre(), tinNombre))
+                .filter(contieneTexto.apply(tinNombre))
                 .filter(t -> coincide(t.getTinEstado(), cmbFiltroEstado))
                 .collect(Collectors.toList());
 
         listaTipoInstrumentos.setAll(listaFiltrada);
 
-    }
-
-    private boolean contiene(String dato, String buscado) {
-        if (buscado.isEmpty()) {
-            return true;
-        }
-
-        return dato != null && dato.toLowerCase().contains(buscado);
     }
 
     private boolean coincide(Boolean valor, ComboBox cm) {
@@ -516,22 +527,51 @@ public class InstrumentosTipoController extends Controller implements Initializa
         exploradorArchivos.getExtensionFilters().addAll(imgFilter);
         File archivoSeleccionado = exploradorArchivos.showOpenDialog(btnSubirWord.getScene().getWindow());
 
-        if (archivoSeleccionado != null) {
-            if (!archivoSeleccionado.getName().toLowerCase().endsWith(".docx")) {
-                mostrarError("El machote a subir tiene que ser un word .docx");
-                return;
-            }
-            try {
-                this.lblTituloDocWord.setText(archivoSeleccionado.getName());
-                byte[] contenidoWord = Files.readAllBytes(archivoSeleccionado.toPath());
-                // este es lo que tenemos que mandar al ws
-                // preguntar al profe si asi eestara bien TO-DO
-            } catch (IOException e) {
-                System.out.println("Error no se pudo leer el archivo: " + e.getMessage());
-            }
-
+        if (archivoSeleccionado == null) {
+            return;   // el usuario canceló
         }
 
+        if (!archivoSeleccionado.getName().toLowerCase().endsWith(".docx")) {
+            mostrarError("El machote a subir tiene que ser un word .docx");
+            return;
+        }
+
+        try {
+            byte[] contenidoWord = Files.readAllBytes(archivoSeleccionado.toPath());
+            Respuesta respuesta = tipoInstrumentoService.subirMachote(tipoInsSeleccionado.getTinId(), archivoSeleccionado.getName(), contenidoWord);
+
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                mostrarExito("Se cargo el docx exitosamente");
+                Long idTipoIns = tipoInsSeleccionado.getTinId();
+                cargarTabla();
+                seleccionarTipo(idTipoIns);
+            } else {
+                mostrarError(respuesta.getMensaje());
+            }
+
+        } catch (IOException e) {
+            mostrarError("Error no se pudo leer el archivo seleccionado");
+        }
+
+    }
+
+    private void cargarComodines(Long tinId) {
+        flowPaneComodines.getChildren().clear();
+        Respuesta respuesta = tipoInstrumentoService.getComodines(tinId);
+
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<String> listaComodines = (List<String>) respuesta.getResultado("Comodines");
+            this.lblCantidadComodinesDetectados.setText(listaComodines.size() + " comodines detectados");
+
+            for (String comodin : listaComodines) {
+                Label label = new Label(comodin);
+                label.getStyleClass().add("chipComodin");
+                flowPaneComodines.getChildren().add(label);
+            }
+
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
     }
 
 }

@@ -15,23 +15,24 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="%instrumentos.titulo" />
+                  <Label styleClass="titl" text="%instrumentos.titulo" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+            <HBox prefHeight="188.0" prefWidth="1086.0" styleClass="hbox">
                <children>
-                  <ComboBox prefWidth="150.0" promptText="Tipo" />
-                  <ComboBox prefWidth="150.0" promptText="Abog titular" />
-                  <ComboBox prefWidth="150.0" promptText="Estado" />
+                  <ComboBox prefWidth="150.0" promptText="Tipo" styleClass="comboBox" />
+                  <ComboBox prefWidth="150.0" promptText="Abog titular" styleClass="comboBox" />
+                  <ComboBox prefWidth="150.0" promptText="Estado" styleClass="comboBox" />
                   <Label text="Saldo" />
+                  <VBox prefHeight="75.0" prefWidth="527.0" />
                </children>
             </HBox>
-            <HBox prefHeight="94.0" prefWidth="1086.0">
+            <HBox prefHeight="221.0" prefWidth="1086.0">
                <children>
-                  <TextArea prefHeight="0.0" prefWidth="1087.0" />
+                  <TextArea prefHeight="0.0" prefWidth="1087.0" promptText="Descripcion" />
                </children>
             </HBox>
-            <HBox prefHeight="474.0" prefWidth="1086.0">
+            <HBox prefHeight="614.0" prefWidth="1086.0">
                <children>
                   <TabPane prefHeight="470.0" prefWidth="1102.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>

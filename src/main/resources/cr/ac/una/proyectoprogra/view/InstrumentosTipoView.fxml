@@ -13,30 +13,31 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="857.0" prefWidth="1523.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosTipoController">
+<AnchorPane id="AnchorPane" prefHeight="857.0" prefWidth="1432.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosTipoController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+      <VBox layoutY="31.2" prefHeight="796.0" prefWidth="1346.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="31.0">
          <children>
-            <HBox prefHeight="0.0" prefWidth="1422.0">
-               <children>
-                  <VBox prefHeight="100.0" prefWidth="644.0">
-                     <children>
-                        <Label styleClass="TituloLogin2" text="%tin.titulo" />
-                        <Label prefHeight="18.0" prefWidth="478.0" text="%tin.descripcion" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
             <HBox prefHeight="775.0" prefWidth="1629.0" spacing="30.0">
                <children>
                   <VBox prefHeight="726.0" prefWidth="409.0">
                      <children>
+                        <HBox prefHeight="0.0" prefWidth="1422.0">
+                           <children>
+                              <VBox prefHeight="100.0" prefWidth="644.0">
+                                 <children>
+                                    <Label styleClass="TituloLogin2" text="%tin.titulo" />
+                                    <Label prefHeight="18.0" prefWidth="478.0" text="%tin.descripcion" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                         <HBox prefHeight="135.0" prefWidth="406.0" styleClass="hboxI">
                            <children>
-                              <TextField fx:id="txtBuscarInstrumento" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="303.0" styleClass="txtCampo" />
+                              <TextField fx:id="txtBuscarInstrumento" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="303.0" promptText="Buscar Tipo Instrumento" styleClass="txtCampo" />
                               <ComboBox fx:id="cmbFiltroEstado" onAction="#onActionFiltrar" prefWidth="150.0" promptText="%estado" styleClass="comboBox" />
                            </children>
                            <VBox.margin>
@@ -103,14 +104,14 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <VBox prefHeight="451.0" prefWidth="816.0">
+                        <VBox prefHeight="285.0" prefWidth="816.0">
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
+                              <HBox prefHeight="25.0" prefWidth="816.0">
                                  <children>
                                     <Label styleClass="subTituloInstrumentos" text="Comodines detectados del WORD" />
                                  </children>
                               </HBox>
-                              <HBox prefHeight="177.0" prefWidth="858.0" />
+                              <FlowPane fx:id="flowPaneComodines" hgap="8.0" prefHeight="200.0" prefWidth="200.0" vgap="8.0" />
                            </children>
                            <VBox.margin>
                               <Insets top="20.0" />
@@ -119,7 +120,7 @@
                         <VBox prefHeight="662.0" prefWidth="759.0">
                            <children>
                               <Label styleClass="subTituloInstrumentos" text="Arrastre el requisito para ordenarlo por prioridad" />
-                              <ListView fx:id="lstRequisitos" prefHeight="342.0" prefWidth="816.0" styleClass="lstRequisitos" />
+                              <ListView fx:id="lstRequisitos" prefHeight="451.0" prefWidth="816.0" styleClass="lstRequisitos" />
                               <HBox prefHeight="100.0" prefWidth="858.0" styleClass="hbox">
                                  <children>
                                     <TextField fx:id="txtRequisito" prefHeight="26.0" prefWidth="587.0" styleClass="txtCampo" />
@@ -133,7 +134,7 @@
                         <Insets />
                      </opaqueInsets>
                      <HBox.margin>
-                        <Insets left="60.0" />
+                        <Insets left="80.0" />
                      </HBox.margin>
                   </VBox>
                </children>

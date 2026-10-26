@@ -1465,6 +1465,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: transparent;
 }
 
+
+/*====== comodines =======*/
+
+.chipComodin {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #D5DCE6;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1A2233;
+    -fx-cursor: hand;
+}
+.chipComodin:hover {
+    -fx-border-color: #0B6FB0;
+    -fx-text-fill: #0B6FB0;
+}
+
 /* --------------------------------- Calendario ------------------------------- */
 
 .labelCalendario{
