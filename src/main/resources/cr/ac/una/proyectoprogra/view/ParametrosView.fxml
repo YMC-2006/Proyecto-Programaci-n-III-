@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="713.0" prefWidth="1075.0" stylesheets="@../styles/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.ParametrosController">
+    <children>
+        <VBox spacing="16.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+            <children>
+ 
+                <HBox alignment="BOTTOM_LEFT">
+                    <children>
+                        <VBox spacing="4.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="titl" text="%par.titulo" />
+                                <Label styleClass="lblCampo" text="%par.descripcion" />
+                            </children>
+                        </VBox>
+                        <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%par.nuevo">
+                            <graphic>
+                                <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                    <styleClass>
+                                        <String fx:value="btnImg" />
+                                        <String fx:value="agregar" />
+                                    </styleClass>
+                                </ImageView>
+                            </graphic>
+                        </MFXButton>
+                    </children>
+                </HBox>
+ 
+                <HBox alignment="BOTTOM_LEFT" spacing="14.0" styleClass="bhox">
+                    <children>
+                        <VBox spacing="6.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label styleClass="lblCampo" text="%btn.buscar" />
+                                <TextField fx:id="txtBuscar" maxWidth="Infinity" onKeyReleased="#onKeyReleasedFiltrar" promptText="%par.buscar.prompt" styleClass="txtCampo" />
+                            </children>
+                        </VBox>
+                        <MFXButton fx:id="btnLimpiar" minHeight="35.0" onAction="#onActionBtnLimpiarFiltros" prefHeight="35.0" prefWidth="180.0" styleClass="btnW" text="%btn.limpiar">
+                            <graphic>
+                                <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                    <styleClass>
+                                        <String fx:value="btnImg" />
+                                        <String fx:value="limpiar" />
+                                    </styleClass>
+                                </ImageView>
+                            </graphic>
+                        </MFXButton>
+                    </children>
+                </HBox>
+ 
+                <VBox spacing="10.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                    <children>
+                        <TableView fx:id="tblParametros" styleClass="tblInstrumento" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colCodigo" prefWidth="260.0" text="%par.col.codigo" />
+                                <TableColumn fx:id="colValor" prefWidth="280.0" text="%par.col.valor" />
+                                <TableColumn fx:id="colDescripcion" prefWidth="420.0" text="%par.col.descripcion" />
+                                <TableColumn fx:id="colAcciones" prefWidth="120.0" text=" " />
+                            </columns>
+                        </TableView>
+                        <Label styleClass="lblCampo" text="%par.nota.sistema" />
+                    </children>
+                </VBox>
+ 
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

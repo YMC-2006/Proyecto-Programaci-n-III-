@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+ 
+<AnchorPane fx:id="root" prefHeight="560.0" prefWidth="594.0" styleClass="modalRoot" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarParametroController">
+   <children>
+      <VBox styleClass="cardRegistro" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <children>
+ 
+            <StackPane alignment="CENTER_LEFT" prefHeight="100.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="570.0" preserveRatio="false">
+                     <image>
+                        <Image url="@../resource/fondo_modal.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" spacing="14.0">
+                     <padding>
+                        <Insets left="26.0" />
+                     </padding>
+                     <children>
+                        <StackPane styleClass="avatarModal">
+                           <children>
+                              <ImageView fitHeight="28.0" fitWidth="28.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/parametros_hover.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0">
+                           <children>
+                              <Label styleClass="lblSubModal" text="%par.modal.sub" />
+                              <Label fx:id="lblTituloModal" styleClass="lblTituloModal" text="%par.modal.titulo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+ 
+            <VBox spacing="14.0" styleClass="vboxModal" VBox.vgrow="ALWAYS">
+               <children>
+ 
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label styleClass="lblCampo" text="%par.codigo" />
+                        <TextField fx:id="txtCodigo" styleClass="txtCampo" />
+                        <Label styleClass="lblAyuda" text="%par.codigo.ayuda" wrapText="true" />
+                     </children>
+                  </VBox>
+ 
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label styleClass="lblCampo" text="%par.valor" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <TextField fx:id="txtValor" maxWidth="Infinity" styleClass="txtCampo" HBox.hgrow="ALWAYS" />
+                              <Button fx:id="btnExaminar" managed="false" mnemonicParsing="false" onAction="#onActionBtnExaminar" styleClass="btnSecundario" text="%btn.examinar" visible="false" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+ 
+                  <VBox spacing="6.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="lblCampo" text="%par.descripcionCampo" />
+                        <TextArea fx:id="txaDescripcion" prefHeight="90.0" styleClass="txtArea" wrapText="true" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+ 
+               </children>
+            </VBox>
+ 
+            <HBox alignment="CENTER_RIGHT" spacing="10.0" styleClass="modalFooter">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onActionBtnCancelar" styleClass="btnSecundario" text="%btn.cancelar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="cancelar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#onActionBtnGuardar" styleClass="btnPrimario" text="%btn.guardar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="guardar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+ 
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

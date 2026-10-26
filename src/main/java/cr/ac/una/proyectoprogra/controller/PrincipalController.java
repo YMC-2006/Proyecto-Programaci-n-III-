@@ -67,15 +67,16 @@ public class PrincipalController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("aaaaa");
-        //menu de mantenimientos
+
         mostrarFechaActual();
-        ResourceBundle resB = rb;
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
         opsMantenimiento.getChildren().addAll(
                 crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView", "abogados", menuMantenimientos),
                 crearBotonMenu(FlowController.getIdioma().getString("menu.clientes"), "ClientesView", "clientes", menuMantenimientos),
-                crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"), "SociedadesView", "sociedades", menuMantenimientos)
+                crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"), "SociedadesView", "sociedades", menuMantenimientos),
+                crearBotonMenu(FlowController.getIdioma().getString("menu.parametros"), "ParametrosView", "parametros", menuMantenimientos)
+
         );
 
         menuMantenimientos.getContent().add(opsMantenimiento);
