@@ -320,7 +320,7 @@ public class AgregarRepresentanteController extends Controller implements Initia
         if(Boolean.TRUE.equals(respuesta.getEstado())){
             List<Cliente> clientes = (List<Cliente>)respuesta.getResultado("Clientes");
             if(clientes != null && !clientes.isEmpty()){
-                Cliente clienteEncontrado = clientes.get(0);
+                Cliente clienteEncontrado = clientes.stream().filter(c->c.getCliIdentificacion() != null && c.getCliIdentificacion().equals(cedula)).findFirst().orElse(null);
                 clienteRepresentanteId = clienteEncontrado.getCliId();
                 txtNombre.setText(clienteEncontrado.getCliNombre()+" " + clienteEncontrado.getCliApellido1());
             }else{

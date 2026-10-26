@@ -25,14 +25,24 @@
                <children>
                   <VBox prefHeight="79.0" prefWidth="1029.0">
                      <children>
-                        <Label styleClass="titl" text="Modulo Contable" />
-                        <Label styleClass="titlCard" text="Ingresos, Gastos y Tributación" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="%contable.titulo" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="1033.0" styleClass="titlCard" text="%contable.descripcion" />
                      </children>
                   </VBox>
                   <HBox prefHeight="79.0" prefWidth="700.0" styleClass="hboxI">
                      <children>
-                        <MFXDatePicker prefWidth="241.0" promptText="Inicio" styleClass="txtCampo" />
-                        <MFXDatePicker prefWidth="241.0" promptText="Fin" styleClass="txtCampo" />
+                        <VBox prefHeight="58.0" prefWidth="171.0" styleClass="vboxH">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.fechaIni" />
+                              <MFXDatePicker styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="58.0" prefWidth="171.0" styleClass="vboxH">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.fechaFin" />
+                              <MFXDatePicker styleClass="txtCampo" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                </children>
@@ -149,13 +159,13 @@
                                                       </HBox>
                                                    </children>
                                                 </HBox>
-                                                <TableView prefHeight="310.0" prefWidth="921.0" styleClass="tblSoci">
+                                                <TableView fx:id="tblContable" prefHeight="310.0" prefWidth="921.0" styleClass="tblSoci">
                                                   <columns>
-                                                    <TableColumn prefWidth="131.20003128051758" text="Fecha" />
-                                                    <TableColumn minWidth="0.0" prefWidth="234.3999786376953" text="Detalle" />
-                                                      <TableColumn prefWidth="142.39996337890625" text="Origen" />
-                                                      <TableColumn prefWidth="164.0" text="Tributa" />
-                                                      <TableColumn prefWidth="249.5999755859375" text="Monto" />
+                                                    <TableColumn fx:id="colFecha" prefWidth="131.20003128051758" text="Fecha" />
+                                                    <TableColumn fx:id="colDetalle" minWidth="0.0" prefWidth="234.3999786376953" text="Detalle" />
+                                                      <TableColumn fx:id="colOrigen" prefWidth="142.39996337890625" text="Origen" />
+                                                      <TableColumn fx:id="colTributa" prefWidth="164.0" text="Tributa" />
+                                                      <TableColumn fx:id="colMonto" prefWidth="249.5999755859375" text="Monto" />
                                                   </columns>
                                                 </TableView>
                                              </children>
@@ -186,21 +196,31 @@
                                                    <children>
                                                       <VBox prefHeight="100.0" prefWidth="151.0">
                                                          <children>
-                                                            <Label styleClass="titlCard" text="Tipo" />
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tipo" />
                                                             <HBox prefHeight="34.0" prefWidth="100.0" styleClass="segmented-group">
                                                                <children>
-                                                                  <ToggleButton mnemonicParsing="false" styleClass="segmented-btn" text="Ingreso">
+                                                                  <ToggleButton fx:id="tggIngreso" mnemonicParsing="false" styleClass="segmented-btn" text="Ingreso">
                                                                      <toggleGroup>
                                                                         <ToggleGroup fx:id="tggTipo" />
                                                                      </toggleGroup>
                                                                   </ToggleButton>
-                                                                  <ToggleButton layoutX="14.0" layoutY="35.0" mnemonicParsing="false" styleClass="segmented-btn" text="Gasto" toggleGroup="$tggTipo" />
+                                                                  <ToggleButton fx:id="tggGasto" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" styleClass="segmented-btn" text="Gasto" toggleGroup="$tggTipo" />
                                                                </children>
                                                             </HBox>
                                                          </children>
                                                       </VBox>
-                                                      <MFXDatePicker promptText="Fecha" styleClass="txtCampo" />
-                                                      <MFXTextField floatingText="Detalle" prefWidth="412.0" styleClass="txtCampo" />
+                                                      <VBox prefHeight="58.0" prefWidth="171.0" styleClass="vboxH">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.fecha" />
+                                                            <MFXDatePicker fx:id="dtpFecha" styleClass="txtCampo" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox prefHeight="58.0" prefWidth="506.0" styleClass="vboxH">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.detalle" />
+                                                            <MFXTextField fx:id="txtDetalle" prefWidth="510.0" styleClass="txtCampo" />
+                                                         </children>
+                                                      </VBox>
                                                    </children>
                                                    <styleClass>
                                                       <String fx:value="hbox" />
@@ -209,29 +229,29 @@
                                                 </HBox>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="vboxH">
                                                          <children>
-                                                            <Label styleClass="titlCard" text="Monto" />
-                                                            <MFXTextField floatMode="DISABLED" prefWidth="219.0" styleClass="txtCampo" />
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.monto" />
+                                                            <MFXTextField fx:id="txtMonto" floatMode="DISABLED" prefWidth="219.0" styleClass="txtCampo" />
                                                          </children>
                                                       </VBox>
-                                                      <VBox prefHeight="76.0" prefWidth="246.0">
+                                                      <VBox prefHeight="76.0" prefWidth="246.0" styleClass="vboxH">
                                                          <children>
-                                                            <Label styleClass="titlCard" />
-                                                            <MFXTextField floatingText="Factura" prefWidth="219.0" styleClass="txtCampo" />
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.factura" />
+                                                            <MFXTextField fx:id="txtFactura" prefWidth="219.0" styleClass="txtCampo" />
                                                          </children>
                                                       </VBox>
-                                                      <VBox layoutX="419.0" layoutY="20.0" prefHeight="76.0" prefWidth="164.0">
+                                                      <VBox layoutX="419.0" layoutY="20.0" prefHeight="76.0" prefWidth="164.0" styleClass="vboxH">
                                                          <children>
-                                                            <Label styleClass="titlCard" text="¿Tributa?" />
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tributa" />
                                                             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxProgres">
                                                                <children>
-                                                                  <MFXRadioButton text="Sí">
+                                                                  <MFXRadioButton fx:id="rdbTributa" text="Sí">
                                                                      <toggleGroup>
                                                                         <ToggleGroup fx:id="tggTributa" />
                                                                      </toggleGroup>
                                                                   </MFXRadioButton>
-                                                                  <MFXRadioButton layoutX="10.0" layoutY="10.0" text="No" toggleGroup="$tggTributa" />
+                                                                  <MFXRadioButton fx:id="rdbNoTributa" layoutX="10.0" layoutY="10.0" text="No" toggleGroup="$tggTributa" />
                                                                </children>
                                                             </HBox>
                                                          </children>
@@ -244,12 +264,12 @@
                                                 </HBox>
                                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
                                                    <children>
-                                                      <MFXButton styleClass="btnNS" text="Guardar Movimiento">
+                                                      <MFXButton fx:id="btnAgregarSociedad" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onActionBtnAgregarSociedad" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
                                                          <graphic>
-                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                            <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                                                <styleClass>
                                                                   <String fx:value="btnImg" />
-                                                                  <String fx:value="guardar" />
+                                                                  <String fx:value="agregar" />
                                                                </styleClass>
                                                             </ImageView>
                                                          </graphic>
