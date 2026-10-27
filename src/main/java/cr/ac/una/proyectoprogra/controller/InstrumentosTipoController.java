@@ -4,6 +4,7 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.model.Comodin;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
@@ -560,11 +561,11 @@ public class InstrumentosTipoController extends Controller implements Initializa
         Respuesta respuesta = tipoInstrumentoService.getComodines(tinId);
 
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            List<String> listaComodines = (List<String>) respuesta.getResultado("Comodines");
+            List<Comodin> listaComodines = (List<Comodin>) respuesta.getResultado("Comodines");
             this.lblCantidadComodinesDetectados.setText(listaComodines.size() + " comodines detectados");
 
-            for (String comodin : listaComodines) {
-                Label label = new Label(comodin);
+            for (Comodin comodin : listaComodines) {
+                Label label = new Label(comodin.getNombre());
                 label.getStyleClass().add("chipComodin");
                 flowPaneComodines.getChildren().add(label);
             }
@@ -572,6 +573,11 @@ public class InstrumentosTipoController extends Controller implements Initializa
         } else {
             mostrarError(respuesta.getMensaje());
         }
+    }
+
+    @FXML
+    private void onActionBtnVerComodinesDisponibles(ActionEvent event) {
+        FlowController.getInstance().goViewInWindowModal("ComodinesDisponiblesView", stage ,true);
     }
 
 }

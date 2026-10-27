@@ -111,7 +111,20 @@
                                     <Label styleClass="subTituloInstrumentos" text="Comodines detectados del WORD" />
                                  </children>
                               </HBox>
-                              <FlowPane fx:id="flowPaneComodines" hgap="8.0" prefHeight="200.0" prefWidth="200.0" vgap="8.0" />
+                              <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+                                 <children>
+                                    <FlowPane fx:id="flowPaneComodines" hgap="8.0" prefHeight="100.0" prefWidth="761.0" vgap="8.0" />
+                                    <Button mnemonicParsing="false" onAction="#onActionBtnVerComodinesDisponibles" prefHeight="46.0" prefWidth="519.0" styleClass="btnW" text="Comodines disponibles">
+                                       <graphic>
+                                          <ImageView fitHeight="67.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../resource/iconos_sicobu/ver.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
                            </children>
                            <VBox.margin>
                               <Insets top="20.0" />
@@ -124,7 +137,7 @@
                               <HBox prefHeight="100.0" prefWidth="858.0" styleClass="hbox">
                                  <children>
                                     <TextField fx:id="txtRequisito" prefHeight="26.0" prefWidth="587.0" styleClass="txtCampo" />
-                                    <Button fx:id="btnRequisito" mnemonicParsing="false" onAction="#onActionBtnAgregarRequisito" prefHeight="46.0" prefWidth="209.0" styleClass="btnW" text="Agregar requisito" />
+                                    <Button fx:id="btnRequisito" mnemonicParsing="false" onAction="#onActionBtnAgregarRequisito" prefHeight="46.0" prefWidth="209.0" styleClass="btnNS" text="Agregar requisito" />
                                  </children>
                               </HBox>
                            </children>

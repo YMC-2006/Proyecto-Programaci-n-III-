@@ -4,6 +4,7 @@
  */
 package cr.ac.una.proyectoprogra.service;
 
+import cr.ac.una.proyectoprogra.model.Comodin;
 import cr.ac.una.proyectoprogra.model.MachoteDto;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
 import cr.ac.una.proyectoprogra.util.Request;
@@ -144,7 +145,7 @@ public class TipoInstrumentoService {
                 return new Respuesta(false, request.getError(), "");
             }
 
-            List<String> comodines = (List<String>) request.readEntity(new GenericType<List<String>>() {});
+            List<Comodin> comodines = (List<Comodin>) request.readEntity(new GenericType<List<Comodin>>() {});
             return new Respuesta(true, "", "", "Comodines", comodines);
 
         } catch (Exception ex) {
@@ -152,5 +153,23 @@ public class TipoInstrumentoService {
             return new Respuesta(false, "Error obteniendo los comodines.", "getComodines " + ex.getMessage());
         }
     }
+    
+    public Respuesta getComodinesDisponibles() {
+    try {
+        Request request = new Request("TipoInstrumentos/comodines");
+        request.get();
+
+        if (request.isError()) {
+            return new Respuesta(false, request.getError(), "");
+        }
+
+        List<Comodin> comodines = (List<Comodin>) request.readEntity(new GenericType<List<Comodin>>() {});
+        return new Respuesta(true, "", "", "Comodines", comodines);
+
+    } catch (Exception ex) {
+        Logger.getLogger(TipoInstrumentoService.class.getName()).log(Level.SEVERE, "Error obteniendo los comodines disponibles.", ex);
+        return new Respuesta(false, "Error obteniendo los comodines disponibles.", "getComodinesDisponibles " + ex.getMessage());
+    }
+}
 
 }

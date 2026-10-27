@@ -81,7 +81,7 @@ public class ParametroService {
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("id", id);
 
-            // construye /Parametros/15 (si id es 15)
+            // construye /Parametros/15
             Request request = new Request("Parametros", "/{id}", parametros);
             request.delete();
 
