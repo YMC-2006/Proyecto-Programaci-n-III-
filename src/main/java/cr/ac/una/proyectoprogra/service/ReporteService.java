@@ -4,13 +4,42 @@
  */
 package cr.ac.una.proyectoprogra.service;
 
+import cr.ac.una.proyectoprogra.model.ArchivoDto;
+import cr.ac.una.proyectoprogra.util.Request;
 import cr.ac.una.proyectoprogra.util.Respuesta;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author vjjcu
  */
 public class ReporteService {
+    
+    public Respuesta getReportePrueba(Long abogadoId) {
+    try {
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("abogadoId", abogadoId);
+        Request request = new Request("Reportes", "/prueba/{abogadoId}", parametros);
+        request.get();
+
+        if (request.isError()) {
+            return new Respuesta(false, request.getError(), "");
+        }
+
+        ArchivoDto archivo = (ArchivoDto) request.readEntity(ArchivoDto.class);
+        return new Respuesta(true, "", "", "Reporte", archivo);
+
+    } catch (Exception ex) {
+        Logger.getLogger(ReporteService.class.getName()).log(Level.SEVERE, "Error obteniendo el reporte.", ex);
+        return new Respuesta(false, "Error obteniendo el reporte.", "getReportePrueba " + ex.getMessage());
+    }
+    
+  
+}
+
     
     public Respuesta generarReporteInstrumento(){
          return new Respuesta();
