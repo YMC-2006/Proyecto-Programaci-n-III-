@@ -69,7 +69,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
                      <children>
-                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#btnOnActionBuscarAbogado" styleClass="btnNS" text="Buscar" />
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#btnOnActionCargarAbogado" styleClass="btnNS" text="Cargar" />
                      </children>
                   </HBox>
                </children>

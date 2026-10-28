@@ -357,6 +357,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
     @FXML
     private void onActionBtnGuardarCambios(ActionEvent event) {
 
+        // el instrumento seleccionado sele asgina la lista de requisitos
         tipoInsSeleccionado.setTipoInstRequisitoList(new ArrayList<>(listaRequisitos));
         tipoInsSeleccionado.setTipoInstRequisitoEliminadosList(new ArrayList<>(requisitosEliminados));
         tipoInsSeleccionado.setTinBufeteId(1L);
