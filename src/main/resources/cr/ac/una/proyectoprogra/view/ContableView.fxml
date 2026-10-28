@@ -25,7 +25,7 @@
                <children>
                   <VBox prefHeight="79.0" prefWidth="1029.0">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="%contable.titulo" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="contable.titulo" />
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="1033.0" styleClass="titlCard" text="%contable.descripcion" />
                      </children>
                   </VBox>

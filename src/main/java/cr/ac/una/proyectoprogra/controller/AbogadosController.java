@@ -75,7 +75,6 @@ public class AbogadosController extends Controller implements Initializable {
     private TableColumn<Abogado, Abogado> colAcciones;
 
     private AbogadoService abogadoService = new AbogadoService();
-
     private ObservableList<Abogado> listaAbogados = FXCollections.observableArrayList();
     private List<Abogado> todosLosAbogados = new ArrayList<>();
 

@@ -104,7 +104,7 @@ public class ReportesController extends Controller implements Initializable {
     @FXML
     private void btnOnActionBuscarAbogado(ActionEvent event) {
 
-        FlowController.getInstance().goViewInWindowModal("BuscarAbogadoView", stage, Boolean.FALSE);
+        FlowController.getInstance().goViewInWindowModal("BusquedaAbogadoView", stage, Boolean.FALSE);
 
     }
     

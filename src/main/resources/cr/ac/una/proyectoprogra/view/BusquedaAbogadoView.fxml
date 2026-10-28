@@ -1,11 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.BusquedaAbogadoController">
-    
+<AnchorPane id="AnchorPane" prefHeight="689.0" prefWidth="1367.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.BusquedaAbogadoController">
+   <children>
+      <HBox layoutY="11.2" prefHeight="668.0" prefWidth="1328.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="133.0" AnchorPane.topAnchor="11.0">
+         <children>
+            <VBox prefHeight="668.0" prefWidth="520.0" styleClass="vbox">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+                     <children>
+                        <Label styleClass="TituloLogin2" text="Buscar Abgoado" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="322.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="93.0" prefWidth="257.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.nombre" />
+                              <TextField fx:id="txtBuscarNombre" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="192.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="322.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="93.0" prefWidth="257.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.cedula" />
+                              <TextField fx:id="txtBuscarCedula" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="192.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="112.0" prefWidth="270.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.correo" />
+                              <TextField fx:id="txtBuscarCorreo" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="133.0" prefWidth="222.0" styleClass="hbox">
+                     <children>
+                        <VBox prefHeight="113.0" prefWidth="137.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.propietario" />
+                              <ComboBox fx:id="cmbFiltroPropietario" onAction="#onActionFiltrar" prefWidth="159.0" promptText="Propietario" styleClass="comboBox" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="113.0" prefWidth="141.0" styleClass="vboxH">
+                           <children>
+                              <Label text="%abog.notario" />
+                              <ComboBox fx:id="cmbFiltroNotario" onAction="#onActionFiltrar" prefWidth="213.0" promptText="Notario" styleClass="comboBox" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
+                     <children>
+                        <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#btnOnActionBuscarAbogado" styleClass="btnNS" text="Buscar" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="620.0" prefWidth="1075.0" styleClass="cardRegistroAbo">
+               <children>
+                  <TableView fx:id="tblAbogados" prefHeight="677.0" prefWidth="1074.0" styleClass="tblAbogados">
+                     <columns>
+                        <TableColumn fx:id="colNombre" prefWidth="171.1999832391739" text="%abog.nombre" />
+                        <TableColumn fx:id="colCedula" prefWidth="103.20008850097656" text="%abog.cedula" />
+                        <TableColumn fx:id="colTelefono" prefWidth="120.00006103515625" text="%abog.telefono" />
+                        <TableColumn fx:id="colCelular" prefWidth="113.5999755859375" text="%abog.celular" />
+                        <TableColumn fx:id="colCorreo" prefWidth="97.60003662109375" text="%abog.correo" />
+                        <TableColumn fx:id="colDireccion" prefWidth="96.79998779296875" text="%abog.dir" />
+                        <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="87.20001220703125" text="%abog.propietario" />
+                        <TableColumn fx:id="colNotario" minWidth="0.0" prefWidth="132.800048828125" text="%abog.notario" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>
