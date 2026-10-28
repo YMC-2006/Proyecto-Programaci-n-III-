@@ -249,6 +249,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .mfx-combo-box-cell:hover {
     -fx-background-color: -fx-color-crema;
+    -fx-text-fill: -fx-color-fondo;
 }
 
 .mfx-combo-box-cell:selected {

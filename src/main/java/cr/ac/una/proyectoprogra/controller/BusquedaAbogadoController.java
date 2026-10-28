@@ -6,6 +6,7 @@ package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.service.AbogadoService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
 import cr.ac.una.proyectoprogra.util.Respuesta;
@@ -191,6 +192,7 @@ public class BusquedaAbogadoController extends Controller implements Initializab
         ReportesController reporteController = (ReportesController) FlowController.getInstance().getController("ReportesView");
         reporteController.cargarAbogado(abogadoSeleccionado);
         System.out.println("se seleccio " + abogadoSeleccionado.getAboNombre());
+        AppContext.getInstance().set("abogadoSeleccionado", abogadoSeleccionado);
         ((Stage)btnBuscar.getScene().getWindow()).close();
     }
     
