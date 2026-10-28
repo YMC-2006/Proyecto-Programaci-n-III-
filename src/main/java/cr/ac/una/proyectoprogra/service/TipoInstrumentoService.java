@@ -153,7 +153,7 @@ public class TipoInstrumentoService {
             return new Respuesta(false, "Error obteniendo los comodines.", "getComodines " + ex.getMessage());
         }
     }
-    
+
     public Respuesta getComodinesDisponibles() {
     try {
         Request request = new Request("TipoInstrumentos/comodines");

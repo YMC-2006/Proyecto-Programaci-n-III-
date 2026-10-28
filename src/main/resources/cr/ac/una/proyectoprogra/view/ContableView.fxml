@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
-<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
@@ -179,92 +181,34 @@
                               </AnchorPane>
                         </content>
                       </Tab>
-                        <Tab text="Movimientos Varios">
+                        <Tab fx:id="tabMovimientos" text="Movimientos Varios">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <VBox layoutX="83.0" layoutY="42.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <styleClass>
-                                                <String fx:value="card" />
-                                                <String fx:value="card2" />
-                                             </styleClass>
+                                          <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="1286.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <Label styleClass="titl2" text="Registrar Movimiento" />
-                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="66.0" prefWidth="1042.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <VBox prefHeight="100.0" prefWidth="151.0">
-                                                         <children>
-                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tipo" />
-                                                            <HBox prefHeight="34.0" prefWidth="100.0" styleClass="segmented-group">
-                                                               <children>
-                                                                  <ToggleButton fx:id="tggIngreso" mnemonicParsing="false" styleClass="segmented-btn" text="Ingreso">
-                                                                     <toggleGroup>
-                                                                        <ToggleGroup fx:id="tggTipo" />
-                                                                     </toggleGroup>
-                                                                  </ToggleButton>
-                                                                  <ToggleButton fx:id="tggGasto" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" styleClass="segmented-btn" text="Gasto" toggleGroup="$tggTipo" />
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox prefHeight="58.0" prefWidth="171.0" styleClass="vboxH">
-                                                         <children>
-                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.fecha" />
-                                                            <MFXDatePicker fx:id="dtpFecha" styleClass="txtCampo" />
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox prefHeight="58.0" prefWidth="506.0" styleClass="vboxH">
-                                                         <children>
-                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.detalle" />
-                                                            <MFXTextField fx:id="txtDetalle" prefWidth="510.0" styleClass="txtCampo" />
-                                                         </children>
-                                                      </VBox>
+                                                      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="%movimiento.titulo" VBox.vgrow="ALWAYS">
+                                                         <VBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </VBox.margin>
+                                                      </Label>
+                                                      <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="1033.0" styleClass="titlCard" text="%movimiento.descripcion" VBox.vgrow="ALWAYS">
+                                                         <VBox.margin>
+                                                            <Insets left="20.0" />
+                                                         </VBox.margin>
+                                                      </Label>
                                                    </children>
-                                                   <styleClass>
-                                                      <String fx:value="hbox" />
-                                                      <String fx:value="card2" />
-                                                   </styleClass>
-                                                </HBox>
-                                                <HBox prefHeight="100.0" prefWidth="200.0">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </VBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="66.0" prefWidth="415.0" styleClass="hbox" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0" styleClass="vboxH">
-                                                         <children>
-                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.monto" />
-                                                            <MFXTextField fx:id="txtMonto" floatMode="DISABLED" prefWidth="219.0" styleClass="txtCampo" />
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox prefHeight="76.0" prefWidth="246.0" styleClass="vboxH">
-                                                         <children>
-                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.factura" />
-                                                            <MFXTextField fx:id="txtFactura" prefWidth="219.0" styleClass="txtCampo" />
-                                                         </children>
-                                                      </VBox>
-                                                      <VBox layoutX="419.0" layoutY="20.0" prefHeight="76.0" prefWidth="164.0" styleClass="vboxH">
-                                                         <children>
-                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tributa" />
-                                                            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxProgres">
-                                                               <children>
-                                                                  <MFXRadioButton fx:id="rdbTributa" text="Sí">
-                                                                     <toggleGroup>
-                                                                        <ToggleGroup fx:id="tggTributa" />
-                                                                     </toggleGroup>
-                                                                  </MFXRadioButton>
-                                                                  <MFXRadioButton fx:id="rdbNoTributa" layoutX="10.0" layoutY="10.0" text="No" toggleGroup="$tggTributa" />
-                                                               </children>
-                                                            </HBox>
-                                                         </children>
-                                                      </VBox>
-                                                   </children>
-                                                   <styleClass>
-                                                      <String fx:value="hbox" />
-                                                      <String fx:value="card2" />
-                                                   </styleClass>
-                                                </HBox>
-                                                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
-                                                   <children>
-                                                      <MFXButton fx:id="btnAgregarSociedad" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onActionBtnAgregarSociedad" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar">
+                                                      <MFXButton fx:id="btnAgregarMovimiento" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onActionBtnAgregarMovimiento" prefHeight="46.0" prefWidth="198.0" styleClass="btnNS" text="%btn.agregar" HBox.hgrow="ALWAYS">
                                                          <graphic>
                                                             <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                                                <styleClass>
@@ -277,7 +221,83 @@
                                                    </children>
                                                 </HBox>
                                              </children>
-                                          </VBox>
+                                          </HBox>
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="1286.0" styleClass="bhox" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="360.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="312.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tipo" VBox.vgrow="ALWAYS" />
+                                                            <ComboBox fx:id="cbxTipo" prefHeight="30.0" prefWidth="202.0" styleClass="txtCampo" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.factura" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtFactura" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="68.0" prefWidth="243.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="155.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tributa" VBox.vgrow="ALWAYS" />
+                                                            <MFXCheckbox fx:id="chkTributa" text="Si" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.monto" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtMonto" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.detalle" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtDetalle" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="10.0" right="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="950.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="623.0" prefWidth="1245.0" styleClass="cardRegistroAbo" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <TableView fx:id="tblMovimientos" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="876.0" styleClass="tabla" VBox.vgrow="ALWAYS">
+                                                         <columns>
+                                                            <TableColumn fx:id="colFechaM" prefWidth="139.19998586177826" text="%contable.fecha" />
+                                                            <TableColumn fx:id="colTipoM" prefWidth="149.60000610351562" text="%contable.tipo" />
+                                                            <TableColumn fx:id="colFacturaM" prefWidth="152.79998779296875" text="%contable.factura" />
+                                                            <TableColumn fx:id="colTributaM" prefWidth="175.19992065429688" text="%contable.tributa" />
+                                                            <TableColumn fx:id="colMontoM" prefWidth="167.2000732421875" text="%contable.monto" />
+                                                            <TableColumn fx:id="colDetalleM" prefWidth="142.4000244140625" text="%contable.detalle" />
+                                                            <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="144.0000244140624" text=" " />
+                                                         </columns>
+                                                      </TableView>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </VBox>
                                  </children></AnchorPane>
