@@ -110,7 +110,6 @@ public class InstrumentosController extends Controller implements Initializable 
     private InstrumentoService instrumentoService = new InstrumentoService();
 
     private Long abogadoTitularId;   // id del abogado elegido en el modal de busquda
-    private List<TipoInstRequisito> requisitos;
 
     // para que acepte 9:30 y 09:30
     private static final DateTimeFormatter FORMATO_HORA = DateTimeFormatter.ofPattern("H:mm");
@@ -143,7 +142,7 @@ public class InstrumentosController extends Controller implements Initializable 
 
         // que las demas pestañas queden desabilitadas mienstras se registra el instrumento
         tabPartesYpagos.setDisable(true);
-        tabRequisitos.setDisable(false);
+        tabRequisitos.setDisable(true);
         tabEventos.setDisable(true);
         tabDocumentoFinal.setDisable(true);
 
@@ -151,8 +150,6 @@ public class InstrumentosController extends Controller implements Initializable 
         colNumero.setCellValueFactory(new PropertyValueFactory<>("irqOrden"));
         colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
-        
-        cargarRequisitos();
 
     }
 
@@ -161,22 +158,26 @@ public class InstrumentosController extends Controller implements Initializable 
         configurarComboBoxes();
     }
 
-    private void cargarRequisitos(){
-        
-        if(instrumentoActual == null){
+    private void cargarRequisitos() {
+        tblRequisitos.getItems().clear();
+        tabRequisitos.setDisable(false);
+
+        if (instrumentoActual == null) {
+            tabRequisitos.setDisable(true);
             System.out.println("El instrumento esta vacido empty nulll");
             return;
         }
-        
+
         List<InstrumentoRequisito> requisitos = instrumentoActual.getInstrumentoRequisitoList();
-        if(requisitos != null){
+        if (requisitos != null) {
             tblRequisitos.setItems(FXCollections.observableArrayList(requisitos));
             System.out.println("somehow se setearon los requisitos");
+        } else {
+            System.out.println("Los requisitos vienen vacidos");
         }
 
-        
     }
-    
+
     private void configurarComboBoxes() {
         cmbTipoInstrumento.setConverter(new StringConverter<TipoInstrumento>() {
             @Override
@@ -246,7 +247,6 @@ public class InstrumentosController extends Controller implements Initializable 
 
         boolean instrumentoEsNuevo;
         if (instrumentoActual == null) {
-
             instrumentoEsNuevo = true;
         } else {
             instrumentoEsNuevo = false;
@@ -311,14 +311,17 @@ public class InstrumentosController extends Controller implements Initializable 
         Instrumento instrumento;
         if (instrumentoEsNuevo) {
             instrumento = new Instrumento();
-            instrumento.setInsBufeteId(1L);   // TODO: tomarlo de la sesión cuando funcione el login
+            instrumento.setInsBufeteId(1L);
             instrumento.setInsTipoId(tipo.getTinId());
-            instrumento.setInsAbogadoId(abogadoTitularId);
             instrumento.setInsEstadoId(estado.getEinId());
         } else { // modo editar cuando ya cargue el inst
             instrumento = instrumentoActual;
+            cmbEstado.setDisable(true);
+            cmbTipoInstrumento.setDisable(true);
         }
-
+        
+        
+        instrumento.setInsAbogadoId(abogadoTitularId);
         instrumento.setInsObsEstado(txaObservacionEstado.getText());
         instrumento.setInsFechaHora(LocalDateTime.of(fecha, hora));
         instrumento.setInsBoleta(txtNumeroBoleta.getText().trim());
@@ -337,15 +340,19 @@ public class InstrumentosController extends Controller implements Initializable 
 
         Respuesta respuesta = instrumentoService.guardarInstrumento(instrumento);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             if (instrumentoEsNuevo) {
                 mostrarExito("Instrumento registrado exitosamenet");
-                limpiarCampos();
+                cargarRequisitos();
+                //limpiarCampos();
             } else {
                 mostrarExito("Instrumento modificado exitosamenet");
+                cargarRequisitos();
             }
         } else {
             mostrarError(respuesta.getMensaje());
         }
+
     }
 
     // Convertir el texto de un campo a bigDecimal
@@ -372,6 +379,7 @@ public class InstrumentosController extends Controller implements Initializable 
 
     private void limpiarCampos() {
         abogadoTitularId = null;
+        instrumentoActual = null;
 
         cmbTipoInstrumento.getSelectionModel().clearSelection();
         cmbEstado.getSelectionModel().clearSelection();
@@ -394,6 +402,9 @@ public class InstrumentosController extends Controller implements Initializable 
         chkTributa.setSelected(false);   // listener del chekbox limpia y deshabilita el recibo
         txtMontoReal.clear();
         txtMontoFactura.clear();
+
+        cargarRequisitos(); // para limpiar la tabla de requisitos
+        tabPane.getSelectionModel().select(tabGeneralesDelInstrumento);
     }
 
     @FXML
@@ -418,7 +429,6 @@ public class InstrumentosController extends Controller implements Initializable 
     }
 
     private void cargarInstrumento(Instrumento inst) {
-
         AppContext.getInstance().delete("instrumentoSeleccionado");
         txtEscritura.setText(inst.getInsEscritura());
     }

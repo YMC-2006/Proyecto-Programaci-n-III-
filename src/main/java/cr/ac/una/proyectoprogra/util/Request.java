@@ -53,15 +53,18 @@ public class Request {
     private Response response;
     private static final String AUTHENTICATION_SCHEME = "Bearer ";
 
+    //inicializa el cliente http
     public Request() {
         this.client = ClientBuilder.newClient();
     }
 
+    // configura una ruta
     public Request(String target) {
         this();
         setTarget(target);
     }
 
+    // configura una ruta con parametros de ruta
     public Request(String target, String parametros, Map<String, Object> valores) {
         this();
         this.webTarget = client.target(AppContext.getInstance().get("resturl") + target).path(parametros).resolveTemplates(valores);
@@ -77,7 +80,7 @@ public class Request {
         builder.headers(headers);
     }
 
-    // ocupamos tambien un constructor que use queryparam
+    // ocupamos tambien un constructor que use queryparam, confgura una ruta con parametros de consulta
     public Request(String target, Map<String, Object> queryParams) {
         this();
         WebTarget t = client.target(AppContext.getInstance().get("resturl") + target);
@@ -89,6 +92,34 @@ public class Request {
                 }
             }
         }
+        this.webTarget = t;
+        this.builder = webTarget.request(MediaType.APPLICATION_JSON);
+        System.out.println("Llamando a: " + webTarget.getUri());
+        MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+
+        // importante esta parte en el constructor para que asi cada request que se haga lleve el token
+        if (AppContext.getInstance().get("Token") != null) {
+            headers.add("Authorization", AppContext.getInstance().get("Token"));
+        }
+
+        builder.headers(headers);
+    }
+
+    //configura una ruta con parametros de ruta y parametros de consulta
+    public Request(String target, String parametros, Map<String, Object> valores, Map<String, Object> queryParams) {
+        this();
+        WebTarget t = client.target(AppContext.getInstance().get("resturl") + target)
+                .path(parametros).resolveTemplates(valores);
+        if (queryParams != null) {
+            for (Map.Entry<String, Object> e : queryParams.entrySet()) {
+                Object valor = e.getValue();
+                if (valor != null && !valor.toString().isBlank()) {
+                    t = t.queryParam(e.getKey(), valor);
+                }
+            }
+        }
+
         this.webTarget = t;
         this.builder = webTarget.request(MediaType.APPLICATION_JSON);
         System.out.println("Llamando a: " + webTarget.getUri());
@@ -138,8 +169,8 @@ public class Request {
     public void getToken() {
         response = builder.get();
     }
-    
-    public void getRenewal(){
+
+    public void getRenewal() {
         JsonObject payload = getPayloadToken(AppContext.getInstance().get("Token").toString());
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
         headers.add("Authorization", payload.getString("rnt"));
@@ -158,7 +189,7 @@ public class Request {
     }
 
     public void put(Object clazz) {
-       if (verifyTokenExp()) {
+        if (verifyTokenExp()) {
             response = builder.get();
         }
 
@@ -167,7 +198,7 @@ public class Request {
     }
 
     public void delete() {
-       if (verifyTokenExp()) {
+        if (verifyTokenExp()) {
             response = builder.get();
         }
 

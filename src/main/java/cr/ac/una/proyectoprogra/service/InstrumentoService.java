@@ -47,7 +47,27 @@ public class InstrumentoService {
     }
 
     public Respuesta cambiarEstado(Long id, Long bufeteId, CambioEstado cambioEstado) {
-        return new Respuesta();
+        try {
+            Map<String, Object> pathParams = new HashMap<>();
+            pathParams.put("id", id);
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("bufeteId", bufeteId);
+
+            // el nuevo constructo de Request lo usamos justo aca porque necesitamos pasar parametros de ruta y query
+            Request request = new Request("Instrumentos", "/{id}/estado", pathParams, queryParams);
+            request.post(cambioEstado);
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            Instrumento instrumento = (Instrumento) request.readEntity(Instrumento.class);
+            return new Respuesta(true, "", "", "Instrumento", instrumento);
+
+        } catch (Exception ex) {
+            Logger.getLogger(InstrumentoService.class.getName()).log(Level.SEVERE, "Error cambiando el estado del instrumento [" + id + "]", ex);
+            return new Respuesta(false, "Error cambiando el estado del instrumento.", "cambiarEstado " + ex.getMessage());
+        }
     }
 
     public Respuesta getInstrumentos(Long bufeteId, Long abogadoId, Long tipoId, Long estadoId) {
@@ -60,7 +80,7 @@ public class InstrumentoService {
             parametros.put("estadoId", estadoId);
             //aqui los parametros que tienen que coincidir con los queryparam del controllador Instrumento del WS
 
-            Request request = new Request("TipoInstrumentos", parametros);
+            Request request = new Request("Instrumentos", parametros);
             request.get();
 
             if (request.isError()) {
@@ -78,8 +98,27 @@ public class InstrumentoService {
         }
     }
 
-    public Respuesta actualizarRequisitos(Long id, Long bufeteId, List<InstrumentoRequisito> insRCambios) {
-        return new Respuesta();
+    public Respuesta actualizarRequisitos(Long id, Long bufeteId, List<InstrumentoRequisito> requisitos) {
+        try {
+            Map<String, Object> pathParams = new HashMap<>();
+            pathParams.put("id", id);
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("bufeteId", bufeteId);
+
+            Request request = new Request("Instrumentos", "/{id}/requisitos", pathParams, queryParams);
+            request.post(requisitos);
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            Instrumento instrumento = (Instrumento) request.readEntity(Instrumento.class);
+            return new Respuesta(true, "", "", "Instrumento", instrumento);
+
+        } catch (Exception ex) {
+            Logger.getLogger(InstrumentoService.class.getName()).log(Level.SEVERE, "Error actualizando los requisitos del instrumento [" + id + "]", ex);
+            return new Respuesta(false, "Error actualizando los requisitos.", "actualizarRequisitos " + ex.getMessage());
+        }
     }
 
     public Respuesta guardarInstrumento(Instrumento instrumento) {
@@ -92,9 +131,9 @@ public class InstrumentoService {
 
             Instrumento instrumentoGuardado = (Instrumento) request.readEntity(Instrumento.class);
 
-            return new Respuesta(true, "", "", "Instrumentos", instrumentoGuardado);
+            return new Respuesta(true, "", "", "Instrumento", instrumentoGuardado);
         } catch (Exception ex) {
-            Logger.getLogger(TipoInstrumentoService.class.getName()).log(Level.SEVERE, "Ocurrió un error al guardar el instrumento.", ex);
+            Logger.getLogger(Instrumento.class.getName()).log(Level.SEVERE, "Ocurrió un error al guardar el instrumento.", ex);
             return new Respuesta(false, "Ocurrió un error al guardar el instrumento.", "guardarInstrumento " + ex.getMessage());
         }
     }
