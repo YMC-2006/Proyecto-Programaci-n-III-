@@ -22,11 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -36,6 +39,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -90,7 +94,7 @@ public class ContableController extends Controller implements Initializable {
     @FXML
     private TableColumn<MovimientoDto, String> colFacturaM;
     @FXML
-    private TableColumn<MovimientoDto, Boolean> colTributaM;
+    private TableColumn<MovimientoDto, String> colTributaM;
     @FXML
     private TableColumn<MovimientoDto, BigDecimal> colMontoM;
     @FXML
@@ -106,6 +110,14 @@ public class ContableController extends Controller implements Initializable {
     private Tab tabMovimientos;
     @FXML
     private TextField txtFactura;
+    @FXML
+    private MFXDatePicker dtpFechaFin;
+    @FXML
+    private TabPane tpContable;
+    @FXML
+    private Tab tabContable;
+    @FXML
+    private MFXDatePicker dtpFechaInicio;
 
     /**
      * Initializes the controller class.
@@ -115,6 +127,12 @@ public class ContableController extends Controller implements Initializable {
         cbxTipo.getItems().setAll(filtroTipo);
         cbxTipo.getSelectionModel().selectFirst();
         cbxTipo.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue)->{
+            filtrarMovimientos();
+        });
+        dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue)->{
+            filtrarMovimientos();
+        });
+        dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue)->{
             filtrarMovimientos();
         });
         inicializarMovimientos();
@@ -187,9 +205,17 @@ public class ContableController extends Controller implements Initializable {
         colFechaM.setCellValueFactory(new PropertyValueFactory<>("movFecha"));
         colTipoM.setCellValueFactory(new PropertyValueFactory<>("movTipo"));
         colFacturaM.setCellValueFactory(new PropertyValueFactory<>("movFactura"));
-        colTributaM.setCellValueFactory(new PropertyValueFactory<>("movTributa"));
+        colTributaM.setCellValueFactory(cellData->{
+            SimpleStringProperty tributa = new SimpleStringProperty();
+            if(cellData.getValue().getMovTributa() == true){
+                tributa.set("Sí");
+            }else{
+                tributa.set("No");
+            }
+            return tributa;
+        });
         colDetalleM.setCellValueFactory(new PropertyValueFactory<>("movDetalle"));
-        colMonto.setCellValueFactory(new PropertyValueFactory<>("movMonto"));
+        colMontoM.setCellValueFactory(new PropertyValueFactory<>("movMonto"));
  
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
  
@@ -263,6 +289,24 @@ public class ContableController extends Controller implements Initializable {
  
     }
     
+    private Predicate<MovimientoDto> filtrarFechas(){
+        LocalDate fecIni = dtpFechaInicio.getValue();
+        LocalDate fecFin = dtpFechaFin.getValue();
+        return m->{
+            LocalDate fec = m.getMovFecha();
+            if(fec == null){
+                return false;
+            }
+            if(fecIni != null && fec.isBefore(fecIni)){
+                return false;
+            }
+            if(fecFin != null && fec.isAfter(fecFin)){
+                return false;
+            }
+            return true;
+        };
+    }
+    
     private void filtrarMovimientos() {
         //filtrar por fecha
         String detalle = texto(txtDetalle);
@@ -277,7 +321,7 @@ public class ContableController extends Controller implements Initializable {
                 .filter(c -> contiene(c.getMovFactura(), factura))
                 .filter(c -> !tributa || Boolean.TRUE.equals(c.getMovTributa()))
                 .filter(c -> tipo == null || c.getMovTipo().equals(tipo))
-                .collect(Collectors.toList());
+                .filter(filtrarFechas()).collect(Collectors.toList());
  
         listaMovimientos.setAll(filtrados);
     }
@@ -308,6 +352,18 @@ public class ContableController extends Controller implements Initializable {
         AppContext.getInstance().delete("movimientoEditar");
         FlowController.getInstance().goViewInWindowModal("AgregarMovimientoView", stage, false);
         cargarTablaMovimientos();
+    }
+
+    @FXML
+    private void onActionSelectedTributa(ActionEvent event) {
+        filtrarMovimientos();
+    }
+
+    @FXML
+    private void onSelectionChangedTab(Event event) {
+        dtpFechaInicio.clear();
+        dtpFechaFin.clear();
+        filtrarMovimientos();
     }
     
 }

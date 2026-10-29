@@ -124,8 +124,8 @@ public class AgregarMovimientoController extends Controller implements Initializ
 
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
+        BigDecimal monto;
         int indiceTipo = cbxTipo.getSelectionModel().getSelectedIndex();
-        BigDecimal monto = new BigDecimal(txtMonto.getText());
         String factura = txtFactura.getText();
         String detalle = txtDetalle.getText();
         LocalDate fecha = dtpFecha.getValue();
@@ -143,10 +143,12 @@ public class AgregarMovimientoController extends Controller implements Initializ
             return;
         }
 
-        if (monto == null) {
+        if (txtMonto.getText() == null || txtMonto.getText().isBlank()) {
             mostrarError(FlowController.getIdioma().getString("movimiento.error.monto"));
             txtMonto.requestFocus();
             return;
+        }else{
+            monto = new BigDecimal(txtMonto.getText());
         }
         
         if (fecha == null) {

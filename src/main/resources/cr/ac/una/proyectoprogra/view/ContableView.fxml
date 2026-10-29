@@ -36,13 +36,13 @@
                         <VBox prefHeight="58.0" prefWidth="171.0" styleClass="vboxH">
                            <children>
                               <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.fechaIni" />
-                              <MFXDatePicker styleClass="txtCampo" />
+                              <MFXDatePicker fx:id="dtpFechaInicio" styleClass="txtCampo" />
                            </children>
                         </VBox>
                         <VBox prefHeight="58.0" prefWidth="171.0" styleClass="vboxH">
                            <children>
                               <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.fechaFin" />
-                              <MFXDatePicker styleClass="txtCampo" />
+                              <MFXDatePicker fx:id="dtpFechaFin" styleClass="txtCampo" />
                            </children>
                         </VBox>
                      </children>
@@ -51,9 +51,9 @@
             </HBox>
             <VBox prefHeight="516.0" prefWidth="1002.0">
                <children>
-                  <TabPane prefHeight="518.0" prefWidth="1002.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="tpContable" prefHeight="518.0" prefWidth="1002.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                      <Tab text="Información Contable">
+                      <Tab fx:id="tabContable" onSelectionChanged="#onSelectionChangedTab" text="Información Contable">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -181,7 +181,7 @@
                               </AnchorPane>
                         </content>
                       </Tab>
-                        <Tab fx:id="tabMovimientos" text="Movimientos Varios">
+                        <Tab fx:id="tabMovimientos" onSelectionChanged="#onSelectionChangedTab" text="Movimientos Varios">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -249,7 +249,7 @@
                                                       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="155.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tributa" VBox.vgrow="ALWAYS" />
-                                                            <MFXCheckbox fx:id="chkTributa" text="Si" />
+                                                            <MFXCheckbox fx:id="chkTributa" onAction="#onActionSelectedTributa" text="Si" />
                                                          </children>
                                                       </VBox>
                                                    </children>

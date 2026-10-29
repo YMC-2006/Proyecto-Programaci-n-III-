@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,8 +70,6 @@ public class SociedadesController extends Controller implements Initializable {
     private TableColumn<SociedadDto, String> colCorreo;
     @FXML
     private TableColumn<SociedadDto, String> colDomicilio;
-    @FXML
-    private TableColumn<SociedadDto, Double> colCapital;
     @FXML
     private TableColumn<SociedadDto, SociedadDto> colOpciones;
     
@@ -170,9 +169,16 @@ public class SociedadesController extends Controller implements Initializable {
         colDomicilio.setCellValueFactory(new PropertyValueFactory<>("socDomicilio"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("socTelefono"));
         colCedula.setCellValueFactory(new PropertyValueFactory<>("socCedulaJuridica"));
-        colAcciones.setCellValueFactory(new PropertyValueFactory<>("socTipoAcciones"));
+        colAcciones.setCellValueFactory(cellData->{
+            SimpleStringProperty acciones = new SimpleStringProperty();
+            if(cellData.getValue().getSocTipoAcciones().equals("C")){
+                acciones.set("Comunes");
+            }else{
+                acciones.set("Preferentes");
+            }
+            return acciones;
+        });
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("socCorreo"));
-        //colCapital.setCellValueFactory(new PropertyValueFactory<>("socCapital"));
  
         colOpciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
  

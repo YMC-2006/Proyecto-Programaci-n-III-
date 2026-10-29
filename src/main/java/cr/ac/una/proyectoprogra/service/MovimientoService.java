@@ -78,7 +78,7 @@ public class MovimientoService {
         try{
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("id", id);
-            Request request = new Request("Movimiento", "/{id}", parametros);
+            Request request = new Request("Movimientos", "/{id}", parametros);
             request.delete();
 
             if(request.isError()){

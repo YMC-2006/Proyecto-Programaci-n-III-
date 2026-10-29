@@ -18,7 +18,7 @@ public class MovimientoDto {
     private LocalDate movFecha;
     private BigDecimal movMonto;
     private String movFactura;
-    private Boolean movTributa = Boolean.FALSE;
+    private Boolean movTributa;
     private Long movBufeteId;
     private String movOrigen;
 
