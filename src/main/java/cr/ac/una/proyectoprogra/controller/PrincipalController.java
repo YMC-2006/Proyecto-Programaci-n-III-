@@ -74,6 +74,7 @@ public class PrincipalController extends Controller implements Initializable {
         opsMantenimiento.getChildren().addAll(
                 crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView", "abogados", menuMantenimientos),
                 crearBotonMenu(FlowController.getIdioma().getString("menu.clientes"), "ClientesView", "clientes", menuMantenimientos),
+                crearBotonMenu(FlowController.getIdioma().getString("menu.usuarios"), "UsuariosView", "usuarios", menuMantenimientos),
                 crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"), "SociedadesView", "sociedades", menuMantenimientos),
                 crearBotonMenu(FlowController.getIdioma().getString("menu.parametros"), "ParametrosView", "parametros", menuMantenimientos)
 

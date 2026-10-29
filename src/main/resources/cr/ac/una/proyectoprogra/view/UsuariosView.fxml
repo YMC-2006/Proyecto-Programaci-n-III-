@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="798.0" prefWidth="1387.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.UsuariosController">
+   <children>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="1286.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="66.0" prefWidth="1042.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="%usuarios.titulo" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin></Label>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="1033.0" styleClass="titlCard" text="%usuarios.descripcion" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin></Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="94.0" prefWidth="281.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                     <children>
+                        <MFXButton fx:id="btnAgregarUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onActionBtnAgregarUsuario" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregar" HBox.hgrow="ALWAYS">
+                           <graphic>
+                              <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <styleClass>
+                                    <String fx:value="btnImg" />
+                                    <String fx:value="agregar" />
+                                 </styleClass>
+                              </ImageView>
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="1286.0" styleClass="bhox" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="360.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="312.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%usuario.nombre" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="txtBuscarNombre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%usuario.apellidos" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="txtBuscarApellido" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%usuario.usuario" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="txtBuscarUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%usuario.identificacion" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="txtBuscarIdentificacion" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%usuario.correo" VBox.vgrow="ALWAYS" />
+                              <TextField fx:id="txtBuscarCorreo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="950.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="623.0" prefWidth="1245.0" styleClass="cardRegistroAbo" HBox.hgrow="ALWAYS">
+                     <children>
+                        <TableView fx:id="tblUsuarios" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="876.0" styleClass="tabla" VBox.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="colUsuario" prefWidth="130.0" text="%usuario.usuario" />
+                            <TableColumn fx:id="colNombre" prefWidth="130.0" text="%usuario.nombre" />
+                            <TableColumn fx:id="colApellido1" prefWidth="140.0" text="%usuario.apellido1" />
+                            <TableColumn fx:id="colApellido2" prefWidth="140.0" text="%usuario.apellido2" />
+                            <TableColumn fx:id="colIdentificacion" prefWidth="140.0" text="%usuario.identificacion" />
+                            <TableColumn fx:id="colCorreo" prefWidth="190.0" text="%usuario.correo" />
+                            <TableColumn fx:id="colAdmin" prefWidth="110.0" text="%usuario.admin" />
+                            <TableColumn fx:id="colEstado" prefWidth="110.0" text="%usuario.estado" />
+                            <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="144.0" text=" " />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

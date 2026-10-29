@@ -45,14 +45,14 @@
                               <Insets bottom="10.0" left="20.0" right="20.0" top="120.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="txtUsuario" floatingText="Correo Electrónico" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="345.0" styleClass="loginTextField" VBox.vgrow="ALWAYS">
+                        <MFXTextField fx:id="txtCorreo" floatingText="%ect.correo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="345.0" styleClass="loginTextField">
                            <VBox.margin>
                               <Insets left="60.0" right="60.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXButton fx:id="btnEnviar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" onAction="#OnActionBtnEnviar" prefHeight="0.0" prefWidth="294.0" styleClass="btnNS" text="Enviar Contraseña Temporal" VBox.vgrow="ALWAYS">
+                        <MFXButton fx:id="btnEnviar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#OnActionBtnEnviar" styleClass="btnNS" text="%btn.enviarClave">
                            <VBox.margin>
-                              <Insets bottom="100.0" left="40.0" right="40.0" top="30.0" />
+                              <Insets bottom="100.0" left="30.0" right="30.0" top="30.0" />
                            </VBox.margin>
                         </MFXButton>
                      </children>

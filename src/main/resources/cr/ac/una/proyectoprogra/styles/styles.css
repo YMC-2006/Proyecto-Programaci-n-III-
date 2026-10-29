@@ -125,6 +125,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-cursor: hand;
 }
 
+.lblEnlace2 {
+    -fx-text-fill: -fx-color-azul-oscuro;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Candara";
+}
+
+.lblEnlace2:hover {
+    -fx-text-fill:  -fx-color-azul;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
 
 
 .mfx-button, .mfx-button:armed, .mfx-button:focused{

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1120.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.RegistrarUsuarioController">
+   <children>
+      <VBox layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="cardRegistro" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <children>
+            <StackPane alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="1098.0" preserveRatio="false">
+                     <image>
+                        <Image url="@../resource/fondo_modal.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" spacing="14.0" StackPane.alignment="CENTER">
+                     <padding>
+                        <Insets left="26.0" />
+                     </padding>
+                     <children>
+                        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="avatarModal">
+                           <children>
+                              <ImageView fitHeight="63.0" fitWidth="62.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/iconos_sicobu/abogados_hover.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <VBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="968.0" spacing="2.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblSubModal" text="%usuario.modal.sub" />
+                              <Label fx:id="lblTituloModal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblTituloModal" text="%usuario.modal.titulo" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </StackPane>
+            <HBox spacing="24.0" styleClass="vboxModal" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox prefHeight="446.0" prefWidth="265.0" spacing="14.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox spacing="16.0">
+                           <children>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.tipoId" VBox.vgrow="ALWAYS" />
+                                    <ComboBox fx:id="cbxTipoId" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="168.0" styleClass="comboBox" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.identificacion" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtIdentificacion" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox spacing="16.0">
+                           <children>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.nombre" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtNombre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.usuario" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtUsuario" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox spacing="16.0">
+                           <children>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.apellido1" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtApellido1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.celular" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtCelular" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox spacing="16.0">
+                           <children>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.apellido2" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtApellido2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.idioma" VBox.vgrow="ALWAYS" />
+                                    <ComboBox fx:id="cbxIdioma" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="180.0" styleClass="comboBox" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox spacing="16.0">
+                           <children>
+                              <VBox maxWidth="Infinity" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.correo" VBox.vgrow="ALWAYS" />
+                                    <TextField fx:id="txtCorreo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="16.0">
+                           <children>
+                              <ImageView fx:id="imgFoto" fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                              <VBox alignment="CENTER_LEFT" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="btnFoto" mnemonicParsing="false" onAction="#onActionBtnFoto" styleClass="btnW" text="%usuario.foto" />
+                                    <CheckBox fx:id="chkAdmin" mnemonicParsing="false" onAction="#onActionChkAdmin" styleClass="lblCampo" text="%usuario.admin" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="lblCampo" text="%usuario.permisos" />
+                        <TableView fx:id="tblPermisos" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="380.0" prefWidth="420.0" styleClass="tabla" VBox.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="colVista" prefWidth="109.59994810819626" text="%usuario.vista" />
+                            <TableColumn fx:id="colConsultar" prefWidth="140.79998779296875" text="%usuario.consultar" />
+                            <TableColumn fx:id="colCrear" prefWidth="70.0" text="%usuario.crear" />
+                            <TableColumn fx:id="colModificar" prefWidth="70.0" text="%usuario.modificar" />
+                            <TableColumn fx:id="colEliminar" prefWidth="70.0" text="%usuario.eliminar" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="90.0" spacing="10.0" styleClass="modalFooter">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#onActionBtnCancelar" styleClass="btnSecundario" text="%btn.cancelar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="cancelar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#onActionBtnGuardar" styleClass="btnPrimario" text="%btn.guardar">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <styleClass>
+                              <String fx:value="btnImg" />
+                              <String fx:value="agregar" />
+                           </styleClass>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

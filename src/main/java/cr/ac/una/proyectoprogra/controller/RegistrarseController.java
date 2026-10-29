@@ -4,7 +4,13 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.model.BufeteDto;
+import cr.ac.una.proyectoprogra.model.RegistroDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
+import cr.ac.una.proyectoprogra.service.BufeteService;
 import cr.ac.una.proyectoprogra.util.FlowController;
+import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -23,8 +29,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -46,7 +54,7 @@ public class RegistrarseController extends Controller implements Initializable {
     @FXML
     private MFXTextField txtDireccion;
     @FXML
-    private MFXComboBox<?> cbxTipoId;
+    private MFXComboBox<String> cbxTipoId;
     @FXML
     private MFXTextField txtId;
     @FXML
@@ -62,7 +70,7 @@ public class RegistrarseController extends Controller implements Initializable {
     @FXML
     private MFXTextField txtCorreo;
     @FXML
-    private MFXComboBox<?> cbxIdioma;
+    private MFXComboBox<String> cbxIdioma;
     @FXML
     private MFXPasswordField pswClave;
     @FXML
@@ -90,11 +98,31 @@ public class RegistrarseController extends Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cbxTipoId.getItems().addAll("Física nacional", "Residente extranjero", "Pasaporte");
+        cbxIdioma.getItems().addAll("Español", "English");
     }    
 
     @Override
     public void initialize() {
+        txtBufete.clear();
+        txtTelefono.clear();
+        txtCorreoBufete.clear();
+        txtDireccion.clear();
+        txtId.clear();
+        txtUsuario.clear();
+        txtNombre.clear();
+        txtApellido1.clear();
+        txtApellido2.clear();
+        txtCelular.clear();
+        txtCorreo.clear();
+        pswClave.clear();
+        pswConfirmarClave.clear();
+        cbxTipoId.clearSelection();
+        cbxIdioma.clearSelection();
+        imgBufete.setImage(null);
+        imgUsuarioAdmin.setImage(null);
+        fotoBufete = null;
+        fotoUsuario = null;
         
     }
     
@@ -124,6 +152,42 @@ public class RegistrarseController extends Controller implements Initializable {
 
     @FXML
     private void OnActionBtnRegistrar(ActionEvent event) {
+        String error = validarCampos();
+        if (!error.isEmpty()) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Registrar bufete", getStage(), error);
+            return;
+        }
+        BufeteDto bufete = new BufeteDto();
+        bufete.setBufNombre(txtBufete.getText());
+        bufete.setBufTelefono(txtTelefono.getText());
+        bufete.setBufEmail(txtCorreoBufete.getText());
+        bufete.setBufDireccion(txtDireccion.getText());
+        bufete.setBufLogo(fotoBufete);
+
+        UsuarioDto usuario = new UsuarioDto();
+        usuario.setUsrTipoIdentificacion(obtenerTipoId());
+        usuario.setUsrIdentificacion(txtId.getText());
+        usuario.setUsrNombre(txtNombre.getText());
+        usuario.setUsrApellido1(txtApellido1.getText());
+        usuario.setUsrApellido2(txtApellido2.getText());
+        usuario.setUsrUsuario(txtUsuario.getText());
+        usuario.setUsrClave(pswClave.getText());
+        usuario.setUsrCorreo(txtCorreo.getText());
+        usuario.setUsrIdioma(obtenerIdioma());
+        usuario.setUsrCelular(txtCelular.getText());
+        usuario.setUsrFoto(fotoUsuario);
+
+        RegistroDto registro = new RegistroDto();
+        registro.setBufete(bufete);
+        registro.setUsuario(usuario);
+
+        BufeteService bufeteService = new BufeteService();
+        Respuesta respuesta = bufeteService.registrarBufete(registro);
+        if (!respuesta.getEstado()) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Registrar bufete", getStage(), respuesta.getMensaje());
+            return;
+        }
+        new Mensaje().showModal(Alert.AlertType.INFORMATION, "Registrar bufete", getStage(), "El bufete se registró correctamente. Revise el correo del administrador para activar la cuenta.");
         FlowController.getInstance().goViewInWindow("InicioSesionVista");
         ((Stage)btnRegistrar.getScene().getWindow()).close();
     }
@@ -188,4 +252,45 @@ public class RegistrarseController extends Controller implements Initializable {
         }
     }
     
+    private String obtenerTipoId() {
+        String tipo = cbxTipoId.getSelectedItem();
+        if (tipo.equals("Física nacional")) {
+            return "FIS";
+        } else if (tipo.equals("Residente extranjero")) {
+            return "DIM";
+        } else {
+            return "PAS";
+        }
+    }
+
+    private String obtenerIdioma() {
+        if (cbxIdioma.getSelectedItem().equals("English")) {
+            return "EN";
+        } else {
+            return "ES";
+        }
+    }
+    
+    private boolean estaVacio(MFXTextField campo) {
+        return campo.getText() == null || campo.getText().isBlank();
+    }
+
+    private String validarCampos() {
+        if (estaVacio(txtBufete) || estaVacio(txtTelefono) || estaVacio(txtCorreoBufete) || estaVacio(txtDireccion)) {
+            return "Complete todos los datos del bufete.";
+        }
+        if (cbxTipoId.getSelectedItem() == null || cbxIdioma.getSelectedItem() == null) {
+            return "Seleccione el tipo de identificación y el idioma.";
+        }
+        if (estaVacio(txtId) || estaVacio(txtNombre) || estaVacio(txtApellido1) || estaVacio(txtUsuario) || estaVacio(txtCorreo) || estaVacio(txtCelular)) {
+            return "Complete todos los datos del administrador.";
+        }
+        if (pswClave.getText().length() < 8 || pswClave.getText().length() > 30) {
+            return "La contraseña debe tener entre 8 y 30 caracteres.";
+        }
+        if (!pswClave.getText().equals(pswConfirmarClave.getText())) {
+            return "Las contraseñas no coinciden.";
+        }
+        return "";
+    }
 }
