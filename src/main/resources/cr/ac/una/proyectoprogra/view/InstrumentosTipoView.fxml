@@ -74,7 +74,7 @@
                                     <Image url="@../resource/iconos_sicobu/generar_documento_hover.png" />
                                  </image>
                               </ImageView>
-                              <VBox prefHeight="76.0" prefWidth="536.0" styleClass="vboxH">
+                              <VBox prefHeight="117.0" prefWidth="363.0" styleClass="vboxH">
                                  <children>
                                     <Label fx:id="lblTituloDocWord" prefHeight="18.0" prefWidth="566.0" text="DOCUMENTO DE WORD" />
                                     <Label fx:id="lblCantidadComodinesDetectados" text="N comodines detectados" />
@@ -82,15 +82,6 @@
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="117.0" prefWidth="259.0" styleClass="vbox">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#onActionBtnGuardarCambios" prefHeight="40.0" prefWidth="33.0">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../resource/iconos_sicobu/guardar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
                                     <MFXButton fx:id="btnSubirWord" onAction="#onActionBtnSubirMachoteWord" styleClass="btnNS" text="Subir Archivo">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
@@ -102,6 +93,15 @@
                                     </MFXButton>
                                  </children>
                               </VBox>
+                              <Button mnemonicParsing="false" onAction="#onActionBtnGuardarCambios" prefHeight="40.0" prefWidth="33.0" styleClass="btnW">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../resource/iconos_sicobu/guardar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
                            </children>
                         </HBox>
                         <VBox prefHeight="285.0" prefWidth="816.0">
@@ -132,7 +132,7 @@
                         </VBox>
                         <VBox prefHeight="662.0" prefWidth="759.0">
                            <children>
-                              <Label styleClass="subTituloInstrumentos" text="Arrastre el requisito para ordenarlo por prioridad" />
+                              <Label styleClass="subTituloInstrumentos" text="Arrastre el requisito para ordenarlo por prioridad, guarde antes de cambiar de vista" />
                               <ListView fx:id="lstRequisitos" prefHeight="451.0" prefWidth="816.0" styleClass="lstRequisitos" />
                               <HBox prefHeight="100.0" prefWidth="858.0" styleClass="hbox">
                                  <children>

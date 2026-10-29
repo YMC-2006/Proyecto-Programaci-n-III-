@@ -1142,6 +1142,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 .combo-box-popup .list-cell:hover {
     -fx-background-color: #EEF2F7;
+    -fx-text-fill: #2F5689;
 }
 .combo-box-popup .list-cell:selected {
     -fx-background-color: #2F5689;
@@ -1485,7 +1486,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .chipComodin {
     -fx-background-color: #FFFFFF;
-    -fx-border-color: #D5DCE6;
+    -fx-border-color: #3399ff;
     -fx-border-radius: 8;
     -fx-background-radius: 8;
     -fx-padding: 6 10;
@@ -1497,6 +1498,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .chipComodin:hover {
     -fx-border-color: #0B6FB0;
     -fx-text-fill: #0B6FB0;
+}
+
+
+.chipComodinInvalido {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #ff0033;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1A2233;
+    -fx-cursor: hand;
+}
+.chipComodinInvalido:hover {
+    -fx-border-color: #ff3333;
+    -fx-text-fill: #cc0000;
 }
 
 /* ====================== PARAMETROS ======================*/

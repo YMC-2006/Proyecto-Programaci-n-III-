@@ -567,7 +567,12 @@ public class InstrumentosTipoController extends Controller implements Initializa
 
             for (Comodin comodin : listaComodines) {
                 Label label = new Label(comodin.getNombre());
-                label.getStyleClass().add("chipComodin");
+                if (comodin.getValido()) {
+                    label.getStyleClass().add("chipComodin");
+                } else {
+                    label.getStyleClass().add("chipComodinInvalido");
+                }
+
                 flowPaneComodines.getChildren().add(label);
             }
 
@@ -578,7 +583,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
 
     @FXML
     private void onActionBtnVerComodinesDisponibles(ActionEvent event) {
-        FlowController.getInstance().goViewInWindowModal("ComodinesDisponiblesView", stage ,true);
+        FlowController.getInstance().goViewInWindowModal("ComodinesDisponiblesView", stage, true);
     }
 
 }

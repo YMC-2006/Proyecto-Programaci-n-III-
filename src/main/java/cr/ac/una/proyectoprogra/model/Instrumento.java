@@ -56,8 +56,7 @@ public class Instrumento {
     private String insEstadoDescripcion;  
     private Boolean insEstadoFinal = Boolean.FALSE;
 
-    public Instrumento(Long insId, LocalDateTime insFechaEstado, String insObsEstado, String insDetalle, LocalDateTime insFechaHora, String insBoleta, String insTomo, String insEscritura, String insFolio, String insTomoAsiento, String insObservaciones, String insRutaDocumento, String insRutaDocFirmado, String insNumeroRecibo, Long insBufeteId, Long insAbogadoId, Long insTipoId, Long insEstadoId, String insAbogadoNombre, String insTipoNombre, String insEstadoDescripcion) {
-        this.insId = insId;
+    public Instrumento(LocalDateTime insFechaEstado, String insObsEstado, String insDetalle, LocalDateTime insFechaHora, String insBoleta, String insTomo, String insEscritura, String insFolio, String insTomoAsiento, String insObservaciones, String insRutaDocumento, String insRutaDocFirmado, String insNumeroRecibo, String insAbogadoNombre, String insTipoNombre, String insEstadoDescripcion) {
         this.insFechaEstado = insFechaEstado;
         this.insObsEstado = insObsEstado;
         this.insDetalle = insDetalle;
@@ -71,10 +70,6 @@ public class Instrumento {
         this.insRutaDocumento = insRutaDocumento;
         this.insRutaDocFirmado = insRutaDocFirmado;
         this.insNumeroRecibo = insNumeroRecibo;
-        this.insBufeteId = insBufeteId;
-        this.insAbogadoId = insAbogadoId;
-        this.insTipoId = insTipoId;
-        this.insEstadoId = insEstadoId;
         this.insAbogadoNombre = insAbogadoNombre;
         this.insTipoNombre = insTipoNombre;
         this.insEstadoDescripcion = insEstadoDescripcion;

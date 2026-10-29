@@ -89,7 +89,7 @@
                                                                         <Insets top="8.0" />
                                                                     </VBox.margin>
                                                                 </Label>
-                                                                <HBox spacing="16.0">
+                                                                <HBox prefWidth="739.0" spacing="16.0">
                                                                     <children>
                                                                         <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                                                                             <children>
@@ -119,7 +119,7 @@
                                                                 </HBox>
                                                                 <HBox alignment="BOTTOM_LEFT" spacing="16.0">
                                                                     <children>
-                                                                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                                                        <VBox prefHeight="66.0" prefWidth="132.0" spacing="6.0" HBox.hgrow="ALWAYS">
                                                                             <children>
                                                                                 <Label styleClass="lblCampo" text="Tomo" />
                                                                                 <TextField fx:id="txtTomo" prefHeight="37.0" prefWidth="158.0" styleClass="txtCampo" />
@@ -174,49 +174,42 @@
                                                     </children>
                                                 </HBox>
 
-                                                <HBox prefWidth="1054.0" spacing="16.0">
+                                                <HBox prefHeight="286.0" prefWidth="1054.0" spacing="16.0">
                                                     <children>
-                                                        <VBox prefHeight="162.0" prefWidth="488.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                                        <VBox prefHeight="230.0" prefWidth="609.0" spacing="6.0" HBox.hgrow="ALWAYS">
                                                             <children>
                                                                 <Label styleClass="lblCampo" text="Detalle del instrumento (en prosa)" />
-                                                                <TextArea fx:id="txaDetalleInstrumento" prefHeight="184.0" prefRowCount="7" prefWidth="498.0" styleClass="txtArea" wrapText="true" />
+                                                                <TextArea fx:id="txaDetalleInstrumento" prefHeight="106.0" prefRowCount="7" prefWidth="767.0" styleClass="txtArea" wrapText="true" />
+                                                                <Label styleClass="lblCampo" text="Observaciones" />
+                                                                <TextArea fx:id="txaObservaciones" prefHeight="105.0" prefRowCount="7" prefWidth="767.0" styleClass="txtArea" wrapText="true" />
                                                             </children>
                                                         </VBox>
                                                         <VBox spacing="6.0" HBox.hgrow="ALWAYS">
-                                                            <children>
-                                                                <Label styleClass="lblCampo" text="Observaciones" />
-                                                                <TextArea fx:id="txaObservaciones" prefRowCount="7" styleClass="txtArea" wrapText="true" />
-                                                            </children>
+                                             <children>
+                                                <Label text="Contable" />
+                                                <CheckBox fx:id="chkTributa" mnemonicParsing="false" styleClass="chkCampo" text="Tributa" />
+                                                <VBox prefHeight="64.0" prefWidth="114.0" spacing="6.0">
+                                                   <children>
+                                                      <Label styleClass="lblCampo" text="Monto Real" />
+                                                      <TextField fx:id="txtMontoReal" styleClass="txtCampo" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="63.0" prefWidth="0.0" spacing="6.0">
+                                                   <children>
+                                                      <Label styleClass="lblCampo" text="Numero de Recibo" />
+                                                      <TextField fx:id="txtNumeroRecibo" prefHeight="37.0" prefWidth="158.0" styleClass="txtCampo" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox prefHeight="63.0" prefWidth="81.0" spacing="6.0">
+                                                   <children>
+                                                      <Label styleClass="lblCampo" text="Monto Factura" />
+                                                      <TextField fx:id="txtMontoFactura" styleClass="txtCampo" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
                                                         </VBox>
                                                     </children>
                                                 </HBox>
-                                    <HBox alignment="BOTTOM_LEFT" spacing="30.0" styleClass="hboxI">
-                                       <children>
-                                          <CheckBox fx:id="chkTributa" mnemonicParsing="false" styleClass="chkCampo" text="Tributa" HBox.hgrow="ALWAYS">
-                                             <HBox.margin>
-                                                <Insets bottom="4.0" />
-                                             </HBox.margin>
-                                          </CheckBox>
-                                          <VBox prefHeight="63.0" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label styleClass="lblCampo" text="Numero de Recibo" />
-                                                <TextField fx:id="txtNumeroRecibo" prefHeight="37.0" prefWidth="158.0" styleClass="txtCampo" />
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="64.0" prefWidth="114.0" spacing="6.0" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label styleClass="lblCampo" text="Monto Real" />
-                                                <TextField fx:id="txtMontoReal" styleClass="txtCampo" />
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="63.0" prefWidth="81.0" spacing="6.0" HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label styleClass="lblCampo" text="Monto Factura" />
-                                                <TextField fx:id="txtMontoFactura" styleClass="txtCampo" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </HBox>
                                             </children>
                                         </VBox>
                                     </content>
@@ -361,11 +354,11 @@
                                     </padding>
                                     <children>
                                         <Label text="Requisitos del instrumento" />
-                                        <TableView VBox.vgrow="ALWAYS">
+                                        <TableView fx:id="tblRequisitos" VBox.vgrow="ALWAYS">
                                             <columns>
-                                                <TableColumn prefWidth="50.0" text="#" />
-                                                <TableColumn prefWidth="600.0" text="Requisito" />
-                                                <TableColumn prefWidth="300.0" text="Estado" />
+                                                <TableColumn fx:id="colNumero" prefWidth="93.59997367858887" text="#" />
+                                                <TableColumn fx:id="colRequisito" prefWidth="556.8000411987305" text="Requisito" />
+                                                <TableColumn fx:id="colEstado" prefWidth="403.2000488281251" text="Estado" />
                                             </columns>
                                         </TableView>
                                     </children>

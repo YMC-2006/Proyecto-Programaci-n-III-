@@ -3,12 +3,15 @@ package cr.ac.una.proyectoprogra.controller;
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
 import cr.ac.una.proyectoprogra.model.Instrumento;
+import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
+import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
+import cr.ac.una.proyectoprogra.util.Formato;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -22,6 +25,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,8 +36,11 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
 /**
@@ -41,7 +48,6 @@ import javafx.util.StringConverter;
  *
  * @author vjjcu
  */
-
 public class InstrumentosController extends Controller implements Initializable {
 
     @FXML
@@ -97,20 +103,34 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private Tab tabDocumentoFinal;
 
+    private Instrumento instrumentoActual;
+
     private TipoInstrumentoService tipoInstrumentoService = new TipoInstrumentoService();
     private EstadoInstrumentoService estadoInstrumentoService = new EstadoInstrumentoService();
     private InstrumentoService instrumentoService = new InstrumentoService();
 
     private Long abogadoTitularId;   // id del abogado elegido en el modal de busquda
+    private List<TipoInstRequisito> requisitos;
 
     // para que acepte 9:30 y 09:30
     private static final DateTimeFormatter FORMATO_HORA = DateTimeFormatter.ofPattern("H:mm");
 
-    /**
-     * Initializes the controller class.
-     */
+    // requisitos del instrumento
+    @FXML
+    private TableView<InstrumentoRequisito> tblRequisitos;
+    @FXML
+    private TableColumn<InstrumentoRequisito, String> colRequisito;
+    @FXML
+    private TableColumn<InstrumentoRequisito, String> colEstado;
+    @FXML
+    private TableColumn<InstrumentoRequisito, Integer> colNumero;
+    private ObservableList<InstrumentoRequisito> listaRequisitos = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
 
         // El número de recibo solo se habilita si el instrumento tributa
         txtNumeroRecibo.setDisable(true);
@@ -123,9 +143,17 @@ public class InstrumentosController extends Controller implements Initializable 
 
         // que las demas pestañas queden desabilitadas mienstras se registra el instrumento
         tabPartesYpagos.setDisable(true);
-        tabRequisitos.setDisable(true);
+        tabRequisitos.setDisable(false);
         tabEventos.setDisable(true);
         tabDocumentoFinal.setDisable(true);
+
+        //----------------------------- Requisitos ------------------------------------
+        colNumero.setCellValueFactory(new PropertyValueFactory<>("irqOrden"));
+        colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
+        
+        cargarRequisitos();
+
     }
 
     @Override
@@ -133,6 +161,22 @@ public class InstrumentosController extends Controller implements Initializable 
         configurarComboBoxes();
     }
 
+    private void cargarRequisitos(){
+        
+        if(instrumentoActual == null){
+            System.out.println("El instrumento esta vacido empty nulll");
+            return;
+        }
+        
+        List<InstrumentoRequisito> requisitos = instrumentoActual.getInstrumentoRequisitoList();
+        if(requisitos != null){
+            tblRequisitos.setItems(FXCollections.observableArrayList(requisitos));
+            System.out.println("somehow se setearon los requisitos");
+        }
+
+        
+    }
+    
     private void configurarComboBoxes() {
         cmbTipoInstrumento.setConverter(new StringConverter<TipoInstrumento>() {
             @Override
@@ -200,7 +244,23 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private void onActionBtnGuardarInstrumento(ActionEvent event) {
 
+        boolean instrumentoEsNuevo;
+        if (instrumentoActual == null) {
+
+            instrumentoEsNuevo = true;
+        } else {
+            instrumentoEsNuevo = false;
+        }
+
         TipoInstrumento tipo = cmbTipoInstrumento.getSelectionModel().getSelectedItem();
+        EstadoInstrumento estado = cmbEstado.getSelectionModel().getSelectedItem();
+        LocalDate fecha = dpFechaInstrumento.getValue();
+        LocalTime hora;
+        BigDecimal montoReal = leerMonto(txtMontoReal);
+        BigDecimal montoFacturado = leerMonto(txtMontoFactura);
+
+        String observacionEstado = txaObservacionEstado.getText().trim();
+
         if (tipo == null) {
             mostrarError("Seleccione el tipo de instrumento");
             return;
@@ -211,19 +271,16 @@ public class InstrumentosController extends Controller implements Initializable 
             return;
         }
 
-        EstadoInstrumento estado = cmbEstado.getSelectionModel().getSelectedItem();
         if (estado == null) {
             mostrarError("Seleccione el estado del instrumento");
             return;
         }
 
-        LocalDate fecha = dpFechaInstrumento.getValue();
         if (fecha == null) {
             mostrarError("Seleccione la fecha del instrumento");
             return;
         }
 
-        LocalTime hora;
         try {
             hora = LocalTime.parse(txtHoraInstrumento.getText().trim(), FORMATO_HORA);
         } catch (DateTimeParseException ex) {
@@ -232,14 +289,12 @@ public class InstrumentosController extends Controller implements Initializable 
             return;
         }
 
-        BigDecimal montoReal = leerMonto(txtMontoReal);
         if (montoReal == null) {
             mostrarError("El monto real no es un número válido");
             txtMontoReal.requestFocus();
             return;
         }
 
-        BigDecimal montoFacturado = leerMonto(txtMontoFactura);
         if (montoFacturado == null) {
             mostrarError("El monto facturado no es un número válido");
             txtMontoFactura.requestFocus();
@@ -252,13 +307,19 @@ public class InstrumentosController extends Controller implements Initializable 
             return;
         }
 
-        Instrumento instrumento = new Instrumento();
-        instrumento.setInsBufeteId(1L);   // TODO: tomarlo de la sesión cuando funcione el login
-        instrumento.setInsTipoId(tipo.getTinId());
-        instrumento.setInsAbogadoId(abogadoTitularId);
-        instrumento.setInsEstadoId(estado.getEinId());
-        instrumento.setInsObsEstado(txaObservacionEstado.getText());
+        // modo crear
+        Instrumento instrumento;
+        if (instrumentoEsNuevo) {
+            instrumento = new Instrumento();
+            instrumento.setInsBufeteId(1L);   // TODO: tomarlo de la sesión cuando funcione el login
+            instrumento.setInsTipoId(tipo.getTinId());
+            instrumento.setInsAbogadoId(abogadoTitularId);
+            instrumento.setInsEstadoId(estado.getEinId());
+        } else { // modo editar cuando ya cargue el inst
+            instrumento = instrumentoActual;
+        }
 
+        instrumento.setInsObsEstado(txaObservacionEstado.getText());
         instrumento.setInsFechaHora(LocalDateTime.of(fecha, hora));
         instrumento.setInsBoleta(txtNumeroBoleta.getText().trim());
         instrumento.setInsEscritura(txtEscritura.getText().trim());
@@ -276,16 +337,18 @@ public class InstrumentosController extends Controller implements Initializable 
 
         Respuesta respuesta = instrumentoService.guardarInstrumento(instrumento);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            mostrarExito("Instrumento registrado correctamente");
-            limpiarCampos();
+            if (instrumentoEsNuevo) {
+                mostrarExito("Instrumento registrado exitosamenet");
+                limpiarCampos();
+            } else {
+                mostrarExito("Instrumento modificado exitosamenet");
+            }
         } else {
             mostrarError(respuesta.getMensaje());
         }
     }
 
-    
     // Convertir el texto de un campo a bigDecimal
-     
     private BigDecimal leerMonto(TextField campo) {
         String texto = campo.getText().trim().replace(",", ".");
         if (texto.isEmpty()) {
@@ -328,7 +391,7 @@ public class InstrumentosController extends Controller implements Initializable 
         txaDetalleInstrumento.clear();
         txaObservaciones.clear();
 
-        chkTributa.setSelected(false);   // el listener también limpia y deshabilita el recibo
+        chkTributa.setSelected(false);   // listener del chekbox limpia y deshabilita el recibo
         txtMontoReal.clear();
         txtMontoFactura.clear();
     }
@@ -336,6 +399,28 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private void onActionBtnBuscarInstrumento(ActionEvent event) {
         // me falta editar un instrumento TOODOOOO
+        AppContext.getInstance().delete("instrumentoSeleccionado");
+        FlowController.getInstance().goViewInWindowModal("InstrumentosBusquedaView", stage, Boolean.FALSE);
+
+        Instrumento instrumentoSeleccionado = (Instrumento) AppContext.getInstance().get("instrumentoSeleccionado");
+        if (instrumentoSeleccionado == null) {
+            return;
+        }
+
+        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoSeleccionado.getInsId());
+        if (respuesta.getEstado()) {
+            instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
+            cargarInstrumento(instrumentoActual);
+            mostrarExito("Instrumento cargado");
+        } else {
+            mostrarError("Error cargando el instrumento");
+        }
+    }
+
+    private void cargarInstrumento(Instrumento inst) {
+
+        AppContext.getInstance().delete("instrumentoSeleccionado");
+        txtEscritura.setText(inst.getInsEscritura());
     }
 
     private void mostrarError(String mensaje) {
@@ -350,4 +435,3 @@ public class InstrumentosController extends Controller implements Initializable 
         alert.showAndWait();
     }
 }
-
