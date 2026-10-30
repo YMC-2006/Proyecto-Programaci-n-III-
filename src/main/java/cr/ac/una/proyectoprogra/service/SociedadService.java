@@ -40,7 +40,6 @@ public class SociedadService {
     
     public Respuesta getSociedades(Long bufeteId, String nombre, String cedula, String domicilio, String tipoAcciones){
         try{
-            bufeteId = 2L;//mientras se hace el login
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("bufeteId", bufeteId);
             parametros.put("nombre", nombre);

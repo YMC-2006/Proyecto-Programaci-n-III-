@@ -7,6 +7,7 @@ package cr.ac.una.proyectoprogra.controller;
 import cr.ac.una.proyectoprogra.model.Cliente;
 import cr.ac.una.proyectoprogra.model.SociedadDto;
 import cr.ac.una.proyectoprogra.model.SociedadRepresentanteDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ClienteService;
 import cr.ac.una.proyectoprogra.service.SociedadService;
 import cr.ac.una.proyectoprogra.util.AppContext;
@@ -76,6 +77,8 @@ public class AgregarRepresentanteController extends Controller implements Initia
     
     SociedadDto sociedad;
     private SociedadRepresentanteDto representanteEditando;
+    UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
+    Long bufeteId = usuarioActivo.getUsrBufeteId();
 
     /**
      * Initializes the controller class.
@@ -314,7 +317,6 @@ public class AgregarRepresentanteController extends Controller implements Initia
         if(cedula == null || cedula.trim().isEmpty()){
             return;
         }
-        Long bufeteId = 2L; //momentaneo
         
         Respuesta respuesta = clienteService.getClientes(null, null, cedula, null,null, bufeteId);
         if(Boolean.TRUE.equals(respuesta.getEstado())){

@@ -23,7 +23,7 @@
                   <Label layoutX="10.0" layoutY="10.0" styleClass="titlCard" text="Resumen de datos del bufete al día de hoy" />
                </children>
             </VBox>
-            <HBox minHeight="-Infinity" prefHeight="133.0" prefWidth="885.0" styleClass="hbox">
+            <HBox minHeight="-Infinity" prefHeight="98.0" prefWidth="706.0" styleClass="hbox">
                <children>
                   <HBox minWidth="0.0" prefWidth="0.0" styleClass="card" HBox.hgrow="ALWAYS">
                      <children>
@@ -39,7 +39,7 @@
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Label styleClass="titlCard" text="Instrumentos Activos" />
-                              <Label fx:id="txtIntrumentos" styleClass="numCard" text="128" />
+                              <Label fx:id="txtInstrumentos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>

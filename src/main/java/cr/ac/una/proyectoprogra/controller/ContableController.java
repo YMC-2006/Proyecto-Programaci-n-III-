@@ -4,6 +4,7 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.model.ContableDto;
 import cr.ac.una.proyectoprogra.model.MovimientoDto;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.MovimientoService;
@@ -61,17 +62,17 @@ import javafx.scene.layout.HBox;
 public class ContableController extends Controller implements Initializable {
 
     @FXML
-    private TableView<?> tblContable;
+    private TableView<ContableDto> tblContable;
     @FXML
-    private TableColumn<?, ?> colFecha;
+    private TableColumn<ContableDto, LocalDate> colFecha;
     @FXML
-    private TableColumn<?, ?> colDetalle;
+    private TableColumn<ContableDto, String> colDetalle;
     @FXML
-    private TableColumn<?, ?> colOrigen;
+    private TableColumn<ContableDto, String> colOrigen;
     @FXML
-    private TableColumn<?, ?> colTributa;
+    private TableColumn<ContableDto, String> colTributa;
     @FXML
-    private TableColumn<?, ?> colMonto;
+    private TableColumn<ContableDto, BigDecimal> colMonto;
     @FXML
     private TextField txtDetalle;
     @FXML
@@ -101,6 +102,8 @@ public class ContableController extends Controller implements Initializable {
     
     private List<MovimientoDto> todosLosMovimientos = new ArrayList<>();
     private ObservableList<MovimientoDto> listaMovimientos = FXCollections.observableArrayList();
+    private List<ContableDto> todosLosContables = new ArrayList<>();
+    private ObservableList<ContableDto> listaContable = FXCollections.observableArrayList();
     
     private final String[] filtroTipo = {"Todos", "Ingresos", "Gastos"};
     
@@ -126,8 +129,6 @@ public class ContableController extends Controller implements Initializable {
     @FXML
     private Label lbTributadas;
     @FXML
-    private ComboBox<?> cbxTipoC;
-    @FXML
     private TextField txtFacturaC;
     @FXML
     private MFXCheckbox chkTributaC;
@@ -135,6 +136,15 @@ public class ContableController extends Controller implements Initializable {
     private TextField txtMontoC;
     @FXML
     private TextField txtDetalleC;
+    
+    UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
+    Long bufeteId = usuarioActivo.getUsrBufeteId();
+    @FXML
+    private TableColumn<ContableDto, String> colTipo;
+    @FXML
+    private TableColumn<ContableDto, String> colFactura;
+    @FXML
+    private ComboBox<String> cbxTipoC;
 
     /**
      * Initializes the controller class.
@@ -146,6 +156,11 @@ public class ContableController extends Controller implements Initializable {
         cbxTipo.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue)->{
             filtrarMovimientos();
         });
+        cbxTipoC.getItems().setAll(filtroTipo);
+        cbxTipoC.getSelectionModel().selectFirst();
+        cbxTipoC.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue)->{
+            filtrarContables();
+        });
         dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue)->{
             filtrarMovimientos();
         });
@@ -153,11 +168,118 @@ public class ContableController extends Controller implements Initializable {
             filtrarMovimientos();
         });
         inicializarMovimientos();
+        inicializarContables();
     }    
 
     @Override
     public void initialize() {
 
+    }
+    
+    private void cargarContables(){
+        todosLosContables.clear();
+        Respuesta respuestaMov = movimientoService.getMovimientos(bufeteId);
+        if(respuestaMov.getEstado().equals(true)){
+            todosLosMovimientos = (List<MovimientoDto>) respuestaMov.getResultado("Movimientos");
+        }
+        //faltan agregar los instrumentos y gastos de los instrumentos
+        for(MovimientoDto m : todosLosMovimientos){
+            todosLosContables.add(new ContableDto(m.getMovTipo(),m.getMovDetalle(),m.getMovFecha(),
+                    m.getMovMonto(),m.getMovFactura(), m.getMovTributa(), m.getMovOrigen()));
+        }
+        cargarIndicadoresGenerales();
+        filtrarContables();
+    }
+    
+    private void cargarIndicadoresGenerales(){
+        BigDecimal ingresos = BigDecimal.ZERO;
+        BigDecimal gastos = BigDecimal.ZERO;
+        BigDecimal tributado = BigDecimal.ZERO;
+        BigDecimal utilidad = BigDecimal.ZERO;
+        
+        //faltan sumar los instrumentos y gastos de los instrumentos
+        for(MovimientoDto m : todosLosMovimientos){
+            BigDecimal monto = m.getMovMonto() != null ? m.getMovMonto() : BigDecimal.ZERO;
+            String tipoM = m.getMovTipo();
+            if(tipoM.equals("I")){
+                ingresos = ingresos.add(monto);
+            }else if(tipoM.equals("G")){
+                gastos = gastos.add(monto);
+            }
+            
+            if(m.getMovTributa()){
+                BigDecimal t = monto.multiply(new BigDecimal("0.13"));
+                tributado = tributado.add(t);
+            }
+        }
+        
+        utilidad = ingresos.subtract(gastos);
+        
+        lbIngresos.setText(ingresos.toString());
+        lbGastos.setText(gastos.toString());
+        lbUtilidad.setText(utilidad.toString());
+        lbTributadas.setText(tributado.toString());
+    }
+    
+    private Predicate<ContableDto> filtrarFechasContables(){
+        LocalDate fecIni = dtpFechaInicio.getValue();
+        LocalDate fecFin = dtpFechaFin.getValue();
+        return c->{
+            LocalDate fec = c.getFecha();
+            if(fec == null){
+                return false;
+            }
+            if(fecIni != null && fec.isBefore(fecIni)){
+                return false;
+            }
+            if(fecFin != null && fec.isAfter(fecFin)){
+                return false;
+            }
+            return true;
+        };
+    }
+    
+    private void filtrarContables(){
+        String detalle = texto(txtDetalleC);
+        String monto = texto(txtMontoC);
+        String factura = texto(txtFacturaC);
+        Boolean tributa = chkTributaC.isSelected();
+        String tipo = filtroTipo(cbxTipoC);
+ 
+        List<ContableDto> filtrados = todosLosContables.stream()
+                .filter(c -> contiene(c.getDetalle(), detalle))
+                .filter(c -> contiene(c.getMonto().toString(), monto))
+                .filter(c -> contiene(c.getFactura(), factura))
+                .filter(c -> !tributa || Boolean.TRUE.equals(c.getTributa()))
+                .filter(c -> tipo == null || c.getTipo().equals(tipo))
+                .filter(filtrarFechasContables()).collect(Collectors.toList());
+ 
+        listaContable.setAll(filtrados);
+    }
+    
+    private void inicializarContables(){
+        tblContable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+ 
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colFactura.setCellValueFactory(new PropertyValueFactory<>("factura"));
+        colTributa.setCellValueFactory(cellData->{
+            SimpleStringProperty tributa = new SimpleStringProperty();
+            if(cellData.getValue().getTributa() == true){
+                tributa.set("Sí");
+            }else{
+                tributa.set("No");
+            }
+            return tributa;
+        });
+        colDetalle.setCellValueFactory(new PropertyValueFactory<>("detalle"));
+        colMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
+        colOrigen.setCellValueFactory(new PropertyValueFactory<>("origen"));
+ 
+        this.tblContable.setPlaceholder(new Label("No hay movimientos/instrumentos contables registrados por el momento"));
+ 
+        tblContable.setItems(listaContable);
+        cargarContables();
     }
     
     private void inicializarMovimientos(){
@@ -294,8 +416,6 @@ public class ContableController extends Controller implements Initializable {
     }
     
     private void cargarTablaMovimientos() {
-        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
-        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = movimientoService.getMovimientos(bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<MovimientoDto> movimientosService = (List<MovimientoDto>) respuesta.getResultado("Movimientos");
@@ -326,12 +446,11 @@ public class ContableController extends Controller implements Initializable {
     }
     
     private void filtrarMovimientos() {
-        //filtrar por fecha
         String detalle = texto(txtDetalle);
         String monto = texto(txtMonto);
         String factura = texto(txtFactura);
         Boolean tributa = chkTributa.isSelected();
-        String tipo = filtroTipo();
+        String tipo = filtroTipo(cbxTipo);
  
         List<MovimientoDto> filtrados = todosLosMovimientos.stream()
                 .filter(c -> contiene(c.getMovDetalle(), detalle))
@@ -355,14 +474,15 @@ public class ContableController extends Controller implements Initializable {
         return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
     }
     
-    private String filtroTipo(){
-        int index = cbxTipo.getSelectionModel().getSelectedIndex();
+    private String filtroTipo(ComboBox cbx){
+        int index = cbx.getSelectionModel().getSelectedIndex();
         return index == 1 ? "I" : (index == 2 ? "G" : null);
     }
 
     @FXML
     private void onKeyReleasedFiltrar(KeyEvent event) {
         filtrarMovimientos();
+        filtrarContables();
     }
 
     @FXML
@@ -381,11 +501,26 @@ public class ContableController extends Controller implements Initializable {
     private void onSelectionChangedTab(Event event) {
         dtpFechaInicio.clear();
         dtpFechaFin.clear();
-        filtrarMovimientos();
+        Tab seleccionada = (Tab) event.getSource();
+        if(seleccionada.isSelected() && seleccionada == tabContable){
+            cbxTipoC.getSelectionModel().selectFirst();
+            txtFacturaC.clear();
+            chkTributaC.setSelected(false);
+            txtMontoC.clear();
+            txtDetalleC.clear();
+            cargarContables();
+        }else if(seleccionada.isSelected() && seleccionada == tabMovimientos){
+            txtFactura.clear();
+            chkTributa.setSelected(false);
+            txtMonto.clear();
+            txtDetalle.clear();
+            filtrarMovimientos();
+        }
     }
 
     @FXML
     private void onActionSelectedTributaContable(ActionEvent event) {
+        filtrarContables();
     }
     
 }

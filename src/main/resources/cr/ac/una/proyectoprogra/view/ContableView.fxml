@@ -19,7 +19,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="1314.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
    <children>
-      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
                <children>
@@ -55,9 +55,9 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <VBox layoutX="38.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" styleClass="vbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                    <VBox layoutX="38.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" styleClass="vbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+                                          <HBox prefHeight="96.0" prefWidth="1202.0" styleClass="hboxI">
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="268.0" styleClass="card">
                                                    <children>
@@ -73,7 +73,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Ingresos" />
-                                                            <Label fx:id="lbIngresos" styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbIngresos" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -92,7 +92,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Gastos" />
-                                                            <Label fx:id="lbGastos" styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbGastos" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -111,7 +111,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Utilidad" />
-                                                            <Label fx:id="lbUtilidad" styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbUtilidad" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -130,7 +130,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Total Tributado" />
-                                                            <Label fx:id="lbTributadas" styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbTributadas" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -202,9 +202,11 @@
                                                       </VBox>
                                                    </children>
                                                 </HBox>
-                                                <TableView fx:id="tblContable" prefHeight="310.0" prefWidth="921.0" styleClass="tblSoci">
+                                                <TableView fx:id="tblContable" prefHeight="310.0" prefWidth="921.0" styleClass="tabla">
                                                   <columns>
                                                     <TableColumn fx:id="colFecha" prefWidth="131.20003128051758" text="Fecha" />
+                                                      <TableColumn fx:id="colTipo" prefWidth="131.20003128051758" text="Tipo" />
+                                                      <TableColumn fx:id="colFactura" prefWidth="131.20003128051758" text="Factura" />
                                                     <TableColumn fx:id="colDetalle" minWidth="0.0" prefWidth="234.3999786376953" text="Detalle" />
                                                       <TableColumn fx:id="colOrigen" prefWidth="142.39996337890625" text="Origen" />
                                                       <TableColumn fx:id="colTributa" prefWidth="164.0" text="Tributa" />

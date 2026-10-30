@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.MovimientoDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ClienteService;
 import cr.ac.una.proyectoprogra.service.MovimientoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
@@ -60,6 +61,9 @@ public class AgregarMovimientoController extends Controller implements Initializ
 
     private final String[] siglasTipo = {"I", "G"};
     private final String[] nombresTipo = {"Ingreso", "Gasto"};
+    
+    UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
+    Long bufeteId = usuarioActivo.getUsrBufeteId();
 
     /**
      * Initializes the controller class.
@@ -168,7 +172,7 @@ public class AgregarMovimientoController extends Controller implements Initializ
             movimiento.setMovTributa(tributa);
             movimiento.setMovFecha(fecha);
             
-            movimiento.setMovBufeteId(2L); // Por el momento va a ser el bufete 2 porque no he hcho lo del login
+            movimiento.setMovBufeteId(bufeteId);
             Respuesta respuesta = movimientoService.guardarMovimiento(movimiento);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
