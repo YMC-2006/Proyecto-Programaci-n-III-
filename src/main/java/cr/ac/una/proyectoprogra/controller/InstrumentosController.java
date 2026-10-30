@@ -2,17 +2,21 @@ package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
+import cr.ac.una.proyectoprogra.model.Evento;
 import cr.ac.una.proyectoprogra.model.Instrumento;
+import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
 import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
+import cr.ac.una.proyectoprogra.service.InstrumentoGastoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
+import cr.ac.una.proyectoprogra.util.Mensaje;
 import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -26,6 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,6 +48,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
@@ -112,6 +118,7 @@ public class InstrumentosController extends Controller implements Initializable 
     private TipoInstrumentoService tipoInstrumentoService = new TipoInstrumentoService();
     private EstadoInstrumentoService estadoInstrumentoService = new EstadoInstrumentoService();
     private InstrumentoService instrumentoService = new InstrumentoService();
+    private InstrumentoGastoService instrumentoGastoService = new InstrumentoGastoService();
 
     private Long abogadoTitularId;   // id del abogado elegido en el modal de busquda
 
@@ -130,6 +137,7 @@ public class InstrumentosController extends Controller implements Initializable 
     private ObservableList<InstrumentoRequisito> listaRequisitos = FXCollections.observableArrayList();
     @FXML
     private Tab tabContable;
+
     @FXML
     private VBox vbGastos;
     @FXML
@@ -145,29 +153,31 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private Button btnAgregarGasto;
     @FXML
-    private TableView<?> tblGastos;
+    private TableView<InstrumentoGasto> tblGastos;
     @FXML
-    private TableColumn<?, ?> colGastoDetalle;
+    private TableColumn<InstrumentoGasto, String> colGastoDetalle;
     @FXML
-    private TableColumn<?, ?> colGastoFecha;
+    private TableColumn<InstrumentoGasto, LocalDate> colGastoFecha;
     @FXML
-    private TableColumn<?, ?> colGastoFactura;
+    private TableColumn<InstrumentoGasto, String> colGastoFactura;
     @FXML
-    private TableColumn<?, ?> colGastoMonto;
+    private TableColumn<InstrumentoGasto, BigDecimal> colGastoMonto;
     @FXML
-    private TableColumn<?, ?> colGastoTributa;
+    private TableColumn<InstrumentoGasto, Boolean> colGastoTributa;
     @FXML
     private Label lblTotalGastos;
+    private ObservableList<InstrumentoGasto> listaGastos = FXCollections.observableArrayList();
+
     @FXML
-    private TableView<?> tblEventos;
+    private TableView<Evento> tblEventos;
     @FXML
-    private TableColumn<?, ?> colEventoDetalle;
+    private TableColumn<Evento, String> colEventoDetalle;
     @FXML
-    private TableColumn<?, ?> colEventoFechaHora;
+    private TableColumn<Evento, LocalDateTime> colEventoFechaHora; // checkkkk
     @FXML
-    private TableColumn<?, ?> colEventoAtendido;
+    private TableColumn<Evento, String> colEventoAtendido;
     @FXML
-    private TableColumn<?, ?> colEventoAccion;
+    private TableColumn<Evento, String> colEventoAccion;
     @FXML
     private TextField txtEventoDetalle;
     @FXML
@@ -197,10 +207,7 @@ public class InstrumentosController extends Controller implements Initializable 
         tabEventos.setDisable(true);
         tabDocumentoFinal.setDisable(true);
 
-        //----------------------------- Requisitos ------------------------------------
-        colNumero.setCellValueFactory(new PropertyValueFactory<>("irqOrden"));
-        colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
+        inicializarTablas();
 
     }
 
@@ -208,9 +215,10 @@ public class InstrumentosController extends Controller implements Initializable 
     public void initialize() {
         revisarPermisos();
         configurarComboBoxes();
+        //inicializarTablas();
     }
 
-    private void cargarRequisitos() {
+    private void cargarTablaRequisitos() {
         tblRequisitos.getItems().clear();
         tabRequisitos.setDisable(false);
 
@@ -371,8 +379,7 @@ public class InstrumentosController extends Controller implements Initializable 
             cmbEstado.setDisable(true);
             cmbTipoInstrumento.setDisable(true);
         }
-        
-        
+
         instrumento.setInsAbogadoId(abogadoTitularId);
         instrumento.setInsObsEstado(txaObservacionEstado.getText());
         instrumento.setInsFechaHora(LocalDateTime.of(fecha, hora));
@@ -395,11 +402,11 @@ public class InstrumentosController extends Controller implements Initializable 
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             if (instrumentoEsNuevo) {
                 mostrarExito("Instrumento registrado exitosamenet");
-                cargarRequisitos();
+                cargarTablaRequisitos();
                 //limpiarCampos();
             } else {
                 mostrarExito("Instrumento modificado exitosamenet");
-                cargarRequisitos();
+                cargarTablaRequisitos();
             }
         } else {
             mostrarError(respuesta.getMensaje());
@@ -414,6 +421,7 @@ public class InstrumentosController extends Controller implements Initializable 
             btnGuardarInstrumento.setDisable(!Permisos.tienePermiso("InstrumentosView", "Modificar"));
         }
     }
+
     // Convertir el texto de un campo a bigDecimal
     private BigDecimal leerMonto(TextField campo) {
         String texto = campo.getText().trim().replace(",", ".");
@@ -435,7 +443,7 @@ public class InstrumentosController extends Controller implements Initializable 
     private void onActionBtnLimpiarCampos(ActionEvent event) {
         limpiarCampos();
     }
-    
+
     private Long bufeteCarga() {
         UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
         return usuarioSesion.getUsrBufeteId();
@@ -467,7 +475,8 @@ public class InstrumentosController extends Controller implements Initializable 
         txtMontoReal.clear();
         txtMontoFactura.clear();
 
-        cargarRequisitos(); // para limpiar la tabla de requisitos
+        cargarTablaRequisitos(); // para limpiar la tabla de requisitos
+        cargarTablaGastos();
         tabPane.getSelectionModel().select(tabGeneralesDelInstrumento);
         revisarPermisos();
     }
@@ -499,6 +508,111 @@ public class InstrumentosController extends Controller implements Initializable 
         txtEscritura.setText(inst.getInsEscritura());
     }
 
+    // ===================== TAB GASTOS ========================================
+    @FXML
+    private void onActionBtnAgregarGasto(ActionEvent event) {
+
+        if (instrumentoActual == null) {
+            mostrarError("Primero guarde o cargue un instrumento");
+            return;
+        }
+
+        String detalle = txtGastoDetalle.getText();
+        LocalDate fecha = dpGastoFecha.getValue();
+        BigDecimal monto = leerMonto(txtGastoMonto); // es bigdecimal
+        String factura = txtGastoFactura.getText();
+        Boolean tributa = chkGastoTributa.isSelected();
+
+        if (detalle.isEmpty()) {
+            mostrarError("El campo de detalle no puede estar vacido");
+            txtGastoDetalle.requestFocus();
+            return;
+        }
+
+        if (fecha == null) {
+            mostrarError("Ingrese una fecha");
+            dpGastoFecha.requestFocus();
+            return;
+        }
+
+        if (monto == null) {
+            mostrarError("El monto no es un número válido");
+            txtGastoMonto.requestFocus();
+            return;
+        }
+
+        InstrumentoGasto instGasto = new InstrumentoGasto(detalle, fecha, monto, factura, tributa);
+        instGasto.setIgaInstrumentoId(instrumentoActual.getInsId());
+        Respuesta respuesta = instrumentoGastoService.guardarGasto(BufeteCargado(), instGasto);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Se guardo el gasto correctamente");
+            limpiarCamposGasto();
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+
+    }
+
+    @FXML
+    private void onActionBtnAgregarEvento(ActionEvent event) {
+    }
+
+    private void inicializarTablas() {
+
+        //----------------------------- Requisitos ------------------------------------
+        colNumero.setCellValueFactory(new PropertyValueFactory<>("irqOrden"));
+        colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
+
+        colEstado.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList("Cumplido", "Pendiente")));
+        colEstado.setOnEditCommit(event -> {
+            // Aquí puedes llamar a tu servicio
+            // para guardar el cambio en la base de datos.
+        });
+
+        //------------------------ Gastos ----------------------------------------------
+        colGastoDetalle.setCellValueFactory(new PropertyValueFactory<>("igaDetalle"));
+        colGastoFecha.setCellValueFactory(new PropertyValueFactory<>("igaFecha"));
+        colGastoMonto.setCellValueFactory(new PropertyValueFactory<>("igaMonto"));
+        colGastoFactura.setCellValueFactory(new PropertyValueFactory<>("igaFactura"));
+        colGastoTributa.setCellValueFactory(new PropertyValueFactory<>("igaTributa"));
+        tblGastos.setPlaceholder(new Label("No hay gastos registrados por el momento"));
+        tblGastos.setItems(listaGastos);
+
+    }
+
+    private void limpiarCamposGasto() {
+        txtGastoDetalle.clear();
+        dpGastoFecha.setValue(null);
+        txtGastoFactura.clear();
+        txtGastoMonto.clear();
+        chkGastoTributa.setSelected(false);
+        cargarTablaGastos();
+    }
+
+    private Long BufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
+
+    //============== cargar tablas
+    private void cargarTablaGastos() {
+        listaGastos.clear();
+        if (instrumentoActual == null) {
+            return;
+        }
+        //ID buf actual
+        Respuesta respuesta = instrumentoGastoService.getGastos(bufeteCarga(), instrumentoActual.getInsId(), null, null);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<InstrumentoGasto> gastos = (List<InstrumentoGasto>) respuesta.getResultado("InstrumentosGastos");
+            if (gastos != null) {
+                listaGastos.setAll(gastos);
+            }
+        } else {
+            mostrarError("Error cargando los gastos: " + respuesta.getMensaje());
+        }
+    }
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
@@ -509,14 +623,5 @@ public class InstrumentosController extends Controller implements Initializable 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
-    }
-
-    @FXML
-    private void onActionBtnAgregarGasto(ActionEvent event) {
-    }
-
-
-    @FXML
-    private void onActionBtnAgregarEvento(ActionEvent event) {
     }
 }
