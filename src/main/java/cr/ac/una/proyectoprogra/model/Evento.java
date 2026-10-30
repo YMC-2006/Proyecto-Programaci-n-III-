@@ -20,12 +20,11 @@ public class Evento {
     private String eveInstrumentoTipo;
     private String eveInstrumentoEstado;
 
-    public Evento(String eveDetalle, LocalDateTime eveFechaHora, Boolean eveAtendido, String eveInstrumentoTipo, String eveInstrumentoEstado) {
+    public Evento(String eveDetalle, LocalDateTime eveFechaHora, Boolean eveAtendido) {
         this.eveDetalle = eveDetalle;
         this.eveFechaHora = eveFechaHora;
         this.eveAtendido = eveAtendido;
-        this.eveInstrumentoTipo = eveInstrumentoTipo;
-        this.eveInstrumentoEstado = eveInstrumentoEstado;
+
     }
 
     public Evento() {

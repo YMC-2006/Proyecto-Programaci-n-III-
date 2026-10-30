@@ -85,7 +85,7 @@ public class ReportesController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
-
+        this.tblAbogados.refresh();
     }
 
     @FXML
