@@ -36,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -43,6 +44,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
 /**
@@ -126,6 +128,54 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private TableColumn<InstrumentoRequisito, Integer> colNumero;
     private ObservableList<InstrumentoRequisito> listaRequisitos = FXCollections.observableArrayList();
+    @FXML
+    private Tab tabContable;
+    @FXML
+    private VBox vbGastos;
+    @FXML
+    private TextField txtGastoDetalle;
+    @FXML
+    private MFXDatePicker dpGastoFecha;
+    @FXML
+    private TextField txtGastoFactura;
+    @FXML
+    private TextField txtGastoMonto;
+    @FXML
+    private CheckBox chkGastoTributa;
+    @FXML
+    private Button btnAgregarGasto;
+    @FXML
+    private TableView<?> tblGastos;
+    @FXML
+    private TableColumn<?, ?> colGastoDetalle;
+    @FXML
+    private TableColumn<?, ?> colGastoFecha;
+    @FXML
+    private TableColumn<?, ?> colGastoFactura;
+    @FXML
+    private TableColumn<?, ?> colGastoMonto;
+    @FXML
+    private TableColumn<?, ?> colGastoTributa;
+    @FXML
+    private Label lblTotalGastos;
+    @FXML
+    private TableView<?> tblEventos;
+    @FXML
+    private TableColumn<?, ?> colEventoDetalle;
+    @FXML
+    private TableColumn<?, ?> colEventoFechaHora;
+    @FXML
+    private TableColumn<?, ?> colEventoAtendido;
+    @FXML
+    private TableColumn<?, ?> colEventoAccion;
+    @FXML
+    private TextField txtEventoDetalle;
+    @FXML
+    private MFXDatePicker dpEventoFecha;
+    @FXML
+    private TextField txtEventoHora;
+    @FXML
+    private Button btnAgregarEvento;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -459,5 +509,14 @@ public class InstrumentosController extends Controller implements Initializable 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void onActionBtnAgregarGasto(ActionEvent event) {
+    }
+
+
+    @FXML
+    private void onActionBtnAgregarEvento(ActionEvent event) {
     }
 }

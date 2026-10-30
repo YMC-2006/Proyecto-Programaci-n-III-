@@ -106,7 +106,11 @@ public class AbogadosController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-
+        txtBuscarNombre.setTextFormatter(Formato.getInstance().maxLengthFormat(30));
+        txtBuscarCedula.setTextFormatter(Formato.getInstance().maxLengthFormat(30));
+        txtBuscarCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(30));
+        
+        
         cmbFiltroPropietario.getItems().setAll(filtroPropietario);
         cmbFiltroPropietario.getSelectionModel().selectFirst();
 
@@ -275,7 +279,6 @@ public class AbogadosController extends Controller implements Initializable {
 
         listaAbogados.setAll(filtrados);
     }
-
 
     private boolean contiene(String dato, String buscado) {
         if (buscado.isEmpty()) {
