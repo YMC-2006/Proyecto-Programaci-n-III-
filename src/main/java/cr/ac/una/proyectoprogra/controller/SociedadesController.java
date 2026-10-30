@@ -5,10 +5,12 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.SociedadDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.SociedadService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
@@ -155,9 +157,13 @@ public class SociedadesController extends Controller implements Initializable {
                 }
  
                 contenedor.getChildren().clear();
-                contenedor.getChildren().add(btnEliminar);
-                contenedor.getChildren().add(btnEditar);
-                contenedor.getChildren().add(btnRepresentante);
+                if (Permisos.tienePermiso("SociedadesView", "Eliminar")) {
+                    contenedor.getChildren().add(btnEliminar);
+                }
+                if (Permisos.tienePermiso("SociedadesView", "Modificar")) {
+                    contenedor.getChildren().add(btnEditar);
+                    contenedor.getChildren().add(btnRepresentante);
+                }
                 setGraphic(contenedor);
             }
  
@@ -189,7 +195,8 @@ public class SociedadesController extends Controller implements Initializable {
     }   
     
     private void cargarTabla() {
-        Long bufeteId = 1L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = sociedadService.getSociedades(bufeteId,null, null, null, null);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<SociedadDto> sociedadesService = (List<SociedadDto>) respuesta.getResultado("Sociedades");
@@ -293,6 +300,7 @@ public class SociedadesController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+        btnAgregarSociedad.setDisable(!Permisos.tienePermiso("SociedadesView", "Crear"));
         cargarTabla();
     }
 

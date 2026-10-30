@@ -1,10 +1,12 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Parametro;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ParametroService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
@@ -111,12 +113,12 @@ public class ParametrosController extends Controller implements Initializable {
                 }
 
                 contenedor.getChildren().clear();
-                contenedor.getChildren().add(btnEditar);
-
-                // si es del sistema mostramos el candado en vez del boton eliminar
+                if (Permisos.tienePermiso("ParametrosView", "Modificar")) {
+                    contenedor.getChildren().add(btnEditar);
+                }
                 if (esDelSistema(parametro)) {
                     contenedor.getChildren().add(iconoCandado);
-                } else {
+                } else if (Permisos.tienePermiso("ParametrosView", "Eliminar")) {
                     contenedor.getChildren().add(btnEliminar);
                 }
                 setGraphic(contenedor);
@@ -154,11 +156,13 @@ public class ParametrosController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+        btnAgregar.setDisable(!Permisos.tienePermiso("ParametrosView", "Crear"));
         cargarTabla();
     }
 
     private void cargarTabla() {
-        Long bufeteId = 1L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = parametroService.getParametros(bufeteId);
 
         if (Boolean.TRUE.equals(respuesta.getEstado())) {

@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.AbogadoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -139,7 +140,7 @@ public class RegistrarAbogadoController extends Controller implements Initializa
 
             // mando notario false por el momento falta preguntarle al profe
             Abogado abogado = new Abogado(nombre, cedula, telefono, celular, correo, direccion, propietario, chkNotario.isSelected());
-            abogado.setAboBufeteId(1L);
+            abogado.setAboBufeteId(bufeteCargado());
             Respuesta respuesta = abogadoService.guardarAbogado(abogado);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -160,7 +161,7 @@ public class RegistrarAbogadoController extends Controller implements Initializa
             abogadoEditando.setAboDireccion(direccion);
             abogadoEditando.setAboNotario(chkNotario.isSelected());
             abogadoEditando.setAboPropietario(chkPropietario.isSelected());
-            abogadoEditando.setAboBufeteId(1L);
+            abogadoEditando.setAboBufeteId(bufeteCargado());
             Respuesta respuesta = abogadoService.guardarAbogado(abogadoEditando);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
                 mostrarExito(FlowController.getIdioma().getString("abogado.exito.modificar"));
@@ -172,6 +173,11 @@ public class RegistrarAbogadoController extends Controller implements Initializa
 
         }
 
+    }
+    
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
     }
 
     private void limpiarCampos() {

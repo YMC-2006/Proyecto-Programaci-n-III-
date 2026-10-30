@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.Formato;
@@ -66,6 +67,10 @@ public class RegistrarTipoInstrumentoController extends Controller implements In
         ((Stage) btnCancelar.getScene().getWindow()).close();
     }
 
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
         String nombreTipoIns = txtNombre.getText();
@@ -76,11 +81,10 @@ public class RegistrarTipoInstrumentoController extends Controller implements In
             return;
         }
 
-        Long idBufete = 1L;
         if (tipoInstrumentoEditando == null) { // creando
 
             TipoInstrumento tipoInstrumento = new TipoInstrumento(nombreTipoIns, estado);
-            tipoInstrumento.setTinBufeteId(idBufete);
+            tipoInstrumento.setTinBufeteId(bufeteCargado());
 
             Respuesta respuesta = tipoInstrumentoService.guardarTipoInstrumento(tipoInstrumento);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -93,7 +97,7 @@ public class RegistrarTipoInstrumentoController extends Controller implements In
         } else { // editando
             tipoInstrumentoEditando.setTinNombre(nombreTipoIns);
             tipoInstrumentoEditando.setTinEstado(estado);
-            tipoInstrumentoEditando.setTinBufeteId(idBufete);
+            tipoInstrumentoEditando.setTinBufeteId(bufeteCargado());
 
             Respuesta respuesta = tipoInstrumentoService.guardarTipoInstrumento(tipoInstrumentoEditando);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {

@@ -384,37 +384,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .imgExplorador {
-    -fx-image: url("../resource/Explorador1.png");
-    -fx-fit-height: 50px;
-    -fx-fit-width: 50px;
-}
-
-.imgExplorador:hover {
     -fx-image: url("../resource/Explorador2.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }
 
-.imgCamara {
-    -fx-image: url("../resource/Camara1.png");
+.imgExplorador:hover {
+    -fx-image: url("../resource/Explorador1.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }
 
-.imgCamara:hover {
+.imgCamara {
     -fx-image: url("../resource/Camara2.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }
 
+.imgCamara:hover {
+    -fx-image: url("../resource/Camara1.png");
+    -fx-fit-height: 50px;
+    -fx-fit-width: 50px;
+}
+
 .imgCancelar {
-    -fx-image: url("../resource/iconos_sicobu/cancelar_hover.png");
+    -fx-image: url("../resource/iconos_sicobu/cancelar.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }
 
 .imgCancelar:hover {
-    -fx-image: url("../resource/iconos_sicobu/cancelar.png");
+    -fx-image: url("../resource/iconos_sicobu/cancelar_hover.png");
     -fx-fit-height: 50px;
     -fx-fit-width: 50px;
 }

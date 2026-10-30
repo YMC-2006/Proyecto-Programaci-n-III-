@@ -13,11 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.AbogadoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,8 +162,12 @@ public class AbogadosController extends Controller implements Initializable {
                 }
 
                 contenedor.getChildren().clear();
-                contenedor.getChildren().add(btnEliminar);
-                contenedor.getChildren().add(btnEditar);
+                if (Permisos.tienePermiso("AbogadosView", "Eliminar")) {
+                    contenedor.getChildren().add(btnEliminar);
+                }
+                if (Permisos.tienePermiso("AbogadosView", "Modificar")) {
+                    contenedor.getChildren().add(btnEditar);
+                }
                 setGraphic(contenedor);
             }
 
@@ -186,7 +192,8 @@ public class AbogadosController extends Controller implements Initializable {
     }
 
     private void cargarTabla() {
-        Long bufeteId = 1L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
@@ -201,6 +208,7 @@ public class AbogadosController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
+        btnAgregarAbogado.setDisable(!Permisos.tienePermiso("AbogadosView", "Crear"));
         cargarTabla();
     }
 

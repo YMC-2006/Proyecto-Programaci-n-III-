@@ -1,6 +1,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Parametro;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ParametroService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -106,7 +107,7 @@ public class RegistrarParametroController extends Controller implements Initiali
             parametro.setParCodigo(codigo);
             parametro.setParValor(valor.trim());
             parametro.setParDescripcion(descripcion.trim());
-            parametro.setParBufeteId(1L);
+            parametro.setParBufeteId(bufeteCargado());
 
             Respuesta respuesta = parametroService.guardarParametro(parametro);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -121,7 +122,7 @@ public class RegistrarParametroController extends Controller implements Initiali
 
             parametroEditando.setParValor(valor.trim());
             parametroEditando.setParDescripcion(descripcion.trim());
-            parametroEditando.setParBufeteId(1L);
+            parametroEditando.setParBufeteId(bufeteCargado());
 
             Respuesta respuesta = parametroService.guardarParametro(parametroEditando);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -132,6 +133,11 @@ public class RegistrarParametroController extends Controller implements Initiali
                 mostrarError(respuesta.getMensaje());
             }
         }
+    }
+    
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
     }
 
     @FXML

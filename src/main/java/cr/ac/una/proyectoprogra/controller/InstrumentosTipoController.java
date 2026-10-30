@@ -7,11 +7,13 @@ package cr.ac.una.proyectoprogra.controller;
 import cr.ac.una.proyectoprogra.model.Comodin;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
@@ -360,7 +362,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
         // el instrumento seleccionado sele asgina la lista de requisitos
         tipoInsSeleccionado.setTipoInstRequisitoList(new ArrayList<>(listaRequisitos));
         tipoInsSeleccionado.setTipoInstRequisitoEliminadosList(new ArrayList<>(requisitosEliminados));
-        tipoInsSeleccionado.setTinBufeteId(1L);
+        tipoInsSeleccionado.setTinBufeteId(bufeteCargado());
 
         // guardar el tipo de instrumentos ya tienen para actualizar los requisitos
         Respuesta respuesta = tipoInstrumentoService.guardarTipoInstrumento(tipoInsSeleccionado);
@@ -374,6 +376,10 @@ public class InstrumentosTipoController extends Controller implements Initializa
         }
     }
 
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
     private void seleccionarTipo(Long id) {
         for (TipoInstrumento tipoIns : listaTipoInstrumentos) {
             if (tipoIns.getTinId().equals(id)) {
@@ -414,9 +420,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
     }
 
     private void cargarTabla() {
-
-        Long bufeteId = 1L;
-        Respuesta respuesta = tipoInstrumentoService.getTipoInstrumentos(null, null, bufeteId);
+        Respuesta respuesta = tipoInstrumentoService.getTipoInstrumentos(null, null, bufeteCargado());
 
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<TipoInstrumento> tipoInstrumentosService = (List<TipoInstrumento>) respuesta.getResultado("TipoInstrumentos");

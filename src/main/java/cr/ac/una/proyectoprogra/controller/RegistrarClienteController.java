@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import cr.ac.una.proyectoprogra.model.Cliente;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ClienteService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 
@@ -168,7 +169,7 @@ public class RegistrarClienteController extends Controller implements Initializa
             cliente.setCliCorreo(correo);
             cliente.setCliDireccion(direccion);
             cliente.setCliObservaciones(observaciones);
-            cliente.setCliBufeteId(1L); // Por el momento va a ser el bufete 1 porque no he hcho lo del login
+            cliente.setCliBufeteId(bufeteCargado()); // Por el momento va a ser el bufete 1 porque no he hcho lo del login
             Respuesta respuesta = clienteService.guardarCliente(cliente);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -192,7 +193,7 @@ public class RegistrarClienteController extends Controller implements Initializa
             clienteEditando.setCliCorreo(correo);
             clienteEditando.setCliDireccion(direccion);
             clienteEditando.setCliObservaciones(observaciones);
-            clienteEditando.setCliBufeteId(1L);
+            clienteEditando.setCliBufeteId(bufeteCargado());
             Respuesta respuesta = clienteService.guardarCliente(clienteEditando);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -207,6 +208,10 @@ public class RegistrarClienteController extends Controller implements Initializa
 
     }
 
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
     private void limpiarCampos() {
         cbxTipoId.getSelectionModel().selectFirst();
         txtCedula.clear();

@@ -5,6 +5,8 @@
 package cr.ac.una.proyectoprogra.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 /**
@@ -29,7 +31,8 @@ public class UsuarioDto {
     public SimpleBooleanProperty usrAdmin;
     public SimpleBooleanProperty usrCambioClave;
     private String token;
-    private Boolean modificado;
+    private Boolean modificado; 
+    private List<UsuarioPermisoDto> usuarioPermisoList = new ArrayList<>();
 
     public UsuarioDto() {
         this.modificado = false;
@@ -211,5 +214,15 @@ public class UsuarioDto {
 
     public void setUsrFoto(byte[] usrFoto) {
         this.usrFoto = usrFoto;
+    }
+    
+   
+
+    public List<UsuarioPermisoDto> getUsuarioPermisoList() {
+        return usuarioPermisoList;
+    }
+
+    public void setUsuarioPermisoList(List<UsuarioPermisoDto> usuarioPermisoList) {
+        this.usuarioPermisoList = usuarioPermisoList;
     }
 }

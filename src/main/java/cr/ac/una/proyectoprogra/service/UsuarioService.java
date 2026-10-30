@@ -8,6 +8,8 @@ import cr.ac.una.proyectoprogra.model.CambioClaveDto;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.util.Request;
 import cr.ac.una.proyectoprogra.util.Respuesta;
+import jakarta.ws.rs.core.GenericType;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,6 +88,50 @@ public class UsuarioService {
         } catch (Exception ex) {
             Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, "Error consultando la activación.", ex);
             return new Respuesta(false, "Error consultando la activación.", "estaPendiente " + ex.getMessage());
+        }
+    }
+    
+    public Respuesta getUsuarios(Long bufeteId) {
+        try {
+            Request request = new Request("Usuarios?bufeteId=" + bufeteId);
+            request.get();
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+            List<UsuarioDto> usuarios = (List<UsuarioDto>) request.readEntity(new GenericType<List<UsuarioDto>>() {});
+            return new Respuesta(true, "", "", "Usuarios", usuarios);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, "Error obteniendo los usuarios.", ex);
+            return new Respuesta(false, "Error obteniendo los usuarios.", "getUsuarios " + ex.getMessage());
+        }
+    }
+
+    public Respuesta desactivarUsuario(Long bufeteId, Long usrId) {
+        try {
+            Request request = new Request("Usuarios/" + usrId + "/desactivar?bufeteId=" + bufeteId);
+            request.post(null);
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+            return new Respuesta(true, "", "");
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, "Error desactivando el usuario.", ex);
+            return new Respuesta(false, "Error desactivando el usuario.", "desactivarUsuario " + ex.getMessage());
+        }
+    }
+    
+    public Respuesta guardarUsuario(UsuarioDto usuario) {
+        try {
+            Request request = new Request("Usuarios/usuario");
+            request.post(usuario);
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+            UsuarioDto usuarioGuardado = (UsuarioDto) request.readEntity(UsuarioDto.class);
+            return new Respuesta(true, "", "", "Usuario", usuarioGuardado);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, "Error guardando el usuario.", ex);
+            return new Respuesta(false, "Error guardando el usuario.", "guardarUsuario " + ex.getMessage());
         }
     }
 }

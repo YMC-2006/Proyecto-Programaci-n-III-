@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.util.FlowController;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -71,14 +72,21 @@ public class PrincipalController extends Controller implements Initializable {
         mostrarFechaActual();
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
-        opsMantenimiento.getChildren().addAll(
-                crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView", "abogados", menuMantenimientos),
-                crearBotonMenu(FlowController.getIdioma().getString("menu.clientes"), "ClientesView", "clientes", menuMantenimientos),
-                crearBotonMenu(FlowController.getIdioma().getString("menu.usuarios"), "UsuariosView", "usuarios", menuMantenimientos),
-                crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"), "SociedadesView", "sociedades", menuMantenimientos),
-                crearBotonMenu(FlowController.getIdioma().getString("menu.parametros"), "ParametrosView", "parametros", menuMantenimientos)
-
-        );
+        if (Permisos.tienePermiso("AbogadosView", "Consultar")) {
+            opsMantenimiento.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.abogados"), "AbogadosView", "abogados", menuMantenimientos));
+        }
+        if (Permisos.tienePermiso("ClientesView", "Consultar")) {
+            opsMantenimiento.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.clientes"), "ClientesView", "clientes", menuMantenimientos));
+        }
+        if (Permisos.tienePermiso("UsuariosView", "Consultar")) {
+            opsMantenimiento.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.usuarios"), "UsuariosView", "usuarios", menuMantenimientos));
+        }
+        if (Permisos.tienePermiso("SociedadesView", "Consultar")) {
+            opsMantenimiento.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.sociedades"), "SociedadesView", "sociedades", menuMantenimientos));
+        }
+        if (Permisos.tienePermiso("ParametrosView", "Consultar")) {
+            opsMantenimiento.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.parametros"), "ParametrosView", "parametros", menuMantenimientos));
+        }
 
         menuMantenimientos.getContent().add(opsMantenimiento);
 
@@ -97,12 +105,18 @@ public class PrincipalController extends Controller implements Initializable {
         // menu de instrumentos
         VBox opsInstrumentos = new VBox();
         opsInstrumentos.getStyleClass().add("menuDesplegable");
-        opsInstrumentos.getChildren().addAll(
-                crearBotonMenu("Tipos Instrumentos", "InstrumentosTipoView", "tipos_instrumento", menuInstrumentos),
-                crearBotonMenu("Estados Instrumentos", "InstrumentosEstadoView", "estados_instrumento", menuInstrumentos),
-                crearBotonMenu("Control Instrumentos", "InstrumentosView", "instrumentos", menuInstrumentos),
-                crearBotonMenu("Busqueda Instrumentos", "InstrumentosBusquedaView", "buscar", menuInstrumentos)
-        );
+        if (Permisos.tienePermiso("InstrumentosTipoView", "Consultar")) {
+            opsInstrumentos.getChildren().add(crearBotonMenu("Tipos Instrumentos", "InstrumentosTipoView", "tipos_instrumento", menuInstrumentos));
+        }
+        if (Permisos.tienePermiso("InstrumentosEstadoView", "Consultar")) {
+            opsInstrumentos.getChildren().add(crearBotonMenu("Estados Instrumentos", "InstrumentosEstadoView", "estados_instrumento", menuInstrumentos));
+        }
+        if (Permisos.tienePermiso("InstrumentosView", "Consultar")) {
+            opsInstrumentos.getChildren().add(crearBotonMenu("Control Instrumentos", "InstrumentosView", "instrumentos", menuInstrumentos));
+        }
+        if (Permisos.tienePermiso("InstrumentosBusquedaView", "Consultar")) {
+            opsInstrumentos.getChildren().add(crearBotonMenu("Busqueda Instrumentos", "InstrumentosBusquedaView", "buscar", menuInstrumentos));
+        }
 
         menuInstrumentos.getContent().add(opsInstrumentos);
 
@@ -119,12 +133,11 @@ public class PrincipalController extends Controller implements Initializable {
         opsInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
 
         Platform.runLater(() -> {
-
             String vistaActual = FlowController.getVistaActual();
-            if (vistaActual == null) {
-                FlowController.getInstance().goView("IndicadoresView");
-            } else {
+            if (vistaActual != null && Permisos.tienePermiso(vistaActual, "Consultar")) {
                 FlowController.getInstance().goView(vistaActual);
+            } else {
+                FlowController.getInstance().goView("IndicadoresView");
             }
         });
     }

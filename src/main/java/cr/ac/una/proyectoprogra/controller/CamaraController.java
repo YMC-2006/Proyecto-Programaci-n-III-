@@ -35,8 +35,8 @@ public class CamaraController extends Controller implements Initializable {
     private Webcam webcam;
     private boolean isRunning = true;
 
-    private RegistrarseController regCtrl;
-
+    private RegistrarseController registrarseCtrl;
+    private RegistrarUsuarioController registrarUsuarioCtrl;
     /**
      * Initializes the controller class.
      */
@@ -72,9 +72,13 @@ public class CamaraController extends Controller implements Initializable {
     private void OnMouseClickedCapturar(MouseEvent event) {
         BufferedImage bf = webcam.getImage();
         Image foto = SwingFXUtils.toFXImage(bf, null);
-        if (regCtrl != null) {
-            regCtrl.setFotoCamara(foto);
+        if (registrarseCtrl != null) {
+            registrarseCtrl.setFotoCamara(foto);
         }
+        if (registrarUsuarioCtrl != null) {
+            registrarUsuarioCtrl.setFotoCamara(foto);
+        }
+        
         Stage stage = (Stage) imgCamara.getScene().getWindow();
         webcam.close();
         stage.close();
@@ -86,8 +90,14 @@ public class CamaraController extends Controller implements Initializable {
         ((Stage) imgCancelar.getScene().getWindow()).hide();
     }
 
+    
+
     public void setControladorPrincipal(RegistrarseController ctrl) {
-        this.regCtrl = ctrl;
+        this.registrarseCtrl = ctrl;
+    }
+
+    public void setControladorPrincipal(RegistrarUsuarioController ctrl) {
+        this.registrarUsuarioCtrl = ctrl;
     }
 
 }

@@ -6,12 +6,14 @@ import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Formato;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -127,7 +129,6 @@ public class InstrumentosController extends Controller implements Initializable 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
 
@@ -155,6 +156,7 @@ public class InstrumentosController extends Controller implements Initializable 
 
     @Override
     public void initialize() {
+        revisarPermisos();
         configurarComboBoxes();
     }
 
@@ -195,7 +197,7 @@ public class InstrumentosController extends Controller implements Initializable 
         });
 
         // true = solo los tipos de instrumento activos
-        Respuesta respuestaTipos = tipoInstrumentoService.getTipoInstrumentos(null, true, 1L);
+        Respuesta respuestaTipos = tipoInstrumentoService.getTipoInstrumentos(null, true, bufeteCarga());
         if (Boolean.TRUE.equals(respuestaTipos.getEstado())) {
             List<TipoInstrumento> tipos = (List<TipoInstrumento>) respuestaTipos.getResultado("TipoInstrumentos");
             cmbTipoInstrumento.setItems(FXCollections.observableArrayList(tipos));
@@ -219,7 +221,7 @@ public class InstrumentosController extends Controller implements Initializable 
         });
 
         // true = solo los estados activos
-        Respuesta respuestaEstados = estadoInstrumentoService.getEstadoInstrumentos(true, null, null, 1L);
+        Respuesta respuestaEstados = estadoInstrumentoService.getEstadoInstrumentos(true, null, null, bufeteCarga());
         if (Boolean.TRUE.equals(respuestaEstados.getEstado())) {
             List<EstadoInstrumento> estados = (List<EstadoInstrumento>) respuestaEstados.getResultado("EstadosInstrumentos");
             cmbEstado.setItems(FXCollections.observableArrayList(estados));
@@ -311,7 +313,7 @@ public class InstrumentosController extends Controller implements Initializable 
         Instrumento instrumento;
         if (instrumentoEsNuevo) {
             instrumento = new Instrumento();
-            instrumento.setInsBufeteId(1L);
+            instrumento.setInsBufeteId(bufeteCarga());
             instrumento.setInsTipoId(tipo.getTinId());
             instrumento.setInsEstadoId(estado.getEinId());
         } else { // modo editar cuando ya cargue el inst
@@ -355,6 +357,13 @@ public class InstrumentosController extends Controller implements Initializable 
 
     }
 
+    private void revisarPermisos() {
+        if (instrumentoActual == null) {
+            btnGuardarInstrumento.setDisable(!Permisos.tienePermiso("InstrumentosView", "Crear"));
+        } else {
+            btnGuardarInstrumento.setDisable(!Permisos.tienePermiso("InstrumentosView", "Modificar"));
+        }
+    }
     // Convertir el texto de un campo a bigDecimal
     private BigDecimal leerMonto(TextField campo) {
         String texto = campo.getText().trim().replace(",", ".");
@@ -375,6 +384,11 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private void onActionBtnLimpiarCampos(ActionEvent event) {
         limpiarCampos();
+    }
+    
+    private Long bufeteCarga() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
     }
 
     private void limpiarCampos() {
@@ -405,6 +419,7 @@ public class InstrumentosController extends Controller implements Initializable 
 
         cargarRequisitos(); // para limpiar la tabla de requisitos
         tabPane.getSelectionModel().select(tabGeneralesDelInstrumento);
+        revisarPermisos();
     }
 
     @FXML
@@ -422,6 +437,7 @@ public class InstrumentosController extends Controller implements Initializable 
         if (respuesta.getEstado()) {
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             cargarInstrumento(instrumentoActual);
+            revisarPermisos();
             mostrarExito("Instrumento cargado");
         } else {
             mostrarError("Error cargando el instrumento");

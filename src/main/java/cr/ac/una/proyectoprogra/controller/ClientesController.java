@@ -13,10 +13,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import cr.ac.una.proyectoprogra.model.Cliente;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ClienteService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import java.util.ArrayList;
 import java.util.List;
@@ -141,13 +143,15 @@ public class ClientesController extends Controller implements Initializable {
                     setGraphic(null);
                     return;
                 }
- 
                 contenedor.getChildren().clear();
-                contenedor.getChildren().add(btnEliminar);
-                contenedor.getChildren().add(btnEditar);
+                if (Permisos.tienePermiso("ClientesView", "Eliminar")) {
+                    contenedor.getChildren().add(btnEliminar);
+                }
+                if (Permisos.tienePermiso("ClientesView", "Modificar")) {
+                    contenedor.getChildren().add(btnEditar);
+                }
                 setGraphic(contenedor);
-            }
- 
+                }
         });
  
         tblClientes.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
@@ -170,7 +174,8 @@ public class ClientesController extends Controller implements Initializable {
     }
  
     private void cargarTabla() {
-        Long bufeteId = 1L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = clienteService.getClientes(null, null, null, null, null, bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<Cliente> clientesService = (List<Cliente>) respuesta.getResultado("Clientes");
@@ -215,6 +220,7 @@ public class ClientesController extends Controller implements Initializable {
     @Override
     public void initialize() {
         cargarTabla();
+        btnAgregarCliente.setDisable(!Permisos.tienePermiso("ClientesView", "Crear"));
     }
  
     @FXML

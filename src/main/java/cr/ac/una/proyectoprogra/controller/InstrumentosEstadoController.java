@@ -5,10 +5,12 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
@@ -119,7 +121,9 @@ public class InstrumentosEstadoController extends Controller implements Initiali
                 }
 
                 contenedor.getChildren().clear();
-                contenedor.getChildren().add(btnEditar);
+                if (Permisos.tienePermiso("InstrumentosEstadoView", "Modificar")) {
+                    contenedor.getChildren().add(btnEditar);
+                }
                 setGraphic(contenedor);
             }
 
@@ -169,7 +173,8 @@ public class InstrumentosEstadoController extends Controller implements Initiali
     }
 
     private void cargarTabla() {
-        Long bufeteId = 1L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = estadoInstrumentoService.getEstadoInstrumentos(null, null, null, bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<EstadoInstrumento> estadosInstrumentoService = (List<EstadoInstrumento>) respuesta.getResultado("EstadosInstrumentos");
@@ -184,6 +189,7 @@ public class InstrumentosEstadoController extends Controller implements Initiali
 
     @Override
     public void initialize() {
+        btnAgregar.setDisable(!Permisos.tienePermiso("InstrumentosEstadoView", "Crear"));
         cargarTabla();
     }
 

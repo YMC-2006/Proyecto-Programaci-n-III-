@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -65,6 +66,10 @@ public class RegistrarEstadoInstrumentoController extends Controller implements 
         }
     }
 
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
     @FXML
     private void onActionBtnAgregar(ActionEvent event) {
 
@@ -80,9 +85,9 @@ public class RegistrarEstadoInstrumentoController extends Controller implements 
 
         // los checks pueden ir seleccionados o no eso esta bien
         if (estadoInstrumentoEditando == null) { // modo crear
-            Long idBufete = 1L;
+            
             EstadoInstrumento estadoInstrumento = new EstadoInstrumento(descripcion, estado, notifica, estadoFinal);
-            estadoInstrumento.setEinBufeteId(idBufete);
+            estadoInstrumento.setEinBufeteId(bufeteCargado());
 
             Respuesta respuesta = estadoInstrumentoService.guardarEstadoInstrumento(estadoInstrumento);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -99,7 +104,7 @@ public class RegistrarEstadoInstrumentoController extends Controller implements 
             estadoInstrumentoEditando.setEinActivo(estado);
             estadoInstrumentoEditando.setEinNotifica(notifica);
             estadoInstrumentoEditando.setEinFinal(estadoFinal);
-            estadoInstrumentoEditando.setEinBufeteId(1L);
+            estadoInstrumentoEditando.setEinBufeteId(bufeteCargado());
 
             Respuesta respuesta = estadoInstrumentoService.guardarEstadoInstrumento(estadoInstrumentoEditando);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {

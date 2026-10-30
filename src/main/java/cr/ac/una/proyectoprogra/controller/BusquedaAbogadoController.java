@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.AbogadoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -109,7 +110,8 @@ public class BusquedaAbogadoController extends Controller implements Initializab
     }
 
     private void cargarTabla(){
-        Long bufeteId = 1L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
         if(Boolean.TRUE.equals(respuesta.getEstado())){
            List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");

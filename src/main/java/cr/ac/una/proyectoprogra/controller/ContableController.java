@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.MovimientoDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.MovimientoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -277,7 +278,8 @@ public class ContableController extends Controller implements Initializable {
     }
     
     private void cargarTablaMovimientos() {
-        Long bufeteId = 2L;
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = movimientoService.getMovimientos(bufeteId);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<MovimientoDto> movimientosService = (List<MovimientoDto>) respuesta.getResultado("Movimientos");
