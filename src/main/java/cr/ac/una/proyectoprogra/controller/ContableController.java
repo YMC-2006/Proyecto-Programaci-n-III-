@@ -61,8 +61,6 @@ import javafx.scene.layout.HBox;
 public class ContableController extends Controller implements Initializable {
 
     @FXML
-    private ToggleGroup filtroTabla;
-    @FXML
     private TableView<?> tblContable;
     @FXML
     private TableColumn<?, ?> colFecha;
@@ -119,6 +117,24 @@ public class ContableController extends Controller implements Initializable {
     private Tab tabContable;
     @FXML
     private MFXDatePicker dtpFechaInicio;
+    @FXML
+    private Label lbIngresos;
+    @FXML
+    private Label lbGastos;
+    @FXML
+    private Label lbUtilidad;
+    @FXML
+    private Label lbTributadas;
+    @FXML
+    private ComboBox<?> cbxTipoC;
+    @FXML
+    private TextField txtFacturaC;
+    @FXML
+    private MFXCheckbox chkTributaC;
+    @FXML
+    private TextField txtMontoC;
+    @FXML
+    private TextField txtDetalleC;
 
     /**
      * Initializes the controller class.
@@ -366,6 +382,10 @@ public class ContableController extends Controller implements Initializable {
         dtpFechaInicio.clear();
         dtpFechaFin.clear();
         filtrarMovimientos();
+    }
+
+    @FXML
+    private void onActionSelectedTributaContable(ActionEvent event) {
     }
     
 }

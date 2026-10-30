@@ -12,8 +12,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -21,7 +19,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="1314.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
    <children>
-      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
                <children>
@@ -57,7 +55,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <VBox layoutX="38.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" styleClass="vbox" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+                                    <VBox layoutX="38.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" styleClass="vbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                           <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
                                              <children>
@@ -75,7 +73,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Ingresos" />
-                                                            <Label styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbIngresos" styleClass="numCard" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -94,7 +92,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Gastos" />
-                                                            <Label styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbGastos" styleClass="numCard" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -113,7 +111,7 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Utilidad" />
-                                                            <Label styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbUtilidad" styleClass="numCard" text="Label" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -132,7 +130,61 @@
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Total Tributado" />
-                                                            <Label styleClass="numCard" text="Label" />
+                                                            <Label fx:id="lbTributadas" styleClass="numCard" text="Label" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="106.0" prefWidth="1286.0" styleClass="bhox">
+                                             <children>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="360.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="312.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tipo" VBox.vgrow="ALWAYS" />
+                                                            <ComboBox fx:id="cbxTipoC" prefHeight="30.0" prefWidth="202.0" styleClass="txtCampo" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.factura" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtFacturaC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="68.0" prefWidth="243.0" styleClass="hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="155.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tributa" VBox.vgrow="ALWAYS" />
+                                                            <MFXCheckbox fx:id="chkTributaC" onAction="#onActionSelectedTributaContable" text="Si" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.monto" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtMontoC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                                <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.detalle" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtDetalleC" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -148,17 +200,6 @@
                                                             <Label styleClass="titl2" text="Movientos" />
                                                          </children>
                                                       </VBox>
-                                                      <HBox prefHeight="77.0" prefWidth="235.0" styleClass="segmented-group">
-                                                         <children>
-                                                            <ToggleButton mnemonicParsing="false" styleClass="segmented-btn" text="Todos">
-                                                               <toggleGroup>
-                                                                  <ToggleGroup fx:id="filtroTabla" />
-                                                               </toggleGroup>
-                                                            </ToggleButton>
-                                                            <ToggleButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" styleClass="segmented-btn" text="Ingresos" toggleGroup="$filtroTabla" />
-                                                            <ToggleButton layoutX="59.0" layoutY="10.0" mnemonicParsing="false" styleClass="segmented-btn" text="Gastos" toggleGroup="$filtroTabla" />
-                                                         </children>
-                                                      </HBox>
                                                    </children>
                                                 </HBox>
                                                 <TableView fx:id="tblContable" prefHeight="310.0" prefWidth="921.0" styleClass="tblSoci">
@@ -185,7 +226,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="1286.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                           <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="34.0" prefWidth="1286.0" VBox.vgrow="ALWAYS">
                                              <children>
