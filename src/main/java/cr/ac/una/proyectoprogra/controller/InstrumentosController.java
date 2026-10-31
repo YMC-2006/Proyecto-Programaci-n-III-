@@ -203,7 +203,28 @@ public class InstrumentosController extends Controller implements Initializable 
     public void initialize(URL url, ResourceBundle rb) {
         txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        
+        txtHoraInstrumento.setTextFormatter(Formato.getInstance().maxLengthFormat(5));
+        txtMostrarFechaEstado.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtTomoAsiento.setTextFormatter(Formato.getInstance().letrasFormat(30));
+        txtFolio.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtTomoAsiento.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtNumeroRecibo.setTextFormatter(Formato.getInstance().maxLengthFormat(30));
 
+        txaObservacionEstado.setTextFormatter(Formato.getInstance().letrasFormat(500));
+        txaDetalleInstrumento.setTextFormatter(Formato.getInstance().letrasFormat(200));
+        txaObservaciones.setTextFormatter(Formato.getInstance().letrasFormat(1000));
+
+        txtMontoReal.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
+        txtMontoFactura.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
+        
+        txtGastoDetalle.setTextFormatter(Formato.getInstance().letrasFormat(100));
+        txtGastoFactura.setTextFormatter(Formato.getInstance().letrasFormat(60));
+        txtGastoMonto.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
+        
+        
         // El número de recibo solo se habilita si el instrumento tributa
         txtNumeroRecibo.setDisable(true);
         chkTributa.selectedProperty().addListener((obs, antes, ahora) -> {
@@ -428,7 +449,7 @@ public class InstrumentosController extends Controller implements Initializable 
             } else {
                 mostrarExito("Instrumento modificado exitosamenet");
                 cargarTablaRequisitos();
-                habilitarTabs(false);
+                habilitarTabs(true);
             }
         } else {
             mostrarError(respuesta.getMensaje());
@@ -587,6 +608,13 @@ public class InstrumentosController extends Controller implements Initializable 
             return;
         }
 
+        // revisar los campos que pueden ir vacidos
+        if(factura.isEmpty()){
+            mostrarError("El campo de factura no puede estar vacido");
+            txtGastoFactura.requestFocus();
+            return;
+        }
+        
         if (fecha == null) {
             mostrarError("Ingrese una fecha");
             dpGastoFecha.requestFocus();
