@@ -6,9 +6,11 @@ package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Evento;
 import cr.ac.una.proyectoprogra.model.Instrumento;
+import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
 import cr.ac.una.proyectoprogra.model.MovimientoDto;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EventoService;
+import cr.ac.una.proyectoprogra.service.InstrumentoGastoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.MovimientoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
@@ -61,6 +63,7 @@ public class IndicadoresController extends Controller implements Initializable {
     
     private MovimientoService movimientoService = new MovimientoService();
     private InstrumentoService instrumentoService = new InstrumentoService();
+    private InstrumentoGastoService insGService = new InstrumentoGastoService();
     private EventoService eventoService = new EventoService();
     
     UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
@@ -78,6 +81,10 @@ public class IndicadoresController extends Controller implements Initializable {
     private TableView<Evento> tblAgenda;
     @FXML
     private TableColumn<Evento, String> colDescripcion;
+    @FXML
+    private Label lbTributado;
+    @FXML
+    private Label lbNoTributado;
 
     /**
      * Initializes the controller class.
@@ -123,6 +130,7 @@ public class IndicadoresController extends Controller implements Initializable {
         BigDecimal ingMes = BigDecimal.ZERO;
         BigDecimal gasMes = BigDecimal.ZERO;
         BigDecimal tributado = BigDecimal.ZERO;
+        BigDecimal nTributado = BigDecimal.ZERO;
         BigDecimal total = BigDecimal.ZERO;
         int insActivos = 0;
         
@@ -137,13 +145,15 @@ public class IndicadoresController extends Controller implements Initializable {
                     }
                     LocalDate insFecha = i.getInsFechaHora() != null ? i.getInsFechaHora().toLocalDate() : null;
                     if(insFecha != null && insFecha.getMonthValue() == mesActual && insFecha.getYear() == anioActual){
-                        BigDecimal monto = i.getInsMontoFacturado() != null ? i.getInsMontoFacturado() : i.getInsMontoReal();
+                        BigDecimal monto = i.getInsMontoReal() != null ? i.getInsMontoReal() : i.getInsMontoFacturado();
                         if(monto != null){
                             ingMes = ingMes.add(monto);
                             total = total.add(monto);
                             if(i.getInsTributa()){
                                 BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                                 tributado = tributado.add(t);
+                            }else{
+                                nTributado = nTributado.add(monto);
                             }
                         }
                     }
@@ -172,6 +182,29 @@ public class IndicadoresController extends Controller implements Initializable {
                         if(m.getMovTributa()){
                             BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                             tributado = tributado.add(t);
+                        }else{
+                            nTributado = nTributado.add(monto);
+                        }
+                    }
+                }
+            }
+        }
+        
+        Respuesta respuestaIG = insGService.getGastos(bufeteId, null, null, null);
+        if(respuestaIG.getEstado().equals(true)){
+            List<InstrumentoGasto> insGastos = (List<InstrumentoGasto>) respuestaIG.getResultado("InstrumentosGastos");
+            if(insGastos != null){
+                for(InstrumentoGasto ig : insGastos){
+                    LocalDate igFec = ig.getIgaFecha();
+                    if(igFec != null && igFec.getMonthValue() == mesActual && igFec.getYear() == anioActual){
+                        BigDecimal monto = ig.getIgaMonto() != null ? ig.getIgaMonto() : BigDecimal.ZERO;
+                        gasMes = gasMes.add(monto);
+
+                        if(ig.getIgaTributa()){
+                            BigDecimal t = monto.multiply(new BigDecimal("0.13"));
+                            tributado = tributado.add(t);
+                        }else{
+                            nTributado = nTributado.add(monto);
                         }
                     }
                 }
@@ -192,13 +225,17 @@ public class IndicadoresController extends Controller implements Initializable {
             }
         }
         
+        ingMes = ingMes.subtract(gasMes);
+        ingMes = ingMes.subtract(tributado);
+        
+        
         txtIngresos.setText(ingMes.toString());
         txtGastos.setText(gasMes.toString());
         txtInstrumentos.setText(String.valueOf(insActivos));
         txtEventos.setText(String.valueOf(cantEventos));
         
         cargarGraficoBarras(ingMes, gasMes);
-        cargarBarraProgreso(tributado, total);
+        cargarBarraProgreso(tributado, nTributado, total);
     }
     
     private void cargarGraficoBarras(BigDecimal ing, BigDecimal gas){
@@ -216,14 +253,20 @@ public class IndicadoresController extends Controller implements Initializable {
         grBarras.setLegendVisible(false);
     }
     
-    private void cargarBarraProgreso(BigDecimal tributado, BigDecimal total){
+    private void cargarBarraProgreso(BigDecimal tributado, BigDecimal nTributado, BigDecimal total){
         if(total.compareTo(BigDecimal.ZERO) == 0){
             prBarra.setProgress(0.0);
             return;
         }
         BigDecimal pTributado = tributado.divide(total,2,RoundingMode.HALF_UP);
         Double pr = Math.min(Math.max(pTributado.doubleValue(), 0.0), 1.0);
-        prBarra.setProgress(0.7);
+        prBarra.setProgress(pr);
+        
+        BigDecimal porcT = tributado.multiply(new BigDecimal("100")).divide(total, 2, RoundingMode.HALF_UP);
+        BigDecimal porcNT = nTributado.multiply(new BigDecimal("100")).divide(total, 2, RoundingMode.HALF_UP);
+        
+        lbTributado.setText(porcT.toString() + "%");
+        lbNoTributado.setText(porcNT.toString() + "%");
     }
 
     @Override

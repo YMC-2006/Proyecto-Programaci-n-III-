@@ -19,18 +19,47 @@ public class ContableDto {
     private String factura;
     private Boolean tributa;
     private String origen;
+    private String numRecibo;
+    private BigDecimal montoReal;
+    private BigDecimal montoFacturado;
 
     public ContableDto() {
     }
 
-    public ContableDto(String tipo, String detalle, LocalDate fecha, BigDecimal monto, String factura, Boolean tributa, String origen) {
+    public ContableDto(String tipo, String detalle, LocalDate fecha, BigDecimal monto, String factura, Boolean tributa, String origen, String numRecibo, BigDecimal montoReal, BigDecimal montoFacturado) {
         this.tipo = tipo;
         this.detalle = detalle;
         this.fecha = fecha;
-        this.monto = monto;
-        this.factura = factura;
+        if(monto != null){
+            this.monto = monto;
+        }else{
+            this.monto = new BigDecimal(0);
+        }
+        if(factura != null){
+            this.factura = factura;
+        }else{
+            this.factura = "No aplica";
+        }
         this.tributa = tributa;
         this.origen = origen;
+        if(tributa && numRecibo != null){
+            this.numRecibo = numRecibo;
+        }else{
+            this.numRecibo = "No aplica";
+        }
+        
+        if(montoReal != null){
+            this.montoReal = montoReal;
+        }else{
+            this.montoReal = new BigDecimal(0);
+        }
+        
+        if(montoFacturado != null){
+            this.montoFacturado = montoFacturado;
+        }else{
+            this.montoFacturado = new BigDecimal(0);
+        }
+        
     }
 
     public String getTipo() {
@@ -87,6 +116,30 @@ public class ContableDto {
 
     public void setOrigen(String origen) {
         this.origen = origen;
+    }
+
+    public String getNumRecibo() {
+        return numRecibo;
+    }
+
+    public void setNumRecibo(String numRecibo) {
+        this.numRecibo = numRecibo;
+    }
+
+    public BigDecimal getMontoReal() {
+        return montoReal;
+    }
+
+    public void setMontoReal(BigDecimal montoReal) {
+        this.montoReal = montoReal;
+    }
+
+    public BigDecimal getMontoFacturado() {
+        return montoFacturado;
+    }
+
+    public void setMontoFacturado(BigDecimal montoFacturado) {
+        this.montoFacturado = montoFacturado;
     }
     
 }

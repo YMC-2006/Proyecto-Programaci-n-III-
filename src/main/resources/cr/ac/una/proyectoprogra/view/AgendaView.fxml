@@ -5,38 +5,36 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="659.0" prefWidth="986.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AgendaController">
+<AnchorPane id="AnchorPane" prefHeight="659.0" prefWidth="986.0" styleClass="calendario" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AgendaController">
    <children>
-      <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="50.0">
+      <VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox prefHeight="40.0">
                <children>
-                  <Label styleClass="TituloLogin2" text="%calendario" />
+                  <Label styleClass="titl" text="%calendario" />
                </children>
             </HBox>
             <MFXScrollPane maxWidth="Infinity" VBox.vgrow="ALWAYS">
                <content>
-      
-                  <BorderPane prefHeight="527.0" prefWidth="864.0">
-                     <top>
-                        <VBox BorderPane.alignment="CENTER">
+                  <VBox prefHeight="556.0" prefWidth="881.0">
+                     <children>
+                        <VBox styleClass="calendario">
                            <children>
                               <HBox prefHeight="60.0" styleClass="hboxI">
                                  <children>
-                                    <MFXButton fx:id="btnAnterior" onAction="#onActionMesAnterior" text="&lt;" />
+                                    <MFXButton fx:id="btnAnterior" onAction="#onActionMesAnterior" prefHeight="46.0" prefWidth="57.0" text="&lt;" />
                                     <Label fx:id="lblMesAnio" styleClass="titl2" text="MES" />
-                                    <MFXButton fx:id="btnSiguiente" onAction="#onActionMesSiguiente" text="&gt;" />
+                                    <MFXButton fx:id="btnSiguiente" onAction="#onActionMesSiguiente" prefHeight="46.0" prefWidth="57.0" text="&gt;" />
                                  </children>
                               </HBox>
       
-                                  <GridPane alignment="TOP_CENTER">
+                                        <GridPane alignment="TOP_CENTER">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
@@ -61,9 +59,7 @@
                               </GridPane>
                            </children>
                         </VBox>
-                     </top>
-                     <center>
-                        <GridPane fx:id="gridCalendario" alignment="CENTER" BorderPane.alignment="CENTER">
+                        <GridPane fx:id="gridCalendario" alignment="CENTER" prefHeight="465.0" prefWidth="860.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
                               <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
@@ -82,12 +78,16 @@
                               <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                     </center>
-                  </BorderPane>
+                     </children>
+                     <styleClass>
+                        <String fx:value="calendario" />
+                        <String fx:value="cal" />
+                     </styleClass>
+                  </VBox>
                </content>
                <styleClass>
-                  <String fx:value="agenda" />
                   <String fx:value="mainDisplay" />
+                  <String fx:value="calendario" />
                </styleClass>
             </MFXScrollPane>
          </children>

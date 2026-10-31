@@ -105,7 +105,7 @@ public class AgendaController extends Controller implements Initializable {
             LocalDate fecha = mesActual.atDay(i);
             
             VBox celda = new VBox();
-            celda.setStyle("-fx-border-color: #e0e0e0; -fx-background-color: #ffffff; -fx-padding: 5;");
+            celda.setStyle("-fx-border-color: #54a5d4; -fx-background-color: #e6f6ff; -fx-padding: 5;");
             celda.setAlignment(Pos.TOP_LEFT);
             
             Label num = new Label(String.valueOf(i));

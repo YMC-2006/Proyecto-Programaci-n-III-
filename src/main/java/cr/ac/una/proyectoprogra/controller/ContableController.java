@@ -5,10 +5,12 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.ContableDto;
+import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
 import cr.ac.una.proyectoprogra.model.MovimientoDto;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.InstrumentoGastoService;
+import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.MovimientoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -104,6 +106,7 @@ public class ContableController extends Controller implements Initializable {
     
     private List<MovimientoDto> todosLosMovimientos = new ArrayList<>();
     private List<InstrumentoGasto> todosLosGastos = new ArrayList<>();
+    private List<Instrumento> todosLosInstrumentos = new ArrayList<>();
     private ObservableList<MovimientoDto> listaMovimientos = FXCollections.observableArrayList();
     private List<ContableDto> todosLosContables = new ArrayList<>();
     private ObservableList<ContableDto> listaContable = FXCollections.observableArrayList();
@@ -112,6 +115,7 @@ public class ContableController extends Controller implements Initializable {
     
     private MovimientoService movimientoService = new MovimientoService();
     private InstrumentoGastoService insGService = new InstrumentoGastoService();
+    private InstrumentoService insService = new InstrumentoService();
     
     @FXML
     private Tab tabMovimientos;
@@ -150,6 +154,12 @@ public class ContableController extends Controller implements Initializable {
     private TableColumn<ContableDto, String> colFactura;
     @FXML
     private ComboBox<String> cbxTipoC;
+    @FXML
+    private TableColumn<ContableDto, String> colRecibo;
+    @FXML
+    private TableColumn<ContableDto, BigDecimal> colMontoReal;
+    @FXML
+    private TableColumn<ContableDto, BigDecimal> colMontoFact;
 
     /**
      * Initializes the controller class.
@@ -171,6 +181,7 @@ public class ContableController extends Controller implements Initializable {
             dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue)->{
                 filtrarMovimientos();
                 filtrarContables();
+                cargarIndicadoresGenerales();
             });
         }
         
@@ -178,6 +189,7 @@ public class ContableController extends Controller implements Initializable {
             dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue)->{
                 filtrarMovimientos();
                 filtrarContables();
+                cargarIndicadoresGenerales();
             });
         }
         inicializarMovimientos();
@@ -196,10 +208,9 @@ public class ContableController extends Controller implements Initializable {
             todosLosMovimientos = (List<MovimientoDto>) respuestaMov.getResultado("Movimientos");
         }
         
-        //faltan agregar los instrumentos
         for(MovimientoDto m : todosLosMovimientos){
             todosLosContables.add(new ContableDto(m.getMovTipo(),m.getMovDetalle(),m.getMovFecha(),
-                    m.getMovMonto(),m.getMovFactura(), m.getMovTributa(), m.getMovOrigen()));
+                    m.getMovMonto(),m.getMovFactura(), m.getMovTributa(), m.getMovOrigen(), null, null, null));
         }
         
         Respuesta respuestaInsG = insGService.getGastos(bufeteId, null, null, null);
@@ -209,7 +220,18 @@ public class ContableController extends Controller implements Initializable {
         
         for(InstrumentoGasto ig : todosLosGastos){
             todosLosContables.add(new ContableDto("G",ig.getIgaDetalle(),ig.getIgaFecha(),
-                    ig.getIgaMonto(),ig.getIgaFactura(), ig.getIgaTributa(), "Instrumento"));
+                    ig.getIgaMonto(),ig.getIgaFactura(), ig.getIgaTributa(), "Instrumento", null, null, null));
+        }
+        
+        Respuesta respuestaIns = insService.getInstrumentos(bufeteId, null, null, null);
+        if(respuestaIns.getEstado().equals(true)){
+            todosLosInstrumentos = (List<Instrumento>) respuestaIns.getResultado("Instrumentos");
+        }
+        
+        for(Instrumento i : todosLosInstrumentos){
+            LocalDate fecha = i.getInsFechaHora().toLocalDate();
+            todosLosContables.add(new ContableDto("I",i.getInsDetalle(),fecha,
+                    null,null, i.getInsTributa(), "Instrumento", i.getInsNumeroRecibo(), i.getInsMontoReal(), i.getInsMontoFacturado()));
         }
         cargarIndicadoresGenerales();
         filtrarContables();
@@ -221,33 +243,55 @@ public class ContableController extends Controller implements Initializable {
         BigDecimal tributado = BigDecimal.ZERO;
         BigDecimal utilidad = BigDecimal.ZERO;
         
-        //faltan sumar los instrumentos
+        LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
+        LocalDate fecFin = (dtpFechaFin != null) ? dtpFechaFin.getValue() : null;
+        
         for(MovimientoDto m : todosLosMovimientos){
-            BigDecimal monto = m.getMovMonto() != null ? m.getMovMonto() : BigDecimal.ZERO;
-            String tipoM = m.getMovTipo();
-            if(tipoM.equals("I")){
-                ingresos = ingresos.add(monto);
-            }else if(tipoM.equals("G")){
-                gastos = gastos.add(monto);
+            LocalDate movFec = m.getMovFecha();
+            if(movFec != null && ((fecIni == null || !movFec.isBefore(fecIni)) && (fecFin == null || !movFec.isAfter(fecFin)))){
+                BigDecimal monto = m.getMovMonto() != null ? m.getMovMonto() : BigDecimal.ZERO;
+                String tipoM = m.getMovTipo();
+                if(tipoM.equals("I")){
+                    ingresos = ingresos.add(monto);
+                }else if(tipoM.equals("G")){
+                    gastos = gastos.add(monto);
+                }
+
+                if(m.getMovTributa()){
+                    BigDecimal t = monto.multiply(new BigDecimal("0.13"));
+                    tributado = tributado.add(t);
+                }
             }
-            
-            if(m.getMovTributa()){
-                BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                tributado = tributado.add(t);
+        }
+        
+        for(Instrumento i : todosLosInstrumentos){
+            LocalDate insFec = i.getInsFechaHora().toLocalDate();
+            if(insFec != null && (fecIni == null || !insFec.isBefore(fecIni)) && (fecFin == null || !insFec.isAfter(fecFin))){
+                BigDecimal monto = i.getInsMontoReal() != null ? i.getInsMontoReal() : BigDecimal.ZERO;
+                ingresos = ingresos.add(monto);
+
+                if(i.getInsTributa()){
+                    BigDecimal t = monto.multiply(new BigDecimal("0.13"));
+                    tributado = tributado.add(t);
+                }
             }
         }
         
         for(InstrumentoGasto ig : todosLosGastos){
-            BigDecimal monto = ig.getIgaMonto() != null ? ig.getIgaMonto() : BigDecimal.ZERO;
-            gastos = gastos.add(monto);
-            
-            if(ig.getIgaTributa()){
-                BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                tributado = tributado.add(t);
+            LocalDate igFec = ig.getIgaFecha();
+            if(igFec != null && (fecIni == null || !igFec.isBefore(fecIni)) && (fecFin == null || !igFec.isAfter(fecFin))){
+                BigDecimal monto = ig.getIgaMonto() != null ? ig.getIgaMonto() : BigDecimal.ZERO;
+                gastos = gastos.add(monto);
+
+                if(ig.getIgaTributa()){
+                    BigDecimal t = monto.multiply(new BigDecimal("0.13"));
+                    tributado = tributado.add(t);
+                }
             }
         }
         
         utilidad = ingresos.subtract(gastos);
+        utilidad = utilidad.subtract(tributado);
         
         lbIngresos.setText(ingresos.toString());
         lbGastos.setText(gastos.toString());
@@ -295,7 +339,15 @@ public class ContableController extends Controller implements Initializable {
         tblContable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
  
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colTipo.setCellValueFactory(cellData->{
+            SimpleStringProperty tipo = new SimpleStringProperty();
+            if(cellData.getValue().getTipo().equals("I")){
+                tipo.set("Ingreso");
+            }else{
+                tipo.set("Gasto");
+            }
+            return tipo;
+        });
         colFactura.setCellValueFactory(new PropertyValueFactory<>("factura"));
         colTributa.setCellValueFactory(cellData->{
             SimpleStringProperty tributa = new SimpleStringProperty();
@@ -309,6 +361,9 @@ public class ContableController extends Controller implements Initializable {
         colDetalle.setCellValueFactory(new PropertyValueFactory<>("detalle"));
         colMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
         colOrigen.setCellValueFactory(new PropertyValueFactory<>("origen"));
+        colRecibo.setCellValueFactory(new PropertyValueFactory<>("numRecibo"));
+        colMontoReal.setCellValueFactory(new PropertyValueFactory<>("montoReal"));
+        colMontoFact.setCellValueFactory(new PropertyValueFactory<>("montoFacturado"));
  
         this.tblContable.setPlaceholder(new Label("No hay movimientos/instrumentos contables registrados por el momento"));
  

@@ -236,6 +236,15 @@ public class AgregarRepresentanteController extends Controller implements Initia
         representanteEditando = null;
         this.btnAgregar.setText("Guardar");
     }
+    
+    public void cargarCliente(Cliente cliente) {
+        if(cliente != null){
+            clienteRepresentanteId = cliente.getCliId();
+            txtNombre.setText(cliente.getCliNombre()+" " +cliente.getCliApellido1());
+            txtCedula.setText(cliente.getCliIdentificacion());
+            txtCargo.requestFocus();
+        }
+    }
 
     @FXML
     private void onActionBtnCancelar(ActionEvent event) {
@@ -298,7 +307,6 @@ public class AgregarRepresentanteController extends Controller implements Initia
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
                 mostrarExito(FlowController.getIdioma().getString("socRepresentante.exito.modificar"));
                 limpiarCampos();
-                ((Stage) btnAgregar.getScene().getWindow()).close();
             } else {
                 representanteEditando.setSreCargo(cargoAnterior);
                 mostrarError(respuesta.getMensaje());
@@ -312,29 +320,8 @@ public class AgregarRepresentanteController extends Controller implements Initia
     }
 
     @FXML
-    private void onActionBuscarCliente(ActionEvent event) {
-        String cedula = txtCedula.getText();
-        if(cedula == null || cedula.trim().isEmpty()){
-            return;
-        }
-        
-        Respuesta respuesta = clienteService.getClientes(null, null, cedula, null,null, bufeteId);
-        if(Boolean.TRUE.equals(respuesta.getEstado())){
-            List<Cliente> clientes = (List<Cliente>)respuesta.getResultado("Clientes");
-            if(clientes != null && !clientes.isEmpty()){
-                Cliente clienteEncontrado = clientes.stream().filter(c->c.getCliIdentificacion() != null && c.getCliIdentificacion().equals(cedula)).findFirst().orElse(null);
-                clienteRepresentanteId = clienteEncontrado.getCliId();
-                txtNombre.setText(clienteEncontrado.getCliNombre()+" " + clienteEncontrado.getCliApellido1());
-            }else{
-                mostrarError("No se encontró ningun cliente con ese id");
-                txtNombre.clear();
-                txtCedula.clear();
-                txtCedula.requestFocus();
-            }
-            
-        }else{
-            mostrarError("Error al busacar cliente");
-        }
+    private void btnOnActionBuscarCliente(ActionEvent event) {
+        FlowController.getInstance().goViewInWindowModal("BuscarClienteView", stage, Boolean.FALSE);
     }
     
 }

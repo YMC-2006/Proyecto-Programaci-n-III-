@@ -138,7 +138,7 @@ public class BusquedaAbogadoController extends Controller implements Initializab
         listaAbogados.setAll(filtrados);
     }
     
-        private boolean contiene(String dato, String buscado) {
+    private boolean contiene(String dato, String buscado) {
         if (buscado.isEmpty()) {
             return true;
         }
