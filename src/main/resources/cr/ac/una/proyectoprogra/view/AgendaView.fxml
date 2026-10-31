@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import java.lang.String?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,27 +14,56 @@
 
 <AnchorPane id="AnchorPane" prefHeight="659.0" prefWidth="986.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AgendaController">
    <children>
-      <VBox AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+      <VBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="50.0">
          <children>
             <HBox prefHeight="40.0">
                <children>
                   <Label styleClass="TituloLogin2" text="%calendario" />
                </children>
             </HBox>
-
-            <BorderPane VBox.vgrow="ALWAYS">
-               <top>
-                  <VBox BorderPane.alignment="CENTER">
-                     <children>
-                        <HBox prefHeight="60.0" styleClass="hboxI">
+            <MFXScrollPane maxWidth="Infinity" VBox.vgrow="ALWAYS">
+               <content>
+      
+                  <BorderPane prefHeight="527.0" prefWidth="864.0">
+                     <top>
+                        <VBox BorderPane.alignment="CENTER">
                            <children>
-                              <Button fx:id="btnAnterior" mnemonicParsing="false" onAction="#onMesAnterior" styleClass="btnX" text="&lt;" />
-                              <Label fx:id="lblMesAnio" styleClass="titl2" text="FECHA ACTUAL" />
-                              <Button fx:id="btnSiguiente" mnemonicParsing="false" onAction="#onMesSiguiente" styleClass="btnX" text="&gt;" />
+                              <HBox prefHeight="60.0" styleClass="hboxI">
+                                 <children>
+                                    <MFXButton fx:id="btnAnterior" onAction="#onActionMesAnterior" text="&lt;" />
+                                    <Label fx:id="lblMesAnio" styleClass="titl2" text="MES" />
+                                    <MFXButton fx:id="btnSiguiente" onAction="#onActionMesSiguiente" text="&gt;" />
+                                 </children>
+                              </HBox>
+      
+                                  <GridPane alignment="TOP_CENTER">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints prefHeight="35.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%lunes" GridPane.columnIndex="0" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%martes" GridPane.columnIndex="1" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%miercoles" GridPane.columnIndex="2" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%jueves" GridPane.columnIndex="3" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%viernes" GridPane.columnIndex="4" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%sabado" GridPane.columnIndex="5" />
+                                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%domingo" GridPane.columnIndex="6" />
+                                 </children>
+                              </GridPane>
                            </children>
-                        </HBox>
-
-                            <GridPane>
+                        </VBox>
+                     </top>
+                     <center>
+                        <GridPane fx:id="gridCalendario" alignment="CENTER" BorderPane.alignment="CENTER">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
                               <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
@@ -43,44 +74,22 @@
                               <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints prefHeight="35.0" vgrow="SOMETIMES" />
+                              <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
+                              <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
+                              <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
+                              <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
+                              <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
+                              <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
                            </rowConstraints>
-                           <children>
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%lunes"     GridPane.columnIndex="0" />
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%martes"    GridPane.columnIndex="1" />
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%miercoles" GridPane.columnIndex="2" />
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%jueves"    GridPane.columnIndex="3" />
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%viernes"   GridPane.columnIndex="4" />
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%sabado"    GridPane.columnIndex="5" />
-                              <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="texto" text="%domingo"   GridPane.columnIndex="6" />
-                           </children>
                         </GridPane>
-                     </children>
-                  </VBox>
-               </top>
-
-               <center>
-                  <GridPane fx:id="gridCalendario" BorderPane.alignment="CENTER">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="14.28" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
-                        <RowConstraints percentHeight="16.66" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
-               </center>
-            </BorderPane>
+                     </center>
+                  </BorderPane>
+               </content>
+               <styleClass>
+                  <String fx:value="agenda" />
+                  <String fx:value="mainDisplay" />
+               </styleClass>
+            </MFXScrollPane>
          </children>
       </VBox>
    </children>

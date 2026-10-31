@@ -1537,3 +1537,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /* --------------------------------- Calendario ------------------------------- */
 
+.agenda .border-pane-agenda {
+    -fx-min-width: 1200px;
+}
+
+.agenda .hboxI {
+    -fx-alignment: center;
+    -fx-spacing: 25px;
+}
+
+.agenda .grid-pane {
+    -fx-min-width: 1200px;
+    -fx-max-width: Infinity;
+}

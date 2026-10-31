@@ -5,8 +5,10 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.ContableDto;
+import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
 import cr.ac.una.proyectoprogra.model.MovimientoDto;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
+import cr.ac.una.proyectoprogra.service.InstrumentoGastoService;
 import cr.ac.una.proyectoprogra.service.MovimientoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -101,6 +103,7 @@ public class ContableController extends Controller implements Initializable {
     private TableColumn<MovimientoDto, String> colDetalleM;
     
     private List<MovimientoDto> todosLosMovimientos = new ArrayList<>();
+    private List<InstrumentoGasto> todosLosGastos = new ArrayList<>();
     private ObservableList<MovimientoDto> listaMovimientos = FXCollections.observableArrayList();
     private List<ContableDto> todosLosContables = new ArrayList<>();
     private ObservableList<ContableDto> listaContable = FXCollections.observableArrayList();
@@ -108,6 +111,8 @@ public class ContableController extends Controller implements Initializable {
     private final String[] filtroTipo = {"Todos", "Ingresos", "Gastos"};
     
     private MovimientoService movimientoService = new MovimientoService();
+    private InstrumentoGastoService insGService = new InstrumentoGastoService();
+    
     @FXML
     private Tab tabMovimientos;
     @FXML
@@ -161,12 +166,20 @@ public class ContableController extends Controller implements Initializable {
         cbxTipoC.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue)->{
             filtrarContables();
         });
-        dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue)->{
-            filtrarMovimientos();
-        });
-        dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue)->{
-            filtrarMovimientos();
-        });
+        
+        if(dtpFechaInicio != null){
+            dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue)->{
+                filtrarMovimientos();
+                filtrarContables();
+            });
+        }
+        
+        if(dtpFechaFin != null){
+            dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue)->{
+                filtrarMovimientos();
+                filtrarContables();
+            });
+        }
         inicializarMovimientos();
         inicializarContables();
     }    
@@ -182,10 +195,21 @@ public class ContableController extends Controller implements Initializable {
         if(respuestaMov.getEstado().equals(true)){
             todosLosMovimientos = (List<MovimientoDto>) respuestaMov.getResultado("Movimientos");
         }
-        //faltan agregar los instrumentos y gastos de los instrumentos
+        
+        //faltan agregar los instrumentos
         for(MovimientoDto m : todosLosMovimientos){
             todosLosContables.add(new ContableDto(m.getMovTipo(),m.getMovDetalle(),m.getMovFecha(),
                     m.getMovMonto(),m.getMovFactura(), m.getMovTributa(), m.getMovOrigen()));
+        }
+        
+        Respuesta respuestaInsG = insGService.getGastos(bufeteId, null, null, null);
+        if(respuestaInsG.getEstado().equals(true)){
+            todosLosGastos = (List<InstrumentoGasto>) respuestaInsG.getResultado("InstrumentosGastos");
+        }
+        
+        for(InstrumentoGasto ig : todosLosGastos){
+            todosLosContables.add(new ContableDto("G",ig.getIgaDetalle(),ig.getIgaFecha(),
+                    ig.getIgaMonto(),ig.getIgaFactura(), ig.getIgaTributa(), "Instrumento"));
         }
         cargarIndicadoresGenerales();
         filtrarContables();
@@ -197,7 +221,7 @@ public class ContableController extends Controller implements Initializable {
         BigDecimal tributado = BigDecimal.ZERO;
         BigDecimal utilidad = BigDecimal.ZERO;
         
-        //faltan sumar los instrumentos y gastos de los instrumentos
+        //faltan sumar los instrumentos
         for(MovimientoDto m : todosLosMovimientos){
             BigDecimal monto = m.getMovMonto() != null ? m.getMovMonto() : BigDecimal.ZERO;
             String tipoM = m.getMovTipo();
@@ -213,6 +237,16 @@ public class ContableController extends Controller implements Initializable {
             }
         }
         
+        for(InstrumentoGasto ig : todosLosGastos){
+            BigDecimal monto = ig.getIgaMonto() != null ? ig.getIgaMonto() : BigDecimal.ZERO;
+            gastos = gastos.add(monto);
+            
+            if(ig.getIgaTributa()){
+                BigDecimal t = monto.multiply(new BigDecimal("0.13"));
+                tributado = tributado.add(t);
+            }
+        }
+        
         utilidad = ingresos.subtract(gastos);
         
         lbIngresos.setText(ingresos.toString());
@@ -222,8 +256,8 @@ public class ContableController extends Controller implements Initializable {
     }
     
     private Predicate<ContableDto> filtrarFechasContables(){
-        LocalDate fecIni = dtpFechaInicio.getValue();
-        LocalDate fecFin = dtpFechaFin.getValue();
+        LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
+        LocalDate fecFin = (dtpFechaFin != null) ? dtpFechaFin.getValue() : null;
         return c->{
             LocalDate fec = c.getFecha();
             if(fec == null){
@@ -428,8 +462,9 @@ public class ContableController extends Controller implements Initializable {
     }
     
     private Predicate<MovimientoDto> filtrarFechas(){
-        LocalDate fecIni = dtpFechaInicio.getValue();
-        LocalDate fecFin = dtpFechaFin.getValue();
+        LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
+        LocalDate fecFin = (dtpFechaFin != null) ? dtpFechaFin.getValue() : null;
+
         return m->{
             LocalDate fec = m.getMovFecha();
             if(fec == null){
@@ -499,8 +534,12 @@ public class ContableController extends Controller implements Initializable {
 
     @FXML
     private void onSelectionChangedTab(Event event) {
-        dtpFechaInicio.clear();
-        dtpFechaFin.clear();
+        if(dtpFechaInicio != null){
+            dtpFechaInicio.setValue(null);
+        }
+        if(dtpFechaFin != null){
+            dtpFechaFin.setValue(null);
+        }
         Tab seleccionada = (Tab) event.getSource();
         if(seleccionada.isSelected() && seleccionada == tabContable){
             cbxTipoC.getSelectionModel().selectFirst();

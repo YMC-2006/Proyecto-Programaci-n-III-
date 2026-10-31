@@ -87,10 +87,5 @@ public class InstrumentoGasto {
 
     public void setIgaTributa(Boolean igaTributa) {
         this.igaTributa = igaTributa;
-    }
-    
-    
-    
-    
-    
+    }  
 }

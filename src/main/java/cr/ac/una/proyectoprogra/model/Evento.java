@@ -85,8 +85,4 @@ public class Evento {
     public void setEveInstrumentoEstado(String eveInstrumentoEstado) {
         this.eveInstrumentoEstado = eveInstrumentoEstado;
     }
-    
-    
-    
-
 }

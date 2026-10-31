@@ -19,7 +19,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="636.0" prefWidth="1314.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ContableController">
    <children>
-      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+      <VBox layoutX="104.0" layoutY="102.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hbox">
                <children>
@@ -47,7 +47,7 @@
                   </HBox>
                </children>
             </HBox>
-            <VBox prefHeight="516.0" prefWidth="1002.0">
+            <VBox prefHeight="644.0" prefWidth="1114.0">
                <children>
                   <TabPane fx:id="tpContable" prefHeight="518.0" prefWidth="1002.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
@@ -127,7 +127,7 @@
                                                             <String fx:value="hboxIcon" />
                                                          </styleClass>
                                                       </VBox>
-                                                      <VBox prefHeight="200.0" prefWidth="100.0">
+                                                      <VBox prefHeight="46.0" prefWidth="139.0">
                                                          <children>
                                                             <Label styleClass="titlCard" text="Total Tributado" />
                                                             <Label fx:id="lbTributadas" styleClass="titl2" text="Label" />

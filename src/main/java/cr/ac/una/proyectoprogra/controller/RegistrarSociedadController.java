@@ -5,6 +5,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.SociedadDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.SociedadService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -71,6 +72,9 @@ public class RegistrarSociedadController extends Controller implements Initializ
     
     private SociedadDto sociedadEditando;
     private SociedadService sociedadService = new SociedadService();
+    
+    UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
+    Long bufeteId = usuarioActivo.getUsrBufeteId();
 
     /**
      * Initializes the controller class.
@@ -215,7 +219,7 @@ public class RegistrarSociedadController extends Controller implements Initializ
             sociedad.setSocValorTitulo(valor);
             sociedad.setSocFechaInscripcion(fechaI);
             
-            sociedad.setSocBufeteId(2L); // Por el momento va a ser el bufete 2 porque no he hcho lo del login
+            sociedad.setSocBufeteId(bufeteId);
             Respuesta respuesta = sociedadService.guardarSociedad(sociedad);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
