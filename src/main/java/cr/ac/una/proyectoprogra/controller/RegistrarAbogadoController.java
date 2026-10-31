@@ -117,19 +117,19 @@ public class RegistrarAbogadoController extends Controller implements Initializa
             return;
         }
 
-        if (telefono.isBlank()) {
+        if (telefono == null || telefono.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("abogado.error.telefono"));
             txtTelefono.requestFocus();
             return;
         }
 
-        if (celular.isBlank()) {
+        if (celular == null || celular.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("abogado.error.celular"));
             txtCelular.requestFocus();
             return;
         }
 
-        if (direccion.isBlank()) {
+        if (direccion == null || direccion.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("abogado.error.direccion"));
             txaDireccion.requestFocus();
             return;

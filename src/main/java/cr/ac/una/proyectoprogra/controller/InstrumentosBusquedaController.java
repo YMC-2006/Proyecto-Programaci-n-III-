@@ -4,12 +4,29 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.model.BusquedaInstrumento;
+import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
+import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
+import cr.ac.una.proyectoprogra.model.TipoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
+import cr.ac.una.proyectoprogra.service.AbogadoService;
+import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
+import cr.ac.una.proyectoprogra.service.InstrumentoBusquedaService;
+import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
+import cr.ac.una.proyectoprogra.util.AppContext;
+import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Mensaje;
+import cr.ac.una.proyectoprogra.util.Permisos;
+import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,7 +90,10 @@ public class InstrumentosBusquedaController extends Controller implements Initia
     private DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     private ResultadoInstrumento resultado;
     private List<BusquedaInstrumento> listaFiltros = new ArrayList<>();
-    
+    private List<String> nombresTipos = new ArrayList<>();
+    private List<String> nombresEstados = new ArrayList<>();
+    private List<String> nombresAbogados = new ArrayList<>();
+    private InstrumentoBusquedaService busquedaService = new InstrumentoBusquedaService();
 
     /**
      * Initializes the controller class.
@@ -83,7 +103,7 @@ public class InstrumentosBusquedaController extends Controller implements Initia
         colEscritura.setCellValueFactory(new PropertyValueFactory<>("rinEscritura"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("rinTipo"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("rinEstado"));
-        colParte.setCellValueFactory(new PropertyValueFactory<>("rinPartes"));
+        colParte.setCellValueFactory(new PropertyValueFactory<>("rinParte"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("rinFecha"));
         colFecha.setCellFactory(columna -> new TableCell<ResultadoInstrumento, LocalDateTime>() {
             @Override
@@ -136,6 +156,7 @@ public class InstrumentosBusquedaController extends Controller implements Initia
     @Override
     public void initialize() {
         resultado = null;
+        cargar();
     }
 
     // Chicas son de prueba estos datos es porque no he tocado el web servise so toca inventar
@@ -203,7 +224,7 @@ public class InstrumentosBusquedaController extends Controller implements Initia
         dpValor.valueProperty().addListener((obs, viejo, nuevo) -> guardarFiltro.run());
         dpValor2.valueProperty().addListener((obs, viejo, nuevo) -> guardarFiltro.run());
 
-        cbxCampo.getItems().addAll("Tipo", "Estado", "Abogado", "Fecha", "Escritura", "Parte", "Detalle", "Índice notarial");
+        cbxCampo.getItems().addAll("Tipo", "Estado", "Abogado", "Fecha", "Escritura", "Parte", "Detalle", "Notarial");
         cbxCampo.setOnAction(e -> {
             String campito = cbxCampo.getValue();
             if (campito == null) {
@@ -228,13 +249,13 @@ public class InstrumentosBusquedaController extends Controller implements Initia
                 cbxValor.getItems().clear();
                 if (campito.equalsIgnoreCase("Tipo")) {
                     cbxComparacion.getItems().addAll("es", "no es");
-                    cbxValor.getItems().addAll("Pobre", "Clase Media", "Alta");
+                    cbxValor.getItems().addAll(nombresTipos);
                 } else if (campito.equalsIgnoreCase("Estado")) {
                     cbxComparacion.getItems().addAll("es", "no es");
-                    cbxValor.getItems().addAll("Libre", "Privado", "Hibrido");
+                    cbxValor.getItems().addAll(nombresEstados);
                 } else if (campito.equalsIgnoreCase("Abogado")) {
                     cbxComparacion.getItems().addAll("es", "no es");
-                    cbxValor.getItems().addAll("Lic. Alondra Magic Winx", "Lic. Alondra Fashion Icon");
+                    cbxValor.getItems().addAll(nombresAbogados);
                 } else if (campito.equalsIgnoreCase("Notarial")) {
                     cbxComparacion.getItems().addAll("es");
                     cbxValor.getItems().addAll("Sí", "No");
@@ -284,14 +305,53 @@ public class InstrumentosBusquedaController extends Controller implements Initia
    }
 
     private void irInstrumento(ResultadoInstrumento seleccionado) {
-        resultado = seleccionado;
-        getStage().close();
+        AppContext.getInstance().set("instrumentoSeleccionado", seleccionado.getRinId());
+        if (AppContext.getInstance().get("busquedaModal") != null) {
+            getStage().close();
+        } else {
+            FlowController.getInstance().goView("InstrumentosView");
+        }
     }
 
     public ResultadoInstrumento getResultado() {
         return resultado;
     }
     
+    private Long cargarBufete() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
+
+    private void cargar() {
+        nombresTipos.clear();
+        nombresEstados.clear();
+        nombresAbogados.clear();
+
+        Respuesta respuestaTipos = new TipoInstrumentoService().getTipoInstrumentos(null, null, cargarBufete());
+        if (respuestaTipos.getEstado()) {
+            List<TipoInstrumento> tipos = (List<TipoInstrumento>) respuestaTipos.getResultado("TipoInstrumentos");
+            for (int i = 0; i < tipos.size(); i++) {
+                nombresTipos.add(tipos.get(i).getTinNombre());
+            }
+        }
+
+        Respuesta respuestaEstados = new EstadoInstrumentoService().getEstadoInstrumentos(null, null, null, cargarBufete());
+        if (respuestaEstados.getEstado()) {
+            List<EstadoInstrumento> estados = (List<EstadoInstrumento>) respuestaEstados.getResultado("EstadosInstrumentos");
+            for (int i = 0; i < estados.size(); i++) {
+                nombresEstados.add(estados.get(i).getEinDescripcion());
+            }
+        }
+
+        Respuesta respuestaAbogados = new AbogadoService().getAbogados(null, null, null, null, null, cargarBufete());
+        if (respuestaAbogados.getEstado()) {
+            List<Abogado> abogados = (List<Abogado>) respuestaAbogados.getResultado("Abogados");
+            for (int i = 0; i < abogados.size(); i++) {
+                nombresAbogados.add(abogados.get(i).getAboNombre());
+            }
+        }
+    }
+
     @FXML
     private void onActionBtnAgregarFiltro(ActionEvent event) {
         agregarFiltro();
@@ -306,23 +366,17 @@ public class InstrumentosBusquedaController extends Controller implements Initia
 
     @FXML
     private void onActionBtnBuscar(ActionEvent event) {
-        for (int i = 0; i < listaFiltros.size(); i++) {
-            BusquedaInstrumento filtro = listaFiltros.get(i);
-            boolean esEntre = "entre".equals(filtro.getBinComparacion());
-
-            if (estaVacio(filtro.getBinCampo()) || estaVacio(filtro.getBinComparacion()) || estaVacio(filtro.getBinRango1()) || (esEntre && estaVacio(filtro.getBinRango2()))) {
-                new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), "Hay datos sin completar en los filtros. Revise.");
-                return;
-            }
-            if (esEntre && filtro.getBinRango1().compareTo(filtro.getBinRango2()) > 0) {
-                new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), "Rango de fechas, la primera fecha no puede ser mayor que la segunda.");
-                return;
-            }
+        if (!filtros()) {
+            return;
         }
-        for (int i = 0; i < listaFiltros.size(); i++) {
-            BusquedaInstrumento filtro = listaFiltros.get(i);
-            System.out.println(filtro.getBinCondicion() + " | " + filtro.getBinCampo() + " | " + filtro.getBinComparacion() + " | " + filtro.getBinRango1() + " | " + filtro.getBinRango2());
+        Respuesta respuesta = busquedaService.buscarInstrumentos(cargarBufete(), listaFiltros);
+        if (!respuesta.getEstado()) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), respuesta.getMensaje());
+            return;
         }
+        List<ResultadoInstrumento> resultados = (List<ResultadoInstrumento>) respuesta.getResultado("Resultados");
+        tblFiltros.getItems().setAll(resultados);
+        tblFiltros.setPlaceholder(new Label("No se encontraron instrumentos con esos filtros."));
     }
 
     private boolean estaVacio(String texto) {
@@ -331,6 +385,39 @@ public class InstrumentosBusquedaController extends Controller implements Initia
 
     @FXML
     private void onActionBtnGererarExcel(ActionEvent event) {
+        if (!filtros()) {
+        return;
+        }
+        Respuesta respuesta = busquedaService.generarExcel(cargarBufete(), listaFiltros);
+        if (!respuesta.getEstado()) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), respuesta.getMensaje());
+            return;
+        }
+        byte[] excel = (byte[]) respuesta.getResultado("Excel");
+        try {
+            File archivo = File.createTempFile("BusquedaInstrumentos", ".xlsx");
+            Files.write(archivo.toPath(), excel);
+            Desktop.getDesktop().open(archivo);
+        } catch (IOException ex) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), "No se pudo abrir el Excel.");
+        }
+    }
+    
+    private boolean filtros() {
+        for (int i = 0; i < listaFiltros.size(); i++) {
+            BusquedaInstrumento filtro = listaFiltros.get(i);
+            boolean esEntre = "entre".equals(filtro.getBinComparacion());
+
+            if (estaVacio(filtro.getBinCampo()) || estaVacio(filtro.getBinComparacion()) || estaVacio(filtro.getBinRango1()) || (esEntre && estaVacio(filtro.getBinRango2()))) {
+                new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), "Hay datos sin completar en los filtros. Revise.");
+                return false;
+            }
+            if (esEntre && filtro.getBinRango1().compareTo(filtro.getBinRango2()) > 0) {
+                new Mensaje().showModal(Alert.AlertType.ERROR, "Búsqueda", getStage(), "Rango de fechas, la primera fecha no puede ser mayor que la segunda.");
+                return false;
+            }
+        }
+        return true;
     }
 
 }

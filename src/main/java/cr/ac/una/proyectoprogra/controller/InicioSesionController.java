@@ -90,6 +90,7 @@ public class InicioSesionController extends Controller implements Initializable 
         }
         UsuarioDto usuario = (UsuarioDto) respuesta.getResultado("Usuario");
         AppContext.getInstance().set("Usuario", usuario);
+        AppContext.getInstance().set("Token", usuario.getToken());
         if (usuario.getUsrCambioClave()) {
             FlowController.getInstance().goViewInWindow("CambiarClaveView");
         } else {

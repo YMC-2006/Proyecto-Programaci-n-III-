@@ -5,6 +5,7 @@
  */
 package cr.ac.una.proyectoprogra.util;
 
+import cr.ac.una.proyectoprogra.service.UsuarioService;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
@@ -293,7 +294,7 @@ public class Request {
             payload = getPayloadToken(payload.getString("rnt"));
             if (payload != null && payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() / 1000) {
                 // TODO yuli cuando alondra haga el login :D
-                Respuesta respuesta = new Respuesta();
+                Respuesta respuesta = new UsuarioService().renovarToken();
                 if (respuesta.getEstado()) {
                     AppContext.getInstance().set("Token", respuesta.getResultado("Token").toString());
                     MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();

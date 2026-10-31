@@ -4,6 +4,7 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Permisos;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -222,8 +223,11 @@ public class PrincipalController extends Controller implements Initializable {
 
     @FXML
     private void btnOnActionCerrarSesion(ActionEvent event) {
-
-        FlowController.getInstance().goViewInWindow("InicioSesionVista");
+        FlowController.getInstance().goView("IndicadoresView");
+        AppContext.getInstance().delete("Usuario");
+        AppContext.getInstance().delete("Token");
+        FlowController.getInstance().limpiarLoader("InicioSesionView");
+        FlowController.getInstance().goViewInWindow("InicioSesionView");
         ((Stage) btnCerrar.getScene().getWindow()).close();
     }
 

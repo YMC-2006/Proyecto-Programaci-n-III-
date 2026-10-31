@@ -134,4 +134,19 @@ public class UsuarioService {
             return new Respuesta(false, "Error guardando el usuario.", "guardarUsuario " + ex.getMessage());
         }
     }
+    
+    public Respuesta renovarToken() {
+        try {
+            Request request = new Request("Usuarios/renovar");
+            request.getRenewal();
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+            String token = (String) request.readEntity(String.class);
+            return new Respuesta(true, "", "", "Token", token);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioService.class.getName()).log(Level.SEVERE, "Error renovando el token.", ex);
+            return new Respuesta(false, "Error renovando el token.", "renovarToken " + ex.getMessage());
+        }
+    }
 }

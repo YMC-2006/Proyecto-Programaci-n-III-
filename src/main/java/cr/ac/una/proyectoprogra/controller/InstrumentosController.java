@@ -217,8 +217,8 @@ public class InstrumentosController extends Controller implements Initializable 
         txaDetalleInstrumento.setTextFormatter(Formato.getInstance().letrasFormat(200));
         txaObservaciones.setTextFormatter(Formato.getInstance().letrasFormat(1000));
 
-        txtMontoReal.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
-        txtMontoFactura.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
+        txtMontoReal.setTextFormatter(Formato.getInstance().maxLengthFormat(15));
+        txtMontoFactura.setTextFormatter(Formato.getInstance().maxLengthFormat(15));
         
         txtGastoDetalle.setTextFormatter(Formato.getInstance().letrasFormat(100));
         txtGastoFactura.setTextFormatter(Formato.getInstance().letrasFormat(60));
@@ -254,6 +254,20 @@ public class InstrumentosController extends Controller implements Initializable 
         revisarPermisos();
         configurarComboBoxes();
         //inicializarTablas();
+        
+        Long instrumentoId = (Long) AppContext.getInstance().get("instrumentoSeleccionado");
+        if (instrumentoId == null) {
+            return;
+        }
+
+        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
+        if (respuesta.getEstado()) {
+            instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
+            cargarInstrumento(instrumentoActual);
+            revisarPermisos();
+        } else {
+            mostrarError("Error cargando el instrumento");
+        }
     }
 
     private void cargarTablaRequisitos() {
@@ -493,6 +507,8 @@ public class InstrumentosController extends Controller implements Initializable 
     }
 
     private void limpiarCampos() {
+        cmbTipoInstrumento.setDisable(false);
+        cmbEstado.setDisable(false);
         abogadoTitularId = null;
         instrumentoActual = null;
 
@@ -520,6 +536,8 @@ public class InstrumentosController extends Controller implements Initializable 
 
         cargarTablaRequisitos(); // para limpiar la tabla de requisitos
         cargarTablaGastos();
+        cargarTablaEventos();
+        habilitarTabs(false);
         tabPane.getSelectionModel().select(tabGeneralesDelInstrumento);
         revisarPermisos();
     }
@@ -528,63 +546,70 @@ public class InstrumentosController extends Controller implements Initializable 
     private void onActionBtnBuscarInstrumento(ActionEvent event) {
         // me falta editar un instrumento TOODOOOO
         AppContext.getInstance().delete("instrumentoSeleccionado");
+        AppContext.getInstance().set("busquedaModal", true);
+        FlowController.getInstance().limpiarLoader("InstrumentosBusquedaView");
         FlowController.getInstance().goViewInWindowModal("InstrumentosBusquedaView", stage, Boolean.FALSE);
-
-        ResultadoInstrumento instrumentoSeleccionado = (ResultadoInstrumento) AppContext.getInstance().get("instrumentoSeleccionado");
-        if (instrumentoSeleccionado == null) {
+        AppContext.getInstance().delete("busquedaModal");
+        
+        Long instrumentoId = (Long) AppContext.getInstance().get("instrumentoSeleccionado");
+        if (instrumentoId == null) {
             return;
         }
-
-        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoSeleccionado.getRinId());
-        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+        
+         Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
+        if (respuesta.getEstado()) {
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             cargarInstrumento(instrumentoActual);
             revisarPermisos();
             mostrarExito("Instrumento cargado");
         } else {
-            mostrarError(respuesta.getMensaje());
+            mostrarError("Error cargando el instrumento: " + respuesta.getMensaje());
         }
     }
 
     private void cargarInstrumento(Instrumento inst) {
         AppContext.getInstance().delete("instrumentoSeleccionado");
+        abogadoTitularId = inst.getInsAbogadoId();
+
+        for (int i = 0; i < cmbTipoInstrumento.getItems().size(); i++) {
+            if (cmbTipoInstrumento.getItems().get(i).getTinId().equals(inst.getInsTipoId())) {
+                cmbTipoInstrumento.getSelectionModel().select(i);
+            }
+        }
+        for (int i = 0; i < cmbEstado.getItems().size(); i++) {
+            if (cmbEstado.getItems().get(i).getEinId().equals(inst.getInsEstadoId())) {
+                cmbEstado.getSelectionModel().select(i);
+            }
+        }
+        cmbTipoInstrumento.setDisable(true);
+        cmbEstado.setDisable(true);
+        txtAbogadoTitular.setText(inst.getInsAbogadoNombre());
+
+        dpFechaInstrumento.setValue(inst.getInsFechaHora().toLocalDate());
+        txtHoraInstrumento.setText(inst.getInsFechaHora().toLocalTime().format(FORMATO_HORA));
+        if (inst.getInsFechaEstado() != null) {
+            txtMostrarFechaEstado.setText(inst.getInsFechaEstado().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+        }
+        txtNumeroBoleta.setText(inst.getInsBoleta());
+        txtEscritura.setText(inst.getInsEscritura());
+        txtTomo.setText(inst.getInsTomo());
+        txtFolio.setText(inst.getInsFolio());
+        txtTomoAsiento.setText(inst.getInsTomoAsiento());
+        chkIndiceNotarial.setSelected(Boolean.TRUE.equals(inst.getInsIndiceNotarial()));
+
+        txaObservacionEstado.setText(inst.getInsObsEstado());
+        txaDetalleInstrumento.setText(inst.getInsDetalle());
+        txaObservaciones.setText(inst.getInsObservaciones());
+
+        chkTributa.setSelected(Boolean.TRUE.equals(inst.getInsTributa()));
+        txtNumeroRecibo.setText(inst.getInsNumeroRecibo());
+        txtMontoReal.setText(inst.getInsMontoReal().toPlainString());
+        txtMontoFactura.setText(inst.getInsMontoFacturado().toPlainString());
 
         cargarTablaRequisitos();
         cargarTablaGastos();
         cargarTablaEventos();
         habilitarTabs(true);
-        cmbTipoInstrumento.setDisable(true);
-        cmbEstado.setDisable(true);
-
-        txtAbogadoTitular.setText(inst.getInsAbogadoNombre());
-
-        //dpFechaInstrumento.setValue();
-        //txtHoraInstrumento.setText(LocalDate.parse(inst.getInsFechaHora()));
-        txtEscritura.setText(inst.getInsEscritura());
-
-        txtTomo.setText(inst.getInsTomo());
-        txtFolio.setText(inst.getInsFolio());
-        txtTomoAsiento.setText(inst.getInsTomoAsiento());
-        chkIndiceNotarial.setSelected(inst.getInsIndiceNotarial()); // t/f
-
-        txaDetalleInstrumento.setText(inst.getInsDetalle());
-        txaObservacionEstado.setText(inst.getInsObservaciones());
-
-        txaObservacionEstado.setText(inst.getInsObsEstado());
-        
-        for(TipoInstrumento tin: cmbTipoInstrumento.getItems()){
-            if(inst.getInsTipoId().equals(tin.getTinId())){
-                cmbTipoInstrumento.getSelectionModel().select(tin);
-            }
-        }
-        
-        for(EstadoInstrumento estado: cmbEstado.getItems()){
-            if(inst.getInsEstadoId().equals(estado.getEinId())){
-                cmbEstado.getSelectionModel().select(estado);
-            }
-        }
-        
-
     }
 
     // ===================== TAB GASTOS ========================================
@@ -632,7 +657,7 @@ public class InstrumentosController extends Controller implements Initializable 
             instGasto.setIgaId(gastoEditando.getIgaId());   // con id → el WS actualiza
         }
         instGasto.setIgaInstrumentoId(instrumentoActual.getInsId());
-        Respuesta respuesta = instrumentoGastoService.guardarGasto(BufeteCargado(), instGasto);
+        Respuesta respuesta = instrumentoGastoService.guardarGasto(bufeteCarga(), instGasto);
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             mostrarExito("Se guardo el gasto correctamente");
             limpiarCamposGasto();
@@ -837,11 +862,6 @@ public class InstrumentosController extends Controller implements Initializable 
 
     }
 
-    private Long BufeteCargado() {
-        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
-        return usuarioSesion.getUsrBufeteId();
-    }
-
     //============== cargar tablas
     private void cargarTablaGastos() {
         listaGastos.clear();
@@ -897,4 +917,5 @@ public class InstrumentosController extends Controller implements Initializable 
         alert.setHeaderText(null);
         alert.showAndWait();
     }
+    
 }

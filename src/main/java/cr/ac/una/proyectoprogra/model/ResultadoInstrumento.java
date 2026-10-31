@@ -16,7 +16,7 @@ public class ResultadoInstrumento {
     private String rinTipo;
     private LocalDateTime rinFecha; 
     private String rinEstado;
-    private String rinPartes;
+    private String rinParte;
 
     public ResultadoInstrumento() {
     }
@@ -27,7 +27,7 @@ public class ResultadoInstrumento {
         this.rinTipo = rinTipo;
         this.rinFecha = rinFecha;
         this.rinEstado = rinEstado;
-        this.rinPartes = rinPartes;
+        this.rinParte = rinPartes;
     }
 
     public Long getRinId() {
@@ -71,10 +71,10 @@ public class ResultadoInstrumento {
     }
 
     public String getRinPartes() {
-        return rinPartes;
+        return rinParte;
     }
 
     public void setRinPartes(String rinPartes) {
-        this.rinPartes = rinPartes;
+        this.rinParte = rinPartes;
     }   
 }

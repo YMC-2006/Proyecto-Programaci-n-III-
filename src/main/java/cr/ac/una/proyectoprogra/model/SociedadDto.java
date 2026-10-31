@@ -4,6 +4,7 @@
  */
 package cr.ac.una.proyectoprogra.model;
 
+import cr.ac.una.proyectoprogra.util.AppContext;
 import jakarta.json.bind.annotation.JsonbTransient;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -49,7 +50,12 @@ public class SociedadDto {
         this.socFechaInscripcion = socFechaInscripcion;
         this.socCantidadTitulos = socCantidadTitulos;
         this.socValorTitulo = socValorTitulo;
-        this.socBufeteId = 2L;//momentaneo
+        this.socBufeteId = bufeteCarga();//momentaneo
+    }
+    
+    private Long bufeteCarga() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
     }
 
     public Long getSocId() {
