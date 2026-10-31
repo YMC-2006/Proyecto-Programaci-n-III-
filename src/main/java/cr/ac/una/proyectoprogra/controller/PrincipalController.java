@@ -37,9 +37,7 @@ import javafx.stage.Stage;
  * @author alond
  */
 public class PrincipalController extends Controller implements Initializable {
-
-    private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM 'de' YYYY");
-
+    
     @FXML
     private Button btnMantenimientos;
     @FXML
@@ -67,9 +65,7 @@ public class PrincipalController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("aaaaa");
 
-        mostrarFechaActual();
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
         if (Permisos.tienePermiso("AbogadosView", "Consultar")) {
@@ -102,30 +98,34 @@ public class PrincipalController extends Controller implements Initializable {
         opsMantenimiento.setOnMouseEntered(e -> esperaMantenimientos.stop());
         opsMantenimiento.setOnMouseExited(e -> esperaMantenimientos.playFromStart());
 
-        // menu de instrumentos
+// Menú de instrumentos
         VBox opsInstrumentos = new VBox();
         opsInstrumentos.getStyleClass().add("menuDesplegable");
+
         if (Permisos.tienePermiso("InstrumentosTipoView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu("Tipos Instrumentos", "InstrumentosTipoView", "tipos_instrumento", menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.tiposInstrumentos"),"InstrumentosTipoView","tipos_instrumento",menuInstrumentos));
         }
+
         if (Permisos.tienePermiso("InstrumentosEstadoView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu("Estados Instrumentos", "InstrumentosEstadoView", "estados_instrumento", menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.estadosInstrumentos"),"InstrumentosEstadoView","estados_instrumento",menuInstrumentos));
         }
+
         if (Permisos.tienePermiso("InstrumentosView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu("Control Instrumentos", "InstrumentosView", "instrumentos", menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.controlInstrumentos"),"InstrumentosView","instrumentos",menuInstrumentos));
         }
+
         if (Permisos.tienePermiso("InstrumentosBusquedaView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu("Busqueda Instrumentos", "InstrumentosBusquedaView", "buscar", menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.buscarInstrumentos"),"InstrumentosBusquedaView","buscar",menuInstrumentos));
         }
 
         menuInstrumentos.getContent().add(opsInstrumentos);
 
         esperaInstrumentos.setOnFinished(e -> menuInstrumentos.hide());
+
         btnInstrumentos.setOnMouseEntered(e -> {
             esperaInstrumentos.stop();
             menuMantenimientos.hide();
             mostrarMenu(btnInstrumentos, menuInstrumentos, opsInstrumentos);
-
         });
 
         btnInstrumentos.setOnMouseExited(e -> esperaInstrumentos.playFromStart());
@@ -146,7 +146,6 @@ public class PrincipalController extends Controller implements Initializable {
         Button boton = new Button(nombre);
         boton.getStyleClass().add("opcionMenu");
         boton.setMaxWidth(Double.MAX_VALUE);
-        System.out.println("Cree boton " + nombre);
 
         Image img = new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/" + icono + ".png"));
         ImageView imagen = new ImageView(img);
@@ -173,15 +172,6 @@ public class PrincipalController extends Controller implements Initializable {
         menu.show(boton, pos.getMinX(), pos.getMaxY());
     }
 
-    // dura 1s en arrancar, to-do creo que con platform run later se puede arreglar
-    private void mostrarFechaActual() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            LocalDateTime ahora = LocalDateTime.now();
-            fechaActualLabel.setText(ahora.format(formatoFecha));
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
 
     @FXML
     private void btnOnActionIndicadores(ActionEvent event) {

@@ -102,7 +102,6 @@
                      </children>
                   </VBox>
 
-                  <!-- Fila 5: Checkboxes -->
                   <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="518.0" spacing="28.0">
                      <children>
                         <CheckBox fx:id="chkPropietario" mnemonicParsing="false" styleClass="chkCampo" text="%abog.propietario" />

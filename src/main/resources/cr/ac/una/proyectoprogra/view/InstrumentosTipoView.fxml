@@ -37,7 +37,7 @@
                         </HBox>
                         <HBox prefHeight="135.0" prefWidth="406.0" styleClass="hboxI">
                            <children>
-                              <TextField fx:id="txtBuscarInstrumento" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="303.0" promptText="Buscar Tipo Instrumento" styleClass="txtCampo" />
+                              <TextField fx:id="txtBuscarInstrumento" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="303.0" promptText="%tin.buscarTipoInstrumento" styleClass="txtCampo" />
                               <ComboBox fx:id="cmbFiltroEstado" onAction="#onActionFiltrar" prefWidth="150.0" promptText="%estado" styleClass="comboBox" />
                            </children>
                            <VBox.margin>
@@ -76,13 +76,13 @@
                               </ImageView>
                               <VBox prefHeight="117.0" prefWidth="363.0" styleClass="vboxH">
                                  <children>
-                                    <Label fx:id="lblTituloDocWord" prefHeight="18.0" prefWidth="566.0" text="DOCUMENTO DE WORD" />
-                                    <Label fx:id="lblCantidadComodinesDetectados" text="N comodines detectados" />
+                                    <Label fx:id="lblTituloDocWord" prefHeight="18.0" prefWidth="566.0" text="%tin.documentoWord" />
+                                    <Label fx:id="lblCantidadComodinesDetectados" text="%tin.comodinesDetectados" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" prefHeight="117.0" prefWidth="259.0" styleClass="vbox">
                                  <children>
-                                    <MFXButton fx:id="btnSubirWord" onAction="#onActionBtnSubirMachoteWord" styleClass="btnNS" text="Subir Archivo">
+                                    <MFXButton fx:id="btnSubirWord" onAction="#onActionBtnSubirMachoteWord" styleClass="btnNS" text="%tin.subirArchivo">
                                        <graphic>
                                           <ImageView fitHeight="40.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -108,13 +108,13 @@
                            <children>
                               <HBox prefHeight="25.0" prefWidth="816.0">
                                  <children>
-                                    <Label styleClass="subTituloInstrumentos" text="Comodines detectados del WORD" />
+                                    <Label styleClass="subTituloInstrumentos" text="%tin.comodinesDetectadosWord" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
                                  <children>
                                     <FlowPane fx:id="flowPaneComodines" hgap="8.0" prefHeight="100.0" prefWidth="761.0" vgap="8.0" />
-                                    <Button mnemonicParsing="false" onAction="#onActionBtnVerComodinesDisponibles" prefHeight="46.0" prefWidth="519.0" styleClass="btnW" text="Comodines disponibles">
+                                    <Button mnemonicParsing="false" onAction="#onActionBtnVerComodinesDisponibles" prefHeight="46.0" prefWidth="519.0" styleClass="btnW" text="%tin.comodinesDisponibles">
                                        <graphic>
                                           <ImageView fitHeight="67.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -132,12 +132,12 @@
                         </VBox>
                         <VBox prefHeight="662.0" prefWidth="759.0">
                            <children>
-                              <Label styleClass="subTituloInstrumentos" text="Arrastre el requisito para ordenarlo por prioridad, guarde antes de cambiar de vista" />
+                              <Label styleClass="subTituloInstrumentos" text="%tin.ordenarRequisitos" />
                               <ListView fx:id="lstRequisitos" prefHeight="451.0" prefWidth="816.0" styleClass="lstRequisitos" />
                               <HBox prefHeight="100.0" prefWidth="858.0" styleClass="hbox">
                                  <children>
-                                    <TextField fx:id="txtRequisito" prefHeight="26.0" prefWidth="587.0" styleClass="txtCampo" />
-                                    <Button fx:id="btnRequisito" mnemonicParsing="false" onAction="#onActionBtnAgregarRequisito" prefHeight="46.0" prefWidth="209.0" styleClass="btnNS" text="Agregar requisito" />
+                                    <TextField fx:id="txtRequisito" prefHeight="26.0" prefWidth="587.0" styleClass="txtCampo" promptText="%tin.escribirRequisito" />
+                                    <Button fx:id="btnRequisito" mnemonicParsing="false" onAction="#onActionBtnAgregarRequisito" prefHeight="46.0" prefWidth="209.0" styleClass="btnNS" text="%tin.agregarRequisito" />
                                  </children>
                               </HBox>
                            </children>

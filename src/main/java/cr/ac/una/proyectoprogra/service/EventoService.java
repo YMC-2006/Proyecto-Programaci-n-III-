@@ -77,7 +77,7 @@ public class EventoService {
 
             Map<String, Object> queryParams = new HashMap<>();
             queryParams.put("bufeteId", bufeteId);
-            
+
             Request request = new Request("Eventos/evento", queryParams);
             request.post(evento);
             if (request.isError()) {
@@ -95,11 +95,12 @@ public class EventoService {
 
     public Respuesta eliminarEvento(Long bufeteId, Long id) {
         try {
-            Map<String, Object> parametros = new HashMap<>();
-            parametros.put("bufeteId", bufeteId);
-            parametros.put("id", id);
-
-            Request request = new Request("Eventos", "/{id}", parametros);
+            Map<String, Object> pathParams = new HashMap<>();
+            pathParams.put("id", id);
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("bufeteId", bufeteId);
+            
+            Request request = new Request("Eventos", "/{id}", pathParams, queryParams);
             request.delete();
 
             if (request.isError()) {

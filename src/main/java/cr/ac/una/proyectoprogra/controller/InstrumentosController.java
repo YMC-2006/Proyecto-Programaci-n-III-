@@ -6,6 +6,7 @@ import cr.ac.una.proyectoprogra.model.Evento;
 import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
 import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
+import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
@@ -213,13 +214,17 @@ public class InstrumentosController extends Controller implements Initializable 
         });
 
         // que las demas pestañas queden desabilitadas mienstras se registra el instrumento
-        tabPartesYpagos.setDisable(true);
-        tabContable.setDisable(true);
-        tabRequisitos.setDisable(true);
-        tabEventos.setDisable(true);
-        tabDocumentoFinal.setDisable(true);
-
+        habilitarTabs(false);
         inicializarTablas();
+
+    }
+
+    private void habilitarTabs(boolean habilitar) {
+        tabPartesYpagos.setDisable(!habilitar);
+        tabContable.setDisable(!habilitar);
+        tabRequisitos.setDisable(!habilitar);
+        tabEventos.setDisable(!habilitar);
+        tabDocumentoFinal.setDisable(!habilitar);
 
     }
 
@@ -418,20 +423,12 @@ public class InstrumentosController extends Controller implements Initializable 
             if (instrumentoEsNuevo) {
                 mostrarExito("Instrumento registrado exitosamenet");
                 cargarTablaRequisitos();
-                tabPartesYpagos.setDisable(false);
-                tabContable.setDisable(false);
-                tabRequisitos.setDisable(false);
-                tabEventos.setDisable(false);
-                tabDocumentoFinal.setDisable(false);
+                habilitarTabs(true);
                 //limpiarCampos();
             } else {
                 mostrarExito("Instrumento modificado exitosamenet");
                 cargarTablaRequisitos();
-                tabPartesYpagos.setDisable(false);
-                tabContable.setDisable(false);
-                tabRequisitos.setDisable(false);
-                tabEventos.setDisable(false);
-                tabDocumentoFinal.setDisable(false);
+                habilitarTabs(false);
             }
         } else {
             mostrarError(respuesta.getMensaje());
@@ -512,25 +509,61 @@ public class InstrumentosController extends Controller implements Initializable 
         AppContext.getInstance().delete("instrumentoSeleccionado");
         FlowController.getInstance().goViewInWindowModal("InstrumentosBusquedaView", stage, Boolean.FALSE);
 
-        Instrumento instrumentoSeleccionado = (Instrumento) AppContext.getInstance().get("instrumentoSeleccionado");
+        ResultadoInstrumento instrumentoSeleccionado = (ResultadoInstrumento) AppContext.getInstance().get("instrumentoSeleccionado");
         if (instrumentoSeleccionado == null) {
             return;
         }
 
-        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoSeleccionado.getInsId());
-        if (respuesta.getEstado()) {
+        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoSeleccionado.getRinId());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             cargarInstrumento(instrumentoActual);
             revisarPermisos();
             mostrarExito("Instrumento cargado");
         } else {
-            mostrarError("Error cargando el instrumento");
+            mostrarError(respuesta.getMensaje());
         }
     }
 
     private void cargarInstrumento(Instrumento inst) {
         AppContext.getInstance().delete("instrumentoSeleccionado");
+
+        cargarTablaRequisitos();
+        cargarTablaGastos();
+        cargarTablaEventos();
+        habilitarTabs(true);
+        cmbTipoInstrumento.setDisable(true);
+        cmbEstado.setDisable(true);
+
+        txtAbogadoTitular.setText(inst.getInsAbogadoNombre());
+
+        //dpFechaInstrumento.setValue();
+        //txtHoraInstrumento.setText(LocalDate.parse(inst.getInsFechaHora()));
         txtEscritura.setText(inst.getInsEscritura());
+
+        txtTomo.setText(inst.getInsTomo());
+        txtFolio.setText(inst.getInsFolio());
+        txtTomoAsiento.setText(inst.getInsTomoAsiento());
+        chkIndiceNotarial.setSelected(inst.getInsIndiceNotarial()); // t/f
+
+        txaDetalleInstrumento.setText(inst.getInsDetalle());
+        txaObservacionEstado.setText(inst.getInsObservaciones());
+
+        txaObservacionEstado.setText(inst.getInsObsEstado());
+        
+        for(TipoInstrumento tin: cmbTipoInstrumento.getItems()){
+            if(inst.getInsTipoId().equals(tin.getTinId())){
+                cmbTipoInstrumento.getSelectionModel().select(tin);
+            }
+        }
+        
+        for(EstadoInstrumento estado: cmbEstado.getItems()){
+            if(inst.getInsEstadoId().equals(estado.getEinId())){
+                cmbEstado.getSelectionModel().select(estado);
+            }
+        }
+        
+
     }
 
     // ===================== TAB GASTOS ========================================
@@ -703,7 +736,6 @@ public class InstrumentosController extends Controller implements Initializable 
             }
         });
 
-        //------------------------ Acciones de Eventos ------------------------------------
         colEventoAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
         colEventoAcciones.setCellFactory(columna -> new TableCell<Evento, Evento>() {
             private final Button btnEditar = new Button("Editar");

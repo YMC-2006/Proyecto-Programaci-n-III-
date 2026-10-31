@@ -19,10 +19,11 @@
          <children>
             <VBox minHeight="-Infinity" styleClass="vboxH">
                <children>
-                  <Label styleClass="titl" text="¡Bievenido, Usuario!" />
-                  <Label layoutX="10.0" layoutY="10.0" styleClass="titlCard" text="Resumen de datos del bufete al día de hoy" />
+                  <Label styleClass="titl" text="%ind.bienvenida" />
+                  <Label layoutX="10.0" layoutY="10.0" styleClass="titlCard" text="%ind.resumen" />
                </children>
             </VBox>
+
             <HBox minHeight="-Infinity" prefHeight="98.0" prefWidth="706.0" styleClass="hbox">
                <children>
                   <HBox minWidth="0.0" prefWidth="0.0" styleClass="card" HBox.hgrow="ALWAYS">
@@ -38,12 +39,13 @@
                         </VBox>
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="titlCard" text="Instrumentos Activos" />
+                              <Label styleClass="titlCard" text="%ind.instrumentos" />
                               <Label fx:id="txtInstrumentos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
+
                   <HBox minWidth="0.0" prefWidth="0.0" styleClass="card" HBox.hgrow="ALWAYS">
                      <children>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="48.0">
@@ -57,12 +59,13 @@
                         </VBox>
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="titlCard" text="Ingresos del Mes" />
+                              <Label styleClass="titlCard" text="%ind.ingresos" />
                               <Label fx:id="txtIngresos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
+
                   <HBox minWidth="0.0" prefWidth="0.0" styleClass="card" HBox.hgrow="ALWAYS">
                      <children>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="48.0">
@@ -76,12 +79,13 @@
                         </VBox>
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="titlCard" text="Gastos del Mes" />
+                              <Label styleClass="titlCard" text="%ind.gastos" />
                               <Label fx:id="txtGastos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
+
                   <HBox minWidth="0.0" prefWidth="0.0" styleClass="card" HBox.hgrow="ALWAYS">
                      <children>
                         <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="48.0">
@@ -95,7 +99,7 @@
                         </VBox>
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label styleClass="titlCard" text="Eventos del día" />
+                              <Label styleClass="titlCard" text="%ind.eventos" />
                               <Label fx:id="txtEventos" styleClass="numCard" text="128" />
                            </children>
                         </VBox>
@@ -103,13 +107,14 @@
                   </HBox>
                </children>
             </HBox>
+
             <HBox fx:id="filaCentral" minHeight="0.0" style="-fx-fill-height: true; -fx-alignment: TOP_LEFT;" styleClass="hbox" VBox.vgrow="ALWAYS">
                <children>
                   <VBox minHeight="0.0" minWidth="0.0" prefHeight="378.0" prefWidth="406.0" styleClass="hboxI" HBox.hgrow="ALWAYS">
                      <children>
                         <VBox minHeight="270.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label styleClass="titlCard" text="Ingresos vs Gastos" />
+                              <Label styleClass="titlCard" text="%ind.ingresosGastos" />
                               <BarChart fx:id="grBarras" VBox.vgrow="ALWAYS">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
@@ -124,24 +129,26 @@
                               <String fx:value="card2" />
                            </styleClass>
                         </VBox>
+
                         <VBox minWidth="0.0" HBox.hgrow="ALWAYS">
                            <styleClass>
                               <String fx:value="card" />
                               <String fx:value="card2" />
                            </styleClass>
                            <children>
-                              <Label styleClass="titlCard" text="Tributado vs No Tributado" />
+                              <Label styleClass="titlCard" text="%ind.tributado" />
                               <ProgressBar fx:id="prBarra" maxWidth="Infinity" progress="0.0" />
                               <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxProgres">
                                  <children>
-                                    <Label text="\% Tributado" />
-                                    <Label layoutX="10.0" layoutY="10.0" text="\% Sin Tributar" />
+                                    <Label text="%ind.porcentajeTributado" />
+                                    <Label layoutX="10.0" layoutY="10.0" text="%ind.porcentajeNoTributado" />
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+
                   <VBox fx:id="cardAgenda" maxWidth="460.0" minHeight="0.0" minWidth="400.0" prefHeight="403.0" prefWidth="400.0" HBox.hgrow="NEVER">
                      <styleClass>
                         <String fx:value="card" />
@@ -149,12 +156,12 @@
                         <String fx:value="hboxI" />
                      </styleClass>
                      <children>
-                        <Label styleClass="titlCard" text="Agenda de hoy" />
+                        <Label styleClass="titlCard" text="%ind.agenda" />
                         <TableView fx:id="tblAgenda" prefHeight="310.0" prefWidth="260.0" styleClass="tblAg" VBox.vgrow="ALWAYS">
                           <columns>
-                            <TableColumn fx:id="colHora" prefWidth="80.0" text="Hora" />
-                            <TableColumn fx:id="colDescripcion" prefWidth="200.0" text="Descripción" />
-                            <TableColumn fx:id="colEstado" prefWidth="100.0" text="Estado" />
+                            <TableColumn fx:id="colHora" prefWidth="80.0" text="%ind.hora" />
+                            <TableColumn fx:id="colDescripcion" prefWidth="200.0" text="%ind.descripcion" />
+                            <TableColumn fx:id="colEstado" prefWidth="100.0" text="%ind.estado" />
                           </columns>
                           <columnResizePolicy>
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

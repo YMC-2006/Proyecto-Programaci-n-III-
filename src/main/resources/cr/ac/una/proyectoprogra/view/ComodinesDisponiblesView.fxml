@@ -15,15 +15,15 @@
                <children>
                   <TableView fx:id="tblComodines" prefHeight="503.0" prefWidth="634.0">
                     <columns>
-                      <TableColumn fx:id="colNombreComodin" prefWidth="295.20000076293945" text="Nombre del Comodin" />
-                      <TableColumn fx:id="colDescripcion" prefWidth="337.60003662109375" text="Descripcion" />
+                      <TableColumn fx:id="colNombreComodin" prefWidth="295.20000076293945" text="%comodines.col.nombre" />
+                      <TableColumn fx:id="colDescripcion" prefWidth="337.60003662109375" text="%comodines.col.descripcion" />
                     </columns>
                   </TableView>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
                <children>
-                  <Label styleClass="Texto1" text="Doble click sobre el nombre del comodin para copiarlo en el portapapeles" />
+                  <Label styleClass="Texto1" text="%comodines.ayuda" />
                </children>
             </HBox>
          </children>
