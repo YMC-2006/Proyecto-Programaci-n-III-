@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="713.0" prefWidth="1075.0" stylesheets="@../styles/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="cr.ac.una.proyectoprogra.controller.ParametrosController">
+<AnchorPane id="AnchorPane" prefHeight="713.0" prefWidth="1075.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.ParametrosController">
     <children>
         <VBox spacing="16.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
             <children>
@@ -24,16 +24,6 @@
                                 <Label styleClass="lblCampo" text="%par.descripcion" />
                             </children>
                         </VBox>
-                        <MFXButton fx:id="btnAgregar" onAction="#onActionBtnAgregar" prefHeight="46.0" prefWidth="230.0" styleClass="btnNS" text="%par.nuevo">
-                            <graphic>
-                                <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                                    <styleClass>
-                                        <String fx:value="btnImg" />
-                                        <String fx:value="agregar" />
-                                    </styleClass>
-                                </ImageView>
-                            </graphic>
-                        </MFXButton>
                     </children>
                 </HBox>
  

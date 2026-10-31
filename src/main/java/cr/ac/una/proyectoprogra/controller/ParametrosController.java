@@ -30,6 +30,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,8 +44,6 @@ import javafx.scene.layout.HBox;
  */
 public class ParametrosController extends Controller implements Initializable {
 
-    @FXML
-    private MFXButton btnAgregar;
     @FXML
     private TextField txtBuscar;
     @FXML
@@ -60,47 +59,33 @@ public class ParametrosController extends Controller implements Initializable {
     @FXML
     private TableColumn<Parametro, Parametro> colAcciones;
 
-    // parametros que usa el sistema (el WS los busca por codigo), se pueden editar pero no eliminar
-    private final List<String> codigosSistema = List.of("RUTA_DOCUMENTOS");
-
     private ObservableList<Parametro> listaParametros = FXCollections.observableArrayList();
     private List<Parametro> todosLosParametros = new ArrayList<>();
     private ParametroService parametroService = new ParametroService();
 
+    // ya no existe eliminar en la vista de permisos para los parametros
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         colAcciones.setCellFactory(col -> new TableCell<Parametro, Parametro>() {
 
             private final Button btnEditar = new Button();
-            private final Button btnEliminar = new Button();
-            private final ImageView iconoCandado = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/contrasena.png")));
             private final HBox contenedor = new HBox();
 
             {
                 ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
-                ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
 
                 iconoEditar.setFitHeight(30);
                 iconoEditar.setFitWidth(30);
-                iconoEliminar.setFitHeight(30);
-                iconoEliminar.setFitWidth(30);
-                iconoCandado.setFitHeight(22);
-                iconoCandado.setFitWidth(22);
 
                 btnEditar.setGraphic(iconoEditar);
                 btnEditar.setMinWidth(30);
                 btnEditar.setStyle("-fx-background-color: transparent;");
 
-                btnEliminar.setGraphic(iconoEliminar);
-                btnEliminar.setMinWidth(30);
-                btnEliminar.setStyle("-fx-background-color: transparent;");
-
                 contenedor.setStyle("-fx-alignment: CENTER;");
                 contenedor.setSpacing(5);
 
                 btnEditar.setOnAction(e -> modificarParametro(getItem()));
-                btnEliminar.setOnAction(e -> eliminarParametro(getItem()));
             }
 
             @Override
@@ -116,16 +101,11 @@ public class ParametrosController extends Controller implements Initializable {
                 if (Permisos.tienePermiso("ParametrosView", "Modificar")) {
                     contenedor.getChildren().add(btnEditar);
                 }
-                if (esDelSistema(parametro)) {
-                    contenedor.getChildren().add(iconoCandado);
-                } else if (Permisos.tienePermiso("ParametrosView", "Eliminar")) {
-                    contenedor.getChildren().add(btnEliminar);
-                }
+
                 setGraphic(contenedor);
             }
         });
 
-        // el codigo se ve como "chip" gris para que se lea como nombre tecnico
         colCodigo.setCellFactory(col -> new TableCell<Parametro, String>() {
             @Override
             protected void updateItem(String codigo, boolean vacido) {
@@ -156,7 +136,8 @@ public class ParametrosController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
-        btnAgregar.setDisable(!Permisos.tienePermiso("ParametrosView", "Crear"));
+        // ya no se puede agregar
+        //btnAgregar.setDisable(!Permisos.tienePermiso("ParametrosView", "Crear"));
         cargarTabla();
     }
 
@@ -174,13 +155,13 @@ public class ParametrosController extends Controller implements Initializable {
     }
 
     private void filtrar() {
+
         String buscado = txtBuscar.getText().trim().toLowerCase();
 
-        // un solo buscador: coincide si el texto esta en el codigo, el valor o la descripcion
         List<Parametro> filtro = todosLosParametros.stream()
                 .filter(p -> contiene(p.getParCodigo(), buscado)
-                || contiene(p.getParValor(), buscado)
-                || contiene(p.getParDescripcion(), buscado))
+                        || contiene(p.getParValor(), buscado)
+                        || contiene(p.getParDescripcion(), buscado))
                 .collect(Collectors.toList());
 
         listaParametros.setAll(filtro);
@@ -193,50 +174,55 @@ public class ParametrosController extends Controller implements Initializable {
         return dato != null && dato.toLowerCase().contains(buscado);
     }
 
-    private boolean esDelSistema(Parametro parametro) {
-        return parametro.getParCodigo() != null && codigosSistema.contains(parametro.getParCodigo());
-    }
-
-    @FXML
     private void onActionBtnAgregar(ActionEvent event) {
-        AppContext.getInstance().delete("parametroEditar");
         FlowController.getInstance().goViewInWindowModal("RegistrarParametroView", stage, false);
         cargarTabla();
     }
 
     private void modificarParametro(Parametro parametro) {
-        AppContext.getInstance().set("parametroEditar", parametro);
-        FlowController.getInstance().goViewInWindowModal("RegistrarParametroView", stage, false);
+        TextInputDialog dialogo = new TextInputDialog(parametro.getParValor());
+        dialogo.initOwner(getStage());
+        dialogo.setTitle("Modificar parámetro");
+        
+        String encabezado = parametro.getParCodigo() + "\n" + parametro.getParDescripcion();
+        if (parametro.getParCodigo().startsWith("RUTA_")) {
+            encabezado = encabezado + "\n\n Los archivos que ya existen NO se mueven automáticamente. "
+                    + "Si cambia la ruta, copie manualmente los archivos de la carpeta anterior a la nueva.";
+        }
+        dialogo.setHeaderText(encabezado);
+        dialogo.setContentText("Valor:");
+
+        Optional<String> resultado = dialogo.showAndWait();
+        if (resultado.isEmpty()) {
+            return;   // canceló
+        }
+
+        String nuevoValor = resultado.get().trim();
+        if (nuevoValor.isEmpty()) {
+            mostrarError("El valor no puede estar vacío.");
+            return;
+        }
+        if (nuevoValor.equals(parametro.getParValor())) {
+            return;   // no cambió nada
+        }
+
+        String valorAnterior = parametro.getParValor(); // guardamos el valor que tenia en caso de que falle volver a este
+        parametro.setParValor(nuevoValor);
+
+        Respuesta respuesta = parametroService.guardarParametro(parametro);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Parámetro actualizado correctamente.");
+        } else {
+            parametro.setParValor(valorAnterior);   // si falló, la tabla vuelve al valor que tenía
+            mostrarError(respuesta.getMensaje());
+        }
         cargarTabla();
     }
 
-    private void eliminarParametro(Parametro parametro) {
-        if (esDelSistema(parametro)) {
-            mostrarError(FlowController.getIdioma().getString("par.error.sistema"));
-            return;
-        }
-
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle("Confirmación");
-        alerta.setHeaderText(null);
-        alerta.setContentText("\n¿Desea eliminar el parámetro " + parametro.getParCodigo() + " permanentemente?");
-
-        ButtonType btnSi = new ButtonType("Eliminar", ButtonBar.ButtonData.OK_DONE);
-        ButtonType btnNo = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alerta.getButtonTypes().setAll(btnSi, btnNo);
-        ((Button) alerta.getDialogPane().lookupButton(btnNo)).setDefaultButton(true);
-        ((Button) alerta.getDialogPane().lookupButton(btnSi)).setDefaultButton(false);
-
-        Optional<ButtonType> resultado = alerta.showAndWait();
-        if (resultado.isPresent() && resultado.get() == btnSi) {
-            Respuesta respuesta = parametroService.eliminarParametro(parametro.getParId());
-
-            if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                cargarTabla();
-            } else {
-                mostrarError(respuesta.getMensaje());
-            }
-        }
+    private void mostrarExito(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
     }
 
     private void mostrarError(String mensaje) {

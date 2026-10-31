@@ -16,6 +16,7 @@ import java.util.logging.Logger;
  */
 public class ParametroService {
 
+    // no se usa quitar
     public Respuesta getParametro(Long id) {
         try {
             Map<String, Object> parametros = new HashMap<>();
@@ -76,24 +77,4 @@ public class ParametroService {
         }
     }
 
-    public Respuesta eliminarParametro(Long id) {
-        try {
-            Map<String, Object> parametros = new HashMap<>();
-            parametros.put("id", id);
-
-            // construye /Parametros/15
-            Request request = new Request("Parametros", "/{id}", parametros);
-            request.delete();
-
-            if (request.isError()) {
-                return new Respuesta(false, request.getError(), "");
-            }
-
-            return new Respuesta(true, "", "");
-
-        } catch (Exception ex) {
-            Logger.getLogger(ParametroService.class.getName()).log(Level.SEVERE, "Error eliminando el parámetro.", ex);
-            return new Respuesta(false, "Error eliminando el parámetro.", "eliminarParametro " + ex.getMessage());
-        }
-    }
 }

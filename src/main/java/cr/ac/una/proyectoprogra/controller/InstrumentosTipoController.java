@@ -534,7 +534,7 @@ public class InstrumentosTipoController extends Controller implements Initializa
         File archivoSeleccionado = exploradorArchivos.showOpenDialog(btnSubirWord.getScene().getWindow());
 
         if (archivoSeleccionado == null) {
-            return;   // el usuario canceló
+            return;   
         }
 
         if (!archivoSeleccionado.getName().toLowerCase().endsWith(".docx")) {
