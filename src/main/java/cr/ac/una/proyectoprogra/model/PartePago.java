@@ -20,7 +20,8 @@ public class PartePago {
     private BigDecimal ppaMonto;
     private Long ppaParteId;
 
-    public PartePago(String ppaDetalle, LocalDate ppaFecha, String ppaFactura, BigDecimal ppaMonto) {
+    public PartePago(Long ppaParteId, String ppaDetalle, LocalDate ppaFecha, String ppaFactura, BigDecimal ppaMonto) {
+        this.ppaParteId = ppaParteId;
         this.ppaDetalle = ppaDetalle;
         this.ppaFecha = ppaFecha;
         this.ppaFactura = ppaFactura;
@@ -77,11 +78,5 @@ public class PartePago {
     public void setPpaParteId(Long ppaParteId) {
         this.ppaParteId = ppaParteId;
     }
-    
-    
-    
-
-    
-    
 
 }

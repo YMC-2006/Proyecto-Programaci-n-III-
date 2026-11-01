@@ -7,6 +7,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -14,6 +15,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,7 +23,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="811.0" prefWidth="1291.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosController">
+<AnchorPane id="AnchorPane" prefHeight="1123.0" prefWidth="1291.0" styleClass="mainDisplay" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.InstrumentosController">
     <children>
         <VBox spacing="12.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
             <children>
@@ -264,7 +266,7 @@
                                                                 <Button fx:id="btnAgregarGasto" mnemonicParsing="false" onAction="#onActionBtnAgregarGasto" prefHeight="46.0" prefWidth="202.0" styleClass="btnW" text="%instrumentos.contable.agregarGasto" />
                                                             </children>
                                                         </HBox>
-                                                        <TableView fx:id="tblGastos" prefHeight="260.0" VBox.vgrow="ALWAYS">
+                                                        <TableView fx:id="tblGastos" prefHeight="422.0" prefWidth="1086.0" styleClass="tblAbogados" VBox.vgrow="ALWAYS">
                                                             <columns>
                                                                 <TableColumn fx:id="colGastoDetalle" prefWidth="213.59999656677246" text="%instrumentos.comun.detalle" />
                                                                 <TableColumn fx:id="colGastoFecha" prefWidth="210.4000244140625" text="%instrumentos.comun.fecha" />
@@ -273,6 +275,9 @@
                                                                 <TableColumn fx:id="colGastoTributa" prefWidth="189.5999755859375" text="%instrumentos.comun.tributa" />
                                                 <TableColumn fx:id="colGastoAcciones" prefWidth="120.0" />
                                                             </columns>
+                                             <VBox.margin>
+                                                <Insets left="50.0" right="50.0" />
+                                             </VBox.margin>
                                                         </TableView>
                                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                                                             <children>
@@ -294,23 +299,34 @@
                             <content>
                                 <ScrollPane fitToWidth="true">
                                     <content>
-                                        <VBox spacing="24.0">
+                                        <VBox prefWidth="1153.0" spacing="24.0">
                                             <padding>
                                                 <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                                             </padding>
                                             <children>
-                                                <VBox spacing="10.0">
+                                                <VBox prefHeight="460.0" prefWidth="1138.0" spacing="10.0">
                                                     <children>
                                                         <Label text="%instrumentos.partes.titulo" />
-                                                        <HBox alignment="BOTTOM_LEFT" spacing="12.0">
+                                                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="698.0" spacing="12.0" styleClass="hboxI">
                                                             <children>
-                                                                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                                <VBox prefHeight="0.0" prefWidth="135.0" styleClass="vbox">
+                                                   <children>
+                                                      <Label text="Eliga" />
+                                                      <RadioButton fx:id="rdbSociedad" mnemonicParsing="false" styleClass="rdbFiltro" text="Sociedad">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="grupoTipoParte" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="rdbCliente" mnemonicParsing="false" styleClass="rdbFiltro" text="Cliente" toggleGroup="$grupoTipoParte" />
+                                                   </children>
+                                                </VBox>
+                                                                <VBox spacing="6.0" styleClass="hboxI" HBox.hgrow="ALWAYS">
                                                                     <children>
-                                                                        <Label styleClass="lblCampo" text="%instrumentos.comun.cliente" />
+                                                                        <Label styleClass="lblCampo" text="" />
                                                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                                                                             <children>
-                                                                                <MFXTextField fx:id="txtCliente" allowEdit="false" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                                                                <Button mnemonicParsing="false" onAction="#onActionBtnBuscarCliente" styleClass="btnSecundario">
+                                                                                <MFXTextField fx:id="txtPartesSeleccionada" allowEdit="false" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                                                                <Button mnemonicParsing="false" onAction="#onActionBtnBuscarParteSeleccionada" styleClass="btnSecundario">
                                                                                     <graphic>
                                                                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                                                                             <image>
@@ -323,46 +339,50 @@
                                                                         </HBox>
                                                                     </children>
                                                                 </VBox>
-                                                                <VBox spacing="6.0">
+                                                                <VBox spacing="6.0" styleClass="hbox">
                                                                     <children>
                                                                         <Label styleClass="lblCampo" text="%instrumentos.partes.papel" />
-                                                                        <ComboBox fx:id="cmbPartes" prefWidth="180.0" promptText="%instrumentos.partes.papelPrompt" styleClass="comboBox" />
+                                                                        <ComboBox fx:id="cmbPartesRol" prefWidth="180.0" promptText="%instrumentos.partes.papelPrompt" styleClass="comboBox" />
                                                                     </children>
                                                                 </VBox>
-                                                                <VBox spacing="6.0">
+                                                                <VBox spacing="6.0" styleClass="hbox">
                                                                     <children>
                                                                         <Label styleClass="lblCampo" text="%instrumentos.comun.monto" />
                                                                         <TextField fx:id="txtPartesMonto" prefWidth="140.0" styleClass="txtCampo" />
                                                                     </children>
                                                                 </VBox>
-                                                                <CheckBox mnemonicParsing="false" styleClass="chkCampo" text="%instrumentos.partes.paga">
+                                                                <CheckBox fx:id="chkPartesDebePagar" mnemonicParsing="false" styleClass="chkCampo" text="%instrumentos.partes.paga">
                                                                     <HBox.margin>
                                                                         <Insets bottom="8.0" />
                                                                     </HBox.margin>
                                                                 </CheckBox>
-                                                                <Button mnemonicParsing="false" onAction="#onActionBtnAgregarPartes" prefHeight="46.0" prefWidth="214.0" styleClass="btnW" text="%instrumentos.partes.agregar" />
+                                                                <Button fx:id="btnAgregarParte" mnemonicParsing="false" onAction="#onActionBtnAgregarPartes" prefHeight="46.0" prefWidth="162.0" styleClass="btnW" text="%instrumentos.partes.agregar" />
                                                             </children>
                                                         </HBox>
-                                                        <TableView fx:id="tblPartes" prefHeight="220.0">
+                                                        <TableView fx:id="tblPartes" prefHeight="293.0" prefWidth="1158.0" styleClass="tblAbogados">
                                                             <columns>
-                                                                <TableColumn prefWidth="232.79998588562012" text="%instrumentos.comun.cliente" />
-                                                                <TableColumn prefWidth="154.39996337890625" text="%instrumentos.partes.tipo" />
-                                                                <TableColumn prefWidth="173.60003662109375" text="%instrumentos.partes.papel" />
-                                                                <TableColumn prefWidth="133.5999755859375" text="%instrumentos.partes.paga" />
-                                                                <TableColumn prefWidth="146.4000244140625" text="%instrumentos.comun.monto" />
-                                                                <TableColumn prefWidth="160.79998779296875" text="%instrumentos.partes.saldo" />
+                                                                <TableColumn fx:id="colPartesSeleccionado" prefWidth="170.400083899498" text="%instrumentos.comun.cliente" />
+                                                                <TableColumn fx:id="colPartesTipo" prefWidth="161.5999755859375" text="%instrumentos.partes.tipo" />
+                                                                <TableColumn fx:id="colPartesRol" prefWidth="177.5999755859375" text="%instrumentos.partes.papel" />
+                                                                <TableColumn fx:id="colPartesPaga" prefWidth="199.20001220703125" text="%instrumentos.partes.paga" />
+                                                                <TableColumn fx:id="colPartesMonto" prefWidth="179.20001792907715" text="%instrumentos.comun.monto" />
+                                                                <TableColumn fx:id="colPartesSaldo" prefWidth="138.39990234375" text="%instrumentos.partes.saldo" />
+                                                <TableColumn fx:id="colPartesAcciones" prefWidth="118.4000244140625" />
                                                             </columns>
+                                             <VBox.margin>
+                                                <Insets left="50.0" right="50.0" />
+                                             </VBox.margin>
                                                         </TableView>
                                                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                                             <children>
                                                                 <Label text="%instrumentos.partes.saldoInstrumento" />
-                                                                <Label text="₡0" />
+                                                                <Label fx:id="lblSaldoInstrumento" text="₡0" />
                                                             </children>
                                                         </HBox>
                                                     </children>
                                                 </VBox>
 
-                                                <VBox spacing="10.0">
+                                                <VBox prefHeight="405.0" prefWidth="1158.0" spacing="10.0">
                                                     <children>
                                                         <Label text="%instrumentos.pagos.titulo" />
                                                         <HBox alignment="BOTTOM_LEFT" spacing="12.0">
@@ -394,13 +414,17 @@
                                                                 <Button mnemonicParsing="false" onAction="#onActionBtnRegistrarPago" styleClass="btnW" text="%instrumentos.pagos.registrar" />
                                                             </children>
                                                         </HBox>
-                                                        <TableView fx:id="tblPagos" prefHeight="200.0">
+                                                        <TableView fx:id="tblPagos" prefHeight="332.0" prefWidth="1058.0" styleClass="tblAbogados">
                                                             <columns>
-                                                                <TableColumn prefWidth="420.0" text="%instrumentos.comun.detalle" />
-                                                                <TableColumn prefWidth="180.0" text="%instrumentos.comun.fecha" />
-                                                                <TableColumn prefWidth="180.0" text="%instrumentos.comun.factura" />
-                                                                <TableColumn prefWidth="291.20001220703125" text="%instrumentos.comun.monto" />
+                                                                <TableColumn prefWidth="269.600035071373" text="%instrumentos.comun.detalle" />
+                                                                <TableColumn prefWidth="200.79995727539062" text="%instrumentos.comun.fecha" />
+                                                                <TableColumn prefWidth="210.39999389648438" text="%instrumentos.comun.factura" />
+                                                                <TableColumn prefWidth="208.80010986328125" text="%instrumentos.comun.monto" />
+                                                <TableColumn prefWidth="165.5999999999999" />
                                                             </columns>
+                                             <VBox.margin>
+                                                <Insets left="50.0" right="50.0" />
+                                             </VBox.margin>
                                                         </TableView>
                                                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
                                                             <children>

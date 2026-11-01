@@ -13,7 +13,7 @@ import java.util.List;
  * @author vjjcu
  */
 public class InstrumentoParte {
-    
+
     private Long ipaId;
     private String ipaRol;
     private Boolean ipaDebePagar = Boolean.FALSE;
@@ -27,17 +27,15 @@ public class InstrumentoParte {
     private BigDecimal ipaTotalPagado = BigDecimal.ZERO;
     private BigDecimal ipaSaldo = BigDecimal.ZERO;
 
-    public InstrumentoParte(Long ipaId, String ipaRol, Long ipaClienteId, Long ipaSociedadId, Long ipaInstrumentoId, String ipaNombre, String ipaIdentificacion) {
-        this.ipaId = ipaId;
-        this.ipaRol = ipaRol;
+    public InstrumentoParte(Long ipaInstrumentoId, Long ipaClienteId, Long ipaSociedadId, String ipaRol, Boolean ipaDebePagar, BigDecimal ipaMonto) {
+        this.ipaInstrumentoId = ipaInstrumentoId;
         this.ipaClienteId = ipaClienteId;
         this.ipaSociedadId = ipaSociedadId;
-        this.ipaInstrumentoId = ipaInstrumentoId;
-        this.ipaNombre = ipaNombre;
-        this.ipaIdentificacion = ipaIdentificacion;
+        this.ipaRol = ipaRol;
+        this.ipaDebePagar = ipaDebePagar;
+        this.ipaMonto = ipaMonto;
     }
 
-   
     public InstrumentoParte() {
     }
 
@@ -136,6 +134,5 @@ public class InstrumentoParte {
     public void setIpaSaldo(BigDecimal ipaSaldo) {
         this.ipaSaldo = ipaSaldo;
     }
-    
-    
+
 }

@@ -42,7 +42,6 @@ public class Instrumento {
     private Long insEstadoId;
 
     private List<InstrumentoParte> instrumentoParteList = new ArrayList<>();
-    private List<InstrumentoParte> instrumentoParteEliminadosList = new ArrayList<>();
     private List<InstrumentoRequisito> instrumentoRequisitoList = new ArrayList<>();
     private List<Evento> eventoList = new ArrayList<>();
 
@@ -260,14 +259,6 @@ public class Instrumento {
 
     public void setInstrumentoParteList(List<InstrumentoParte> instrumentoParteList) {
         this.instrumentoParteList = instrumentoParteList;
-    }
-
-    public List<InstrumentoParte> getInstrumentoParteEliminadosList() {
-        return instrumentoParteEliminadosList;
-    }
-
-    public void setInstrumentoParteEliminadosList(List<InstrumentoParte> instrumentoParteEliminadosList) {
-        this.instrumentoParteEliminadosList = instrumentoParteEliminadosList;
     }
 
     public List<InstrumentoRequisito> getInstrumentoRequisitoList() {

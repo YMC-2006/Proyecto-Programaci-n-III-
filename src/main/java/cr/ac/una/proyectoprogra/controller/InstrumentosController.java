@@ -6,14 +6,17 @@ import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
 import cr.ac.una.proyectoprogra.model.Evento;
 import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
+import cr.ac.una.proyectoprogra.model.InstrumentoParte;
 import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
 import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
+import cr.ac.una.proyectoprogra.model.SociedadDto;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
 import cr.ac.una.proyectoprogra.model.TipoInstrumento;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EstadoInstrumentoService;
 import cr.ac.una.proyectoprogra.service.EventoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoGastoService;
+import cr.ac.una.proyectoprogra.service.InstrumentoParteService;
 import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
@@ -46,6 +49,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
@@ -53,8 +57,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
@@ -201,12 +208,52 @@ public class InstrumentosController extends Controller implements Initializable 
     private Evento eventoEditando;
 
     // ======= PARTES Y PAGOS
-    @FXML
     private MFXTextField txtCliente;
     @FXML
-    private ComboBox<?> cmbPartes;
-    @FXML
     private TextField txtPartesMonto;
+    @FXML
+    private ComboBox<String> cmbPartesRol;
+    @FXML
+    private CheckBox chkPartesDebePagar;
+    @FXML
+    private TableView<InstrumentoParte> tblPartes;
+    @FXML
+    private TableColumn<InstrumentoParte, String> colPartesSeleccionado;
+    @FXML
+    private TableColumn<InstrumentoParte, String> colPartesTipo;
+    @FXML
+    private TableColumn<InstrumentoParte, String> colPartesRol;
+    @FXML
+    private TableColumn<InstrumentoParte, String> colPartesPaga;
+    @FXML
+    private TableColumn<InstrumentoParte, BigDecimal> colPartesMonto;
+    @FXML
+    private TableColumn<InstrumentoParte, BigDecimal> colPartesSaldo;
+    @FXML
+    private TableColumn<InstrumentoParte, InstrumentoParte> colPartesAcciones;
+    @FXML
+    private Label lblSaldoInstrumento;
+
+    private InstrumentoParteService instrumentoParteService = new InstrumentoParteService();
+    private ObservableList<InstrumentoParte> listaPartes = FXCollections.observableArrayList();
+    private Long parteClienteId;      // el elegido en la busqeuda
+    private Long parteSociedadId;       // cualquiera de los dos
+    private InstrumentoParte parteEditando;
+    private final String[] filtroPartesRol = {"CEDENTE", "CESIONARIO"};
+    @FXML
+    private RadioButton rdbCliente;
+    @FXML
+    private RadioButton rdbSociedad;
+    @FXML
+    private ToggleGroup grupoTipoParte;
+
+    @FXML
+    private TableView<?> tblPagos;
+
+    @FXML
+    private MFXTextField txtPartesSeleccionada;
+    @FXML
+    private Button btnAgregarParte;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -238,6 +285,26 @@ public class InstrumentosController extends Controller implements Initializable 
                 txtNumeroRecibo.clear();
             }
         });
+
+        cmbPartesRol.getItems().setAll(filtroPartesRol);
+        cmbPartesRol.getSelectionModel().selectFirst();
+
+        // el monto solo se habilita si la parte paga
+        txtPartesMonto.setDisable(true);
+        chkPartesDebePagar.selectedProperty().addListener((obs, antes, ahora) -> {
+            txtPartesMonto.setDisable(!ahora);
+            if (!ahora) {
+                txtPartesMonto.clear();
+            }
+        });
+
+        // si cambia entre físico y jurídico, se borra lo elegido
+        grupoTipoParte.selectedToggleProperty().addListener((obs, antes, ahora) -> {
+            parteClienteId = null;
+            parteSociedadId = null;
+            txtPartesSeleccionada.clear();
+        });
+        rdbSociedad.setSelected(true);
 
         // que las demas pestañas queden desabilitadas mienstras se registra el instrumento
         habilitarTabs(false);
@@ -320,6 +387,27 @@ public class InstrumentosController extends Controller implements Initializable 
             private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
 
             {
+
+                ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
+                iconoEliminar.setFitHeight(30);
+                iconoEliminar.setFitWidth(30);
+
+                ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
+                iconoEditar.setFitHeight(30);
+                iconoEditar.setFitWidth(30);
+
+                btnEliminar.setGraphic(iconoEliminar);
+                btnEditar.setGraphic(iconoEditar);
+
+                btnEliminar.setMinWidth(30);
+                btnEditar.setMinWidth(30);
+
+                btnEliminar.setStyle("-fx-background-color: transparent;");
+                btnEditar.setStyle("-fx-background-color: transparent;");
+
+                contenedor.setStyle("-fx-alignment: CENTER;");
+                contenedor.setSpacing(10);
+
                 btnEditar.setOnAction(e -> editarGasto(getItem()));
                 btnEliminar.setOnAction(e -> eliminarGasto(getItem()));
             }
@@ -337,6 +425,70 @@ public class InstrumentosController extends Controller implements Initializable 
 
         tblGastos.setPlaceholder(new Label("No hay gastos registrados por el momento"));
         tblGastos.setItems(listaGastos);
+
+        //------------------------ Partes ----------------------------------------------
+        colPartesSeleccionado.setCellValueFactory(new PropertyValueFactory<>("ipaNombre"));
+        colPartesRol.setCellValueFactory(new PropertyValueFactory<>("ipaRol"));
+        colPartesMonto.setCellValueFactory(new PropertyValueFactory<>("ipaMonto"));
+        colPartesSaldo.setCellValueFactory(new PropertyValueFactory<>("ipaSaldo"));
+        colPartesTipo.setCellValueFactory(data -> {
+            if (data.getValue().getIpaClienteId() != null) {
+                return new SimpleStringProperty("Físico");
+            } else {
+                return new SimpleStringProperty("Jurídico");
+            }
+        });
+        colPartesPaga.setCellValueFactory(data -> {
+            if (Boolean.TRUE.equals(data.getValue().getIpaDebePagar())) {
+                return new SimpleStringProperty("Sí");
+            } else {
+                return new SimpleStringProperty("No");
+            }
+        });
+        colPartesAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
+        colPartesAcciones.setCellFactory(columna -> new TableCell<InstrumentoParte, InstrumentoParte>() {
+            private final Button btnEditar = new Button("Editar");
+            private final Button btnEliminar = new Button("Eliminar");
+            private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
+
+            {
+
+                ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
+                iconoEliminar.setFitHeight(30);
+                iconoEliminar.setFitWidth(30);
+
+                ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
+                iconoEditar.setFitHeight(30);
+                iconoEditar.setFitWidth(30);
+
+                btnEliminar.setGraphic(iconoEliminar);
+                btnEditar.setGraphic(iconoEditar);
+
+                btnEliminar.setMinWidth(30);
+                btnEditar.setMinWidth(30);
+
+                btnEliminar.setStyle("-fx-background-color: transparent;");
+                btnEditar.setStyle("-fx-background-color: transparent;");
+
+                contenedor.setStyle("-fx-alignment: CENTER;");
+                contenedor.setSpacing(10);
+
+                btnEditar.setOnAction(e -> editarParte(getItem()));
+                btnEliminar.setOnAction(e -> eliminarParte(getItem()));
+            }
+
+            @Override
+            protected void updateItem(InstrumentoParte parte, boolean empty) {
+                super.updateItem(parte, empty);
+                if (empty || parte == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(contenedor);
+                }
+            }
+        });
+        tblPartes.setPlaceholder(new Label("No hay partes registradas"));
+        tblPartes.setItems(listaPartes);
 
     }
 
@@ -639,6 +791,7 @@ public class InstrumentosController extends Controller implements Initializable 
         cargarTablaRequisitos(); // para limpiar la tabla de requisitos
         cargarTablaGastos();
         cargarTablaEventos();
+        cargarTablaPartes();
         habilitarTabs(false);
         tabPane.getSelectionModel().select(tabGeneralesDelInstrumento);
         revisarPermisos();
@@ -711,6 +864,7 @@ public class InstrumentosController extends Controller implements Initializable 
         cargarTablaRequisitos();
         cargarTablaGastos();
         cargarTablaEventos();
+        cargarTablaPartes();
         habilitarTabs(true);
     }
 
@@ -935,7 +1089,6 @@ public class InstrumentosController extends Controller implements Initializable 
     }
 
     // ==================== PARTES Y PAGOS ================
-    @FXML
     private void onActionBtnBuscarCliente(ActionEvent event) {
 
         AppContext.getInstance().delete("clienteSeleccionado");
@@ -950,10 +1103,147 @@ public class InstrumentosController extends Controller implements Initializable 
 
     @FXML
     private void onActionBtnAgregarPartes(ActionEvent event) {
+
+        if (instrumentoActual == null) {
+            mostrarError("Necesita guardar o cargar un instrumento primero"); // otra validacion que realmente es por si acaso, ya que los tabs estan desactivados entonces no se puede intentar hacer nada en otra parte
+            return;
+        }
+
+        if (parteClienteId == null && parteSociedadId == null) {
+            mostrarError("Seleccione una sociedad o un cliente");
+            rdbCliente.requestFocus();
+            return;
+        }
+
+        String rol = cmbPartesRol.getValue();
+        if (rol == null) {
+            mostrarError("Seleccione el papel de la parte");
+            cmbPartesRol.requestFocus();
+            return;
+        }
+        boolean debePagar = chkPartesDebePagar.isSelected();
+        BigDecimal montoApagar = BigDecimal.ZERO;
+
+        if (debePagar) {
+            montoApagar = leerMonto(txtPartesMonto);
+            if (montoApagar == null || montoApagar.compareTo(BigDecimal.ZERO) <= 0) {
+                mostrarError("Si la parte paga, el monto debe ser mayor a cero");
+                txtPartesMonto.requestFocus();
+                return;
+            }
+        }
+
+        InstrumentoParte instParte = new InstrumentoParte(instrumentoActual.getInsId(), parteClienteId, parteSociedadId, rol, debePagar, montoApagar);
+        if (parteEditando != null) {
+            instParte.setIpaId(parteEditando.getIpaId());   // con id el WS actualiza
+        }
+        Respuesta respuesta = instrumentoParteService.guardarParte(bufeteCarga(), instParte);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Parte guardada correctamente");
+            limpiarCamposParte();
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+
     }
 
     @FXML
     private void onActionBtnRegistrarPago(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionBtnBuscarParteSeleccionada(ActionEvent event) {
+        if (rdbCliente.isSelected()) {
+            AppContext.getInstance().delete("clienteSeleccionado");
+            FlowController.getInstance().goViewInWindowModal("BuscarClienteView", stage, Boolean.FALSE);
+
+            Cliente cliente = (Cliente) AppContext.getInstance().get("clienteSeleccionado");
+            if (cliente != null) {
+                parteClienteId = cliente.getCliId();
+                parteSociedadId = null;
+                txtPartesSeleccionada.setText(cliente.getCliNombre() + " " + cliente.getCliApellido1() + " " + cliente.getCliApellido2());
+                AppContext.getInstance().delete("clienteSeleccionado");
+            }
+        } else {
+            AppContext.getInstance().delete("sociedadSeleccionada");
+            FlowController.getInstance().goViewInWindowModal("BusquedaSociedadView", stage, Boolean.FALSE);
+
+            SociedadDto sociedad = (SociedadDto) AppContext.getInstance().get("sociedadSeleccionada");
+            if (sociedad != null) {
+                parteSociedadId = sociedad.getSocId();
+                parteClienteId = null;
+                txtPartesSeleccionada.setText(sociedad.getSocNombre());
+                AppContext.getInstance().delete("sociedadSeleccionada");
+            }
+        }
+    }
+
+    private void editarParte(InstrumentoParte parte) {
+
+        if (parte.getIpaClienteId() != null) {
+            rdbCliente.setSelected(true);
+        } else {
+            rdbSociedad.setSelected(true);
+        }
+
+        parteEditando = parte;
+        parteClienteId = parte.getIpaClienteId();
+        parteSociedadId = parte.getIpaSociedadId();
+        txtPartesSeleccionada.setText(parte.getIpaNombre());
+        cmbPartesRol.setValue(parte.getIpaRol());
+        chkPartesDebePagar.setSelected(Boolean.TRUE.equals(parte.getIpaDebePagar()));
+        txtPartesMonto.setText(parte.getIpaMonto().toPlainString());
+        btnAgregarParte.setText("Guardar Cambios");
+
+    }
+
+    private void eliminarParte(InstrumentoParte parte) {
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar la parte \"" + parte.getIpaNombre() + "\"?", ButtonType.YES, ButtonType.NO);
+        confirmar.setHeaderText(null);
+        if (confirmar.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) {
+            return;
+        }
+        Respuesta respuesta = instrumentoParteService.eliminarParte(bufeteCarga(), parte.getIpaId());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Parte eliminada correctamente");
+            limpiarCamposParte();
+        } else {
+            mostrarError(respuesta.getMensaje());   // ej: "La parte ya tiene pagos registrados..."
+        }
+    }
+
+    private void limpiarCamposParte() {
+        parteEditando = null;
+        btnAgregarParte.setText("Agregar parte");
+        rdbCliente.setSelected(true);
+        parteClienteId = null;
+        parteSociedadId = null;
+        txtPartesSeleccionada.clear();
+        cmbPartesRol.getSelectionModel().clearSelection();
+        chkPartesDebePagar.setSelected(false);
+        cargarTablaPartes();
+    }
+
+    private void cargarTablaPartes() {
+        listaPartes.clear();
+        lblSaldoInstrumento.setText("₡0");
+        if (instrumentoActual == null) {
+            return;
+        }
+        Respuesta respuesta = instrumentoParteService.getPartes(bufeteCarga(), instrumentoActual.getInsId());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<InstrumentoParte> partes = (List<InstrumentoParte>) respuesta.getResultado("Partes");
+            if (partes != null) {
+                listaPartes.setAll(partes);
+            }
+            BigDecimal saldo = BigDecimal.ZERO;
+            for (InstrumentoParte p : listaPartes) {
+                saldo = saldo.add(p.getIpaSaldo());
+            }
+            lblSaldoInstrumento.setText("₡" + saldo.toPlainString());
+        } else {
+            mostrarError("Error cargando las partes: " + respuesta.getMensaje());
+        }
     }
 
 }
