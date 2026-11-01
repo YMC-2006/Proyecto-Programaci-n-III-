@@ -64,7 +64,7 @@ public class InicioSesionController extends Controller implements Initializable 
     public void initialize() {
         txtUsuario.clear();
         txtClave.clear();
-        cbxBufete.clear();
+        cbxBufete.getItems().clear();
     }
 
     @FXML
@@ -91,7 +91,8 @@ public class InicioSesionController extends Controller implements Initializable 
         UsuarioDto usuario = (UsuarioDto) respuesta.getResultado("Usuario");
         AppContext.getInstance().set("Usuario", usuario);
         AppContext.getInstance().set("Token", usuario.getToken());
-        if (usuario.getUsrCambioClave()) {
+        AppContext.getInstance().set("Bufete", bufete);
+        if (Boolean.TRUE.equals(usuario.getUsrCambioClave())) {
             FlowController.getInstance().goViewInWindow("CambiarClaveView");
         } else {
             FlowController.getInstance().goMain();

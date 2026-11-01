@@ -19,13 +19,8 @@
    <top>
       <VBox prefHeight="98.0" prefWidth="1446.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="26.0" prefWidth="100.0" spacing="30.0" styleClass="hboxPrincipalHeader">
+            <HBox alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="100.0" spacing="30.0" styleClass="hboxPrincipalHeader">
                <children>
-                  <Label fx:id="fechaActualLabel" prefHeight="18.0" prefWidth="216.0" styleClass="textoBlancoHeader" text="Fecha Actual :D">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                  </Label>
                   <Button fx:id="btnEspanol" mnemonicParsing="false" onAction="#btnOnActionEspanol" prefHeight="27.0" prefWidth="141.0" styleClass="btnIdioma" text="%menu.espanol">
                      <graphic>
                         <ImageView fitHeight="19.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
@@ -35,7 +30,7 @@
                         </ImageView>
                      </graphic>
                      <HBox.margin>
-                        <Insets left="900.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                   <Button fx:id="btnIngles" mnemonicParsing="false" onAction="#btnOnActionIngles" prefHeight="27.0" prefWidth="143.0" styleClass="btnIdioma" text="%menu.ingles">
@@ -49,12 +44,15 @@
                   </Button>
                   <Button fx:id="btnCerrar" mnemonicParsing="false" onAction="#btnOnActionCerrarSesion" prefHeight="30.0" prefWidth="170.0" styleClass="btnIdioma" text="Cerrar sesion">
                      <graphic>
-                        <ImageView fitHeight="78.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="btnImg">
+                        <ImageView fitHeight="32.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resource/iconos_sicobu/iniciar_sesion.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
                   </Button>
                </children>
                <VBox.margin>
@@ -66,11 +64,11 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="1394.0" styleClass="hboxMenu">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgLogo">
+                  <ImageView fx:id="imgBufete" fitHeight="32.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></ImageView>
-                  <Label prefHeight="36.0" prefWidth="246.0" styleClass="tituloMenu" text="%menu.bufeteAbogados">
+                  <Label fx:id="txtNombreBufete" prefHeight="36.0" prefWidth="170.0" styleClass="tituloMenu" text="Bufete">
                      <HBox.margin>
                         <Insets right="30.0" />
                      </HBox.margin></Label>
@@ -98,11 +96,17 @@
                         <Button mnemonicParsing="false" onAction="#btnOnActionReportes" prefHeight="26.0" prefWidth="112.0" styleClass="btnMenu" text="%menu.reportes" />
                      </children>
                   </HBox>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" styleClass="imgUsuario">
+                  <ImageView fx:id="imgUsuario" fitHeight="38.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets left="20.0" />
-                     </HBox.margin></ImageView>
-                  <Label styleClass="tituloMenu" text="Usuario" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../resource/iconos_sicobu/usuarios.png" />
+                     </image></ImageView>
+                  <Label fx:id="txtNombreUsuario" styleClass="tituloMenu" text="Usuario">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin></Label>
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" top="5.0" />

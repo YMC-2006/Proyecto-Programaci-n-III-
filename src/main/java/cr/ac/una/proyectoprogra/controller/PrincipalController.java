@@ -4,6 +4,8 @@
  */
 package cr.ac.una.proyectoprogra.controller;
 
+import cr.ac.una.proyectoprogra.model.BufeteDto;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Permisos;
@@ -11,6 +13,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,7 +41,7 @@ import javafx.stage.Stage;
  * @author alond
  */
 public class PrincipalController extends Controller implements Initializable {
-    
+
     @FXML
     private Button btnMantenimientos;
     @FXML
@@ -52,8 +55,6 @@ public class PrincipalController extends Controller implements Initializable {
     private PauseTransition esperaInstrumentos = new PauseTransition(Duration.millis(100));
 
     @FXML
-    private Label fechaActualLabel;
-    @FXML
     private VBox mainDisplay;
     @FXML
     private Button btnIndicadores;
@@ -63,9 +64,31 @@ public class PrincipalController extends Controller implements Initializable {
     private Button btnIngles;
     @FXML
     private Button btnCerrar;
+    @FXML
+    private Label txtNombreBufete;
+    @FXML
+    private ImageView imgUsuario;
+    @FXML
+    private Label txtNombreUsuario;
+    @FXML
+    private ImageView imgBufete;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        UsuarioDto usuario = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        BufeteDto bufete = (BufeteDto) AppContext.getInstance().get("Bufete");
+         if (bufete != null && bufete.getBufLogo() != null) {
+            imgBufete.setImage(new Image(new ByteArrayInputStream(bufete.getBufLogo())));
+        }
+      
+        this.txtNombreUsuario.setText(usuario.getUsrUsuario());
+        if (usuario.getUsrFoto() != null) {
+            imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getUsrFoto())));
+        }
+
+        String nombreBufete = usuario.getUsrBufeteNombre();
+        txtNombreBufete.setText(nombreBufete);
 
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
@@ -104,19 +127,19 @@ public class PrincipalController extends Controller implements Initializable {
         opsInstrumentos.getStyleClass().add("menuDesplegable");
 
         if (Permisos.tienePermiso("InstrumentosTipoView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.tiposInstrumentos"),"InstrumentosTipoView","tipos_instrumento",menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.tiposInstrumentos"), "InstrumentosTipoView", "tipos_instrumento", menuInstrumentos));
         }
 
         if (Permisos.tienePermiso("InstrumentosEstadoView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.estadosInstrumentos"),"InstrumentosEstadoView","estados_instrumento",menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.estadosInstrumentos"), "InstrumentosEstadoView", "estados_instrumento", menuInstrumentos));
         }
 
         if (Permisos.tienePermiso("InstrumentosView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.controlInstrumentos"),"InstrumentosView","instrumentos",menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.controlInstrumentos"), "InstrumentosView", "instrumentos", menuInstrumentos));
         }
 
         if (Permisos.tienePermiso("InstrumentosBusquedaView", "Consultar")) {
-            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.buscarInstrumentos"),"InstrumentosBusquedaView","buscar",menuInstrumentos));
+            opsInstrumentos.getChildren().add(crearBotonMenu(FlowController.getIdioma().getString("menu.buscarInstrumentos"), "InstrumentosBusquedaView", "buscar", menuInstrumentos));
         }
 
         menuInstrumentos.getContent().add(opsInstrumentos);
@@ -172,7 +195,6 @@ public class PrincipalController extends Controller implements Initializable {
         Bounds pos = boton.localToScreen(boton.getBoundsInLocal());
         menu.show(boton, pos.getMinX(), pos.getMaxY());
     }
-
 
     @FXML
     private void btnOnActionIndicadores(ActionEvent event) {

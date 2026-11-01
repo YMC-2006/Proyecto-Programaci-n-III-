@@ -212,7 +212,6 @@ public class InstrumentosController extends Controller implements Initializable 
     public void initialize(URL url, ResourceBundle rb) {
 
         txtHoraInstrumento.setTextFormatter(Formato.getInstance().maxLengthFormat(5));
-        txtMostrarFechaEstado.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtTomoAsiento.setTextFormatter(Formato.getInstance().letrasFormat(30));
@@ -343,23 +342,23 @@ public class InstrumentosController extends Controller implements Initializable 
 
     @Override
     public void initialize() {
-        revisarPermisos();
         configurarComboBoxes();
-        //inicializarTablas();
 
         Long instrumentoId = (Long) AppContext.getInstance().get("instrumentoSeleccionado");
-        if (instrumentoId == null) {
-            return;
+        if (instrumentoId != null) {
+
+            Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
+                cargarInstrumento(instrumentoActual);
+            } else {
+                mostrarError("Error cargando el instrumento: " + respuesta.getMensaje());
+            }
+        } else if (instrumentoActual != null) {
+            cargarInstrumento(instrumentoActual);
         }
 
-        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
-        if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
-            cargarInstrumento(instrumentoActual);
-            revisarPermisos();
-        } else {
-            mostrarError("Error cargando el instrumento");
-        }
+        revisarPermisos();
     }
 
     // =================== REQUISITOS ==============================
@@ -647,7 +646,7 @@ public class InstrumentosController extends Controller implements Initializable 
 
     @FXML
     private void onActionBtnBuscarInstrumento(ActionEvent event) {
-        // me falta editar un instrumento TOODOOOO
+
         AppContext.getInstance().delete("instrumentoSeleccionado");
         AppContext.getInstance().set("busquedaModal", true);
         FlowController.getInstance().limpiarLoader("InstrumentosBusquedaView");
