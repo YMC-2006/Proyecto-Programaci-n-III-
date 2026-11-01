@@ -8,12 +8,15 @@ import cr.ac.una.proyectoprogra.model.BufeteDto;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
+import cr.ac.una.proyectoprogra.util.Mensaje;
 import cr.ac.una.proyectoprogra.util.Permisos;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +32,7 @@ import javafx.geometry.Bounds;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 import javafx.scene.image.ImageView;
@@ -72,6 +76,8 @@ public class PrincipalController extends Controller implements Initializable {
     private Label txtNombreUsuario;
     @FXML
     private ImageView imgBufete;
+    @FXML
+    private Button btnPrimeFases;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -248,9 +254,24 @@ public class PrincipalController extends Controller implements Initializable {
         FlowController.getInstance().goView("IndicadoresView");
         AppContext.getInstance().delete("Usuario");
         AppContext.getInstance().delete("Token");
-        FlowController.getInstance().limpiarLoader("InicioSesionView");
-        FlowController.getInstance().goViewInWindow("InicioSesionView");
+        FlowController.getInstance().limpiarLoader("InicioSesionVista");
+        FlowController.getInstance().goViewInWindow("InicioSesionVista");
         ((Stage) btnCerrar.getScene().getWindow()).close();
     }
+
+    @FXML
+    private void btnOnActionPrimeFases(ActionEvent event) {
+        try {
+            UsuarioDto usuario = (UsuarioDto) AppContext.getInstance().get("Usuario");
+            String token = (String) AppContext.getInstance().get("Token");
+            token = token.replace("Bearer ", "");
+            Long bufeteId = usuario.getUsrBufeteId();
+            String url = "http://localhost:8080/ProyectoPrograWs/primefase.xhtml?token=" + token + "&bufete=" + bufeteId;
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (Exception ex) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Panel web", getStage(), "No se pudo abrir el panel web.");
+        }
+    }
+    
 
 }
