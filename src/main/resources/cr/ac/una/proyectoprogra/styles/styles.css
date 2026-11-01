@@ -1564,3 +1564,39 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: #3F6084;
     -fx-background-radius: 5px;
 }
+
+/*======================================= REPORTES ===========================*/
+.rdbFiltro {
+    -fx-font-family: "Manrope SemiBold";
+    -fx-font-size: 14px;
+    -fx-text-fill: #5A6475;
+    -fx-cursor: hand;
+}
+
+.rdbFiltro:selected {
+    -fx-text-fill: #1E2330;
+}
+
+/* Circulo de afuera */
+.rdbFiltro .radio {
+    -fx-background-color: #C9D3E1, #FFFFFF;
+    -fx-background-insets: 0, 1.5;
+    -fx-background-radius: 999;
+    -fx-padding: 4;
+}
+
+.rdbFiltro:hover .radio,
+.rdbFiltro:selected .radio {
+    -fx-background-color: #2F5689, #FFFFFF;
+}
+
+/* Punto de adentro */
+.rdbFiltro .dot {
+    -fx-background-color: transparent;
+    -fx-background-radius: 999;
+    -fx-padding: 4;
+}
+
+.rdbFiltro:selected .dot {
+    -fx-background-color: #2F5689;
+}

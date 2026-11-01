@@ -14,46 +14,45 @@ import java.util.List;
  * @author vjjcu
  */
 public class Instrumento {
-    
+
     private Long insId;
     private LocalDateTime insFechaEstado;
-    private String insObsEstado;
-    private String insDetalle;
+    private String insObsEstado = "";
+    private String insDetalle = "";
     private Boolean insIndiceNotarial = Boolean.FALSE;
     private LocalDateTime insFechaHora;
-    private String insBoleta;
-    private String insTomo;
-    private String insEscritura;
-    private String insFolio;
-    private String insTomoAsiento;
-    private String insObservaciones;
-    
+    private String insBoleta = "";
+    private String insTomo = "";
+    private String insEscritura = "";
+    private String insFolio = "";
+    private String insTomoAsiento = "";
+    private String insObservaciones = "";
+
     // para la parte contable si un instrumento tributa generamos el numero de recibo
     private String insRutaDocumento;
-    private String insRutaDocFirmado; 
+    private String insRutaDocFirmado;
     private Boolean insTributa = Boolean.FALSE;
-    private String insNumeroRecibo;
+    private String insNumeroRecibo = "";
     
-    private BigDecimal insMontoReal = BigDecimal.ZERO; 
+    private BigDecimal insMontoReal = BigDecimal.ZERO;
     private BigDecimal insMontoFacturado = BigDecimal.ZERO;
     private Long insBufeteId;
     private Long insAbogadoId;
     private Long insTipoId;
     private Long insEstadoId;
-    
-    
+
     private List<InstrumentoParte> instrumentoParteList = new ArrayList<>();
     private List<InstrumentoParte> instrumentoParteEliminadosList = new ArrayList<>();
     private List<InstrumentoRequisito> instrumentoRequisitoList = new ArrayList<>();
     private List<Evento> eventoList = new ArrayList<>();
-    
+
     private BigDecimal insTotalPartes = BigDecimal.ZERO;
     private BigDecimal insTotalPagado = BigDecimal.ZERO;
     private BigDecimal insSaldo = BigDecimal.ZERO;
-    
+
     private String insAbogadoNombre;
     private String insTipoNombre;
-    private String insEstadoDescripcion;  
+    private String insEstadoDescripcion;
     private Boolean insEstadoFinal = Boolean.FALSE;
 
     public Instrumento(LocalDateTime insFechaEstado, String insObsEstado, String insDetalle, LocalDateTime insFechaHora, String insBoleta, String insTomo, String insEscritura, String insFolio, String insTomoAsiento, String insObservaciones, String insRutaDocumento, String insRutaDocFirmado, String insNumeroRecibo, String insAbogadoNombre, String insTipoNombre, String insEstadoDescripcion) {
@@ -74,9 +73,9 @@ public class Instrumento {
         this.insTipoNombre = insTipoNombre;
         this.insEstadoDescripcion = insEstadoDescripcion;
     }
-    
-    public Instrumento(){
-        
+
+    public Instrumento() {
+
     }
 
     public Long getInsId() {
@@ -341,5 +340,5 @@ public class Instrumento {
 
     public void setInsEstadoFinal(Boolean insEstadoFinal) {
         this.insEstadoFinal = insEstadoFinal;
-    } 
+    }
 }

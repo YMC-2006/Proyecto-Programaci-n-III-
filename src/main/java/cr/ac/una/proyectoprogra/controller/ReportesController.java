@@ -6,15 +6,21 @@ package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.model.ArchivoDto;
+import cr.ac.una.proyectoprogra.model.Cliente;
+import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
 import cr.ac.una.proyectoprogra.service.ReporteService;
+import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,8 +31,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -36,62 +45,71 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ReportesController extends Controller implements Initializable {
 
-    @FXML
-    private MFXDatePicker txtFiltroFechaInicio;
-    @FXML
-    private MFXDatePicker txtFiltroFechaFin;
-
     private final ReporteService reporteService = new ReporteService();
+
     @FXML
-    private TableView<Abogado> tblAbogados;
+    private MFXTextField txtParteElegida;
     @FXML
-    private TableColumn<Abogado, String> colNombre;
+    private RadioButton rdbCliente;
     @FXML
-    private TableColumn<Abogado, String> colCedula;
+    private ToggleGroup grupoFiltro;
     @FXML
-    private TableColumn<Abogado, String> colTelefono;
+    private RadioButton rdbAbogado;
     @FXML
-    private TableColumn<Abogado, String> colCelular;
+    private TableView<ResultadoInstrumento> tblFiltros;
     @FXML
-    private TableColumn<Abogado, String> colCorreo;
+    private TableColumn<ResultadoInstrumento, String> colEscritura;
     @FXML
-    private TableColumn<Abogado, String> colDireccion;
+    private TableColumn<ResultadoInstrumento, String> colTipo;
     @FXML
-    private TableColumn<Abogado, String> colPropietario;
+    private TableColumn<ResultadoInstrumento, LocalDateTime> colFecha;
     @FXML
-    private TableColumn<Abogado, String> colNotario;
-    
-    private Abogado abogadoSeleccionado;
+    private TableColumn<ResultadoInstrumento, String> colEstado;
+    @FXML
+    private TableColumn<ResultadoInstrumento, String> colParte;
+    @FXML
+    private TableColumn<ResultadoInstrumento, String> colAcciones;
+
+    private Long abogadoTitularId;   // id del abogado elegido en el modal de busquda
+    @FXML
+    private MFXDatePicker dpFechaInicioFiltro;
+    @FXML
+    private MFXDatePicker dpFechaFinFiltro;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Lista para mostrar el abogado seleccionado
-        tblAbogados.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS); // para que las cols se ajusten al contenido
 
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("aboNombre"));
-        colCedula.setCellValueFactory(new PropertyValueFactory<>("aboCedula"));
-        colTelefono.setCellValueFactory(new PropertyValueFactory<>("aboTelefono"));
-        colCelular.setCellValueFactory(new PropertyValueFactory<>("aboCelular"));
-        colCorreo.setCellValueFactory(new PropertyValueFactory<>("aboCorreo"));
-        colDireccion.setCellValueFactory(new PropertyValueFactory<>("aboDireccion"));
-        colPropietario.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getAboPropietario()) ? "Sí" : "No"));
-        colNotario.setCellValueFactory(data -> new SimpleStringProperty(Boolean.TRUE.equals(data.getValue().getAboNotario()) ? "Sí" : "No"));
-
-        this.tblAbogados.setPlaceholder(new Label("Busque un abogado para generar el reporte"));
+        colEscritura.setCellValueFactory(new PropertyValueFactory<>("rinEscritura"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("rinTipo"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("rinEstado"));
+        colParte.setCellValueFactory(new PropertyValueFactory<>("rinParte"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("rinFecha"));
+        colFecha.setCellFactory(columna -> new TableCell<ResultadoInstrumento, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime fecha, boolean empty) {
+                super.updateItem(fecha, empty);
+                if (empty || fecha == null) {
+                    setText(null);
+                    return;
+                }
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                setText(fecha.format(formato));
+            }
+        });
     }
 
     @Override
     public void initialize() {
-        this.tblAbogados.refresh();
+
     }
 
     @FXML
     private void btnOnActionGenerarReporteInstrumentos(ActionEvent event) {
         //Long abogadoId = 8L;   // temppp
-        Respuesta respuesta = reporteService.getReportePrueba(abogadoSeleccionado.getAboId());
+        Respuesta respuesta = reporteService.getReportePrueba(abogadoTitularId);
 
         if (!Boolean.TRUE.equals(respuesta.getEstado())) {
             mostrarError(respuesta.getMensaje());
@@ -122,15 +140,20 @@ public class ReportesController extends Controller implements Initializable {
 
     @FXML
     private void btnOnActionBuscarAbogado(ActionEvent event) {
-
         FlowController.getInstance().goViewInWindowModal("BusquedaAbogadoView", stage, Boolean.FALSE);
+        Abogado abogado = (Abogado) AppContext.getInstance().get("abogadoSeleccionado");
+        if (abogado != null) {
+            abogadoTitularId = abogado.getAboId();
+            txtParteElegida.setText(abogado.getAboNombre());
+        }
+    }
+
+    private void cargarInstrumentosDeAbogado(Abogado abogado) {
 
     }
 
-    public void cargarAbogado(Abogado abogado) {
-        abogadoSeleccionado = abogado;
-        this.tblAbogados.setItems(FXCollections.observableArrayList(abogado));
-        System.out.println("despues de presionar guardar se cargo el empleado");
+    private void cargarInstrumentosDeCliente(Cliente cliente) {
+
     }
 
     private void mostrarError(String mensaje) {

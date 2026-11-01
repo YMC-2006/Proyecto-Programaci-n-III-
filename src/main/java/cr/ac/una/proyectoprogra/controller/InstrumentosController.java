@@ -1,6 +1,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.model.Cliente;
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
 import cr.ac.una.proyectoprogra.model.Evento;
 import cr.ac.una.proyectoprogra.model.Instrumento;
@@ -199,18 +200,24 @@ public class InstrumentosController extends Controller implements Initializable 
     private InstrumentoGasto gastoEditando;   // null = agregando uno nuevo
     private Evento eventoEditando;
 
+    // ======= PARTES Y PAGOS
+    @FXML
+    private MFXTextField txtCliente;
+    @FXML
+    private ComboBox<?> cmbPartes;
+    @FXML
+    private TextField txtPartesMonto;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        
+
         txtHoraInstrumento.setTextFormatter(Formato.getInstance().maxLengthFormat(5));
         txtMostrarFechaEstado.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtTomoAsiento.setTextFormatter(Formato.getInstance().letrasFormat(30));
         txtFolio.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        txtTomoAsiento.setTextFormatter(Formato.getInstance().letrasFormat(20));
+        txtTomo.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtNumeroRecibo.setTextFormatter(Formato.getInstance().maxLengthFormat(30));
 
         txaObservacionEstado.setTextFormatter(Formato.getInstance().letrasFormat(500));
@@ -219,12 +226,11 @@ public class InstrumentosController extends Controller implements Initializable 
 
         txtMontoReal.setTextFormatter(Formato.getInstance().maxLengthFormat(15));
         txtMontoFactura.setTextFormatter(Formato.getInstance().maxLengthFormat(15));
-        
+
         txtGastoDetalle.setTextFormatter(Formato.getInstance().letrasFormat(100));
         txtGastoFactura.setTextFormatter(Formato.getInstance().letrasFormat(60));
         txtGastoMonto.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
-        
-        
+
         // El número de recibo solo se habilita si el instrumento tributa
         txtNumeroRecibo.setDisable(true);
         chkTributa.selectedProperty().addListener((obs, antes, ahora) -> {
@@ -249,19 +255,105 @@ public class InstrumentosController extends Controller implements Initializable 
 
     }
 
+    private void inicializarTablas() {
+
+        //------------------------ Eventos ----------------------------------------------
+        colEventoDetalle.setCellValueFactory(new PropertyValueFactory<>("eveDetalle"));
+        colEventoFechaHora.setCellValueFactory(new PropertyValueFactory<>("eveFechaHora"));
+        colEventoAtendido.setCellValueFactory(data -> {
+            if (Boolean.TRUE.equals(data.getValue().getEveAtendido())) {
+                return new SimpleStringProperty("Sí");
+            } else {
+                return new SimpleStringProperty("No");
+            }
+        });
+
+        colEventoAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
+        colEventoAcciones.setCellFactory(columna -> new TableCell<Evento, Evento>() {
+            private final Button btnEditar = new Button("Editar");
+            private final Button btnEliminar = new Button("Eliminar");
+            private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
+
+            {
+                btnEditar.setOnAction(e -> editarEvento(getItem()));
+                btnEliminar.setOnAction(e -> eliminarEvento(getItem()));
+            }
+
+            @Override
+            protected void updateItem(Evento evento, boolean empty) {
+                super.updateItem(evento, empty);
+                if (empty || evento == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(contenedor);
+                }
+            }
+        });
+        tblEventos.setPlaceholder(new Label("No hay eventos registrados"));
+        tblEventos.setItems(listaEventos);
+
+        //----------------------------- Requisitos ------------------------------------
+        colNumero.setCellValueFactory(new PropertyValueFactory<>("irqOrden"));
+        colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
+        colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
+
+        colEstado.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList("Cumplido", "Pendiente")));
+        colEstado.setOnEditCommit(event -> {
+
+        });
+
+        //------------------------ Gastos ----------------------------------------------
+        colGastoDetalle.setCellValueFactory(new PropertyValueFactory<>("igaDetalle"));
+        colGastoFecha.setCellValueFactory(new PropertyValueFactory<>("igaFecha"));
+        colGastoMonto.setCellValueFactory(new PropertyValueFactory<>("igaMonto"));
+        colGastoFactura.setCellValueFactory(new PropertyValueFactory<>("igaFactura"));
+        colGastoTributa.setCellValueFactory(data -> {
+            if (Boolean.TRUE.equals(data.getValue().getIgaTributa())) {
+                return new SimpleStringProperty("Sí");
+            } else {
+                return new SimpleStringProperty("No");
+            }
+        });
+        colGastoAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
+        colGastoAcciones.setCellFactory(columna -> new TableCell<InstrumentoGasto, InstrumentoGasto>() {
+            private final Button btnEditar = new Button("Editar");
+            private final Button btnEliminar = new Button("Eliminar");
+            private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
+
+            {
+                btnEditar.setOnAction(e -> editarGasto(getItem()));
+                btnEliminar.setOnAction(e -> eliminarGasto(getItem()));
+            }
+
+            @Override
+            protected void updateItem(InstrumentoGasto gasto, boolean empty) {
+                super.updateItem(gasto, empty);
+                if (empty || gasto == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(contenedor);
+                }
+            }
+        });
+
+        tblGastos.setPlaceholder(new Label("No hay gastos registrados por el momento"));
+        tblGastos.setItems(listaGastos);
+
+    }
+
     @Override
     public void initialize() {
         revisarPermisos();
         configurarComboBoxes();
         //inicializarTablas();
-        
+
         Long instrumentoId = (Long) AppContext.getInstance().get("instrumentoSeleccionado");
         if (instrumentoId == null) {
             return;
         }
 
         Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
-        if (respuesta.getEstado()) {
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             cargarInstrumento(instrumentoActual);
             revisarPermisos();
@@ -270,6 +362,7 @@ public class InstrumentosController extends Controller implements Initializable 
         }
     }
 
+    // =================== REQUISITOS ==============================
     private void cargarTablaRequisitos() {
         tblRequisitos.getItems().clear();
         tabRequisitos.setDisable(false);
@@ -390,6 +483,10 @@ public class InstrumentosController extends Controller implements Initializable 
             return;
         }
 
+        if (observacionEstado == null) {
+            System.out.println("La observacion del estado viene vacido");
+        }
+
         if (fecha == null) {
             mostrarError("Seleccione la fecha del instrumento");
             dpFechaInstrumento.requestFocus();
@@ -424,19 +521,23 @@ public class InstrumentosController extends Controller implements Initializable 
 
         // modo crear
         Instrumento instrumento;
+
         if (instrumentoEsNuevo) {
             instrumento = new Instrumento();
             instrumento.setInsBufeteId(bufeteCarga());
             instrumento.setInsTipoId(tipo.getTinId());
-            instrumento.setInsEstadoId(estado.getEinId());
         } else { // modo editar cuando ya cargue el inst
             instrumento = instrumentoActual;
-            cmbEstado.setDisable(true);
+            if (instrumentoActual.getInsFechaEstado() != null) {
+                txtMostrarFechaEstado.setText(instrumentoActual.getInsFechaEstado().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            }
             cmbTipoInstrumento.setDisable(true);
+
         }
 
         instrumento.setInsAbogadoId(abogadoTitularId);
-        instrumento.setInsObsEstado(txaObservacionEstado.getText());
+        instrumento.setInsEstadoId(estado.getEinId());
+        instrumento.setInsObsEstado(txaObservacionEstado.getText().trim());
         instrumento.setInsFechaHora(LocalDateTime.of(fecha, hora));
         instrumento.setInsBoleta(txtNumeroBoleta.getText().trim());
         instrumento.setInsEscritura(txtEscritura.getText().trim());
@@ -450,9 +551,11 @@ public class InstrumentosController extends Controller implements Initializable 
         instrumento.setInsTributa(chkTributa.isSelected());
         instrumento.setInsNumeroRecibo(txtNumeroRecibo.getText().trim());
         instrumento.setInsMontoReal(montoReal);
+
         instrumento.setInsMontoFacturado(montoFacturado);
 
         Respuesta respuesta = instrumentoService.guardarInstrumento(instrumento);
+
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             if (instrumentoEsNuevo) {
@@ -550,13 +653,13 @@ public class InstrumentosController extends Controller implements Initializable 
         FlowController.getInstance().limpiarLoader("InstrumentosBusquedaView");
         FlowController.getInstance().goViewInWindowModal("InstrumentosBusquedaView", stage, Boolean.FALSE);
         AppContext.getInstance().delete("busquedaModal");
-        
+
         Long instrumentoId = (Long) AppContext.getInstance().get("instrumentoSeleccionado");
         if (instrumentoId == null) {
             return;
         }
-        
-         Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
+
+        Respuesta respuesta = instrumentoService.getInstrumento(instrumentoId);
         if (respuesta.getEstado()) {
             instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
             cargarInstrumento(instrumentoActual);
@@ -582,7 +685,7 @@ public class InstrumentosController extends Controller implements Initializable 
             }
         }
         cmbTipoInstrumento.setDisable(true);
-        cmbEstado.setDisable(true);
+
         txtAbogadoTitular.setText(inst.getInsAbogadoNombre());
 
         dpFechaInstrumento.setValue(inst.getInsFechaHora().toLocalDate());
@@ -634,12 +737,12 @@ public class InstrumentosController extends Controller implements Initializable 
         }
 
         // revisar los campos que pueden ir vacidos
-        if(factura.isEmpty()){
+        if (factura.isEmpty()) {
             mostrarError("El campo de factura no puede estar vacido");
             txtGastoFactura.requestFocus();
             return;
         }
-        
+
         if (fecha == null) {
             mostrarError("Ingrese una fecha");
             dpGastoFecha.requestFocus();
@@ -678,6 +781,50 @@ public class InstrumentosController extends Controller implements Initializable 
         cargarTablaGastos();
     }
 
+    private void cargarTablaGastos() {
+        listaGastos.clear();
+        if (instrumentoActual == null) {
+            return;
+        }
+        //ID buf actual
+        Respuesta respuesta = instrumentoGastoService.getGastos(bufeteCarga(), instrumentoActual.getInsId(), null, null);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<InstrumentoGasto> gastos = (List<InstrumentoGasto>) respuesta.getResultado("InstrumentosGastos");
+            if (gastos != null) {
+                listaGastos.setAll(gastos);
+            }
+        } else {
+            mostrarError("Error cargando los gastos: " + respuesta.getMensaje());
+        }
+    }
+
+    private void editarGasto(InstrumentoGasto gasto) {
+        gastoEditando = gasto;
+        txtGastoDetalle.setText(gasto.getIgaDetalle());
+        dpGastoFecha.setValue(gasto.getIgaFecha());
+        txtGastoMonto.setText(gasto.getIgaMonto().toPlainString());
+        txtGastoFactura.setText(gasto.getIgaFactura());
+        chkGastoTributa.setSelected(Boolean.TRUE.equals(gasto.getIgaTributa()));
+        btnAgregarGasto.setText("Guardar cambios");
+    }
+
+    private void eliminarGasto(InstrumentoGasto gasto) {
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el gasto \"" + gasto.getIgaDetalle() + "\"?", ButtonType.YES, ButtonType.NO);
+        confirmar.setHeaderText(null);
+        if (confirmar.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) {
+            return;
+        }
+
+        Respuesta respuesta = instrumentoGastoService.eliminarGasto(bufeteCarga(), gasto.getIgaId());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Gasto eliminado correctamente");
+            limpiarCamposGasto();   // por si estaba editando ese mismo gasto
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+    }
+
+    // ================== TAB EVENTOS ========================================
     @FXML
     private void onActionBtnAgregarEvento(ActionEvent event) {
 
@@ -776,136 +923,6 @@ public class InstrumentosController extends Controller implements Initializable 
         }
     }
 
-    private void inicializarTablas() {
-
-        //------------------------ Eventos ----------------------------------------------
-        colEventoDetalle.setCellValueFactory(new PropertyValueFactory<>("eveDetalle"));
-        colEventoFechaHora.setCellValueFactory(new PropertyValueFactory<>("eveFechaHora"));
-        colEventoAtendido.setCellValueFactory(data -> {
-            if (Boolean.TRUE.equals(data.getValue().getEveAtendido())) {
-                return new SimpleStringProperty("Sí");
-            } else {
-                return new SimpleStringProperty("No");
-            }
-        });
-
-        colEventoAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
-        colEventoAcciones.setCellFactory(columna -> new TableCell<Evento, Evento>() {
-            private final Button btnEditar = new Button("Editar");
-            private final Button btnEliminar = new Button("Eliminar");
-            private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
-
-            {
-                btnEditar.setOnAction(e -> editarEvento(getItem()));
-                btnEliminar.setOnAction(e -> eliminarEvento(getItem()));
-            }
-
-            @Override
-            protected void updateItem(Evento evento, boolean empty) {
-                super.updateItem(evento, empty);
-                if (empty || evento == null) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(contenedor);
-                }
-            }
-        });
-        tblEventos.setPlaceholder(new Label("No hay eventos registrados"));
-        tblEventos.setItems(listaEventos);
-
-        //----------------------------- Requisitos ------------------------------------
-        colNumero.setCellValueFactory(new PropertyValueFactory<>("irqOrden"));
-        colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
-
-        colEstado.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList("Cumplido", "Pendiente")));
-        colEstado.setOnEditCommit(event -> {
-
-        });
-
-        //------------------------ Gastos ----------------------------------------------
-        colGastoDetalle.setCellValueFactory(new PropertyValueFactory<>("igaDetalle"));
-        colGastoFecha.setCellValueFactory(new PropertyValueFactory<>("igaFecha"));
-        colGastoMonto.setCellValueFactory(new PropertyValueFactory<>("igaMonto"));
-        colGastoFactura.setCellValueFactory(new PropertyValueFactory<>("igaFactura"));
-        colGastoTributa.setCellValueFactory(data -> {
-            if (Boolean.TRUE.equals(data.getValue().getIgaTributa())) {
-                return new SimpleStringProperty("Sí");
-            } else {
-                return new SimpleStringProperty("No");
-            }
-        });
-        colGastoAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
-        colGastoAcciones.setCellFactory(columna -> new TableCell<InstrumentoGasto, InstrumentoGasto>() {
-            private final Button btnEditar = new Button("Editar");
-            private final Button btnEliminar = new Button("Eliminar");
-            private final HBox contenedor = new HBox(5, btnEditar, btnEliminar);
-
-            {
-                btnEditar.setOnAction(e -> editarGasto(getItem()));
-                btnEliminar.setOnAction(e -> eliminarGasto(getItem()));
-            }
-
-            @Override
-            protected void updateItem(InstrumentoGasto gasto, boolean empty) {
-                super.updateItem(gasto, empty);
-                if (empty || gasto == null) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(contenedor);
-                }
-            }
-        });
-
-        tblGastos.setPlaceholder(new Label("No hay gastos registrados por el momento"));
-        tblGastos.setItems(listaGastos);
-
-    }
-
-    //============== cargar tablas
-    private void cargarTablaGastos() {
-        listaGastos.clear();
-        if (instrumentoActual == null) {
-            return;
-        }
-        //ID buf actual
-        Respuesta respuesta = instrumentoGastoService.getGastos(bufeteCarga(), instrumentoActual.getInsId(), null, null);
-        if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            List<InstrumentoGasto> gastos = (List<InstrumentoGasto>) respuesta.getResultado("InstrumentosGastos");
-            if (gastos != null) {
-                listaGastos.setAll(gastos);
-            }
-        } else {
-            mostrarError("Error cargando los gastos: " + respuesta.getMensaje());
-        }
-    }
-
-    private void editarGasto(InstrumentoGasto gasto) {
-        gastoEditando = gasto;
-        txtGastoDetalle.setText(gasto.getIgaDetalle());
-        dpGastoFecha.setValue(gasto.getIgaFecha());
-        txtGastoMonto.setText(gasto.getIgaMonto().toPlainString());
-        txtGastoFactura.setText(gasto.getIgaFactura());
-        chkGastoTributa.setSelected(Boolean.TRUE.equals(gasto.getIgaTributa()));
-        btnAgregarGasto.setText("Guardar cambios");
-    }
-
-    private void eliminarGasto(InstrumentoGasto gasto) {
-        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el gasto \"" + gasto.getIgaDetalle() + "\"?", ButtonType.YES, ButtonType.NO);
-        confirmar.setHeaderText(null);
-        if (confirmar.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) {
-            return;
-        }
-
-        Respuesta respuesta = instrumentoGastoService.eliminarGasto(bufeteCarga(), gasto.getIgaId());
-        if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            mostrarExito("Gasto eliminado correctamente");
-            limpiarCamposGasto();   // por si estaba editando ese mismo gasto
-        } else {
-            mostrarError(respuesta.getMensaje());
-        }
-    }
-
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
@@ -917,5 +934,27 @@ public class InstrumentosController extends Controller implements Initializable 
         alert.setHeaderText(null);
         alert.showAndWait();
     }
-    
+
+    // ==================== PARTES Y PAGOS ================
+    @FXML
+    private void onActionBtnBuscarCliente(ActionEvent event) {
+
+        AppContext.getInstance().delete("clienteSeleccionado");
+        FlowController.getInstance().goViewInWindowModal("BuscarClienteView", stage, Boolean.FALSE);
+
+        Cliente cliente = (Cliente) AppContext.getInstance().get("clienteSeleccionado");
+        if (cliente != null) {
+            txtCliente.setText(cliente.getCliNombre() + cliente.getCliApellido1() + cliente.getCliApellido2());
+            AppContext.getInstance().delete("clienteSeleccionado");
+        }
+    }
+
+    @FXML
+    private void onActionBtnAgregarPartes(ActionEvent event) {
+    }
+
+    @FXML
+    private void onActionBtnRegistrarPago(ActionEvent event) {
+    }
+
 }

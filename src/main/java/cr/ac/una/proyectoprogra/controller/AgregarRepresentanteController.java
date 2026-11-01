@@ -68,13 +68,13 @@ public class AgregarRepresentanteController extends Controller implements Initia
     private TableColumn<SociedadRepresentanteDto, String> colCargo;
     @FXML
     private TableColumn<SociedadRepresentanteDto, SociedadRepresentanteDto> colAcciones;
-    
+
     private List<SociedadRepresentanteDto> todosLosRepresentantes = new ArrayList<>();
     private ObservableList<SociedadRepresentanteDto> listaRepresentantes = FXCollections.observableArrayList();
     private SociedadService sociedadService = new SociedadService();
     private ClienteService clienteService = new ClienteService();
     private Long clienteRepresentanteId;
-    
+
     SociedadDto sociedad;
     private SociedadRepresentanteDto representanteEditando;
     UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
@@ -87,144 +87,144 @@ public class AgregarRepresentanteController extends Controller implements Initia
     public void initialize(URL url, ResourceBundle rb) {
         sociedad = (SociedadDto) AppContext.getInstance().get("sociedadRepresentantes");
         colAcciones.setCellFactory(col -> new TableCell<SociedadRepresentanteDto, SociedadRepresentanteDto>() {
- 
+
             private final Button btnEditar = new Button();
             private final Button btnEliminar = new Button();
             private final HBox contenedor = new HBox();
- 
+
             {
- 
+
                 ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
                 iconoEliminar.setFitHeight(30);
                 iconoEliminar.setFitWidth(30);
- 
+
                 ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
                 iconoEditar.setFitHeight(30);
                 iconoEditar.setFitWidth(30);
- 
+
                 btnEliminar.setGraphic(iconoEliminar);
                 btnEditar.setGraphic(iconoEditar);
- 
+
                 btnEliminar.setMinWidth(30);
                 btnEditar.setMinWidth(30);
- 
+
                 btnEliminar.setStyle("-fx-background-color: transparent;");
                 btnEditar.setStyle("-fx-background-color: transparent;");
- 
+
                 contenedor.setStyle("-fx-alignment: CENTER;");
                 contenedor.setSpacing(10);
- 
+
                 btnEliminar.setOnAction(e -> {
                     SociedadRepresentanteDto representante = getItem();
                     eliminarRepresentantes(representante);
                 });
- 
+
                 btnEditar.setOnAction(e -> {
                     SociedadRepresentanteDto representante = getItem();
                     modificarRepresentante(representante);
                 });
             }
- 
+
             @Override
             protected void updateItem(SociedadRepresentanteDto representante, boolean empty) {
                 super.updateItem(representante, empty);
- 
+
                 if (empty || representante == null) {
                     setGraphic(null);
                     return;
                 }
- 
+
                 contenedor.getChildren().clear();
                 contenedor.getChildren().add(btnEliminar);
                 contenedor.getChildren().add(btnEditar);
                 setGraphic(contenedor);
             }
- 
+
         });
- 
+
         tblRepresentantes.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
- 
+
         colNombre.setCellValueFactory(new PropertyValueFactory<>("sreNombre"));
         colCargo.setCellValueFactory(new PropertyValueFactory<>("sreCargo"));
         colCedula.setCellValueFactory(new PropertyValueFactory<>("sreCedula"));
- 
+
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
- 
+
         this.tblRepresentantes.setPlaceholder(new Label("No hay representantes agregados por el momento"));
- 
+
         tblRepresentantes.setItems(listaRepresentantes);
         cargarTabla();
-    } 
-    
+    }
+
     private void cargarTabla() {
-        if(sociedad != null && sociedad.getSociedadRepresentanteList() != null){
+        if (sociedad != null && sociedad.getSociedadRepresentanteList() != null) {
             todosLosRepresentantes = sociedad.getSociedadRepresentanteList();
             listaRepresentantes.setAll(todosLosRepresentantes);
-        }else{
+        } else {
             listaRepresentantes.clear();
         }
     }
-    
+
     private void eliminarRepresentantes(SociedadRepresentanteDto representante) {
- 
+
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmación");
         alerta.setHeaderText(null);
-        alerta.setContentText("\n Desea eliminar a " + representante.getSreNombre()+ " permanentemente?");
- 
+        alerta.setContentText("\n Desea eliminar a " + representante.getSreNombre() + " permanentemente?");
+
         ButtonType btnEliminar = new ButtonType("Eliminar", ButtonBar.ButtonData.OK_DONE);
         ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
         alerta.getButtonTypes().setAll(btnEliminar, btnCancelar);
- 
+
         Button botonCancelar = (Button) alerta.getDialogPane().lookupButton(btnCancelar);
         Button botonEliminar = (Button) alerta.getDialogPane().lookupButton(btnEliminar);
- 
+
         botonCancelar.setDefaultButton(true);
         botonEliminar.setDefaultButton(false);
- 
+
         Optional<ButtonType> respuestaDialogo = alerta.showAndWait();
- 
+
         if (respuestaDialogo.isPresent() && respuestaDialogo.get() == btnEliminar) {
             todosLosRepresentantes.remove(representante);
             sociedad.getSociedadRepresentanteEliminadosList().add(representante);
             listaRepresentantes.setAll(todosLosRepresentantes);
             Respuesta respuesta = sociedadService.guardarSociedad(sociedad);
- 
+
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
- 
+
                 mostrarExito("Se elimino correctamente el representante");
                 cargarTabla();
             } else {
                 mostrarError(respuesta.getMensaje());
             }
         }
- 
+
     }
-    
+
     private void modificarRepresentante(SociedadRepresentanteDto representante) {
         representanteEditando = representante;
         txtNombre.setText(representante.getSreNombre());
         txtCedula.setText(representante.getSreCedula());
         txtNombre.setEditable(false);
         txtCedula.setEditable(false);
-        
+
         txtCargo.setText(representante.getSreCargo());
         txtCargo.requestFocus();
         this.btnAgregar.setText("Guardar");
     }
-    
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
- 
+
     private void mostrarExito(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
-    
+
     private void limpiarCampos() {
         representanteEditando = null;
         clienteRepresentanteId = null;
@@ -236,11 +236,11 @@ public class AgregarRepresentanteController extends Controller implements Initia
         representanteEditando = null;
         this.btnAgregar.setText("Guardar");
     }
-    
+
     public void cargarCliente(Cliente cliente) {
-        if(cliente != null){
+        if (cliente != null) {
             clienteRepresentanteId = cliente.getCliId();
-            txtNombre.setText(cliente.getCliNombre()+" " +cliente.getCliApellido1());
+            txtNombre.setText(cliente.getCliNombre() + " " + cliente.getCliApellido1());
             txtCedula.setText(cliente.getCliIdentificacion());
             txtCargo.requestFocus();
         }
@@ -269,7 +269,7 @@ public class AgregarRepresentanteController extends Controller implements Initia
             txtNombre.requestFocus();
             return;
         }
-        
+
         if (cargo.isBlank()) {
             mostrarError(FlowController.getIdioma().getString("socRepresentante.error.cargo"));
             txtCargo.requestFocus();
@@ -285,7 +285,7 @@ public class AgregarRepresentanteController extends Controller implements Initia
             representante.setSreId(null);
             representante.setSreClienteId(clienteRepresentanteId);
             representante.setSreSociedadId(sociedad.getSocId());
-            
+
             sociedad.getSociedadRepresentanteList().add(representante);
             Respuesta respuesta = sociedadService.guardarSociedad(sociedad);
 
@@ -301,7 +301,7 @@ public class AgregarRepresentanteController extends Controller implements Initia
         } else {
             String cargoAnterior = representanteEditando.getSreCargo();
             representanteEditando.setSreCargo(cargo);
-            
+
             Respuesta respuesta = sociedadService.guardarSociedad(sociedad);
 
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
@@ -316,12 +316,18 @@ public class AgregarRepresentanteController extends Controller implements Initia
 
     @Override
     public void initialize() {
-        
+
     }
 
     @FXML
     private void btnOnActionBuscarCliente(ActionEvent event) {
-        FlowController.getInstance().goViewInWindowModal("BuscarClienteView", stage, Boolean.FALSE);
+        AppContext.getInstance().delete("clienteSeleccionado");
+        FlowController.getInstance().goViewInWindowModal("BuscarClienteView", getStage(), false);
+
+        Cliente cliente = (Cliente) AppContext.getInstance().get("clienteSeleccionado");
+        if (cliente != null) {
+            cargarCliente(cliente);
+        }
     }
-    
+
 }

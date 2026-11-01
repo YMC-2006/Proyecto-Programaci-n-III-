@@ -2,12 +2,17 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -25,62 +30,78 @@
                         <Label styleClass="titlCard" text="Reportes generados con jasper reports sobre intrumentos, contabilidad, etc..." />
                      </children>
                   </VBox>
-                  <HBox prefHeight="79.0" prefWidth="408.0" styleClass="hboxI">
-                     <children>
-                        <MFXDatePicker fx:id="txtFiltroFechaInicio" prefWidth="241.0" promptText="Inicio" styleClass="loginTextField" />
-                        <MFXDatePicker fx:id="txtFiltroFechaFin" prefWidth="241.0" promptText="Fin" styleClass="loginTextField" />
-                     </children>
-                  </HBox>
+                  <HBox prefHeight="79.0" prefWidth="408.0" styleClass="hboxI" />
                </children>
             </HBox>
-            <VBox prefHeight="516.0" prefWidth="1002.0">
+            <VBox prefHeight="798.0" prefWidth="1343.0">
                <children>
-                  <TabPane prefHeight="518.0" prefWidth="1002.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane prefHeight="806.0" prefWidth="1343.0" tabClosingPolicy="UNAVAILABLE">
                      <tabs>
                         <Tab text="Reporte Instrumentos">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="639.0" prefWidth="1215.0">
                                  <children>
-                                    <VBox prefHeight="438.0" prefWidth="1343.0">
+                                    <VBox prefHeight="738.0" prefWidth="1343.0">
                                        <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+                                          <HBox prefHeight="193.0" prefWidth="1343.0" spacing="40.0" styleClass="hbox">
                                              <children>
-                                                <Label styleClass="titl2" text="Generar reporte " />
-                                                <MFXButton onAction="#btnOnActionBuscarAbogado" styleClass="btnW" text="Buscar Abogado" />
+                                                <MFXTextField fx:id="txtParteElegida" allowEdit="false" prefWidth="335.0" text="Busque un Abogado Titular" />
+                                                <MFXButton minHeight="40.0" onAction="#btnOnActionBuscarAbogado" prefHeight="46.0" prefWidth="31.0" styleClass="btnW" text=" ">
+                                                   <graphic>
+                                                      <ImageView fitHeight="56.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                                                         <image>
+                                                            <Image url="@../resource/iconos_sicobu/buscar.png" />
+                                                         </image>
+                                                      </ImageView>
+                                                   </graphic></MFXButton>
+                                                <MFXDatePicker fx:id="dpFechaInicioFiltro" prefWidth="241.0" promptText="Inicio" styleClass="loginTextField" />
+                                                <MFXDatePicker fx:id="dpFechaFinFiltro" prefWidth="241.0" promptText="Fin" styleClass="loginTextField" />
+                                                <VBox prefHeight="124.0" prefWidth="135.0" styleClass="vbox">
+                                                   <children>
+                                                      <Label text="Eliga" />
+                                                      <RadioButton fx:id="rdbCliente" mnemonicParsing="false" styleClass="rdbFiltro" text="Cliente">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="grupoFiltro" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="rdbAbogado" mnemonicParsing="false" styleClass="rdbFiltro" text="Abogado" toggleGroup="$grupoFiltro" />
+                                                   </children>
+                                                </VBox>
+                                                <MFXButton onAction="#btnOnActionGenerarReporteInstrumentos" prefHeight="46.0" prefWidth="197.0" styleClass="btnNS" text="Generar reporte">
+                                                   <graphic>
+                                                      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                         <styleClass>
+                                                            <String fx:value="btnImg" />
+                                                            <String fx:value="guardar" />
+                                                         </styleClass>
+                                                      </ImageView>
+                                                   </graphic>
+                                                </MFXButton>
                                              </children>
                                           </HBox>
-                                          <VBox prefHeight="151.0" prefWidth="1102.0" styleClass="cardRegistroAbo">
+                                          <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="550.0" prefWidth="1343.0" VBox.vgrow="ALWAYS">
                                              <children>
-                                                <TableView fx:id="tblAbogados" prefHeight="126.0" prefWidth="1102.0" styleClass="tblAbogados">
+                                                <TableView fx:id="tblFiltros" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="491.0" prefWidth="1750.0" styleClass="tabla" VBox.vgrow="ALWAYS">
                                                    <columns>
-                                                      <TableColumn fx:id="colNombre" prefWidth="171.1999832391739" text="%abog.nombre" />
-                                                      <TableColumn fx:id="colCedula" prefWidth="152.80001831054688" text="%abog.cedula" />
-                                                      <TableColumn fx:id="colTelefono" prefWidth="167.199951171875" text="%abog.telefono" />
-                                                      <TableColumn fx:id="colCelular" prefWidth="175.99993896484375" text="%abog.celular" />
-                                                      <TableColumn fx:id="colCorreo" prefWidth="160.0" text="%abog.correo" />
-                                                      <TableColumn fx:id="colDireccion" prefWidth="164.0" text="%abog.dir" />
-                                                      <TableColumn fx:id="colPropietario" minWidth="0.0" prefWidth="155.2000732421875" text="%abog.propietario" />
-                                                      <TableColumn fx:id="colNotario" minWidth="0.0" prefWidth="143.9998779296875" text="%abog.notario" />
+                                                      <TableColumn fx:id="colEscritura" prefWidth="264.00002133846283" text="%bin.escritura" />
+                                                      <TableColumn fx:id="colTipo" prefWidth="226.4000244140625" text="%bin.tipo" />
+                                                      <TableColumn fx:id="colFecha" prefWidth="199.19992065429688" text="%bin.fecha" />
+                                                      <TableColumn fx:id="colEstado" prefWidth="193.60003662109375" text="%bin.estado" />
+                                                      <TableColumn fx:id="colParte" prefWidth="224.7999267578125" text="%bin.parte" />
+                                                      <TableColumn fx:id="colAcciones" minWidth="0.0" prefWidth="152.800048828125" text=" " />
                                                    </columns>
+                                                   <VBox.margin>
+                                                      <Insets left="50.0" right="50.0" />
+                                                   </VBox.margin>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
                                                 </TableView>
                                              </children>
                                           </VBox>
-                                          <VBox prefHeight="190.0" prefWidth="1102.0">
+                                          <VBox prefHeight="139.0" prefWidth="1343.0">
                                              <children>
-                                                <HBox prefHeight="359.0" prefWidth="1102.0" styleClass="hbox">
-                                                   <children>
-                                                      <MFXButton onAction="#btnOnActionGenerarReporteInstrumentos" styleClass="btnNS" text="Generar reporte instrumentos">
-                                                         <graphic>
-                                                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                               <styleClass>
-                                                                  <String fx:value="btnImg" />
-                                                                  <String fx:value="guardar" />
-                                                               </styleClass>
-                                                            </ImageView>
-                                                         </graphic>
-                                                      </MFXButton>
-                                                   </children>
-                                                </HBox>
+                                                <HBox prefHeight="359.0" prefWidth="1102.0" styleClass="hbox" />
                                              </children>
                                           </VBox>
                                        </children>

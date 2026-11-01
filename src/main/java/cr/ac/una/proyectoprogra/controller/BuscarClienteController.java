@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -63,11 +64,11 @@ public class BuscarClienteController extends Controller implements Initializable
     private TableColumn<Cliente, String> colCedula;
     @FXML
     private TableColumn<Cliente, String> colOcupacion;
-    
+
     private ClienteService clienteService = new ClienteService();
     private ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
     private List<Cliente> todosLosClientes = new ArrayList<>();
-    
+
     private Cliente clienteSeleccionado;
 
     /**
@@ -81,26 +82,40 @@ public class BuscarClienteController extends Controller implements Initializable
         colCedula.setCellValueFactory(new PropertyValueFactory<>("cliCedula"));
         colApellido1.setCellValueFactory(new PropertyValueFactory<>("cliApellido1"));
         colApellido2.setCellValueFactory(new PropertyValueFactory<>("cliApellido2"));
+        colCedula.setCellValueFactory(new PropertyValueFactory<>("cliIdentificacion"));
         colOcupacion.setCellValueFactory(new PropertyValueFactory<>("cliOcupacion"));
 
         this.tblClientes.setPlaceholder(new Label("Busque con los filtros un cliente para cargarlo"));
         tblClientes.setItems(listaClientes);
+
+        // para que se cargue con doble click
+        tblClientes.setRowFactory(tabla -> {
+            TableRow<Cliente> fila = new TableRow<>();
+            fila.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2 && !fila.isEmpty()) {
+                    tblClientes.getSelectionModel().select(fila.getItem());
+                    btnOnActionCargarCliente(null);
+                }
+            });
+            return fila;
+        });
+
         cargarTabla();
-    }  
-    
-    private void cargarTabla(){
+    }
+
+    private void cargarTabla() {
         UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
         Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = clienteService.getClientes(null, null, null, null, null, bufeteId);
-        if(Boolean.TRUE.equals(respuesta.getEstado())){
-           List<Cliente> clientesService = (List<Cliente>) respuesta.getResultado("Clientes");
-           todosLosClientes = clientesService;
-           filtrar();
-        }else{
-            new Mensaje().show(Alert.AlertType.ERROR, "Abogados", "Error cargando los clientes desde el service" + respuesta.getMensaje());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<Cliente> clientesService = (List<Cliente>) respuesta.getResultado("Clientes");
+            todosLosClientes = clientesService;
+            filtrar();
+        } else {
+            new Mensaje().show(Alert.AlertType.ERROR, "Clientes", "Error cargando los clientes desde el service " + respuesta.getMensaje());
         }
     }
-    
+
     private void filtrar() {
         String nombre = txtBuscarNombre.getText().trim().toLowerCase();
         String cedula = txtBuscarCedula.getText().trim().toLowerCase();
@@ -118,7 +133,7 @@ public class BuscarClienteController extends Controller implements Initializable
 
         listaClientes.setAll(filtrados);
     }
-    
+
     private boolean contiene(String dato, String buscado) {
         if (buscado.isEmpty()) {
             return true;
@@ -126,18 +141,17 @@ public class BuscarClienteController extends Controller implements Initializable
 
         return dato != null && dato.toLowerCase().contains(buscado); // devuelve true entonces lo contiene
     }
-    
-    private void seleccionarCliente(Long id){
-        for(Cliente cliente: listaClientes){
-            if(cliente.getCliId().equals(id)){
-                tblClientes.getSelectionModel().select(cliente);
-            }
-        }
-    }
 
     @Override
     public void initialize() {
-        
+        clienteSeleccionado = null;
+        txtBuscarNombre.clear();
+        txtBuscarApellido1.clear();
+        txtBuscarApellido2.clear();
+        txtBuscarCedula.clear();
+        txtBuscarOcupacion.clear();
+        tblClientes.getSelectionModel().clearSelection();
+        cargarTabla();
     }
 
     @FXML
@@ -148,29 +162,21 @@ public class BuscarClienteController extends Controller implements Initializable
     @FXML
     private void btnOnActionCargarCliente(ActionEvent event) {
         clienteSeleccionado = tblClientes.getSelectionModel().getSelectedItem();
-        
-        if(clienteSeleccionado == null){
-            mostrarError("Seleccione un abogado para cargarlo en la tabla");
+
+        if (clienteSeleccionado == null) {
+            mostrarError("Seleccione un cliente para cargarlo");
             return;
         }
-        
-        AgregarRepresentanteController representanteController = (AgregarRepresentanteController) FlowController.getInstance().getController("AgregarRepresentanteView");
-        representanteController.cargarCliente(clienteSeleccionado);
-        System.out.println("se seleccio " + clienteSeleccionado.getCliNombre());
+
+        System.out.println("se selecciono " + clienteSeleccionado.getCliNombre());
         AppContext.getInstance().set("clienteSeleccionado", clienteSeleccionado);
-        ((Stage)btnBuscar.getScene().getWindow()).close();
+        ((Stage) btnBuscar.getScene().getWindow()).close();
     }
-    
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
 
-    private void mostrarExito(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-    
 }

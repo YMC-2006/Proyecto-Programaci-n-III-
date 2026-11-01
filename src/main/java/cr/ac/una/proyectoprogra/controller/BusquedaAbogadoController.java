@@ -28,6 +28,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -78,7 +79,7 @@ public class BusquedaAbogadoController extends Controller implements Initializab
 
     private final String[] filtroPropietario = {"Todos", "Sí", "No"};
     private final String[] filtroNotario = {"Todos", "Sí", "No"};
-    
+
     private Abogado abogadoSeleccionado;
 
     /**
@@ -107,21 +108,34 @@ public class BusquedaAbogadoController extends Controller implements Initializab
         this.tblAbogados.setPlaceholder(new Label("Busque con los filtros un abogado para cargarlo"));
         tblAbogados.setItems(listaAbogados);
         cargarTabla();
+
+        
+        // para que se cargue con doble click
+        tblAbogados.setRowFactory(tabla -> {
+            TableRow<Abogado> fila = new TableRow<>();
+            fila.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2 && !fila.isEmpty()) {
+                    tblAbogados.getSelectionModel().select(fila.getItem());
+                    btnOnActionCargarAbogado(null);
+                }
+            });
+            return fila;
+        });
     }
 
-    private void cargarTabla(){
+    private void cargarTabla() {
         UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
         Long bufeteId = usuarioSesion.getUsrBufeteId();
         Respuesta respuesta = abogadoService.getAbogados(null, null, null, null, null, bufeteId);
-        if(Boolean.TRUE.equals(respuesta.getEstado())){
-           List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
-           todosLosAbogados = abogadosService;
-           filtrar();
-        }else{
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            List<Abogado> abogadosService = (List<Abogado>) respuesta.getResultado("Abogados");
+            todosLosAbogados = abogadosService;
+            filtrar();
+        } else {
             new Mensaje().show(Alert.AlertType.ERROR, "Abogados", "Error cargando los abogados desde el service" + respuesta.getMensaje());
         }
     }
-    
+
     private void filtrar() {
         String nombre = txtBuscarNombre.getText().trim().toLowerCase();
         String cedula = txtBuscarCedula.getText().trim().toLowerCase();
@@ -137,7 +151,7 @@ public class BusquedaAbogadoController extends Controller implements Initializab
 
         listaAbogados.setAll(filtrados);
     }
-    
+
     private boolean contiene(String dato, String buscado) {
         if (buscado.isEmpty()) {
             return true;
@@ -155,16 +169,16 @@ public class BusquedaAbogadoController extends Controller implements Initializab
         boolean esSi = Boolean.TRUE.equals(valor);
         return num == 1 ? esSi : !esSi;
     }
-    
-    private void seleccionarAbogado(Long id){
-        for(Abogado abogado: listaAbogados){
-            if(abogado.getAboId().equals(id)){
+
+    private void seleccionarAbogado(Long id) {
+        for (Abogado abogado : listaAbogados) {
+            if (abogado.getAboId().equals(id)) {
                 tblAbogados.getSelectionModel().select(abogado);
                 // cargar abogado
             }
         }
     }
-    
+
     @FXML
     private void onKeyReleasedFiltrar(KeyEvent event) {
         filtrar();
@@ -175,29 +189,33 @@ public class BusquedaAbogadoController extends Controller implements Initializab
         filtrar();
     }
 
-
     @Override
     public void initialize() {
-
+        abogadoSeleccionado = null;
+        txtBuscarNombre.clear();
+        txtBuscarCedula.clear();
+        txtBuscarCorreo.clear();
+        cmbFiltroPropietario.getSelectionModel().selectFirst();
+        cmbFiltroNotario.getSelectionModel().selectFirst();
+        tblAbogados.getSelectionModel().clearSelection();
+        cargarTabla();
     }
 
     @FXML
     private void btnOnActionCargarAbogado(ActionEvent event) {
-        
+
         abogadoSeleccionado = tblAbogados.getSelectionModel().getSelectedItem();
-        
-        if(abogadoSeleccionado == null){
+
+        if (abogadoSeleccionado == null) {
             mostrarError("Seleccione un abogado para cargarlo en la tabla");
             return;
         }
-        
-        ReportesController reporteController = (ReportesController) FlowController.getInstance().getController("ReportesView");
-        reporteController.cargarAbogado(abogadoSeleccionado);
+
         System.out.println("se seleccio " + abogadoSeleccionado.getAboNombre());
         AppContext.getInstance().set("abogadoSeleccionado", abogadoSeleccionado);
-        ((Stage)btnBuscar.getScene().getWindow()).close();
+        ((Stage) btnBuscar.getScene().getWindow()).close();
     }
-    
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);

@@ -25,7 +25,7 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
             </VBox>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="170.0" prefWidth="1214.0" styleClass="panelRedondo" VBox.vgrow="ALWAYS">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="328.0" prefWidth="1214.0" styleClass="panelRedondo" VBox.vgrow="ALWAYS">
                <children>
                   <HBox prefHeight="210.0" prefWidth="1214.0">
                      <children>
@@ -40,7 +40,7 @@
                         </MFXScrollPane>
                         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="414.0">
+                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="414.0" styleClass="hboxIcon">
                                  <children>
                                     <MFXButton fx:id="btnAgregarFiltro" minHeight="35.0" onAction="#onActionBtnAgregarFiltro" prefHeight="35.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregarFiltro">
                                        <graphic>
@@ -57,7 +57,7 @@
                                     </MFXButton>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="414.0">
+                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="414.0" styleClass="hboxI">
                                  <children>
                                     <MFXButton fx:id="btnLimpiarFiltros" minHeight="35.0" onAction="#onActionBtnLimpiarFiltros" prefHeight="35.0" prefWidth="230.0" styleClass="btnW" text="%btn.limpiar">
                                        <graphic>
@@ -72,7 +72,11 @@
                                           <Insets bottom="5.0" left="10.0" right="10.0" />
                                        </HBox.margin>
                                     </MFXButton>
-                                    <MFXButton fx:id="btnBuscar" minHeight="35.0" onAction="#onActionBtnBuscar" prefHeight="35.0" prefWidth="230.0" styleClass="btnW" text="%btn.buscar">
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="55.0" prefWidth="374.0" styleClass="hboxI">
+                                 <children>
+                                    <MFXButton fx:id="btnBuscar" minHeight="35.0" onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="218.0" styleClass="btnW" text="%btn.buscar">
                                        <graphic>
                                           <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <styleClass>
@@ -87,7 +91,7 @@
                                     </MFXButton>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="414.0">
+                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="414.0" styleClass="hboxI">
                                  <children>
                                     <MFXButton fx:id="btnGenerarExcel" minHeight="35.0" onAction="#onActionBtnGererarExcel" prefHeight="35.0" prefWidth="230.0" styleClass="btnNS" text="%btn.generarExcel">
                                        <graphic>

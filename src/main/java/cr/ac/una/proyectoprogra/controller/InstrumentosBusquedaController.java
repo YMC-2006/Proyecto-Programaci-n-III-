@@ -103,7 +103,7 @@ public class InstrumentosBusquedaController extends Controller implements Initia
         colEscritura.setCellValueFactory(new PropertyValueFactory<>("rinEscritura"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("rinTipo"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("rinEstado"));
-        colParte.setCellValueFactory(new PropertyValueFactory<>("rinParte"));
+        colParte.setCellValueFactory(new PropertyValueFactory<>("rinPartes"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("rinFecha"));
         colFecha.setCellFactory(columna -> new TableCell<ResultadoInstrumento, LocalDateTime>() {
             @Override

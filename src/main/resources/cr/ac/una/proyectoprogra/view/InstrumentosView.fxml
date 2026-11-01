@@ -309,8 +309,8 @@
                                                                         <Label styleClass="lblCampo" text="%instrumentos.comun.cliente" />
                                                                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                                                                             <children>
-                                                                                <MFXTextField allowEdit="false" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                                                                                <Button mnemonicParsing="false" styleClass="btnSecundario">
+                                                                                <MFXTextField fx:id="txtCliente" allowEdit="false" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                                                                <Button mnemonicParsing="false" onAction="#onActionBtnBuscarCliente" styleClass="btnSecundario">
                                                                                     <graphic>
                                                                                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                                                                                             <image>
@@ -326,13 +326,13 @@
                                                                 <VBox spacing="6.0">
                                                                     <children>
                                                                         <Label styleClass="lblCampo" text="%instrumentos.partes.papel" />
-                                                                        <ComboBox prefWidth="180.0" promptText="%instrumentos.partes.papelPrompt" styleClass="comboBox" />
+                                                                        <ComboBox fx:id="cmbPartes" prefWidth="180.0" promptText="%instrumentos.partes.papelPrompt" styleClass="comboBox" />
                                                                     </children>
                                                                 </VBox>
                                                                 <VBox spacing="6.0">
                                                                     <children>
                                                                         <Label styleClass="lblCampo" text="%instrumentos.comun.monto" />
-                                                                        <TextField prefWidth="140.0" styleClass="txtCampo" />
+                                                                        <TextField fx:id="txtPartesMonto" prefWidth="140.0" styleClass="txtCampo" />
                                                                     </children>
                                                                 </VBox>
                                                                 <CheckBox mnemonicParsing="false" styleClass="chkCampo" text="%instrumentos.partes.paga">
@@ -340,17 +340,17 @@
                                                                         <Insets bottom="8.0" />
                                                                     </HBox.margin>
                                                                 </CheckBox>
-                                                                <Button mnemonicParsing="false" styleClass="btnW" text="%instrumentos.partes.agregar" />
+                                                                <Button mnemonicParsing="false" onAction="#onActionBtnAgregarPartes" prefHeight="46.0" prefWidth="214.0" styleClass="btnW" text="%instrumentos.partes.agregar" />
                                                             </children>
                                                         </HBox>
-                                                        <TableView prefHeight="220.0">
+                                                        <TableView fx:id="tblPartes" prefHeight="220.0">
                                                             <columns>
-                                                                <TableColumn prefWidth="300.0" text="%instrumentos.comun.cliente" />
-                                                                <TableColumn prefWidth="120.0" text="%instrumentos.partes.tipo" />
-                                                                <TableColumn prefWidth="140.0" text="%instrumentos.partes.papel" />
-                                                                <TableColumn prefWidth="80.0" text="%instrumentos.partes.paga" />
-                                                                <TableColumn prefWidth="150.0" text="%instrumentos.comun.monto" />
-                                                                <TableColumn prefWidth="150.0" text="%instrumentos.partes.saldo" />
+                                                                <TableColumn prefWidth="232.79998588562012" text="%instrumentos.comun.cliente" />
+                                                                <TableColumn prefWidth="154.39996337890625" text="%instrumentos.partes.tipo" />
+                                                                <TableColumn prefWidth="173.60003662109375" text="%instrumentos.partes.papel" />
+                                                                <TableColumn prefWidth="133.5999755859375" text="%instrumentos.partes.paga" />
+                                                                <TableColumn prefWidth="146.4000244140625" text="%instrumentos.comun.monto" />
+                                                                <TableColumn prefWidth="160.79998779296875" text="%instrumentos.partes.saldo" />
                                                             </columns>
                                                         </TableView>
                                                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
@@ -391,10 +391,10 @@
                                                                         <TextField prefWidth="140.0" styleClass="txtCampo" />
                                                                     </children>
                                                                 </VBox>
-                                                                <Button mnemonicParsing="false" styleClass="btnW" text="%instrumentos.pagos.registrar" />
+                                                                <Button mnemonicParsing="false" onAction="#onActionBtnRegistrarPago" styleClass="btnW" text="%instrumentos.pagos.registrar" />
                                                             </children>
                                                         </HBox>
-                                                        <TableView prefHeight="200.0">
+                                                        <TableView fx:id="tblPagos" prefHeight="200.0">
                                                             <columns>
                                                                 <TableColumn prefWidth="420.0" text="%instrumentos.comun.detalle" />
                                                                 <TableColumn prefWidth="180.0" text="%instrumentos.comun.fecha" />
