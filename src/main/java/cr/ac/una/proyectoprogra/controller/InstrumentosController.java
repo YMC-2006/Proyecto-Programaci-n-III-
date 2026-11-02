@@ -1,6 +1,7 @@
 package cr.ac.una.proyectoprogra.controller;
 
 import cr.ac.una.proyectoprogra.model.Abogado;
+import cr.ac.una.proyectoprogra.model.ArchivoDto;
 import cr.ac.una.proyectoprogra.model.Cliente;
 import cr.ac.una.proyectoprogra.model.EstadoInstrumento;
 import cr.ac.una.proyectoprogra.model.Evento;
@@ -8,6 +9,7 @@ import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.InstrumentoGasto;
 import cr.ac.una.proyectoprogra.model.InstrumentoParte;
 import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
+import cr.ac.una.proyectoprogra.model.PartePago;
 import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
 import cr.ac.una.proyectoprogra.model.SociedadDto;
 import cr.ac.una.proyectoprogra.model.TipoInstRequisito;
@@ -18,6 +20,7 @@ import cr.ac.una.proyectoprogra.service.EventoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoGastoService;
 import cr.ac.una.proyectoprogra.service.InstrumentoParteService;
 import cr.ac.una.proyectoprogra.service.InstrumentoService;
+import cr.ac.una.proyectoprogra.service.PartePagoService;
 import cr.ac.una.proyectoprogra.service.TipoInstrumentoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -27,13 +30,19 @@ import cr.ac.una.proyectoprogra.util.Permisos;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Base64;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleObjectProperty;
@@ -64,6 +73,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
 /**
@@ -232,6 +242,8 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private TableColumn<InstrumentoParte, InstrumentoParte> colPartesAcciones;
     @FXML
+    private TableColumn<InstrumentoParte, BigDecimal> colPartesPagado;
+    @FXML
     private Label lblSaldoInstrumento;
 
     private InstrumentoParteService instrumentoParteService = new InstrumentoParteService();
@@ -248,12 +260,49 @@ public class InstrumentosController extends Controller implements Initializable 
     private ToggleGroup grupoTipoParte;
 
     @FXML
-    private TableView<?> tblPagos;
+    private TableView<PartePago> tblPagos;
 
     @FXML
     private MFXTextField txtPartesSeleccionada;
     @FXML
     private Button btnAgregarParte;
+    @FXML
+    private TextField txtPagoDetalle;
+    @FXML
+    private MFXDatePicker dpPagoFecha;
+    @FXML
+    private TextField txtPagoFactura;
+    @FXML
+    private TextField txtPagoMonto;
+    @FXML
+    private TableColumn<PartePago, String> colPagoDetalle;
+    @FXML
+    private TableColumn<PartePago, LocalDate> colPagoFecha;
+    @FXML
+    private TableColumn<PartePago, String> colPagoFactura;
+    @FXML
+    private TableColumn<PartePago, BigDecimal> colPagoMonto;
+    @FXML
+    private TableColumn<PartePago, PartePago> colPagoAcciones;
+    private PartePagoService partePagoService = new PartePagoService();
+    private ObservableList<PartePago> listaPagos = FXCollections.observableArrayList();
+
+    @FXML
+    private Label lblSaldoParte;
+    @FXML
+    private Button btnRegistrarPago;
+    @FXML
+    private VBox vboxElegirParte;
+    @FXML
+    private Button btnBuscarParte;
+    @FXML
+    private Button btnDescargarDocumento;
+    @FXML
+    private Label lblNombreDocumento;
+    @FXML
+    private Button btnSubirDocuFirmado;
+    @FXML
+    private Label lblNombreDocuFirmado;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -304,8 +353,9 @@ public class InstrumentosController extends Controller implements Initializable 
             parteSociedadId = null;
             txtPartesSeleccionada.clear();
         });
-        rdbSociedad.setSelected(true);
+        rdbCliente.setSelected(true);
 
+        btnRegistrarPago.setDisable(true);
         // que las demas pestañas queden desabilitadas mienstras se registra el instrumento
         habilitarTabs(false);
         inicializarTablas();
@@ -363,12 +413,50 @@ public class InstrumentosController extends Controller implements Initializable 
         colRequisito.setCellValueFactory(new PropertyValueFactory<>("irqDescripcion"));
         colEstado.setCellValueFactory(new PropertyValueFactory<>("irqEstado"));
 
-        colEstado.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList("Cumplido", "Pendiente")));
-        colEstado.setOnEditCommit(event -> {
+        tblRequisitos.setEditable(true);
 
+        colEstado.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<String>() {
+            @Override
+            public String toString(String letra) {
+                if ("C".equals(letra)) {
+                    return "Cumplido";
+                } else if ("P".equals(letra)) {
+                    return "Pendiente";
+                } else if ("N".equals(letra)) {
+                    return "No aplica";
+                }
+                return "";
+            }
+
+            @Override
+            public String fromString(String texto) {
+                if ("Cumplido".equals(texto)) {
+                    return "C";
+                } else if ("Pendiente".equals(texto)) {
+                    return "P";
+                }
+                return "N";
+            }
+        }, "C", "P", "N"));
+
+        // cuando el usuario elige otra opción, se guarda de una vez
+        colEstado.setOnEditCommit(evento -> {
+            InstrumentoRequisito requisito = evento.getRowValue();
+            String estadoAnterior = evento.getOldValue();
+            requisito.setIrqEstado(evento.getNewValue());
+
+            Respuesta respuesta = instrumentoService.actualizarRequisitos(instrumentoActual.getInsId(), bufeteCarga(), List.of(requisito));
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
+                cargarTablaRequisitos();
+            } else {
+                requisito.setIrqEstado(estadoAnterior);   // si falló, vuelve a como estaba
+                tblRequisitos.refresh();
+                mostrarError(respuesta.getMensaje());
+            }
         });
 
-        //------------------------ Gastos ----------------------------------------------
+//---------------------------- Gastos ----------------------------------------------
         colGastoDetalle.setCellValueFactory(new PropertyValueFactory<>("igaDetalle"));
         colGastoFecha.setCellValueFactory(new PropertyValueFactory<>("igaFecha"));
         colGastoMonto.setCellValueFactory(new PropertyValueFactory<>("igaMonto"));
@@ -430,6 +518,7 @@ public class InstrumentosController extends Controller implements Initializable 
         colPartesSeleccionado.setCellValueFactory(new PropertyValueFactory<>("ipaNombre"));
         colPartesRol.setCellValueFactory(new PropertyValueFactory<>("ipaRol"));
         colPartesMonto.setCellValueFactory(new PropertyValueFactory<>("ipaMonto"));
+        colPartesPagado.setCellValueFactory(new PropertyValueFactory<>("ipaMonto"));
         colPartesSaldo.setCellValueFactory(new PropertyValueFactory<>("ipaSaldo"));
         colPartesTipo.setCellValueFactory(data -> {
             if (data.getValue().getIpaClienteId() != null) {
@@ -489,6 +578,43 @@ public class InstrumentosController extends Controller implements Initializable 
         });
         tblPartes.setPlaceholder(new Label("No hay partes registradas"));
         tblPartes.setItems(listaPartes);
+
+        //------------------------ Pagos ----------------------------------------------
+        colPagoDetalle.setCellValueFactory(new PropertyValueFactory<>("ppaDetalle"));
+        colPagoFecha.setCellValueFactory(new PropertyValueFactory<>("ppaFecha"));
+        colPagoFactura.setCellValueFactory(new PropertyValueFactory<>("ppaFactura"));
+        colPagoMonto.setCellValueFactory(new PropertyValueFactory<>("ppaMonto"));
+        colPagoAcciones.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue()));
+        colPagoAcciones.setCellFactory(columna -> new TableCell<PartePago, PartePago>() {
+            private final Button btnEliminar = new Button("Eliminar");
+
+            {
+
+                ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
+                iconoEliminar.setFitHeight(30);
+                iconoEliminar.setFitWidth(30);
+                btnEliminar.setGraphic(iconoEliminar);
+                btnEliminar.setMinWidth(30);
+                btnEliminar.setStyle("-fx-background-color: transparent;");
+
+                btnEliminar.setOnAction(e -> eliminarPago(getItem()));
+            }
+
+            @Override
+            protected void updateItem(PartePago pago, boolean empty) {
+                super.updateItem(pago, empty);
+                if (empty || pago == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btnEliminar);
+                }
+            }
+        });
+        tblPagos.setPlaceholder(new Label("Seleccione una parte para ver sus pagos"));
+        tblPagos.setItems(listaPagos);
+
+        // al seleccionar una parte, abajo se muestran sus pagos
+        tblPartes.getSelectionModel().selectedItemProperty().addListener((obs, antes, ahora) -> mostrarPagos(ahora));
 
     }
 
@@ -713,7 +839,7 @@ public class InstrumentosController extends Controller implements Initializable 
                 mostrarExito("Instrumento registrado exitosamenet");
                 cargarTablaRequisitos();
                 habilitarTabs(true);
-                //limpiarCampos();
+                limpiarCampos();
             } else {
                 mostrarExito("Instrumento modificado exitosamenet");
                 cargarTablaRequisitos();
@@ -792,6 +918,13 @@ public class InstrumentosController extends Controller implements Initializable 
         cargarTablaGastos();
         cargarTablaEventos();
         cargarTablaPartes();
+
+        limpiarCamposGasto();     // sale de modo edicion y recarga la tabla
+        limpiarCamposEvento();
+        cargarTablaEventos();
+        limpiarCamposParte();     // igual
+        limpiarCamposPago();
+
         habilitarTabs(false);
         tabPane.getSelectionModel().select(tabGeneralesDelInstrumento);
         revisarPermisos();
@@ -866,6 +999,30 @@ public class InstrumentosController extends Controller implements Initializable 
         cargarTablaEventos();
         cargarTablaPartes();
         habilitarTabs(true);
+
+        boolean esFinal = Boolean.TRUE.equals(inst.getInsEstadoFinal());
+        btnGuardarInstrumento.setDisable(esFinal);
+        vboxElegirParte.setDisable(esFinal);
+        btnBuscarParte.setDisable(esFinal);
+        btnAgregarParte.setDisable(esFinal);
+        tblRequisitos.setEditable(!esFinal);
+        
+        
+        if(inst.getInsRutaDocFirmado() == null || inst.getInsRutaDocFirmado().isBlank()){
+            lblNombreDocuFirmado.setText("No se ha subido el documento firmado");
+        }else{
+            lblNombreDocuFirmado.setText(inst.getInsRutaDocFirmado());
+            
+        }
+        
+        if(inst.getInsRutaDocumento() == null || inst.getInsRutaDocumento().isBlank()){
+            lblNombreDocumento.setText("No se ha generado el documento");
+        }else{
+            lblNombreDocumento.setText(inst.getInsRutaDocumento());
+        }
+        
+        
+        
     }
 
     // ===================== TAB GASTOS ========================================
@@ -1088,19 +1245,7 @@ public class InstrumentosController extends Controller implements Initializable 
         alert.showAndWait();
     }
 
-    // ==================== PARTES Y PAGOS ================
-    private void onActionBtnBuscarCliente(ActionEvent event) {
-
-        AppContext.getInstance().delete("clienteSeleccionado");
-        FlowController.getInstance().goViewInWindowModal("BuscarClienteView", stage, Boolean.FALSE);
-
-        Cliente cliente = (Cliente) AppContext.getInstance().get("clienteSeleccionado");
-        if (cliente != null) {
-            txtCliente.setText(cliente.getCliNombre() + cliente.getCliApellido1() + cliente.getCliApellido2());
-            AppContext.getInstance().delete("clienteSeleccionado");
-        }
-    }
-
+    // ==================== PARTES ================
     @FXML
     private void onActionBtnAgregarPartes(ActionEvent event) {
 
@@ -1148,10 +1293,6 @@ public class InstrumentosController extends Controller implements Initializable 
     }
 
     @FXML
-    private void onActionBtnRegistrarPago(ActionEvent event) {
-    }
-
-    @FXML
     private void onActionBtnBuscarParteSeleccionada(ActionEvent event) {
         if (rdbCliente.isSelected()) {
             AppContext.getInstance().delete("clienteSeleccionado");
@@ -1179,6 +1320,9 @@ public class InstrumentosController extends Controller implements Initializable 
     }
 
     private void editarParte(InstrumentoParte parte) {
+        vboxElegirParte.setDisable(true);
+        btnBuscarParte.setDisable(true);
+        txtPartesSeleccionada.setDisable(true);
 
         if (parte.getIpaClienteId() != null) {
             rdbCliente.setSelected(true);
@@ -1213,6 +1357,10 @@ public class InstrumentosController extends Controller implements Initializable 
     }
 
     private void limpiarCamposParte() {
+        vboxElegirParte.setDisable(false);
+        btnBuscarParte.setDisable(false);
+        txtPartesSeleccionada.setDisable(false);
+
         parteEditando = null;
         btnAgregarParte.setText("Agregar parte");
         rdbCliente.setSelected(true);
@@ -1244,6 +1392,168 @@ public class InstrumentosController extends Controller implements Initializable 
         } else {
             mostrarError("Error cargando las partes: " + respuesta.getMensaje());
         }
+    }
+
+    // ======================== PAGOS ===============================
+    @FXML
+    private void onActionBtnRegistrarPago(ActionEvent event) {
+        InstrumentoParte parte = tblPartes.getSelectionModel().getSelectedItem();
+        if (parte == null) {
+            mostrarError("Seleccione en la tabla de arriba la parte que realiza el pago");
+            return;
+        }
+
+        String detalle = txtPagoDetalle.getText().trim();
+        LocalDate fecha = dpPagoFecha.getValue();
+        BigDecimal monto = leerMonto(txtPagoMonto);
+
+        if (detalle.isEmpty()) {
+            mostrarError("Indique el detalle del pago");
+            txtPagoDetalle.requestFocus();
+            return;
+        }
+        if (fecha == null) {
+            mostrarError("Seleccione la fecha del pago");
+            dpPagoFecha.requestFocus();
+            return;
+        }
+        if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
+            mostrarError("El monto del pago debe ser mayor a cero");
+            txtPagoMonto.requestFocus();
+            return;
+        }
+
+        if (monto.compareTo(parte.getIpaSaldo()) > 0) {
+            mostrarError("El pago no puede ser mayor al saldo de la parte (₡" + parte.getIpaSaldo().toPlainString() + ")");
+            txtPagoMonto.requestFocus();
+            return;
+        }
+
+        PartePago pago = new PartePago(parte.getIpaId(), detalle, fecha, txtPagoFactura.getText().trim(), monto);
+        Respuesta respuesta = partePagoService.registrarPago(bufeteCarga(), pago);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Pago registrado correctamente");
+            limpiarCamposPago();
+            recargarPartesManteniendoSeleccion(parte.getIpaId());
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+
+    }
+
+    private void eliminarPago(PartePago pago) {
+
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el pago \"" + pago.getPpaDetalle() + "\"?", ButtonType.YES, ButtonType.NO);
+        confirmar.setHeaderText(null);
+        if (confirmar.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) {
+            return;
+        }
+
+        Respuesta respuesta = partePagoService.eliminarPago(bufeteCarga(), pago.getPpaId());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Pago eliminado con éxito");
+            recargarPartesManteniendoSeleccion(pago.getPpaParteId());
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+
+    }
+
+    private void recargarPartesManteniendoSeleccion(Long idPartePago) {
+        cargarTablaPartes();
+        for (InstrumentoParte p : listaPartes) {
+            if (p.getIpaId().equals(idPartePago)) {
+                tblPartes.getSelectionModel().select(p);
+            }
+        }
+    }
+
+    private void mostrarPagos(InstrumentoParte parte) {
+
+        listaPagos.clear();
+
+        if (parte == null) {
+            lblSaldoParte.setText("₡0");
+            btnRegistrarPago.setDisable(true);
+            return;
+        }
+
+        if (parte.getPartePagoList() != null) {
+            listaPagos.setAll(parte.getPartePagoList());
+        }
+
+        lblSaldoParte.setText("₡" + parte.getIpaSaldo().toPlainString());
+        // solo se puede pagar si la parte paga y le queda saldo
+        btnRegistrarPago.setDisable(!Boolean.TRUE.equals(parte.getIpaDebePagar()) || parte.getIpaSaldo().compareTo(BigDecimal.ZERO) <= 0);
+
+    }
+
+    private void limpiarCamposPago() {
+        txtPagoDetalle.clear();
+        dpPagoFecha.setValue(null);
+        txtPagoFactura.clear();
+        txtPagoMonto.clear();
+    }
+
+    @FXML
+    private void onActionBtnDescargarDocumento(ActionEvent event) {
+
+        Respuesta respuesta = instrumentoService.generarDocumento(instrumentoActual.getInsId(), bufeteCarga());
+        if (!Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarError(respuesta.getMensaje());
+            return;
+        }
+
+        ArchivoDto archivo = (ArchivoDto) respuesta.getResultado("Documento");
+        instrumentoActual.setInsRutaDocumento(archivo.getNombreArchivo());
+        lblNombreDocumento.setText(archivo.getNombreArchivo());
+
+        try {
+            byte[] bytes = Base64.getDecoder().decode(archivo.getContenido());
+            Path temp = Files.createTempFile("instrumento_", ".docx");
+            Files.write(temp, bytes);
+            Desktop.getDesktop().open(temp.toFile());
+
+        } catch (IOException ex) {
+            mostrarError("El documento se genero pero no se pudo abrir: " + ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void onActionBtnSubirDocFirmado(ActionEvent event) {
+
+        if (instrumentoActual == null) {
+            mostrarError("Primero guarde o cargue un instrumento");
+            return;
+        }
+
+        FileChooser selector = new FileChooser();
+        selector.setTitle("Seleccione el documento firmado");
+        selector.getExtensionFilters().add(new FileChooser.ExtensionFilter("Documentos PDF", "*.pdf"));
+        File seleccionado = selector.showOpenDialog(getStage());
+        if (seleccionado == null) {
+            return;
+        }
+        
+        try{
+            byte[] bytes = Files.readAllBytes(seleccionado.toPath());   
+            String contenido = Base64.getEncoder().encodeToString(bytes);
+            ArchivoDto archivo = new ArchivoDto(seleccionado.getName(), contenido);
+            
+            Respuesta respuesta = instrumentoService.subirFirmado(instrumentoActual.getInsId(), bufeteCarga(), archivo);
+            if (Boolean.TRUE.equals(respuesta.getEstado())) {
+                
+                instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
+                lblNombreDocuFirmado.setText(instrumentoActual.getInsRutaDocFirmado());
+                mostrarExito("Documento firmado guardado correctamente");
+                
+            }else{
+                mostrarError(respuesta.getMensaje());
+            }
+        }catch(IOException ex){
+            mostrarError("No se pudo leer el archivo " + ex.getMessage());
+        }
+
     }
 
 }

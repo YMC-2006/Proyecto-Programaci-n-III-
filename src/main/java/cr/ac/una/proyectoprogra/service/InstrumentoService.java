@@ -4,6 +4,7 @@
  */
 package cr.ac.una.proyectoprogra.service;
 
+import cr.ac.una.proyectoprogra.model.ArchivoDto;
 import cr.ac.una.proyectoprogra.model.CambioEstado;
 import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.InstrumentoRequisito;
@@ -155,6 +156,46 @@ public class InstrumentoService {
         } catch (Exception ex) {
             Logger.getLogger(InstrumentoService.class.getName()).log(Level.SEVERE, "Error eliminando el instrumento.", ex);
             return new Respuesta(false, "Error eliminando el instrumento.", "eliminarInstrumento " + ex.getMessage());
+        }
+    }
+
+    public Respuesta generarDocumento(Long id, Long bufeteId) {
+        try {
+            Map<String, Object> pathParams = new HashMap<>();
+            pathParams.put("id", id);
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("bufeteId", bufeteId);
+
+            Request request = new Request("Instrumentos", "/{id}/documento", pathParams, queryParams);
+            request.get();
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+            ArchivoDto archivo = (ArchivoDto) request.readEntity(ArchivoDto.class);
+            return new Respuesta(true, "", "", "Documento", archivo);
+        } catch (Exception ex) {
+            Logger.getLogger(InstrumentoService.class.getName()).log(Level.SEVERE, "Error generando el documento.", ex);
+            return new Respuesta(false, "Error generando el documento.", "generarDocumento " + ex.getMessage());
+        }
+    }
+
+    public Respuesta subirFirmado(Long id, Long bufeteId, ArchivoDto archivo) {
+        try {
+            Map<String, Object> pathParams = new HashMap<>();
+            pathParams.put("id", id);
+            Map<String, Object> queryParams = new HashMap<>();
+            queryParams.put("bufeteId", bufeteId);
+
+            Request request = new Request("Instrumentos", "/{id}/firmado", pathParams, queryParams);
+            request.post(archivo);
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+            Instrumento instrumento = (Instrumento) request.readEntity(Instrumento.class);
+            return new Respuesta(true, "", "", "Instrumento", instrumento);
+        } catch (Exception ex) {
+            Logger.getLogger(InstrumentoService.class.getName()).log(Level.SEVERE, "Error subiendo el documento firmado.", ex);
+            return new Respuesta(false, "Error subiendo el documento firmado.", "subirFirmado " + ex.getMessage());
         }
     }
 }

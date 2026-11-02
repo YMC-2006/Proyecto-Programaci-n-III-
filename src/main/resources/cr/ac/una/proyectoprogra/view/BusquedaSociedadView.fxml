@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="689.0" prefWidth="1367.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.BusquedaSociedadController">
+<AnchorPane id="AnchorPane" prefHeight="696.0" prefWidth="1249.0" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.BusquedaSociedadController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -22,7 +22,7 @@
             </Label>
             <HBox prefHeight="668.0" prefWidth="1328.0">
                <children>
-                  <VBox prefHeight="668.0" prefWidth="520.0" styleClass="vbox">
+                  <VBox prefHeight="640.0" prefWidth="451.0" styleClass="vbox">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
                            <children>
@@ -83,10 +83,10 @@
                               <TableColumn fx:id="colCedula" prefWidth="130.0" text="Cédula jurídica" />
                               <TableColumn fx:id="colNombre" prefWidth="180.0" text="Nombre" />
                               <TableColumn fx:id="colTelefono" prefWidth="110.0" text="Teléfono" />
-                              <TableColumn fx:id="colCorreo" prefWidth="136.7999267578125" text="Correo" />
-                              <TableColumn fx:id="colDomicilio" prefWidth="108.00006103515625" text="Domicilio" />
-                              <TableColumn fx:id="colFechaInscripcion" prefWidth="144.7999267578125" text="Fecha inscripción" />
-                              <TableColumn fx:id="colTipoAcciones" prefWidth="153.5999755859375" text="Tipo de acciones" />
+                              <TableColumn fx:id="colCorreo" prefWidth="106.39996337890625" text="Correo" />
+                              <TableColumn fx:id="colDomicilio" prefWidth="115.20001220703125" text="Domicilio" />
+                              <TableColumn fx:id="colFechaInscripcion" prefWidth="141.60003662109375" text="Fecha inscripción" />
+                              <TableColumn fx:id="colTipoAcciones" prefWidth="154.4000244140625" text="Tipo de acciones" />
                            </columns>
                         </TableView>
                      </children>

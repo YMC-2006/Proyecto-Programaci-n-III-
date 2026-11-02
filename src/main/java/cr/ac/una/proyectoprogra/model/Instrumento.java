@@ -332,4 +332,7 @@ public class Instrumento {
     public void setInsEstadoFinal(Boolean insEstadoFinal) {
         this.insEstadoFinal = insEstadoFinal;
     }
+    
+    
+    
 }

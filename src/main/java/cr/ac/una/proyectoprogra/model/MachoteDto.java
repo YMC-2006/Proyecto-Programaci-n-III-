@@ -2,11 +2,11 @@ package cr.ac.una.proyectoprogra.model;
 
 public class MachoteDto {
 
-    String nombre;
+    String nombreArchivo;
     String contenido;
 
-    public MachoteDto(String nombre, String contenido) {
-        this.nombre = nombre;
+    public MachoteDto(String nombreArchivo, String contenido) {
+        this.nombreArchivo = nombreArchivo;
         this.contenido = contenido;
     }
 
@@ -14,12 +14,12 @@ public class MachoteDto {
 
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreArchivo() {
+        return nombreArchivo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreArchivo(String nombreArchivo) {
+        this.nombreArchivo = nombreArchivo;
     }
 
     public String getContenido() {

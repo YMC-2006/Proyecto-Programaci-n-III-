@@ -1482,6 +1482,115 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 
+/*----------- tabla de requisitos-----------------------*/
+.tblRequisitos {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14;
+    -fx-border-color: #E3E8EF;
+    -fx-border-radius: 14;
+    -fx-padding: 6;
+    -fx-font-size: 14px;
+}
+
+.tblRequisitos .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.tblRequisitos .column-header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+    -fx-padding: 10 8 10 8;
+}
+
+.tblRequisitos .column-header .label {
+    -fx-text-fill: #0B5C94;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* filas */
+.tblRequisitos .table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent transparent #F0F3F7 transparent;
+    -fx-cell-size: 44px;
+}
+
+.tblRequisitos .table-row-cell:odd {
+    -fx-background-color: #F7F9FC;
+}
+
+.tblRequisitos .table-row-cell:hover {
+    -fx-background-color: #EEF4FB;
+}
+
+.tblRequisitos .table-row-cell:selected {
+    -fx-background-color: #CFE3F5;
+}
+
+.tblRequisitos .table-cell {
+    -fx-text-fill: #1A2233;
+    -fx-padding: 0 8 0 8;
+    -fx-font-size: 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent;
+}
+
+
+.tblRequisitos .table-row-cell:selected .table-cell {
+    -fx-text-fill: #1A2233;
+}
+
+/* ================= COMBO DENTRO DE LA CELDA ================= */
+.tblRequisitos .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #0B6FB0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-pref-width: 150;
+    -fx-padding: 2 4 2 4;
+}
+
+.tblRequisitos .combo-box .list-cell {
+    -fx-text-fill: #1A2233;
+    -fx-background-color: transparent;
+}
+
+.tblRequisitos .combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.tblRequisitos .combo-box .arrow {
+    -fx-background-color: #0B6FB0;
+}
+
+/* lista desplegable del combo */
+.combo-box-popup .list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E3E8EF;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-padding: 8 10 8 10;
+    -fx-text-fill: #1A2233;
+    -fx-background-color: #FFFFFF;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #E2EFF9;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #0B6FB0;
+    -fx-text-fill: #FFFFFF;
+}
+
+.tblRequisitos .placeholder .label {
+    -fx-text-fill: #556070;
+    -fx-font-size: 14px;
+}
+    
 /*====== comodines =======*/
 
 .chipComodin {
