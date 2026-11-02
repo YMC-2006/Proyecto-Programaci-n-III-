@@ -45,8 +45,8 @@
                                        <children>
                                           <HBox prefHeight="193.0" prefWidth="1343.0" spacing="40.0" styleClass="hbox">
                                              <children>
-                                                <MFXTextField fx:id="txtParteElegida" allowEdit="false" prefWidth="335.0" text="Busque un Abogado Titular" />
-                                                <MFXButton minHeight="40.0" onAction="#btnOnActionBuscarAbogado" prefHeight="46.0" prefWidth="31.0" styleClass="btnW" text=" ">
+                                                <MFXTextField fx:id="txtParteElegida" allowEdit="false" prefWidth="335.0" text="Busqueda" />
+                                                <MFXButton minHeight="40.0" onAction="#btnOnActionBuscar" prefHeight="46.0" prefWidth="31.0" styleClass="btnW" text=" ">
                                                    <graphic>
                                                       <ImageView fitHeight="56.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -59,12 +59,11 @@
                                                 <VBox prefHeight="124.0" prefWidth="135.0" styleClass="vbox">
                                                    <children>
                                                       <Label text="Eliga" />
-                                                      <RadioButton fx:id="rdbCliente" mnemonicParsing="false" styleClass="rdbFiltro" text="Cliente">
+                                                      <RadioButton fx:id="rdbAbogado" mnemonicParsing="false" styleClass="rdbFiltro" text="Abogado">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="grupoFiltro" />
-                                                         </toggleGroup>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="rdbAbogado" mnemonicParsing="false" styleClass="rdbFiltro" text="Abogado" toggleGroup="$grupoFiltro" />
+                                                         </toggleGroup></RadioButton>
+                                                      <RadioButton fx:id="rdbCliente" mnemonicParsing="false" styleClass="rdbFiltro" text="Cliente" toggleGroup="$grupoFiltro" />
                                                    </children>
                                                 </VBox>
                                                 <MFXButton onAction="#btnOnActionGenerarReporteInstrumentos" prefHeight="46.0" prefWidth="197.0" styleClass="btnNS" text="Generar reporte">

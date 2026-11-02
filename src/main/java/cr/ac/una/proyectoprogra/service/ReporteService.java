@@ -7,6 +7,7 @@ package cr.ac.una.proyectoprogra.service;
 import cr.ac.una.proyectoprogra.model.ArchivoDto;
 import cr.ac.una.proyectoprogra.util.Request;
 import cr.ac.una.proyectoprogra.util.Respuesta;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -17,45 +18,59 @@ import java.util.logging.Logger;
  * @author vjjcu
  */
 public class ReporteService {
-    
-    public Respuesta getReportePrueba(Long abogadoId) {
-    try {
-        Map<String, Object> parametros = new HashMap<>();
-        parametros.put("abogadoId", abogadoId);
-        Request request = new Request("Reportes", "/prueba/{abogadoId}", parametros);
-        request.get();
 
-        if (request.isError()) {
-            return new Respuesta(false, request.getError(), "");
+    public Respuesta getReportePrueba(Long abogadoId) {
+        try {
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("abogadoId", abogadoId);
+            Request request = new Request("Reportes", "/prueba/{abogadoId}", parametros);
+            request.get();
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            ArchivoDto archivo = (ArchivoDto) request.readEntity(ArchivoDto.class);
+            return new Respuesta(true, "", "", "Reporte", archivo);
+
+        } catch (Exception ex) {
+            Logger.getLogger(ReporteService.class.getName()).log(Level.SEVERE, "Error obteniendo el reporte.", ex);
+            return new Respuesta(false, "Error obteniendo el reporte.", "getReportePrueba " + ex.getMessage());
         }
 
-        ArchivoDto archivo = (ArchivoDto) request.readEntity(ArchivoDto.class);
-        return new Respuesta(true, "", "", "Reporte", archivo);
+    }
 
-    } catch (Exception ex) {
-        Logger.getLogger(ReporteService.class.getName()).log(Level.SEVERE, "Error obteniendo el reporte.", ex);
-        return new Respuesta(false, "Error obteniendo el reporte.", "getReportePrueba " + ex.getMessage());
-    }
-    
-  
-}
+    public Respuesta getReporteInstrumentos(Long bufeteId, Long abogadoId, Long clienteId, LocalDate desde, LocalDate hasta) {
+        try {
+            Map<String, Object> parametros = new HashMap<>();
+            parametros.put("bufeteId", bufeteId);
+            parametros.put("abogadoId", abogadoId);
+            parametros.put("clienteId", clienteId);
+            parametros.put("desde", desde.toString());  
+            parametros.put("hasta", hasta.toString());
 
-    
-    public Respuesta generarReporteInstrumento(){
-         return new Respuesta();
+            Request request = new Request("Reportes/instrumentos", parametros);
+            request.get();
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            ArchivoDto archivo = (ArchivoDto) request.readEntity(ArchivoDto.class);
+            return new Respuesta(true, "", "", "Reporte", archivo);
+
+        } catch (Exception ex) {
+            Logger.getLogger(ReporteService.class.getName()).log(Level.SEVERE, "Error generando el reporte de instrumentos.", ex);
+            return new Respuesta(false, "Error generando el reporte de instrumentos.", "getReporteInstrumentos " + ex.getMessage());
+        }
     }
-    
-    public Respuesta generarReporteCliente(){
-         return new Respuesta();
-    }
-    
-    
+
+
+
     //incluir indicadores como ingresos mensuales por instrumentos y varios, gastos mensuales x instrumentos y varios
     // ademas de un promedio historico de esos datos usar graficos para este reporte
-    public Respuesta generarReporteResumenContable(){
+    public Respuesta generarReporteResumenContable() {
         return new Respuesta();
     }
-    
+
     // TO-DO preguntarle al profe sobre el tercer reporte, presentar idea
-    
 }

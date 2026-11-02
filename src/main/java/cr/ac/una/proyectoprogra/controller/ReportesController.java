@@ -8,6 +8,7 @@ import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.model.ArchivoDto;
 import cr.ac.una.proyectoprogra.model.Cliente;
 import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
+import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.ReporteService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
@@ -70,7 +72,8 @@ public class ReportesController extends Controller implements Initializable {
     @FXML
     private TableColumn<ResultadoInstrumento, String> colAcciones;
 
-    private Long abogadoTitularId;   // id del abogado elegido en el modal de busquda
+    private Long abogadoSeleccionadoId;   // id del abogado elegido en el modal de busquda
+    private Long clienteSeleccionadoId;
     @FXML
     private MFXDatePicker dpFechaInicioFiltro;
     @FXML
@@ -99,35 +102,56 @@ public class ReportesController extends Controller implements Initializable {
                 setText(fecha.format(formato));
             }
         });
+
+        grupoFiltro.selectedToggleProperty().addListener((obs, antes, ahora) -> {
+            clienteSeleccionadoId = null;
+            abogadoSeleccionadoId = null;
+            txtParteElegida.clear();
+        });
+        rdbAbogado.setSelected(true);
+
     }
 
     @Override
     public void initialize() {
-
+        rdbAbogado.setSelected(true); 
+        abogadoSeleccionadoId = null;
+        clienteSeleccionadoId = null;
+        txtParteElegida.clear();
+        dpFechaInicioFiltro.setValue(null);
+        dpFechaFinFiltro.setValue(null);
     }
 
     @FXML
     private void btnOnActionGenerarReporteInstrumentos(ActionEvent event) {
-        //Long abogadoId = 8L;   // temppp
-        Respuesta respuesta = reporteService.getReportePrueba(abogadoTitularId);
 
+        if (abogadoSeleccionadoId == null && clienteSeleccionadoId == null) {
+            if (rdbAbogado.isSelected()) {
+                mostrarError("Seleccione un abogado");
+            } else {
+                mostrarError("Seleccione un cliente");
+            }
+            return;
+        }
+
+        LocalDate desde = dpFechaInicioFiltro.getValue();
+        LocalDate hasta = dpFechaFinFiltro.getValue();
+        if (desde == null || hasta == null) {
+            mostrarError("Seleccione la fecha de inicio y la fecha final. Para un solo día, use la misma fecha en las dos.");
+            return;
+        }
+        if (desde.isAfter(hasta)) {
+            mostrarError("La fecha de inicio no puede ser mayor que la fecha final");
+            return;
+        }
+
+        Respuesta respuesta = reporteService.getReporteInstrumentos(bufeteCargado(), abogadoSeleccionadoId, clienteSeleccionadoId, desde, hasta);
         if (!Boolean.TRUE.equals(respuesta.getEstado())) {
             mostrarError(respuesta.getMensaje());
             return;
         }
 
-        ArchivoDto archivo = (ArchivoDto) respuesta.getResultado("Reporte");
-        try {
-            // Base64 -> bytes -> archivo temporal en la computadora del usuario
-            byte[] pdf = Base64.getDecoder().decode(archivo.getContenido());
-            Path temporal = Files.createTempFile("reporte_", ".pdf");
-            Files.write(temporal, pdf);
-
-            // Lo abre con el visor de PDF que tenga instalado el usuario
-            Desktop.getDesktop().open(temporal.toFile());
-        } catch (IOException ex) {
-            mostrarError("No se pudo abrir el reporte: " + ex.getMessage());
-        }
+        abrirPdf((ArchivoDto) respuesta.getResultado("Reporte"));
     }
 
     @FXML
@@ -136,16 +160,6 @@ public class ReportesController extends Controller implements Initializable {
 
     @FXML
     private void btnOnActionGenerarReporteVEREMOS(ActionEvent event) {
-    }
-
-    @FXML
-    private void btnOnActionBuscarAbogado(ActionEvent event) {
-        FlowController.getInstance().goViewInWindowModal("BusquedaAbogadoView", stage, Boolean.FALSE);
-        Abogado abogado = (Abogado) AppContext.getInstance().get("abogadoSeleccionado");
-        if (abogado != null) {
-            abogadoTitularId = abogado.getAboId();
-            txtParteElegida.setText(abogado.getAboNombre());
-        }
     }
 
     private void cargarInstrumentosDeAbogado(Abogado abogado) {
@@ -166,6 +180,54 @@ public class ReportesController extends Controller implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void btnOnActionBuscar(ActionEvent event) {
+
+        if (rdbAbogado.isSelected()) {
+            AppContext.getInstance().delete("abogadoSeleccionado");
+
+            FlowController.getInstance().goViewInWindowModal("BusquedaAbogadoView", stage, Boolean.FALSE);
+            Abogado abogado = (Abogado) AppContext.getInstance().get("abogadoSeleccionado");
+
+            if (abogado != null) {
+                abogadoSeleccionadoId = abogado.getAboId();
+                txtParteElegida.setText(abogado.getAboNombre());
+                AppContext.getInstance().delete("abogadoSeleccionado");
+
+            }
+
+        } else {
+            AppContext.getInstance().delete("clienteSeleccionado");
+            FlowController.getInstance().goViewInWindowModal("BuscarClienteView", stage, Boolean.FALSE);
+            Cliente cliente = (Cliente) AppContext.getInstance().get("clienteSeleccionado");
+
+            if (cliente != null) {
+                clienteSeleccionadoId = cliente.getCliId();
+                txtParteElegida.setText(cliente.getCliNombre() + " " + cliente.getCliApellido1() + " " + cliente.getCliApellido2());
+                AppContext.getInstance().delete("clienteSeleccionado");
+
+            }
+
+        }
+
+    }
+
+    private Long bufeteCargado() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
+
+    private void abrirPdf(ArchivoDto archivo) {
+        try {
+            byte[] pdf = Base64.getDecoder().decode(archivo.getContenido());
+            Path temporal = Files.createTempFile("reporte_", ".pdf");
+            Files.write(temporal, pdf);
+            Desktop.getDesktop().open(temporal.toFile());
+        } catch (IOException ex) {
+            mostrarError("No se pudo abrir el reporte: " + ex.getMessage());
+        }
     }
 
 }
