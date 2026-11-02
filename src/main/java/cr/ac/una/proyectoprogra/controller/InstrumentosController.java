@@ -242,8 +242,6 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private TableColumn<InstrumentoParte, InstrumentoParte> colPartesAcciones;
     @FXML
-    private TableColumn<InstrumentoParte, BigDecimal> colPartesPagado;
-    @FXML
     private Label lblSaldoInstrumento;
 
     private InstrumentoParteService instrumentoParteService = new InstrumentoParteService();
@@ -518,7 +516,6 @@ public class InstrumentosController extends Controller implements Initializable 
         colPartesSeleccionado.setCellValueFactory(new PropertyValueFactory<>("ipaNombre"));
         colPartesRol.setCellValueFactory(new PropertyValueFactory<>("ipaRol"));
         colPartesMonto.setCellValueFactory(new PropertyValueFactory<>("ipaMonto"));
-        colPartesPagado.setCellValueFactory(new PropertyValueFactory<>("ipaMonto"));
         colPartesSaldo.setCellValueFactory(new PropertyValueFactory<>("ipaSaldo"));
         colPartesTipo.setCellValueFactory(data -> {
             if (data.getValue().getIpaClienteId() != null) {

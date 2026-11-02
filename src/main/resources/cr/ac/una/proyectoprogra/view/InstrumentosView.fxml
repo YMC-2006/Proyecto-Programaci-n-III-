@@ -361,16 +361,15 @@
                                                 <Insets left="50.0" right="50.0" />
                                              </VBox.margin>
                                                         </HBox>
-                                                        <TableView fx:id="tblPartes" prefHeight="294.0" prefWidth="1248.0" styleClass="tblAbogados">
+                                                        <TableView fx:id="tblPartes" prefHeight="272.0" prefWidth="1241.0" styleClass="tblAbogados">
                                                             <columns>
                                                                 <TableColumn fx:id="colPartesSeleccionado" prefWidth="170.400083899498" text="%instrumentos.comun.cliente" />
                                                                 <TableColumn fx:id="colPartesTipo" prefWidth="161.5999755859375" text="%instrumentos.partes.tipo" />
                                                                 <TableColumn fx:id="colPartesRol" prefWidth="177.5999755859375" text="%instrumentos.partes.papel" />
-                                                                <TableColumn fx:id="colPartesPaga" prefWidth="199.20001220703125" text="%instrumentos.partes.paga" />
-                                                                <TableColumn fx:id="colPartesMonto" prefWidth="179.20001792907715" text="%instrumentos.comun.monto" />
-                                                <TableColumn fx:id="colPartesPagado" prefWidth="172.800048828125" text="%instrumentos.partes.saldo" />
-                                                                <TableColumn fx:id="colPartesSaldo" prefWidth="150.39990234375" text="%instrumentos.partes.saldo" />
-                                                <TableColumn fx:id="colPartesAcciones" prefWidth="72.8001708984375" />
+                                                                <TableColumn fx:id="colPartesPaga" prefWidth="165.59994506835938" text="%instrumentos.partes.paga" />
+                                                                <TableColumn fx:id="colPartesMonto" prefWidth="214.4000244140625" text="%instrumentos.comun.monto" />
+                                                                <TableColumn fx:id="colPartesSaldo" prefWidth="161.60009765625" text="%instrumentos.partes.saldo" />
+                                                <TableColumn fx:id="colPartesAcciones" minWidth="0.0" prefWidth="168.800048828125" />
                                                             </columns>
                                              <VBox.margin>
                                                 <Insets left="50.0" right="50.0" />
