@@ -25,7 +25,7 @@
                <children>
                   <VBox prefHeight="79.0" prefWidth="1029.0">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="contable.titulo" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titl" text="%contable.titulo" />
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="1033.0" styleClass="titlCard" text="%contable.descripcion" />
                      </children>
                   </VBox>
@@ -72,7 +72,7 @@
                                                       </VBox>
                                                       <VBox prefHeight="46.0" prefWidth="163.0">
                                                          <children>
-                                                            <Label prefHeight="20.0" prefWidth="130.0" styleClass="titlCard" text="Ingresos Totales" />
+                                                            <Label prefHeight="20.0" prefWidth="130.0" styleClass="titlCard" text="%contable.ing" />
                                                             <Label fx:id="lbIngresos" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
@@ -91,7 +91,7 @@
                                                       </VBox>
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
-                                                            <Label styleClass="titlCard" text="Gastos" />
+                                                            <Label styleClass="titlCard" text="%contable.gas" />
                                                             <Label fx:id="lbGastos" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
@@ -110,7 +110,7 @@
                                                       </VBox>
                                                       <VBox prefHeight="200.0" prefWidth="100.0">
                                                          <children>
-                                                            <Label styleClass="titlCard" text="Utilidad" />
+                                                            <Label styleClass="titlCard" text="%contable.utilidad" />
                                                             <Label fx:id="lbUtilidad" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
@@ -129,7 +129,7 @@
                                                       </VBox>
                                                       <VBox prefHeight="46.0" prefWidth="139.0">
                                                          <children>
-                                                            <Label styleClass="titlCard" text="Total Tributado" />
+                                                            <Label styleClass="titlCard" text="%contable.tributado" />
                                                             <Label fx:id="lbTributadas" styleClass="titl2" text="Label" />
                                                          </children>
                                                       </VBox>
@@ -164,7 +164,7 @@
                                                       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="155.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
                                                          <children>
                                                             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.tributa" VBox.vgrow="ALWAYS" />
-                                                            <MFXCheckbox fx:id="chkTributaC" onAction="#onActionSelectedTributaContable" text="Si" />
+                                                            <MFXCheckbox fx:id="chkTributaC" onAction="#onActionSelectedTributaContable" text="%w.si" />
                                                          </children>
                                                       </VBox>
                                                    </children>
@@ -202,16 +202,16 @@
                                           </HBox>
                                           <TableView fx:id="tblContable" prefHeight="372.0" prefWidth="1134.0" styleClass="tabla">
                                             <columns>
-                                              <TableColumn fx:id="colFecha" prefWidth="131.20003128051758" text="Fecha" />
-                                                <TableColumn fx:id="colTipo" prefWidth="131.20003128051758" text="Tipo" />
-                                                <TableColumn fx:id="colFactura" prefWidth="131.20003128051758" text="Factura" />
-                                              <TableColumn fx:id="colDetalle" minWidth="0.0" prefWidth="234.3999786376953" text="Detalle" />
-                                                <TableColumn fx:id="colOrigen" prefWidth="142.39996337890625" text="Origen" />
-                                                <TableColumn fx:id="colTributa" prefWidth="164.0" text="Tributa" />
-                                                <TableColumn fx:id="colMonto" prefWidth="249.5999755859375" text="Monto" />
-                                                <TableColumn fx:id="colRecibo" prefWidth="249.5999755859375" text="N° Recibo" />
-                                                <TableColumn fx:id="colMontoReal" prefWidth="249.5999755859375" text="Monto Real" />
-                                                <TableColumn fx:id="colMontoFact" prefWidth="249.5999755859375" text="Monto Facturado" />
+                                              <TableColumn fx:id="colFecha" prefWidth="131.20003128051758" text="%contable.fecha" />
+                                                <TableColumn fx:id="colTipo" prefWidth="131.20003128051758" text="%contable.tipo" />
+                                                <TableColumn fx:id="colFactura" prefWidth="131.20003128051758" text="%contable.factura" />
+                                              <TableColumn fx:id="colDetalle" minWidth="0.0" prefWidth="234.3999786376953" text="%contable.detalle" />
+                                                <TableColumn fx:id="colOrigen" prefWidth="142.39996337890625" text="%contable.origen" />
+                                                <TableColumn fx:id="colTributa" prefWidth="164.0" text="%contable.tributa" />
+                                                <TableColumn fx:id="colMonto" prefWidth="249.5999755859375" text="%contable.monto" />
+                                                <TableColumn fx:id="colRecibo" prefWidth="249.5999755859375" text="%contable.recibo" />
+                                                <TableColumn fx:id="colMontoReal" prefWidth="249.5999755859375" text="%contable.mReal" />
+                                                <TableColumn fx:id="colMontoFact" prefWidth="249.5999755859375" text="%contable.mFact" />
                                             </columns>
                                           </TableView>
                                        </children></VBox>
