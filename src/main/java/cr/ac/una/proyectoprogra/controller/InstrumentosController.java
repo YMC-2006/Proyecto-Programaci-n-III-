@@ -301,6 +301,8 @@ public class InstrumentosController extends Controller implements Initializable 
     private Button btnSubirDocuFirmado;
     @FXML
     private Label lblNombreDocuFirmado;
+    @FXML
+    private Button btnEliminar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -846,6 +848,17 @@ public class InstrumentosController extends Controller implements Initializable 
             mostrarError(respuesta.getMensaje());
         }
 
+    }
+    
+    
+    @FXML
+    private void btnOnActionEliminarInstrumento(ActionEvent event) {
+        
+        if(instrumentoActual == null){
+            mostrarError("Cargue el instrumento a eliminar");
+            return;
+        }
+        
     }
 
     private void revisarPermisos() {
@@ -1552,5 +1565,6 @@ public class InstrumentosController extends Controller implements Initializable 
         }
 
     }
+
 
 }

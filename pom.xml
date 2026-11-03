@@ -4,11 +4,20 @@
     <groupId>cr.ac.una</groupId>
     <artifactId>ProyectoProgra</artifactId>
     <version>1.0</version>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
+
+        <!-- ===== EJECUTABLE ===== -->
+        <!-- Carpeta de la imagen jlink. El .bat queda en SicobuUNA/bin/ -->
+        <dist.dir>${project.build.directory}/SicobuUNA</dist.dir>
+        <!-- Ruta donde se descomprimieron los JMODS de JavaFX 26 -->
+        <javafx.jmods>C:/javafx-jmods-26</javafx.jmods>
+        <main.class>cr.ac.una.proyectoprogra.App</main.class>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -51,34 +60,34 @@
             <artifactId>jersey-media-json-binding</artifactId>
             <version>3.1.10</version>
         </dependency>
-        
     </dependencies>
+
     <build>
         <plugins>
+
+            <!-- COMPILADOR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <release>25</release>
                 </configuration>
             </plugin>
+
+            <!--  JAVAFX PLUGIN para desarrollo y correr desde netbeans -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>cr.ac.una.proyectoprogra.App</mainClass>
+                    <mainClass>${main.class}</mainClass>
                 </configuration>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                     </execution>
                     <execution>
-                        <!-- Configuration for manual attach debugging -->
-                        <!-- Usage: mvn clean javafx:run@debug -->
                         <id>debug</id>
                         <configuration>
                             <options>
@@ -87,7 +96,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- Configuration for automatic IDE debugging -->
                         <id>ide-debug</id>
                         <configuration>
                             <options>
@@ -96,7 +104,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- Configuration for automatic IDE profiling -->
                         <id>ide-profile</id>
                         <configuration>
                             <options>
@@ -110,6 +117,130 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- JLINK: genera el runtime (Java + JavaFX) en dist.dir -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>jlink</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${java.home}/bin/jlink</executable>
+                            <arguments>
+                                <argument>--module-path</argument>
+                                <argument>${javafx.jmods}</argument>
+                                <argument>--add-modules</argument>
+                                <argument>java.se,javafx.controls,javafx.fxml,javafx.media,jdk.crypto.ec,jdk.crypto.cryptoki,jdk.unsupported,jdk.zipfs,jdk.localedata,jdk.charsets</argument>
+                                <argument>--include-locales=es,en</argument>
+                                <argument>--strip-debug</argument>
+                                <argument>--no-header-files</argument>
+                                <argument>--no-man-pages</argument>
+                                <argument>--compress=zip-6</argument>
+                                <argument>--output</argument>
+                                <argument>${dist.dir}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--  COPIAR LIBRERIAS a SicobuUNA/app/libs (despues de jlink) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.7.1</version>
+                <executions>
+                    <execution>
+                        <id>copiar-libs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${dist.dir}/app/libs</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <!-- JavaFX ya va dentro del runtime de jlink -->
+                            <excludeGroupIds>org.openjfx</excludeGroupIds>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- ANTRUN limpieza antes de jlink y armado final -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+
+                    <!-- Borra la imagen anterior: jlink no escribe sobre una carpeta existente -->
+                    <execution>
+                        <id>limpiar-imagen</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <delete dir="${dist.dir}" quiet="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+
+                    <!-- Copia el jar y la configuración, y escribe los .bat -->
+                    <execution>
+                        <id>armar-imagen</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar"
+                                      todir="${dist.dir}/app"/>
+
+                                <!-- la URL del WS se puede cambiar sin recompilar -->
+                                <copy todir="${dist.dir}/config">
+                                    <fileset dir="${basedir}/config"/>
+                                </copy>
+
+                                <!-- Ejecutable de entrega sin consola -->
+                                <echo file="${dist.dir}/bin/SicobuUNA.bat"><![CDATA[@echo off
+set DIR=%~dp0
+cd /d "%DIR%.."
+start "" "%DIR%javaw.exe" ^
+  -Dfile.encoding=UTF-8 ^
+  --enable-native-access=ALL-UNNAMED ^
+  -cp "%DIR%..\app\*;%DIR%..\app\libs\*" ^
+  cr.ac.una.proyectoprogra.App %*
+]]></echo>
+
+                                <!-- Ejecutable com consola para ver errores -->
+                                <echo file="${dist.dir}/bin/SicobuUNA-debug.bat"><![CDATA[@echo off
+set DIR=%~dp0
+cd /d "%DIR%.."
+"%DIR%java.exe" ^
+  -Dfile.encoding=UTF-8 ^
+  --enable-native-access=ALL-UNNAMED ^
+  -cp "%DIR%..\app\*;%DIR%..\app\libs\*" ^
+  cr.ac.una.proyectoprogra.App %*
+echo.
+echo ---- La aplicacion termino. Codigo de salida: %ERRORLEVEL% ----
+pause
+]]></echo>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>

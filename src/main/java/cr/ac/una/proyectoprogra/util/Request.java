@@ -182,28 +182,25 @@ public class Request {
     //TODO revisar estos que no estoy segura si son asi
     public void post(Object clazz) {
         if (verifyTokenExp()) {
-            response = builder.get();
+            Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
+            response = builder.post(entity);
         }
 
-        Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
-        response = builder.post(entity);
     }
 
     public void put(Object clazz) {
         if (verifyTokenExp()) {
-            response = builder.get();
+            Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
+            response = builder.put(entity);
         }
 
-        Entity<?> entity = Entity.entity(clazz, "application/json; charset=UTF-8");
-        response = builder.put(entity);
     }
 
     public void delete() {
         if (verifyTokenExp()) {
-            response = builder.get();
+            response = builder.delete();
         }
 
-        response = builder.delete();
     }
 
     public int getStatus() {
@@ -295,7 +292,7 @@ public class Request {
             if (payload != null && payload.getJsonNumber("exp").longValue() > System.currentTimeMillis() / 1000) {
                 // TODO yuli cuando alondra haga el login :D
                 Respuesta respuesta = new UsuarioService().renovarToken();
-                if (respuesta.getEstado()) {
+                if (Boolean.TRUE.equals(respuesta.getEstado())) {
                     AppContext.getInstance().set("Token", respuesta.getResultado("Token").toString());
                     MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
                     headers.add("Authorization", respuesta.getResultado("Token").toString());

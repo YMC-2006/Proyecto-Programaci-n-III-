@@ -1334,6 +1334,40 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 /*--------------------- INSTRUMENTOS ---------------------------*/
 
+.btnDS {
+    -mfx-button-type:FLAT;
+    -fx-background-color: #fce3e4;
+    -fx-border-color: #fd6361;
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #fa1e0c;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 18px;
+    -fx-cursor: hand;
+
+    /*-mfx-ripple-color: rgba(226, 232, 240, 0.5);*/
+}
+
+.btnDS:hover {
+    -fx-background-color: #064c74;
+    -fx-border-color: #04334e;
+    -fx-text-fill:white;
+    -mfx-button-type:FLAT;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.btnDS:focused {
+    -mfx-button-type:FLAT;
+    -fx-background-color: #fce3e4;
+    -fx-border-color: #fd6361;
+    -fx-text-fill:#fa1e0c;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
 .subTituloInstrumentos {
     -fx-font-family: "Candara";
     -fx-font-size: 16px;

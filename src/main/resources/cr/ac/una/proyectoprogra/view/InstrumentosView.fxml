@@ -31,8 +31,9 @@
                     <children>
                         <Label styleClass="titl" text="%instrumentos.titulo" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#onActionBtnBuscarInstrumento" styleClass="btnW" text="%instrumentos.btn.buscar" />
-                        <Button mnemonicParsing="false" onAction="#onActionBtnLimpiarCampos" styleClass="btnW" text="%instrumentos.btn.nuevo" />
+                        <Button mnemonicParsing="false" onAction="#onActionBtnBuscarInstrumento" prefHeight="46.0" prefWidth="184.0" styleClass="btnNS" text="%instrumentos.btn.buscar" />
+                        <Button mnemonicParsing="false" onAction="#onActionBtnLimpiarCampos" prefHeight="46.0" prefWidth="162.0" styleClass="btnNS" text="%instrumentos.btn.nuevo" />
+                  <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#btnOnActionEliminarInstrumento" prefHeight="46.0" prefWidth="136.0" styleClass="btnNS" text="Eliminar" />
                         <Button fx:id="btnGuardarInstrumento" mnemonicParsing="false" onAction="#onActionBtnGuardarInstrumento" prefHeight="46.0" prefWidth="162.0" styleClass="btnNS" text="%instrumentos.btn.guardar" />
                     </children>
                 </HBox>
