@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="659.0" prefWidth="986.0" styleClass="calendario" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AgendaController">
+<AnchorPane id="AnchorPane" prefHeight="774.0" prefWidth="1509.0" styleClass="calendario" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.proyectoprogra.controller.AgendaController">
    <children>
       <VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -90,6 +90,12 @@
                   <String fx:value="calendario" />
                </styleClass>
             </MFXScrollPane>
+            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
+               <children>
+                  <Label styleClass="chipEventoAtendido" text="Eventos Atendidos" />
+                  <Label styleClass="chipEventoNoAtendido" text="Eventos Sin Atender" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

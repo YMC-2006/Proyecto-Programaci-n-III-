@@ -213,6 +213,9 @@ public class InstrumentosController extends Controller implements Initializable 
     @FXML
     private TableColumn<Evento, Evento> colEventoAcciones;
     private ObservableList<Evento> listaEventos = FXCollections.observableArrayList();
+    @FXML
+    private ComboBox<String> cmbEstadoEvento;
+    private final String[] opsEstadoEvento = {"Sin Atender","Atendido"};
 
     private InstrumentoGasto gastoEditando;   // null = agregando uno nuevo
     private Evento eventoEditando;
@@ -334,6 +337,9 @@ public class InstrumentosController extends Controller implements Initializable 
                 txtNumeroRecibo.clear();
             }
         });
+        
+        cmbEstadoEvento.getItems().setAll(opsEstadoEvento);
+        cmbEstadoEvento.getSelectionModel().selectFirst();
 
         cmbPartesRol.getItems().setAll(filtroPartesRol);
         cmbPartesRol.getSelectionModel().selectFirst();
@@ -1165,12 +1171,19 @@ public class InstrumentosController extends Controller implements Initializable 
         }
 
         String detalle = txtEventoDetalle.getText().trim();
+        int indiceCombo = cmbEstadoEvento.getSelectionModel().getSelectedIndex();  
         LocalDate fecha = dpEventoFecha.getValue();
         LocalTime hora;
 
         if (detalle.isEmpty()) {
             mostrarError("Indique el detalle del evento");
             txtEventoDetalle.requestFocus();
+            return;
+        }
+        
+        if(indiceCombo < 0){
+            mostrarError("Eliga un estado valido para el evento");
+            cmbEstadoEvento.requestFocus();
             return;
         }
 
@@ -1188,7 +1201,12 @@ public class InstrumentosController extends Controller implements Initializable 
             return;
         }
 
-        Evento evento = new Evento(detalle, LocalDateTime.of(fecha, hora), false);
+        Boolean estadoEvento = false;
+        if(indiceCombo == 1){
+            estadoEvento = true;
+        }
+        
+        Evento evento = new Evento(detalle, LocalDateTime.of(fecha, hora), estadoEvento);
         if (eventoEditando != null) {
             evento.setEveId(eventoEditando.getEveId());
         }

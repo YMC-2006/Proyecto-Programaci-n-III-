@@ -1623,7 +1623,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-text-fill: #556070;
     -fx-font-size: 14px;
 }
-    
+
 /*====== comodines =======*/
 
 .chipComodin {
@@ -1705,6 +1705,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .progress-bar > .bar {
     -fx-background-color: #3F6084;
     -fx-background-radius: 5px;
+}
+
+.chipEventoAtendido{
+    -fx-background-color: #d4edda;
+    -fx-text-fill: #155724;
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.chipEventoNoAtendido{
+    -fx-background-color: #f8d7da;
+    -fx-text-fill: #721c24;
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+
 }
 
 /*======================================= REPORTES ===========================*/
