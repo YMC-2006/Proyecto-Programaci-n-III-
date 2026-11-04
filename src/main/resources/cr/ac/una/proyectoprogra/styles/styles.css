@@ -478,10 +478,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-radius: 0;
     -fx-text-fill: #5A6475;
     -fx-font-family: "Manrope SemiBold";
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
     -fx-padding: 0 16 0 16;
     -fx-cursor: hand;
-    /* línea siempre presente pero transparente, así el botón no "salta" al hacer hover */
     -fx-border-color: transparent transparent transparent transparent;
     -fx-border-width: 0 0 3 0;
 }
@@ -977,9 +976,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 }
 
 .tab-pane .tab .tab-label {
-    -fx-text-fill: #64748B;
+    -fx-text-fill: #4c596c;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 16px;
 }
 
 .tab-pane .tab:hover .tab-label {
@@ -1180,7 +1179,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .lblCampo {
     -fx-text-fill: #3A4252;
     -fx-font-family: "Manrope SemiBold";
-    -fx-font-size: 12.5px;
+    -fx-font-size: 14px;
 }
 .dpCampo {
     -fx-background-color: #C9D3E1, #FFFFFF;

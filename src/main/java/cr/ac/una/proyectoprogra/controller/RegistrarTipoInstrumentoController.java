@@ -47,7 +47,7 @@ public class RegistrarTipoInstrumentoController extends Controller implements In
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(50)); // en la BD tenemos 100 pero aca dejare 50
+        this.txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(100)); 
         this.chkEstado.setSelected(true);
     }
 

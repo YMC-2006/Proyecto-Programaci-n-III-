@@ -85,7 +85,7 @@ public class RegistrarClienteController extends Controller implements Initializa
         txtApellido2.setTextFormatter(Formato.getInstance().letrasFormat(60));
         txtEstadoCivil.setTextFormatter(Formato.getInstance().letrasFormat(20));
         txtOcupacion.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
-        txtCelular.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
+        txtCelular.setTextFormatter(Formato.getInstance().telefonoFormat(20));
         txtCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
         txtDireccion.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
         txtObservaciones.setTextFormatter(Formato.getInstance().maxLengthFormat(1000));

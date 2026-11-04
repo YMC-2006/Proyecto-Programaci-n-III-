@@ -28,6 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javax.security.auth.login.AppConfigurationEntry;
 
 /**
  * FXML Controller class
@@ -58,13 +59,15 @@ public class InicioSesionController extends Controller implements Initializable 
     public void initialize(URL url, ResourceBundle rb) {
         lblReenviarActivacion.setVisible(false);
         cbxBufete.selectedItemProperty().addListener((observable, anterior, nuevo) -> revisarActivacion());
-    }    
+
+    }
 
     @Override
     public void initialize() {
         txtUsuario.clear();
         txtClave.clear();
         cbxBufete.getItems().clear();
+
     }
 
     @FXML
@@ -103,14 +106,14 @@ public class InicioSesionController extends Controller implements Initializable 
     @FXML
     private void OnActionBtnRegistrar(ActionEvent event) {
         FlowController.getInstance().goViewInWindow("RegistrarseView");
-        ((Stage)btnRegistrar.getScene().getWindow()).close();
+        ((Stage) btnRegistrar.getScene().getWindow()).close();
     }
 
     @FXML
     private void OnMouseClickedRecuperarClave(MouseEvent event) {
         if (cbxBufete.getSelectedItem() == null) {
-        new Mensaje().showModal(Alert.AlertType.INFORMATION, "Recuperar contraseña", getStage(), "Digite su usuario, presione Enter y seleccione el bufete.");
-        return;
+            new Mensaje().showModal(Alert.AlertType.INFORMATION, "Recuperar contraseña", getStage(), "Digite su usuario, presione Enter y seleccione el bufete.");
+            return;
         }
         AppContext.getInstance().set("BufeteRecuperar", cbxBufete.getSelectedItem());
         FlowController.getInstance().goViewInWindow("RecuperarClaveView");
@@ -130,10 +133,10 @@ public class InicioSesionController extends Controller implements Initializable 
     @FXML
     private void onKeyPressedTxtUsuario(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-        cargarBufetes();
+            cargarBufetes();
         }
     }
-    
+
     private void cargarBufetes() {
         cbxBufete.clearSelection();
         cbxBufete.getItems().clear();
@@ -164,8 +167,8 @@ public class InicioSesionController extends Controller implements Initializable 
     @FXML
     private void OnMouseClickedReenviarActivacion(MouseEvent event) {
         if (cbxBufete.getSelectedItem() == null) {
-        new Mensaje().showModal(Alert.AlertType.INFORMATION, "Reenviar activación", getStage(), "Digite su usuario, presione Enter y seleccione el bufete.");
-        return;
+            new Mensaje().showModal(Alert.AlertType.INFORMATION, "Reenviar activación", getStage(), "Digite su usuario, presione Enter y seleccione el bufete.");
+            return;
         }
         UsuarioService usuarioService = new UsuarioService();
         Respuesta respuesta = usuarioService.reenviarActivacion(cbxBufete.getSelectedItem().getBufId(), txtUsuario.getText());
@@ -175,7 +178,7 @@ public class InicioSesionController extends Controller implements Initializable 
         }
         new Mensaje().showModal(Alert.AlertType.INFORMATION, "Reenviar activación", getStage(), "Se envió un nuevo correo de activación. Revise su bandeja de entrada.");
     }
-    
+
     private void revisarActivacion() {
         lblReenviarActivacion.setVisible(false);
         if (cbxBufete.getSelectedItem() == null) {

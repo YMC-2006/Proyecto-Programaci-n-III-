@@ -64,15 +64,15 @@ public class RegistrarSociedadController extends Controller implements Initializ
     private Button btnCancelar;
     @FXML
     private Button btnAgregar;
-    
+
     private final String[] filtroAcciones = {"Comunes", "Preferentes"};
     private final String[] siglasTipo = {"C", "P"};
     @FXML
     private TextField txtDomicilio;
-    
+
     private SociedadDto sociedadEditando;
     private SociedadService sociedadService = new SociedadService();
-    
+
     UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
     Long bufeteId = usuarioActivo.getUsrBufeteId();
 
@@ -85,8 +85,8 @@ public class RegistrarSociedadController extends Controller implements Initializ
         cbxAcciones.getSelectionModel().selectFirst();
 
         txtCedula.setTextFormatter(Formato.getInstance().cedulaFormat(30));
-        txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(150));
-        txtTelefono.setTextFormatter(Formato.getInstance().integerFormat(20));
+        txtNombre.setTextFormatter(Formato.getInstance().nombreFormat(150));
+        txtTelefono.setTextFormatter(Formato.getInstance().telefonoFormat(20));
         txtFolio.setTextFormatter(Formato.getInstance().integerFormat(20));
         txtTomo.setTextFormatter(Formato.getInstance().integerFormat(20));
         txtAsiento.setTextFormatter(Formato.getInstance().integerFormat(20));
@@ -94,7 +94,7 @@ public class RegistrarSociedadController extends Controller implements Initializ
         txtCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
         txtTitulos.setTextFormatter(Formato.getInstance().integerFormat(10));
         txtValor.setTextFormatter(Formato.getInstance().numeroDecimalFormat(14));
-    }    
+    }
 
     @Override
     public void initialize() {
@@ -105,7 +105,7 @@ public class RegistrarSociedadController extends Controller implements Initializ
             AppContext.getInstance().delete("sociedadEditar");
         }
     }
-    
+
     private void mostrarError(String mensaje) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
@@ -119,7 +119,7 @@ public class RegistrarSociedadController extends Controller implements Initializ
         alert.setHeaderText(null);
         alert.showAndWait();
     }
-    
+
     private void limpiarCampos() {
         cbxAcciones.getSelectionModel().selectFirst();
         txtCedula.clear();
@@ -179,9 +179,17 @@ public class RegistrarSociedadController extends Controller implements Initializ
         String folio = txtFolio.getText();
         String asiento = txtAsiento.getText();
         String correo = txtCorreo.getText();
-        String ct = txtTitulos.getText();
-        Long titulos = Long.parseLong(ct);
-        BigDecimal valor = new BigDecimal(txtValor.getText());
+        
+        // validaciones para que no de error
+        Long titulos = null;
+        if (!txtTitulos.getText().isBlank()) {
+            titulos = Long.parseLong(txtTitulos.getText());
+        }
+
+        BigDecimal valor = null;
+        if (!txtValor.getText().isBlank()) {
+            valor = new BigDecimal(txtValor.getText());
+        }
         LocalDate fechaI = dtpFecha.getValue();
 
         if (indiceTipo < 0) {
@@ -202,7 +210,6 @@ public class RegistrarSociedadController extends Controller implements Initializ
             return;
         }
 
-
         if (sociedadEditando == null) {
 
             SociedadDto sociedad = new SociedadDto();
@@ -218,7 +225,7 @@ public class RegistrarSociedadController extends Controller implements Initializ
             sociedad.setSocCantidadTitulos(titulos);
             sociedad.setSocValorTitulo(valor);
             sociedad.setSocFechaInscripcion(fechaI);
-            
+
             sociedad.setSocBufeteId(bufeteId);
             Respuesta respuesta = sociedadService.guardarSociedad(sociedad);
 
@@ -256,5 +263,5 @@ public class RegistrarSociedadController extends Controller implements Initializ
 
         }
     }
-    
+
 }

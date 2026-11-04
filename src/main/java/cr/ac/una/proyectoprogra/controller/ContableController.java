@@ -103,20 +103,20 @@ public class ContableController extends Controller implements Initializable {
     private TableColumn<MovimientoDto, BigDecimal> colMontoM;
     @FXML
     private TableColumn<MovimientoDto, String> colDetalleM;
-    
+
     private List<MovimientoDto> todosLosMovimientos = new ArrayList<>();
     private List<InstrumentoGasto> todosLosGastos = new ArrayList<>();
     private List<Instrumento> todosLosInstrumentos = new ArrayList<>();
     private ObservableList<MovimientoDto> listaMovimientos = FXCollections.observableArrayList();
     private List<ContableDto> todosLosContables = new ArrayList<>();
     private ObservableList<ContableDto> listaContable = FXCollections.observableArrayList();
-    
+
     private final String[] filtroTipo = {"Todos", "Ingresos", "Gastos"};
-    
+
     private MovimientoService movimientoService = new MovimientoService();
     private InstrumentoGastoService insGService = new InstrumentoGastoService();
     private InstrumentoService insService = new InstrumentoService();
-    
+
     @FXML
     private Tab tabMovimientos;
     @FXML
@@ -145,9 +145,7 @@ public class ContableController extends Controller implements Initializable {
     private TextField txtMontoC;
     @FXML
     private TextField txtDetalleC;
-    
-    UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
-    Long bufeteId = usuarioActivo.getUsrBufeteId();
+
     @FXML
     private TableColumn<ContableDto, String> colTipo;
     @FXML
@@ -168,25 +166,25 @@ public class ContableController extends Controller implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cbxTipo.getItems().setAll(filtroTipo);
         cbxTipo.getSelectionModel().selectFirst();
-        cbxTipo.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue)->{
+        cbxTipo.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             filtrarMovimientos();
         });
         cbxTipoC.getItems().setAll(filtroTipo);
         cbxTipoC.getSelectionModel().selectFirst();
-        cbxTipoC.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue)->{
+        cbxTipoC.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             filtrarContables();
         });
-        
-        if(dtpFechaInicio != null){
-            dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue)->{
+
+        if (dtpFechaInicio != null) {
+            dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue) -> {
                 filtrarMovimientos();
                 filtrarContables();
                 cargarIndicadoresGenerales();
             });
         }
-        
-        if(dtpFechaFin != null){
-            dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue)->{
+
+        if (dtpFechaFin != null) {
+            dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue) -> {
                 filtrarMovimientos();
                 filtrarContables();
                 cargarIndicadoresGenerales();
@@ -194,136 +192,140 @@ public class ContableController extends Controller implements Initializable {
         }
         inicializarMovimientos();
         inicializarContables();
-    }    
+    }
 
     @Override
     public void initialize() {
-
+        cargarTablaMovimientos();
+        cargarContables();
     }
-    
-    private void cargarContables(){
+
+    private void cargarContables() {
+        UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioActivo.getUsrBufeteId();
+
         todosLosContables.clear();
         Respuesta respuestaMov = movimientoService.getMovimientos(bufeteId);
-        if(respuestaMov.getEstado().equals(true)){
+        if (respuestaMov.getEstado().equals(true)) {
             todosLosMovimientos = (List<MovimientoDto>) respuestaMov.getResultado("Movimientos");
         }
-        
-        for(MovimientoDto m : todosLosMovimientos){
-            todosLosContables.add(new ContableDto(m.getMovTipo(),m.getMovDetalle(),m.getMovFecha(),
-                    m.getMovMonto(),m.getMovFactura(), m.getMovTributa(), m.getMovOrigen(), null, null, null));
+
+        for (MovimientoDto m : todosLosMovimientos) {
+            todosLosContables.add(new ContableDto(m.getMovTipo(), m.getMovDetalle(), m.getMovFecha(),
+                    m.getMovMonto(), m.getMovFactura(), m.getMovTributa(), m.getMovOrigen(), null, null, null));
         }
-        
+
         Respuesta respuestaInsG = insGService.getGastos(bufeteId, null, null, null);
-        if(respuestaInsG.getEstado().equals(true)){
+        if (respuestaInsG.getEstado().equals(true)) {
             todosLosGastos = (List<InstrumentoGasto>) respuestaInsG.getResultado("InstrumentosGastos");
         }
-        
-        for(InstrumentoGasto ig : todosLosGastos){
-            todosLosContables.add(new ContableDto("G",ig.getIgaDetalle(),ig.getIgaFecha(),
-                    ig.getIgaMonto(),ig.getIgaFactura(), ig.getIgaTributa(), "Instrumento", null, null, null));
+
+        for (InstrumentoGasto ig : todosLosGastos) {
+            todosLosContables.add(new ContableDto("G", ig.getIgaDetalle(), ig.getIgaFecha(),
+                    ig.getIgaMonto(), ig.getIgaFactura(), ig.getIgaTributa(), "Instrumento", null, null, null));
         }
-        
+
         Respuesta respuestaIns = insService.getInstrumentos(bufeteId, null, null, null);
-        if(respuestaIns.getEstado().equals(true)){
+        if (respuestaIns.getEstado().equals(true)) {
             todosLosInstrumentos = (List<Instrumento>) respuestaIns.getResultado("Instrumentos");
         }
-        
-        for(Instrumento i : todosLosInstrumentos){
+
+        for (Instrumento i : todosLosInstrumentos) {
             LocalDate fecha = i.getInsFechaHora().toLocalDate();
-            todosLosContables.add(new ContableDto("I",i.getInsDetalle(),fecha,
-                    null,null, i.getInsTributa(), "Instrumento", i.getInsNumeroRecibo(), i.getInsMontoReal(), i.getInsMontoFacturado()));
+            todosLosContables.add(new ContableDto("I", i.getInsDetalle(), fecha,
+                    null, null, i.getInsTributa(), "Instrumento", i.getInsNumeroRecibo(), i.getInsMontoReal(), i.getInsMontoFacturado()));
         }
         cargarIndicadoresGenerales();
         filtrarContables();
     }
-    
-    private void cargarIndicadoresGenerales(){
+
+    private void cargarIndicadoresGenerales() {
         BigDecimal ingresos = BigDecimal.ZERO;
         BigDecimal gastos = BigDecimal.ZERO;
         BigDecimal tributado = BigDecimal.ZERO;
         BigDecimal utilidad = BigDecimal.ZERO;
-        
+
         LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
         LocalDate fecFin = (dtpFechaFin != null) ? dtpFechaFin.getValue() : null;
-        
-        for(MovimientoDto m : todosLosMovimientos){
+
+        for (MovimientoDto m : todosLosMovimientos) {
             LocalDate movFec = m.getMovFecha();
-            if(movFec != null && ((fecIni == null || !movFec.isBefore(fecIni)) && (fecFin == null || !movFec.isAfter(fecFin)))){
+            if (movFec != null && ((fecIni == null || !movFec.isBefore(fecIni)) && (fecFin == null || !movFec.isAfter(fecFin)))) {
                 BigDecimal monto = m.getMovMonto() != null ? m.getMovMonto() : BigDecimal.ZERO;
                 String tipoM = m.getMovTipo();
-                if(tipoM.equals("I")){
+                if (tipoM.equals("I")) {
                     ingresos = ingresos.add(monto);
-                }else if(tipoM.equals("G")){
+                } else if (tipoM.equals("G")) {
                     gastos = gastos.add(monto);
                 }
 
-                if(m.getMovTributa()){
+                if (m.getMovTributa()) {
                     BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                     tributado = tributado.add(t);
                 }
             }
         }
-        
-        for(Instrumento i : todosLosInstrumentos){
+
+        for (Instrumento i : todosLosInstrumentos) {
             LocalDate insFec = i.getInsFechaHora().toLocalDate();
-            if(insFec != null && (fecIni == null || !insFec.isBefore(fecIni)) && (fecFin == null || !insFec.isAfter(fecFin))){
+            if (insFec != null && (fecIni == null || !insFec.isBefore(fecIni)) && (fecFin == null || !insFec.isAfter(fecFin))) {
                 BigDecimal monto = i.getInsMontoReal() != null ? i.getInsMontoReal() : BigDecimal.ZERO;
                 ingresos = ingresos.add(monto);
 
-                if(i.getInsTributa()){
+                if (i.getInsTributa()) {
                     BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                     tributado = tributado.add(t);
                 }
             }
         }
-        
-        for(InstrumentoGasto ig : todosLosGastos){
+
+        for (InstrumentoGasto ig : todosLosGastos) {
             LocalDate igFec = ig.getIgaFecha();
-            if(igFec != null && (fecIni == null || !igFec.isBefore(fecIni)) && (fecFin == null || !igFec.isAfter(fecFin))){
+            if (igFec != null && (fecIni == null || !igFec.isBefore(fecIni)) && (fecFin == null || !igFec.isAfter(fecFin))) {
                 BigDecimal monto = ig.getIgaMonto() != null ? ig.getIgaMonto() : BigDecimal.ZERO;
                 gastos = gastos.add(monto);
 
-                if(ig.getIgaTributa()){
+                if (ig.getIgaTributa()) {
                     BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                     tributado = tributado.add(t);
                 }
             }
         }
-        
+
         utilidad = ingresos.subtract(gastos);
         utilidad = utilidad.subtract(tributado);
-        
+
         lbIngresos.setText(ingresos.toString());
         lbGastos.setText(gastos.toString());
         lbUtilidad.setText(utilidad.toString());
         lbTributadas.setText(tributado.toString());
     }
-    
-    private Predicate<ContableDto> filtrarFechasContables(){
+
+    private Predicate<ContableDto> filtrarFechasContables() {
         LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
         LocalDate fecFin = (dtpFechaFin != null) ? dtpFechaFin.getValue() : null;
-        return c->{
+        return c -> {
             LocalDate fec = c.getFecha();
-            if(fec == null){
+            if (fec == null) {
                 return false;
             }
-            if(fecIni != null && fec.isBefore(fecIni)){
+            if (fecIni != null && fec.isBefore(fecIni)) {
                 return false;
             }
-            if(fecFin != null && fec.isAfter(fecFin)){
+            if (fecFin != null && fec.isAfter(fecFin)) {
                 return false;
             }
             return true;
         };
     }
-    
-    private void filtrarContables(){
+
+    private void filtrarContables() {
         String detalle = texto(txtDetalleC);
         String monto = texto(txtMontoC);
         String factura = texto(txtFacturaC);
         Boolean tributa = chkTributaC.isSelected();
         String tipo = filtroTipo(cbxTipoC);
- 
+
         List<ContableDto> filtrados = todosLosContables.stream()
                 .filter(c -> contiene(c.getDetalle(), detalle))
                 .filter(c -> contiene(c.getMonto().toString(), monto))
@@ -331,29 +333,29 @@ public class ContableController extends Controller implements Initializable {
                 .filter(c -> !tributa || Boolean.TRUE.equals(c.getTributa()))
                 .filter(c -> tipo == null || c.getTipo().equals(tipo))
                 .filter(filtrarFechasContables()).collect(Collectors.toList());
- 
+
         listaContable.setAll(filtrados);
     }
-    
-    private void inicializarContables(){
+
+    private void inicializarContables() {
         tblContable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
- 
+
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        colTipo.setCellValueFactory(cellData->{
+        colTipo.setCellValueFactory(cellData -> {
             SimpleStringProperty tipo = new SimpleStringProperty();
-            if(cellData.getValue().getTipo().equals("I")){
+            if (cellData.getValue().getTipo().equals("I")) {
                 tipo.set("Ingreso");
-            }else{
+            } else {
                 tipo.set("Gasto");
             }
             return tipo;
         });
         colFactura.setCellValueFactory(new PropertyValueFactory<>("factura"));
-        colTributa.setCellValueFactory(cellData->{
+        colTributa.setCellValueFactory(cellData -> {
             SimpleStringProperty tributa = new SimpleStringProperty();
-            if(cellData.getValue().getTributa() == true){
+            if (cellData.getValue().getTributa() == true) {
                 tributa.set("Sí");
-            }else{
+            } else {
                 tributa.set("No");
             }
             return tributa;
@@ -364,148 +366,148 @@ public class ContableController extends Controller implements Initializable {
         colRecibo.setCellValueFactory(new PropertyValueFactory<>("numRecibo"));
         colMontoReal.setCellValueFactory(new PropertyValueFactory<>("montoReal"));
         colMontoFact.setCellValueFactory(new PropertyValueFactory<>("montoFacturado"));
- 
+
         this.tblContable.setPlaceholder(new Label("No hay movimientos/instrumentos contables registrados por el momento"));
- 
+
         tblContable.setItems(listaContable);
         cargarContables();
     }
-    
-    private void inicializarMovimientos(){
+
+    private void inicializarMovimientos() {
         colAcciones.setCellFactory(col -> new TableCell<MovimientoDto, MovimientoDto>() {
- 
+
             private final Button btnEditar = new Button();
             private final Button btnEliminar = new Button();
             private final HBox contenedor = new HBox();
- 
+
             {
- 
+
                 ImageView iconoEliminar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/eliminar.png")));
                 iconoEliminar.setFitHeight(30);
                 iconoEliminar.setFitWidth(30);
- 
+
                 ImageView iconoEditar = new ImageView(new Image(getClass().getResourceAsStream("/cr/ac/una/proyectoprogra/resource/iconos_sicobu/editar.png")));
                 iconoEditar.setFitHeight(30);
                 iconoEditar.setFitWidth(30);
- 
+
                 btnEliminar.setGraphic(iconoEliminar);
                 btnEditar.setGraphic(iconoEditar);
- 
+
                 btnEliminar.setMinWidth(30);
                 btnEditar.setMinWidth(30);
- 
+
                 btnEliminar.setStyle("-fx-background-color: transparent;");
                 btnEditar.setStyle("-fx-background-color: transparent;");
- 
+
                 contenedor.setStyle("-fx-alignment: CENTER;");
                 contenedor.setSpacing(10);
- 
+
                 btnEliminar.setOnAction(e -> {
                     MovimientoDto movimiento = getItem();
                     eliminarMovimiento(movimiento);
                 });
- 
+
                 btnEditar.setOnAction(e -> {
                     MovimientoDto movimiento = getItem();
                     modificarMovimiento(movimiento);
                 });
             }
- 
+
             @Override
             protected void updateItem(MovimientoDto movimiento, boolean empty) {
                 super.updateItem(movimiento, empty);
- 
+
                 if (empty || movimiento == null) {
                     setGraphic(null);
                     return;
                 }
- 
+
                 contenedor.getChildren().clear();
                 contenedor.getChildren().add(btnEliminar);
                 contenedor.getChildren().add(btnEditar);
                 setGraphic(contenedor);
             }
- 
+
         });
- 
+
         tblMovimientos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
- 
+
         colFechaM.setCellValueFactory(new PropertyValueFactory<>("movFecha"));
         colTipoM.setCellValueFactory(new PropertyValueFactory<>("movTipo"));
         colFacturaM.setCellValueFactory(new PropertyValueFactory<>("movFactura"));
-        colTributaM.setCellValueFactory(cellData->{
+        colTributaM.setCellValueFactory(cellData -> {
             SimpleStringProperty tributa = new SimpleStringProperty();
-            if(cellData.getValue().getMovTributa() == true){
+            if (cellData.getValue().getMovTributa() == true) {
                 tributa.set("Sí");
-            }else{
+            } else {
                 tributa.set("No");
             }
             return tributa;
         });
         colDetalleM.setCellValueFactory(new PropertyValueFactory<>("movDetalle"));
         colMontoM.setCellValueFactory(new PropertyValueFactory<>("movMonto"));
- 
+
         colAcciones.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue()));
- 
+
         this.tblMovimientos.setPlaceholder(new Label("No hay movimientos registrados por el momento"));
- 
+
         tblMovimientos.setItems(listaMovimientos);
         cargarTablaMovimientos();
     }
-    
+
     private void eliminarMovimiento(MovimientoDto mov) {
- 
+
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmación");
         alerta.setHeaderText(null);
         alerta.setContentText("\n Desea eliminar el movimiento permanentemente?");
- 
+
         ButtonType btnEliminar = new ButtonType("Eliminar", ButtonBar.ButtonData.OK_DONE);
         ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
         alerta.getButtonTypes().setAll(btnEliminar, btnCancelar);
- 
+
         Button botonCancelar = (Button) alerta.getDialogPane().lookupButton(btnCancelar);
         Button botonEliminar = (Button) alerta.getDialogPane().lookupButton(btnEliminar);
- 
+
         botonCancelar.setDefaultButton(true);
         botonEliminar.setDefaultButton(false);
- 
+
         Optional<ButtonType> respuestaDialogo = alerta.showAndWait();
- 
+
         if (respuestaDialogo.isPresent() && respuestaDialogo.get() == btnEliminar) {
             Respuesta respuesta = movimientoService.eliminarMovimiento(mov.getMovId());
- 
+
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
- 
+
                 mostrarExito("Se elimino correctamente el movimiento");
                 cargarTablaMovimientos();
             } else {
                 mostrarError(respuesta.getMensaje());
             }
         }
- 
+
     }
-    
+
     private void modificarMovimiento(MovimientoDto mov) {
         AppContext.getInstance().set("movimientoEditar", mov);
         FlowController.getInstance().goViewInWindowModal("AgregarMovimientoView", stage, false);
         cargarTablaMovimientos();
     }
-    
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
- 
+
     private void mostrarExito(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
-    
+
     private void cargarTablaMovimientos() {
-        Respuesta respuesta = movimientoService.getMovimientos(bufeteId);
+        Respuesta respuesta = movimientoService.getMovimientos(bufeteCarga());
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             List<MovimientoDto> movimientosService = (List<MovimientoDto>) respuesta.getResultado("Movimientos");
             todosLosMovimientos = movimientosService;
@@ -513,35 +515,35 @@ public class ContableController extends Controller implements Initializable {
         } else {
             new Mensaje().show(Alert.AlertType.ERROR, "Movimientos", "Error cargando los movimientos desde el service " + respuesta.getMensaje());
         }
- 
+
     }
-    
-    private Predicate<MovimientoDto> filtrarFechas(){
+
+    private Predicate<MovimientoDto> filtrarFechas() {
         LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
         LocalDate fecFin = (dtpFechaFin != null) ? dtpFechaFin.getValue() : null;
 
-        return m->{
+        return m -> {
             LocalDate fec = m.getMovFecha();
-            if(fec == null){
+            if (fec == null) {
                 return false;
             }
-            if(fecIni != null && fec.isBefore(fecIni)){
+            if (fecIni != null && fec.isBefore(fecIni)) {
                 return false;
             }
-            if(fecFin != null && fec.isAfter(fecFin)){
+            if (fecFin != null && fec.isAfter(fecFin)) {
                 return false;
             }
             return true;
         };
     }
-    
+
     private void filtrarMovimientos() {
         String detalle = texto(txtDetalle);
         String monto = texto(txtMonto);
         String factura = texto(txtFactura);
         Boolean tributa = chkTributa.isSelected();
         String tipo = filtroTipo(cbxTipo);
- 
+
         List<MovimientoDto> filtrados = todosLosMovimientos.stream()
                 .filter(c -> contiene(c.getMovDetalle(), detalle))
                 .filter(c -> contiene(c.getMovMonto().toString(), monto))
@@ -549,10 +551,10 @@ public class ContableController extends Controller implements Initializable {
                 .filter(c -> !tributa || Boolean.TRUE.equals(c.getMovTributa()))
                 .filter(c -> tipo == null || c.getMovTipo().equals(tipo))
                 .filter(filtrarFechas()).collect(Collectors.toList());
- 
+
         listaMovimientos.setAll(filtrados);
     }
-    
+
     private boolean contiene(String dato, String buscado) {
         if (buscado.isEmpty()) {
             return true;
@@ -563,8 +565,8 @@ public class ContableController extends Controller implements Initializable {
     private String texto(TextField txt) {
         return txt.getText() == null ? "" : txt.getText().trim().toLowerCase();
     }
-    
-    private String filtroTipo(ComboBox cbx){
+
+    private String filtroTipo(ComboBox cbx) {
         int index = cbx.getSelectionModel().getSelectedIndex();
         return index == 1 ? "I" : (index == 2 ? "G" : null);
     }
@@ -589,21 +591,21 @@ public class ContableController extends Controller implements Initializable {
 
     @FXML
     private void onSelectionChangedTab(Event event) {
-        if(dtpFechaInicio != null){
+        if (dtpFechaInicio != null) {
             dtpFechaInicio.setValue(null);
         }
-        if(dtpFechaFin != null){
+        if (dtpFechaFin != null) {
             dtpFechaFin.setValue(null);
         }
         Tab seleccionada = (Tab) event.getSource();
-        if(seleccionada.isSelected() && seleccionada == tabContable){
+        if (seleccionada.isSelected() && seleccionada == tabContable) {
             cbxTipoC.getSelectionModel().selectFirst();
             txtFacturaC.clear();
             chkTributaC.setSelected(false);
             txtMontoC.clear();
             txtDetalleC.clear();
             cargarContables();
-        }else if(seleccionada.isSelected() && seleccionada == tabMovimientos){
+        } else if (seleccionada.isSelected() && seleccionada == tabMovimientos) {
             txtFactura.clear();
             chkTributa.setSelected(false);
             txtMonto.clear();
@@ -616,5 +618,10 @@ public class ContableController extends Controller implements Initializable {
     private void onActionSelectedTributaContable(ActionEvent event) {
         filtrarContables();
     }
-    
+
+    private Long bufeteCarga() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
+    }
+
 }

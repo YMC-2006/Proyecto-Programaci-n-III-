@@ -307,24 +307,24 @@ public class InstrumentosController extends Controller implements Initializable 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        txtHoraInstrumento.setTextFormatter(Formato.getInstance().maxLengthFormat(5));
-        txtNumeroBoleta.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        txtEscritura.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        txtTomoAsiento.setTextFormatter(Formato.getInstance().letrasFormat(30));
-        txtFolio.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        txtTomo.setTextFormatter(Formato.getInstance().letrasFormat(20));
-        txtNumeroRecibo.setTextFormatter(Formato.getInstance().maxLengthFormat(30));
+        txtHoraInstrumento.setTextFormatter(Formato.getInstance().horaFormat());
+        txtNumeroBoleta.setTextFormatter(Formato.getInstance().folioFormat(30));
+        txtEscritura.setTextFormatter(Formato.getInstance().folioFormat(20));
+        txtTomoAsiento.setTextFormatter(Formato.getInstance().folioFormat(30));
+        txtFolio.setTextFormatter(Formato.getInstance().folioFormat(20));
+        txtTomo.setTextFormatter(Formato.getInstance().folioFormat(20));
+        txtNumeroRecibo.setTextFormatter(Formato.getInstance().folioFormat(30));
 
-        txaObservacionEstado.setTextFormatter(Formato.getInstance().letrasFormat(500));
-        txaDetalleInstrumento.setTextFormatter(Formato.getInstance().letrasFormat(200));
-        txaObservaciones.setTextFormatter(Formato.getInstance().letrasFormat(1000));
+        txaObservacionEstado.setTextFormatter(Formato.getInstance().maxLengthFormat(500));
+        txaDetalleInstrumento.setTextFormatter(Formato.getInstance().maxLengthFormat(4000));
+        txaObservaciones.setTextFormatter(Formato.getInstance().maxLengthFormat(1000));
 
-        txtMontoReal.setTextFormatter(Formato.getInstance().maxLengthFormat(15));
-        txtMontoFactura.setTextFormatter(Formato.getInstance().maxLengthFormat(15));
+        txtMontoReal.setTextFormatter(Formato.getInstance().numeroDecimalFormat(15));
+        txtMontoFactura.setTextFormatter(Formato.getInstance().numeroDecimalFormat(15));
 
-        txtGastoDetalle.setTextFormatter(Formato.getInstance().letrasFormat(100));
-        txtGastoFactura.setTextFormatter(Formato.getInstance().letrasFormat(60));
-        txtGastoMonto.setTextFormatter(Formato.getInstance().maxLengthFormat(8));
+        txtGastoDetalle.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
+        txtGastoFactura.setTextFormatter(Formato.getInstance().folioFormat(30));
+        txtGastoMonto.setTextFormatter(Formato.getInstance().numeroDecimalFormat(15));
 
         // El número de recibo solo se habilita si el instrumento tributa
         txtNumeroRecibo.setDisable(true);
@@ -849,16 +849,30 @@ public class InstrumentosController extends Controller implements Initializable 
         }
 
     }
-    
-    
+
     @FXML
     private void btnOnActionEliminarInstrumento(ActionEvent event) {
-        
-        if(instrumentoActual == null){
+
+        Alert confirmar = new Alert(Alert.AlertType.CONFIRMATION, "¿Desea eliminar el Instrumento \"" + instrumentoActual.getInsEscritura() + "\"?", ButtonType.YES, ButtonType.NO);
+        confirmar.setHeaderText(null);
+        if (confirmar.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) {
+            return;
+        }
+
+        if (instrumentoActual == null) {
             mostrarError("Cargue el instrumento a eliminar");
             return;
         }
-        
+
+        Respuesta respuesta = instrumentoService.eliminarInstrumento(instrumentoActual.getInsId());
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            mostrarExito("Instrumento eliminado con exito");
+            limpiarCampos();
+        } else {
+            mostrarError(respuesta.getMensaje());
+        }
+
+        // los instrumentos que tienen pagos relacionados no se pueden eliminar
     }
 
     private void revisarPermisos() {
@@ -961,7 +975,7 @@ public class InstrumentosController extends Controller implements Initializable 
             revisarPermisos();
             mostrarExito("Instrumento cargado");
         } else {
-            mostrarError("Error cargando el instrumento: " + respuesta.getMensaje());
+            mostrarError(respuesta.getMensaje());
         }
     }
 
@@ -1016,23 +1030,20 @@ public class InstrumentosController extends Controller implements Initializable 
         btnBuscarParte.setDisable(esFinal);
         btnAgregarParte.setDisable(esFinal);
         tblRequisitos.setEditable(!esFinal);
-        
-        
-        if(inst.getInsRutaDocFirmado() == null || inst.getInsRutaDocFirmado().isBlank()){
+
+        if (inst.getInsRutaDocFirmado() == null || inst.getInsRutaDocFirmado().isBlank()) {
             lblNombreDocuFirmado.setText("No se ha subido el documento firmado");
-        }else{
+        } else {
             lblNombreDocuFirmado.setText(inst.getInsRutaDocFirmado());
-            
+
         }
-        
-        if(inst.getInsRutaDocumento() == null || inst.getInsRutaDocumento().isBlank()){
+
+        if (inst.getInsRutaDocumento() == null || inst.getInsRutaDocumento().isBlank()) {
             lblNombreDocumento.setText("No se ha generado el documento");
-        }else{
+        } else {
             lblNombreDocumento.setText(inst.getInsRutaDocumento());
         }
-        
-        
-        
+
     }
 
     // ===================== TAB GASTOS ========================================
@@ -1544,27 +1555,26 @@ public class InstrumentosController extends Controller implements Initializable 
         if (seleccionado == null) {
             return;
         }
-        
-        try{
-            byte[] bytes = Files.readAllBytes(seleccionado.toPath());   
+
+        try {
+            byte[] bytes = Files.readAllBytes(seleccionado.toPath());
             String contenido = Base64.getEncoder().encodeToString(bytes);
             ArchivoDto archivo = new ArchivoDto(seleccionado.getName(), contenido);
-            
+
             Respuesta respuesta = instrumentoService.subirFirmado(instrumentoActual.getInsId(), bufeteCarga(), archivo);
             if (Boolean.TRUE.equals(respuesta.getEstado())) {
-                
+
                 instrumentoActual = (Instrumento) respuesta.getResultado("Instrumento");
                 lblNombreDocuFirmado.setText(instrumentoActual.getInsRutaDocFirmado());
                 mostrarExito("Documento firmado guardado correctamente");
-                
-            }else{
+
+            } else {
                 mostrarError(respuesta.getMensaje());
             }
-        }catch(IOException ex){
+        } catch (IOException ex) {
             mostrarError("No se pudo leer el archivo " + ex.getMessage());
         }
 
     }
-
 
 }

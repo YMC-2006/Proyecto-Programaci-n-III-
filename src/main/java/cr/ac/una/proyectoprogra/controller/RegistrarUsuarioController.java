@@ -99,9 +99,9 @@ public class RegistrarUsuarioController extends Controller implements Initializa
     private ImageView imgUsuarioExplorador;
     @FXML
     private ImageView imgCamara;
-    
+
     private byte[] fotoUsuario;
-    
+
     private UsuarioDto usuarioEditando;
     private UsuarioService usuarioService = new UsuarioService();
     private ObservableList<UsuarioPermisoDto> listaPermisos = FXCollections.observableArrayList();
@@ -112,6 +112,8 @@ public class RegistrarUsuarioController extends Controller implements Initializa
     private final String[] nombresIdioma = {"Español", "English"};
     private final String[] vistas = {"ClientesView", "AbogadosView", "SociedadesView", "ParametrosView", "InstrumentosTipoView", "InstrumentosEstadoView", "InstrumentosView", "InstrumentosBusquedaView"};
     private final String[] nombresVistas = {"Clientes", "Abogados", "Sociedades", "Parámetros", "Tipos de instrumento", "Estados de instrumento", "Control de instrumentos", "Búsqueda de instrumentos"};
+    @FXML
+    private Label lblMensajePermisos;
 
     /**
      * Initializes the controller class.
@@ -120,7 +122,7 @@ public class RegistrarUsuarioController extends Controller implements Initializa
     public void initialize(URL url, ResourceBundle rb) {
         cbxTipoId.getItems().setAll(nombresTipoId);
         cbxIdioma.getItems().setAll(nombresIdioma);
- 
+
         tblPermisos.setEditable(true);
         tblPermisos.setItems(listaPermisos);
         colVista.setCellValueFactory(data -> new SimpleStringProperty(nombreVista(data.getValue().getUpeVista())));
@@ -132,12 +134,16 @@ public class RegistrarUsuarioController extends Controller implements Initializa
         colCrear.setCellFactory(CheckBoxTableCell.forTableColumn(colCrear));
         colModificar.setCellFactory(CheckBoxTableCell.forTableColumn(colModificar));
         colEliminar.setCellFactory(CheckBoxTableCell.forTableColumn(colEliminar));
-    }    
-
+    }
 
     @FXML
     private void onActionChkAdmin(ActionEvent event) {
         tblPermisos.setDisable(chkAdmin.isSelected());
+        if (chkAdmin.isSelected()) {
+            lblMensajePermisos.setText("Los Administradores tienen permisos a todo el sistema");
+        }else{
+            lblMensajePermisos.setText("Seleccione los permisos");
+        }
     }
 
     @FXML
@@ -148,9 +154,9 @@ public class RegistrarUsuarioController extends Controller implements Initializa
     @FXML
     private void onActionBtnGuardar(ActionEvent event) {
         if (txtIdentificacion.getText().isBlank() || txtNombre.getText().isBlank() || txtApellido1.getText().isBlank()
-            || txtUsuario.getText().isBlank() || txtCorreo.getText().isBlank()) {
-        mostrarError("Complete la identificación, el nombre, el primer apellido, el usuario y el correo.");
-        return;
+                || txtUsuario.getText().isBlank() || txtCorreo.getText().isBlank()) {
+            mostrarError("Complete la identificación, el nombre, el primer apellido, el usuario y el correo.");
+            return;
         }
         UsuarioDto usuario;
         if (usuarioEditando == null) {
@@ -215,7 +221,7 @@ public class RegistrarUsuarioController extends Controller implements Initializa
             AppContext.getInstance().delete("usuarioEditar");
         }
     }
-    
+
     private void cargarUsuario(UsuarioDto usuario) {
         System.out.println("Foto: " + usuario.getUsrFoto());
         usuarioEditando = usuario;
@@ -247,7 +253,7 @@ public class RegistrarUsuarioController extends Controller implements Initializa
         lblTituloModal.setText("Modificar usuario");
         cargarPermisos(usuario.getUsuarioPermisoList());
     }
-    
+
     private Image convertirBytesAImage(byte[] bytes) {
         ByteArrayInputStream bytesFoto = new ByteArrayInputStream(bytes);
         return new Image(bytesFoto);
@@ -278,12 +284,12 @@ public class RegistrarUsuarioController extends Controller implements Initializa
         }
         return vista;
     }
-    
+
     public void setFotoCamara(Image foto) {
         imgFoto.setImage(foto);
         fotoUsuario = convertirImageABytes(foto);
     }
-    
+
     private byte[] convertirImageABytes(Image imagen) {
         BufferedImage bImage = SwingFXUtils.fromFXImage(imagen, null);
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -297,7 +303,7 @@ public class RegistrarUsuarioController extends Controller implements Initializa
 
     @FXML
     private void OnMouseClickedExploradorUsuario(MouseEvent event) {
-        
+
         FileChooser.ExtensionFilter imgFilter = new FileChooser.ExtensionFilter("Imagenes", "*.jpeg", "*.png", "*.jpg");
         FileChooser exploradorArchivos = new FileChooser();
         exploradorArchivos.setTitle("Explorador de Archivos");
@@ -315,7 +321,7 @@ public class RegistrarUsuarioController extends Controller implements Initializa
             }
 
         }
-        
+
     }
 
     @FXML
@@ -332,13 +338,13 @@ public class RegistrarUsuarioController extends Controller implements Initializa
             e.printStackTrace();
         }
     }
-    
+
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
         alert.setHeaderText(null);
         alert.showAndWait();
     }
-    
+
     private void mostrarExito(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
         alert.setHeaderText(null);

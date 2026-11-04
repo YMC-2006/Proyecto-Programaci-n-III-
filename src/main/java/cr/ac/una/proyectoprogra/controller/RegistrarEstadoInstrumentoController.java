@@ -53,7 +53,7 @@ public class RegistrarEstadoInstrumentoController extends Controller implements 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.txtDescripcion.setTextFormatter(Formato.getInstance().letrasFormat(30));
+        this.txtDescripcion.setTextFormatter(Formato.getInstance().nombreFormat(30));
     }
 
     @Override

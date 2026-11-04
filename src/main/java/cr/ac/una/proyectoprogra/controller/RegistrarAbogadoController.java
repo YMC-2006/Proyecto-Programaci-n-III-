@@ -70,11 +70,11 @@ public class RegistrarAbogadoController extends Controller implements Initializa
         // TODO
 
         // revisar
-        txtNombre.setTextFormatter(Formato.getInstance().letrasFormat(150));
+        txtNombre.setTextFormatter(Formato.getInstance().nombreFormat(150));
         txtCedula.setTextFormatter(Formato.getInstance().cedulaFormat(30));
         txtCorreo.setTextFormatter(Formato.getInstance().maxLengthFormat(100));
-        txtTelefono.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
-        txtCelular.setTextFormatter(Formato.getInstance().maxLengthFormat(20));
+        txtTelefono.setTextFormatter(Formato.getInstance().telefonoFormat(20));
+        txtCelular.setTextFormatter(Formato.getInstance().telefonoFormat(20));
         txaDireccion.setTextFormatter(Formato.getInstance().maxLengthFormat(300));
     }
 
@@ -174,7 +174,7 @@ public class RegistrarAbogadoController extends Controller implements Initializa
         }
 
     }
-    
+
     private Long bufeteCargado() {
         UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
         return usuarioSesion.getUsrBufeteId();

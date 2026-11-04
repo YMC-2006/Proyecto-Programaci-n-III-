@@ -40,7 +40,7 @@
 
                 <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <tabs>
-                        <Tab fx:id="tabGeneralesDelInstrumento" text="%instrumentos.tab.generales">
+                        <Tab fx:id="tabGeneralesDelInstrumento" styleClass="tabsInstrumentos" text="%instrumentos.tab.generales">
                             <content>
                                 <ScrollPane fitToWidth="true" styleClass="mainDisplay">
                                     <content>

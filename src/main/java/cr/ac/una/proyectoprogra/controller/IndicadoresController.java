@@ -60,14 +60,13 @@ public class IndicadoresController extends Controller implements Initializable {
     private BarChart<String, Number> grBarras;
     @FXML
     private ProgressBar prBarra;
-    
+
     private MovimientoService movimientoService = new MovimientoService();
     private InstrumentoService instrumentoService = new InstrumentoService();
     private InstrumentoGastoService insGService = new InstrumentoGastoService();
     private EventoService eventoService = new EventoService();
-    
-    UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
-    Long bufeteId = usuarioActivo.getUsrBufeteId();
+
+
     
     @FXML
     private Label txtInstrumentos;
@@ -75,7 +74,7 @@ public class IndicadoresController extends Controller implements Initializable {
     private TableColumn<Evento, String> colHora;
     @FXML
     private TableColumn<Evento, String> colEstado;
-    
+
     private ObservableList<Evento> listaEventos = FXCollections.observableArrayList();
     @FXML
     private TableView<Evento> tblAgenda;
@@ -94,65 +93,72 @@ public class IndicadoresController extends Controller implements Initializable {
         cardAgenda.prefHeightProperty().bind(filaCentral.heightProperty());
         inicializarAgenda();
         cargarIndicadores();
-    } 
-    
-    private void inicializarAgenda(){
+
+
+    }
+
+    private void inicializarAgenda() {
         tblAgenda.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
- 
-        colHora.setCellValueFactory(cellData->{
-            if(cellData.getValue() != null){
+
+        colHora.setCellValueFactory(cellData -> {
+            if (cellData.getValue() != null) {
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("hh:mm a");
                 return new SimpleStringProperty(cellData.getValue().getEveFechaHora().format(formato));
             }
             return new SimpleStringProperty("-");
         });
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("eveDetalle"));
-        colEstado.setCellValueFactory(cellData->{
+        colEstado.setCellValueFactory(cellData -> {
             SimpleStringProperty estado = new SimpleStringProperty();
-            if(cellData.getValue().getEveAtendido() == true){
+            if (cellData.getValue().getEveAtendido() == true) {
                 estado.set("Atendido");
-            }else{
+            } else {
                 estado.set("Pendiente");
             }
             return estado;
         });
- 
+
         this.tblAgenda.setPlaceholder(new Label("No hay eventos pendietes por el momento"));
- 
+
         tblAgenda.setItems(listaEventos);
     }
-    
-    private void cargarIndicadores(){
+
+    private void cargarIndicadores() {
+
+        UsuarioDto usuarioActivo = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        Long bufeteId = usuarioActivo.getUsrBufeteId();
+
         LocalDate fechaActual = LocalDate.now();
         int mesActual = fechaActual.getMonthValue();
         int anioActual = fechaActual.getYear();
-        
+
         BigDecimal ingMes = BigDecimal.ZERO;
         BigDecimal gasMes = BigDecimal.ZERO;
         BigDecimal tributado = BigDecimal.ZERO;
         BigDecimal nTributado = BigDecimal.ZERO;
         BigDecimal total = BigDecimal.ZERO;
         int insActivos = 0;
-        
+
         //Instrumentos
         Respuesta respuestaIns = instrumentoService.getInstrumentos(bufeteId, null, null, null);
-        if(respuestaIns.getEstado().equals(true)){
+
+        if (respuestaIns.getEstado().equals(true)) {
             List<Instrumento> instrumentos = (List<Instrumento>) respuestaIns.getResultado("Instrumentos");
-            if(instrumentos != null){
-                for(Instrumento i : instrumentos){
-                    if(i.getInsEstadoFinal().equals(false)){
+            if (instrumentos != null) {
+                for (Instrumento i : instrumentos) {
+                    if (i.getInsEstadoFinal().equals(false)) {
                         insActivos++;
                     }
                     LocalDate insFecha = i.getInsFechaHora() != null ? i.getInsFechaHora().toLocalDate() : null;
-                    if(insFecha != null && insFecha.getMonthValue() == mesActual && insFecha.getYear() == anioActual){
+                    if (insFecha != null && insFecha.getMonthValue() == mesActual && insFecha.getYear() == anioActual) {
                         BigDecimal monto = i.getInsMontoReal() != null ? i.getInsMontoReal() : i.getInsMontoFacturado();
-                        if(monto != null){
+                        if (monto != null) {
                             ingMes = ingMes.add(monto);
                             total = total.add(monto);
-                            if(i.getInsTributa()){
+                            if (i.getInsTributa()) {
                                 BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                                 tributado = tributado.add(t);
-                            }else{
+                            } else {
                                 nTributado = nTributado.add(monto);
                             }
                         }
@@ -160,85 +166,84 @@ public class IndicadoresController extends Controller implements Initializable {
                 }
             }
         }
-        
+
         //Movimientos
         Respuesta respuestaMov = movimientoService.getMovimientos(bufeteId);
-        if(respuestaMov.getEstado().equals(true)){
+        if (respuestaMov.getEstado().equals(true)) {
             List<MovimientoDto> movimientos = (List<MovimientoDto>) respuestaMov.getResultado("Movimientos");
-            if(movimientos != null){
-                for(MovimientoDto m : movimientos){
+            if (movimientos != null) {
+                for (MovimientoDto m : movimientos) {
                     LocalDate movFecha = m.getMovFecha() != null ? m.getMovFecha() : null;
-                    if(movFecha != null && movFecha.getMonthValue() == mesActual && movFecha.getYear() == anioActual){
+                    if (movFecha != null && movFecha.getMonthValue() == mesActual && movFecha.getYear() == anioActual) {
                         BigDecimal monto = m.getMovMonto() != null ? m.getMovMonto() : BigDecimal.ZERO;
                         String tipo = m.getMovTipo();
 
-                        if(tipo.equals("I")){
+                        if (tipo.equals("I")) {
                             ingMes = ingMes.add(monto);
-                        }else if(tipo.equals("G")){
+                        } else if (tipo.equals("G")) {
                             gasMes = gasMes.add(monto);
                         }
                         total = total.add(monto);
 
-                        if(m.getMovTributa()){
+                        if (m.getMovTributa()) {
                             BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                             tributado = tributado.add(t);
-                        }else{
+                        } else {
                             nTributado = nTributado.add(monto);
                         }
                     }
                 }
             }
         }
-        
+
         Respuesta respuestaIG = insGService.getGastos(bufeteId, null, null, null);
-        if(respuestaIG.getEstado().equals(true)){
+        if (respuestaIG.getEstado().equals(true)) {
             List<InstrumentoGasto> insGastos = (List<InstrumentoGasto>) respuestaIG.getResultado("InstrumentosGastos");
-            if(insGastos != null){
-                for(InstrumentoGasto ig : insGastos){
+            if (insGastos != null) {
+                for (InstrumentoGasto ig : insGastos) {
                     LocalDate igFec = ig.getIgaFecha();
-                    if(igFec != null && igFec.getMonthValue() == mesActual && igFec.getYear() == anioActual){
+                    if (igFec != null && igFec.getMonthValue() == mesActual && igFec.getYear() == anioActual) {
                         BigDecimal monto = ig.getIgaMonto() != null ? ig.getIgaMonto() : BigDecimal.ZERO;
                         gasMes = gasMes.add(monto);
 
-                        if(ig.getIgaTributa()){
+                        if (ig.getIgaTributa()) {
                             BigDecimal t = monto.multiply(new BigDecimal("0.13"));
                             tributado = tributado.add(t);
-                        }else{
+                        } else {
                             nTributado = nTributado.add(monto);
                         }
                     }
                 }
             }
         }
-        
+
         //Eventos
         String hoy = fechaActual.toString();
         Respuesta respuestaEve = eventoService.getEventos(bufeteId, null, false, hoy, hoy);
         int cantEventos = 0;
-        if(respuestaEve.getEstado().equals(true)){
+        if (respuestaEve.getEstado().equals(true)) {
             List<Evento> eventos = (List<Evento>) respuestaEve.getResultado("Eventos");
-            if(eventos != null){
+            if (eventos != null) {
                 listaEventos.setAll(eventos);
                 cantEventos = eventos.size();
-            }else{
+            } else {
                 listaEventos.clear();
             }
         }
-        
+
         ingMes = ingMes.subtract(gasMes);
         ingMes = ingMes.subtract(tributado);
-        
-        
+
         txtIngresos.setText(ingMes.toString());
         txtGastos.setText(gasMes.toString());
         txtInstrumentos.setText(String.valueOf(insActivos));
         txtEventos.setText(String.valueOf(cantEventos));
-        
+
         cargarGraficoBarras(ingMes, gasMes);
         cargarBarraProgreso(tributado, nTributado, total);
     }
-    
-    private void cargarGraficoBarras(BigDecimal ing, BigDecimal gas){
+
+    private void cargarGraficoBarras(BigDecimal ing, BigDecimal gas) {
         grBarras.getData().clear();
         XYChart.Series<String, Number> serie = new XYChart.Series<>();
         serie.setName("Mes Actual");
@@ -246,25 +251,25 @@ public class IndicadoresController extends Controller implements Initializable {
         XYChart.Data<String, Number> gast = new XYChart.Data<>("Gastos", gas);
         serie.getData().add(ings);
         serie.getData().add(gast);
-        
+
         grBarras.getData().add(serie);
         ings.getNode().setStyle(" -fx-bar-fill: #3F6084;");
         gast.getNode().setStyle(" -fx-bar-fill: #B5C2D2;");
         grBarras.setLegendVisible(false);
     }
-    
-    private void cargarBarraProgreso(BigDecimal tributado, BigDecimal nTributado, BigDecimal total){
-        if(total.compareTo(BigDecimal.ZERO) == 0){
+
+    private void cargarBarraProgreso(BigDecimal tributado, BigDecimal nTributado, BigDecimal total) {
+        if (total.compareTo(BigDecimal.ZERO) == 0) {
             prBarra.setProgress(0.0);
             return;
         }
-        BigDecimal pTributado = tributado.divide(total,2,RoundingMode.HALF_UP);
+        BigDecimal pTributado = tributado.divide(total, 2, RoundingMode.HALF_UP);
         Double pr = Math.min(Math.max(pTributado.doubleValue(), 0.0), 1.0);
         prBarra.setProgress(pr);
-        
+
         BigDecimal porcT = tributado.multiply(new BigDecimal("100")).divide(total, 2, RoundingMode.HALF_UP);
         BigDecimal porcNT = nTributado.multiply(new BigDecimal("100")).divide(total, 2, RoundingMode.HALF_UP);
-        
+
         lbTributado.setText(porcT.toString() + "%");
         lbNoTributado.setText(porcNT.toString() + "%");
     }
@@ -272,6 +277,9 @@ public class IndicadoresController extends Controller implements Initializable {
     @Override
     public void initialize() {
         cargarIndicadores();
+
+
+
     }
-    
+
 }

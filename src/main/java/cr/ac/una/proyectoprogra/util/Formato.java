@@ -93,7 +93,7 @@ public class Formato {
         });
         return numericFormat;
     }
-    
+
     public TextFormatter integerFormat(Integer maxLength) {
         TextFormatter numericFormat = new TextFormatter<>(c
                 -> {
@@ -118,9 +118,9 @@ public class Formato {
         });
         return numericFormat;
     }
-    
-    public TextFormatter folioFormat(Integer maxLength){
-       TextFormatter<String> folioFormat = new TextFormatter<>(c -> {
+
+    public TextFormatter folioFormat(Integer maxLength) {
+        TextFormatter<String> folioFormat = new TextFormatter<>(c -> {
             if (c.getControlNewText().isEmpty()) {
                 return c;
             }
@@ -133,7 +133,7 @@ public class Formato {
                 }
             }
             c.setText(c.getText().replaceAll("[^a-zA-Z0-9-]", ""));
-            if(c.getControlNewText().matches(".*-{2,}.*")){
+            if (c.getControlNewText().matches(".*-{2,}.*")) {
                 return null;
             }
             return c;
@@ -156,7 +156,7 @@ public class Formato {
                 }
             }
             c.setText(c.getText().replaceAll("[^a-zA-Z0-9-]", ""));
-            if(c.getControlNewText().matches(".*-{2,}.*")){
+            if (c.getControlNewText().matches(".*-{2,}.*")) {
                 return null;
             }
             return c;
@@ -165,30 +165,60 @@ public class Formato {
         return cedulaFormat;
     }
 
+    // ahora acepta tildes
     public TextFormatter letrasFormat(Integer maxLength) {
         TextFormatter<String> letrasFormat = new TextFormatter<>(c -> {
             if (c.getControlNewText().isEmpty()) {
                 return c;
             }
-            if (maxLength > 0) {
-                if (((TextInputControl) c.getControl()).getLength() >= maxLength && !c.isDeleted()) {
-                    return null;
-                }
-                if (c.getText().length() > maxLength && !c.isDeleted()) {
-                    return null;
-                }
-            }
-            //c.setText(c.getText().replaceAll("[^a-zA-Z ]", ""));
-            if(c.getControlNewText().matches(".*[^a-zA-Z ].*")){
+            if (maxLength > 0 && c.getControlNewText().length() > maxLength) {
                 return null;
             }
-            if(c.getControlNewText().matches(".*\\s{2,}.*")){
+            if (c.getControlNewText().matches(".*[^\\p{L} ].*")) {
+                return null;
+            }
+            if (c.getControlNewText().matches(".*\\s{2,}.*")) {
                 return null;
             }
             return c;
-
         });
         return letrasFormat;
+    }
+
+    // nuevoo para los nombres de abogados ocuopamos .
+    public TextFormatter nombreFormat(Integer maxLength) {
+        TextFormatter<String> nombreFormat = new TextFormatter<>(c -> {
+            if (c.getControlNewText().isEmpty()) {
+                return c;
+            }
+            if (maxLength > 0 && c.getControlNewText().length() > maxLength) {
+                return null;
+            }
+            if (c.getControlNewText().matches(".*[^\\p{L} .'-].*")) {
+                return null;
+            }
+            if (c.getControlNewText().matches(".*\\s{2,}.*")) {
+                return null;
+            }
+            return c;
+        });
+        return nombreFormat;
+    }
+
+    public TextFormatter telefonoFormat(Integer maxLength) {
+        TextFormatter<String> telefonoFormat = new TextFormatter<>(c -> {
+            if (c.getControlNewText().isEmpty()) {
+                return c;
+            }
+            if (maxLength > 0 && c.getControlNewText().length() > maxLength) {
+                return null;
+            }
+            if (c.getControlNewText().matches(".*[^0-9 +-].*")) {
+                return null;
+            }
+            return c;
+        });
+        return telefonoFormat;
     }
 
     public TextFormatter maxLengthFormat(Integer length) {
@@ -208,14 +238,24 @@ public class Formato {
         });
         return maxLengthFormat;
     }
-    
+
     public TextFormatter<String> numeroDecimalFormat(int maxLength) {
-    return new TextFormatter<>(change -> {
-        String newText = change.getControlNewText();
-        if (newText.matches("\\d{0,10}(\\.\\d{0,2})?") && newText.length() <= maxLength) {
-            return change;
-        }
-        return null;
-    });
-}
+        return new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d{0,10}(\\.\\d{0,2})?") && newText.length() <= maxLength) {
+                return change;
+            }
+            return null;
+        });
+    }
+
+    public TextFormatter horaFormat() {
+        TextFormatter<String> horaFormat = new TextFormatter<>(c -> {
+            if (c.getControlNewText().matches("\\d{0,2}(:\\d{0,2})?")) {
+                return c;
+            }
+            return null;
+        });
+        return horaFormat;
+    }
 }
