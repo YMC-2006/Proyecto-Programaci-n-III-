@@ -7,8 +7,12 @@ package cr.ac.una.proyectoprogra.controller;
 import cr.ac.una.proyectoprogra.model.Abogado;
 import cr.ac.una.proyectoprogra.model.ArchivoDto;
 import cr.ac.una.proyectoprogra.model.Cliente;
+import cr.ac.una.proyectoprogra.model.Instrumento;
 import cr.ac.una.proyectoprogra.model.ResultadoInstrumento;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
+import cr.ac.una.proyectoprogra.service.AbogadoService;
+import cr.ac.una.proyectoprogra.service.ClienteService;
+import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.ReporteService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
@@ -23,7 +27,9 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -79,6 +85,11 @@ public class ReportesController extends Controller implements Initializable {
     @FXML
     private MFXDatePicker dpFechaFinFiltro;
 
+    
+    private AbogadoService aService = new AbogadoService();
+    private ClienteService cService = new ClienteService();
+    private InstrumentoService iService = new InstrumentoService();
+    
     /**
      * Initializes the controller class.
      */
@@ -153,6 +164,24 @@ public class ReportesController extends Controller implements Initializable {
 
         abrirPdf((ArchivoDto) respuesta.getResultado("Reporte"));
     }
+    
+//    private void cargarTabla(){
+//        List<Instrumento> todosInstrumentos = new ArrayList<>();
+//        Respuesta respuesta = iService.getInstrumentos(bufeteCargado(), abogadoSeleccionadoId, null, null);
+//        if(Boolean.TRUE.equals(respuesta.getEstado())){
+//            todosInstrumentos = (Instrumento|) respuesta.getResultado("Instrumento");
+//        }
+//        // de este abogado o cliente vaya busque los instrumentos relacionados y muestrelos en la tabla
+//        //
+//        
+//        if(abogadoSeleccionadoId != null){
+//            Respuesta respuesta = aService.getAbogado(abogadoSeleccionadoId);
+//            Abogado abogadoSeleccionado = (Abogado) respuesta.getResultado("Abogado");
+//            
+//        }else{
+//            
+//        }
+//    }
 
     @FXML
     private void btnOnActionGenerarReporteContabilidad(ActionEvent event) {
@@ -162,13 +191,6 @@ public class ReportesController extends Controller implements Initializable {
     private void btnOnActionGenerarReporteVEREMOS(ActionEvent event) {
     }
 
-    private void cargarInstrumentosDeAbogado(Abogado abogado) {
-
-    }
-
-    private void cargarInstrumentosDeCliente(Cliente cliente) {
-
-    }
 
     private void mostrarError(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);

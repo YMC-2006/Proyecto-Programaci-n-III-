@@ -151,6 +151,8 @@ public class InstrumentosBusquedaController extends Controller implements Initia
             });
             return fila;
         });
+        
+       onActionBtnBuscar(null);
     }    
     
     @Override
