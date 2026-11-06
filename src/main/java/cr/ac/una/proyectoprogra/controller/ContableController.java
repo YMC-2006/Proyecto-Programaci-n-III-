@@ -23,6 +23,7 @@ import io.github.palexdev.materialfx.controls.MFXRadioButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -158,6 +160,8 @@ public class ContableController extends Controller implements Initializable {
     private TableColumn<ContableDto, BigDecimal> colMontoReal;
     @FXML
     private TableColumn<ContableDto, BigDecimal> colMontoFact;
+    @FXML
+    private TextField txtOrigen;
 
     /**
      * Initializes the controller class.
@@ -174,8 +178,13 @@ public class ContableController extends Controller implements Initializable {
         cbxTipoC.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             filtrarContables();
         });
+        
+        int anioActual = LocalDate.now().getYear();
+        LocalDate inicio = LocalDate.of(anioActual, 1, 1);
+        LocalDate fin = LocalDate.of(anioActual, 12, 31);
 
         if (dtpFechaInicio != null) {
+            dtpFechaInicio.setValue(inicio);
             dtpFechaInicio.valueProperty().addListener((observable, oldValue, newValue) -> {
                 filtrarMovimientos();
                 filtrarContables();
@@ -184,6 +193,7 @@ public class ContableController extends Controller implements Initializable {
         }
 
         if (dtpFechaFin != null) {
+            dtpFechaFin.setValue(fin);
             dtpFechaFin.valueProperty().addListener((observable, oldValue, newValue) -> {
                 filtrarMovimientos();
                 filtrarContables();
@@ -192,6 +202,13 @@ public class ContableController extends Controller implements Initializable {
         }
         inicializarMovimientos();
         inicializarContables();
+        
+        Platform.runLater(()->{
+            if(stage != null){
+                stage.setMinHeight(750);
+                stage.setMinWidth(1200);
+            }
+        });
     }
 
     @Override
@@ -243,6 +260,8 @@ public class ContableController extends Controller implements Initializable {
         BigDecimal ingresos = BigDecimal.ZERO;
         BigDecimal gastos = BigDecimal.ZERO;
         BigDecimal tributado = BigDecimal.ZERO;
+        BigDecimal gasTributado = BigDecimal.ZERO;
+        BigDecimal ingTributado = BigDecimal.ZERO;
         BigDecimal utilidad = BigDecimal.ZERO;
 
         LocalDate fecIni = (dtpFechaInicio != null) ? dtpFechaInicio.getValue() : null;
@@ -255,13 +274,14 @@ public class ContableController extends Controller implements Initializable {
                 String tipoM = m.getMovTipo();
                 if (tipoM.equals("I")) {
                     ingresos = ingresos.add(monto);
+                    if (m.getMovTributa()) {
+                        ingTributado = ingTributado.add(monto);
+                    }
                 } else if (tipoM.equals("G")) {
                     gastos = gastos.add(monto);
-                }
-
-                if (m.getMovTributa()) {
-                    BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                    tributado = tributado.add(t);
+                    if (m.getMovTributa()) {
+                        gasTributado = gasTributado.add(monto);
+                    }
                 }
             }
         }
@@ -273,8 +293,7 @@ public class ContableController extends Controller implements Initializable {
                 ingresos = ingresos.add(monto);
 
                 if (i.getInsTributa()) {
-                    BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                    tributado = tributado.add(t);
+                    ingTributado = ingTributado.add(i.getInsMontoFacturado());
                 }
             }
         }
@@ -286,19 +305,18 @@ public class ContableController extends Controller implements Initializable {
                 gastos = gastos.add(monto);
 
                 if (ig.getIgaTributa()) {
-                    BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                    tributado = tributado.add(t);
+                    gasTributado = gasTributado.add(monto);
                 }
             }
         }
 
         utilidad = ingresos.subtract(gastos);
-        utilidad = utilidad.subtract(tributado);
+        tributado = ingTributado.subtract(gasTributado);
 
-        lbIngresos.setText(ingresos.toString());
-        lbGastos.setText(gastos.toString());
-        lbUtilidad.setText(utilidad.toString());
-        lbTributadas.setText(tributado.toString());
+        lbIngresos.setText(formatoColones(ingresos));
+        lbGastos.setText(formatoColones(gastos));
+        lbUtilidad.setText(formatoColones(utilidad));
+        lbTributadas.setText(formatoColones(tributado));
     }
 
     private Predicate<ContableDto> filtrarFechasContables() {
@@ -323,6 +341,7 @@ public class ContableController extends Controller implements Initializable {
         String detalle = texto(txtDetalleC);
         String monto = texto(txtMontoC);
         String factura = texto(txtFacturaC);
+        String origen = texto(txtOrigen);
         Boolean tributa = chkTributaC.isSelected();
         String tipo = filtroTipo(cbxTipoC);
 
@@ -330,6 +349,7 @@ public class ContableController extends Controller implements Initializable {
                 .filter(c -> contiene(c.getDetalle(), detalle))
                 .filter(c -> contiene(c.getMonto().toString(), monto))
                 .filter(c -> contiene(c.getFactura(), factura))
+                .filter(c -> contiene(c.getOrigen(), origen))
                 .filter(c -> !tributa || Boolean.TRUE.equals(c.getTributa()))
                 .filter(c -> tipo == null || c.getTipo().equals(tipo))
                 .filter(filtrarFechasContables()).collect(Collectors.toList());
@@ -591,11 +611,15 @@ public class ContableController extends Controller implements Initializable {
 
     @FXML
     private void onSelectionChangedTab(Event event) {
+        int anioActual = LocalDate.now().getYear();
+        LocalDate inicio = LocalDate.of(anioActual, 1, 1);
+        LocalDate fin = LocalDate.of(anioActual, 12, 31);
+        
         if (dtpFechaInicio != null) {
-            dtpFechaInicio.setValue(null);
+            dtpFechaInicio.setValue(inicio);
         }
         if (dtpFechaFin != null) {
-            dtpFechaFin.setValue(null);
+            dtpFechaFin.setValue(fin);
         }
         Tab seleccionada = (Tab) event.getSource();
         if (seleccionada.isSelected() && seleccionada == tabContable) {
@@ -612,6 +636,14 @@ public class ContableController extends Controller implements Initializable {
             txtDetalle.clear();
             filtrarMovimientos();
         }
+    }
+    
+    private String formatoColones(BigDecimal monto){
+        if(monto == null){
+            return "₡ 0.00";
+        }
+        DecimalFormat formato = new DecimalFormat("#, ##0.00");
+        return "₡ "+formato.format(monto);
     }
 
     @FXML

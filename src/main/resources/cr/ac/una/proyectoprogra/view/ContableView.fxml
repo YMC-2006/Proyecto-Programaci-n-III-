@@ -189,6 +189,16 @@
                                                       </VBox>
                                                    </children>
                                                 </HBox>
+                                                <HBox layoutX="900.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="342.0" styleClass="hbox">
+                                                   <children>
+                                                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="67.0" prefWidth="241.0" styleClass="vboxH" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="%contable.origen" VBox.vgrow="ALWAYS" />
+                                                            <TextField fx:id="txtOrigen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#onKeyReleasedFiltrar" prefWidth="242.0" styleClass="txtCampo" VBox.vgrow="ALWAYS" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
                                              </children>
                                           </HBox>
                                           <HBox prefHeight="19.0" prefWidth="921.0">

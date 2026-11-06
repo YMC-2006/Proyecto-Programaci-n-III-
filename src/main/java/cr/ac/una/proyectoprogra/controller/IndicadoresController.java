@@ -18,11 +18,13 @@ import cr.ac.una.proyectoprogra.util.Respuesta;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,7 +96,12 @@ public class IndicadoresController extends Controller implements Initializable {
         inicializarAgenda();
         cargarIndicadores();
 
-
+        Platform.runLater(()->{
+            if(stage != null){
+                stage.setMinHeight(750);
+                stage.setMinWidth(1200);
+            }
+        });
     }
 
     private void inicializarAgenda() {
@@ -135,6 +142,8 @@ public class IndicadoresController extends Controller implements Initializable {
         BigDecimal ingMes = BigDecimal.ZERO;
         BigDecimal gasMes = BigDecimal.ZERO;
         BigDecimal tributado = BigDecimal.ZERO;
+        BigDecimal ingTributado = BigDecimal.ZERO;
+        BigDecimal gasTributado = BigDecimal.ZERO;
         BigDecimal nTributado = BigDecimal.ZERO;
         BigDecimal total = BigDecimal.ZERO;
         int insActivos = 0;
@@ -151,13 +160,13 @@ public class IndicadoresController extends Controller implements Initializable {
                     }
                     LocalDate insFecha = i.getInsFechaHora() != null ? i.getInsFechaHora().toLocalDate() : null;
                     if (insFecha != null && insFecha.getMonthValue() == mesActual && insFecha.getYear() == anioActual) {
-                        BigDecimal monto = i.getInsMontoReal() != null ? i.getInsMontoReal() : i.getInsMontoFacturado();
+                        BigDecimal monto = i.getInsMontoReal();
                         if (monto != null) {
                             ingMes = ingMes.add(monto);
                             total = total.add(monto);
                             if (i.getInsTributa()) {
-                                BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                                tributado = tributado.add(t);
+                                tributado = tributado.add(i.getInsMontoFacturado());
+                                ingTributado = ingTributado.add(i.getInsMontoFacturado());
                             } else {
                                 nTributado = nTributado.add(monto);
                             }
@@ -180,16 +189,21 @@ public class IndicadoresController extends Controller implements Initializable {
 
                         if (tipo.equals("I")) {
                             ingMes = ingMes.add(monto);
+                            total = total.add(monto);
+                            if (m.getMovTributa()) {
+                                ingTributado = ingTributado.add(monto);
+                                tributado = tributado.add(monto);
+                            } else {
+                                nTributado = nTributado.add(monto);
+                            }
                         } else if (tipo.equals("G")) {
                             gasMes = gasMes.add(monto);
-                        }
-                        total = total.add(monto);
-
-                        if (m.getMovTributa()) {
-                            BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                            tributado = tributado.add(t);
-                        } else {
-                            nTributado = nTributado.add(monto);
+                            if (m.getMovTributa()) {
+                                tributado = tributado.add(monto);
+                                gasTributado = gasTributado.add(monto);
+                            } else {
+                                nTributado = nTributado.add(monto);
+                            }
                         }
                     }
                 }
@@ -207,8 +221,8 @@ public class IndicadoresController extends Controller implements Initializable {
                         gasMes = gasMes.add(monto);
 
                         if (ig.getIgaTributa()) {
-                            BigDecimal t = monto.multiply(new BigDecimal("0.13"));
-                            tributado = tributado.add(t);
+                            tributado = tributado.add(monto);
+                            gasTributado = gasTributado.add(monto);
                         } else {
                             nTributado = nTributado.add(monto);
                         }
@@ -232,15 +246,14 @@ public class IndicadoresController extends Controller implements Initializable {
         }
 
         ingMes = ingMes.subtract(gasMes);
-        ingMes = ingMes.subtract(tributado);
 
-        txtIngresos.setText(ingMes.toString());
-        txtGastos.setText(gasMes.toString());
+        txtIngresos.setText(formatoColones(ingMes));
+        txtGastos.setText(formatoColones(gasMes));
         txtInstrumentos.setText(String.valueOf(insActivos));
         txtEventos.setText(String.valueOf(cantEventos));
 
         cargarGraficoBarras(ingMes, gasMes);
-        cargarBarraProgreso(tributado, nTributado, total);
+        cargarBarraProgreso(tributado, total);
     }
 
     private void cargarGraficoBarras(BigDecimal ing, BigDecimal gas) {
@@ -258,28 +271,34 @@ public class IndicadoresController extends Controller implements Initializable {
         grBarras.setLegendVisible(false);
     }
 
-    private void cargarBarraProgreso(BigDecimal tributado, BigDecimal nTributado, BigDecimal total) {
+    private void cargarBarraProgreso(BigDecimal tributado, BigDecimal total) {
         if (total.compareTo(BigDecimal.ZERO) == 0) {
             prBarra.setProgress(0.0);
             return;
         }
-        BigDecimal pTributado = tributado.divide(total, 2, RoundingMode.HALF_UP);
-        Double pr = Math.min(Math.max(pTributado.doubleValue(), 0.0), 1.0);
+
+        BigDecimal porcT = tributado.divide(total, 4, RoundingMode.HALF_UP);
+        Double pr = Math.min(Math.max(porcT.doubleValue(), 0.0), 1.0);
         prBarra.setProgress(pr);
+        
+        BigDecimal txtT = porcT.multiply(new BigDecimal("100")).setScale(2,RoundingMode.HALF_UP);
+        BigDecimal txtNT = new BigDecimal("100").subtract(txtT).setScale(2,RoundingMode.HALF_UP);
 
-        BigDecimal porcT = tributado.multiply(new BigDecimal("100")).divide(total, 2, RoundingMode.HALF_UP);
-        BigDecimal porcNT = nTributado.multiply(new BigDecimal("100")).divide(total, 2, RoundingMode.HALF_UP);
-
-        lbTributado.setText(porcT.toString() + "%");
-        lbNoTributado.setText(porcNT.toString() + "%");
+        lbTributado.setText(txtT.toString() + "%");
+        lbNoTributado.setText(txtNT.toString() + "%");
+    }
+    
+    private String formatoColones(BigDecimal monto){
+        if(monto == null){
+            return "₡ 0.00";
+        }
+        DecimalFormat formato = new DecimalFormat("#, ##0.00");
+        return "₡ "+formato.format(monto);
     }
 
     @Override
     public void initialize() {
         cargarIndicadores();
-
-
-
     }
 
 }

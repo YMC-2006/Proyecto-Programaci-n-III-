@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -63,6 +64,12 @@ public class AgendaController extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarEventos();
+        Platform.runLater(()->{
+            if(stage != null){
+                stage.setMinHeight(750);
+                stage.setMinWidth(1200);
+            }
+        });
     }    
 
     @Override

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -192,6 +193,13 @@ public class SociedadesController extends Controller implements Initializable {
  
         tblSociedades.setItems(listaSociedades);
         cargarTabla();
+        
+        Platform.runLater(()->{
+            if(stage != null){
+                stage.setMinHeight(750);
+                stage.setMinWidth(1200);
+            }
+        });
     }   
     
     private void cargarTabla() {
