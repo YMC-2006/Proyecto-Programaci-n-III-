@@ -131,9 +131,43 @@ public class RegistrarUsuarioController extends Controller implements Initializa
         colModificar.setCellValueFactory(new PropertyValueFactory<>("upeModificar"));
         colEliminar.setCellValueFactory(new PropertyValueFactory<>("upeEliminar"));
         colConsultar.setCellFactory(CheckBoxTableCell.forTableColumn(colConsultar));
-        colCrear.setCellFactory(CheckBoxTableCell.forTableColumn(colCrear));
+        colCrear.setCellFactory(columna -> new CheckBoxTableCell<UsuarioPermisoDto, Boolean>() {
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                    return;
+                }
+                UsuarioPermisoDto permiso = getTableRow().getItem();
+                if (permiso.getUpeVista().equals("ParametrosView")) {
+                    permiso.setUpeCrear(false);
+                    setGraphic(null);
+                    setText("No aplica");
+                } else {
+                    setText(null);
+                }
+            }
+        });
         colModificar.setCellFactory(CheckBoxTableCell.forTableColumn(colModificar));
-        colEliminar.setCellFactory(CheckBoxTableCell.forTableColumn(colEliminar));
+        colEliminar.setCellFactory(columna -> new CheckBoxTableCell<UsuarioPermisoDto, Boolean>() {
+            @Override
+            public void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                    return;
+                }
+                UsuarioPermisoDto permiso = getTableRow().getItem();
+                if (permiso.getUpeVista().equals("ParametrosView")) {
+                    permiso.setUpeEliminar(false);
+                    setGraphic(null);
+                    setText("No aplica");
+                } else {
+                    setText(null);
+                }
+            }
+        });
     }
 
     @FXML

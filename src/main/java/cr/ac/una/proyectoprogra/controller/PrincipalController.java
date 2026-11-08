@@ -92,9 +92,12 @@ public class PrincipalController extends Controller implements Initializable {
         if (usuario.getUsrFoto() != null) {
             imgUsuario.setImage(new Image(new ByteArrayInputStream(usuario.getUsrFoto())));
         }
-
+ 
         String nombreBufete = usuario.getUsrBufeteNombre();
         txtNombreBufete.setText(nombreBufete);
+        
+        btnPrimeFases.setVisible(usuario.getUsrAdmin());
+        btnPrimeFases.setManaged(usuario.getUsrAdmin());
 
         VBox opsMantenimiento = new VBox();
         opsMantenimiento.getStyleClass().add("menuDesplegable");
