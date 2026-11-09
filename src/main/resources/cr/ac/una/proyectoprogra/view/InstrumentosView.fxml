@@ -483,16 +483,19 @@
                                         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
                                     </padding>
                                     <children>
-                                        <Label text="%instrumentos.eventos.titulo" />
-                                        <TableView fx:id="tblEventos" styleClass="tblAbogados" VBox.vgrow="ALWAYS">
+                                        <Label styleClass="lblCampo" text="%instrumentos.eventos.titulo" />
+                                        <TableView fx:id="tblEventos" prefHeight="826.0" prefWidth="1254.0" styleClass="tblAbogados" VBox.vgrow="ALWAYS">
                                             <columns>
                                                 <TableColumn fx:id="colEventoDetalle" prefWidth="511.2000026702881" text="%instrumentos.comun.detalle" />
                                                 <TableColumn fx:id="colEventoFechaHora" prefWidth="278.39996337890625" text="%instrumentos.eventos.fechaHora" />
                                                 <TableColumn fx:id="colEventoAtendido" prefWidth="343.99993896484375" text="%instrumentos.eventos.atendido" />
-                                                <TableColumn fx:id="colEventoAcciones" prefWidth="296.00006103515625" text="" />
+                                                <TableColumn fx:id="colEventoAcciones" prefWidth="246.39990234375" text="" />
                                             </columns>
+                                 <VBox.margin>
+                                    <Insets left="40.0" right="40.0" />
+                                 </VBox.margin>
                                         </TableView>
-                                        <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                                        <HBox alignment="BOTTOM_LEFT" prefHeight="105.0" prefWidth="1389.0" spacing="10.0" styleClass="hboxI">
                                             <children>
                                                 <VBox prefHeight="66.0" prefWidth="0.0" spacing="6.0" HBox.hgrow="ALWAYS">
                                                     <children>
@@ -520,6 +523,9 @@
                                                 </VBox>
                                                 <Button fx:id="btnAgregarEvento" mnemonicParsing="false" onAction="#onActionBtnAgregarEvento" styleClass="btnW" text="%instrumentos.eventos.agregar" />
                                             </children>
+                                 <VBox.margin>
+                                    <Insets left="40.0" right="40.0" />
+                                 </VBox.margin>
                                         </HBox>
                                     </children>
                                 </VBox>

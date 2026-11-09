@@ -20,8 +20,10 @@ import javafx.util.Duration;
 
 /**
  *
- * @author vjjcu
+ * @author vjjcu 
  */
+
+// no se uso :'o se usaron las funciones de mostrar error y mostrar exito que estan en la mayoria de controladores
 public class ToastNotification {
  
     private static final double MARGEN_DERECHO = 20;

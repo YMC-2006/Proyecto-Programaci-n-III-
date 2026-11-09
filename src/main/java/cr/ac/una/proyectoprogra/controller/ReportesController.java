@@ -66,32 +66,15 @@ public class ReportesController extends Controller implements Initializable {
     private ToggleGroup grupoFiltro;
     @FXML
     private RadioButton rdbAbogado;
-    @FXML
-    private TableView<ResultadoInstrumento> tblFiltros;
-    @FXML
-    private TableColumn<ResultadoInstrumento, String> colEscritura;
-    @FXML
-    private TableColumn<ResultadoInstrumento, String> colTipo;
-    @FXML
-    private TableColumn<ResultadoInstrumento, LocalDateTime> colFecha;
-    @FXML
-    private TableColumn<ResultadoInstrumento, String> colEstado;
-    @FXML
-    private TableColumn<ResultadoInstrumento, String> colParte;
-    @FXML
-    private TableColumn<ResultadoInstrumento, String> colAcciones;
+
 
     private Long abogadoSeleccionadoId;   // id del abogado elegido en el modal de busquda
-    private Long clienteSeleccionadoId;
+    private Long clienteSeleccionadoId; // o del cliente
     @FXML
     private MFXDatePicker dpFechaInicioFiltro;
     @FXML
     private MFXDatePicker dpFechaFinFiltro;
-    private ObservableList<ResultadoInstrumento> listaInstrumentos = FXCollections.observableArrayList();
 
-    private AbogadoService aService = new AbogadoService();
-    private ClienteService cService = new ClienteService();
-    private InstrumentoService iService = new InstrumentoService();
     @FXML
     private MFXButton btnReporteContable;
     @FXML
@@ -106,24 +89,6 @@ public class ReportesController extends Controller implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        colEscritura.setCellValueFactory(new PropertyValueFactory<>("rinEscritura"));
-        colTipo.setCellValueFactory(new PropertyValueFactory<>("rinTipo"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("rinEstado"));
-        colParte.setCellValueFactory(new PropertyValueFactory<>("rinParte"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("rinFecha"));
-        colFecha.setCellFactory(columna -> new TableCell<ResultadoInstrumento, LocalDateTime>() {
-            @Override
-            protected void updateItem(LocalDateTime fecha, boolean empty) {
-                super.updateItem(fecha, empty);
-                if (empty || fecha == null) {
-                    setText(null);
-                    return;
-                }
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-                setText(fecha.format(formato));
-            }
-        });
 
         grupoFiltro.selectedToggleProperty().addListener((obs, antes, ahora) -> {
             clienteSeleccionadoId = null;
@@ -176,19 +141,6 @@ public class ReportesController extends Controller implements Initializable {
         abrirPdf((ArchivoDto) respuesta.getResultado("Reporte"));
     }
 
-    private void cargarTabla() {
-        List<Instrumento> todosInstrumentos;
-        Respuesta respuesta = iService.getInstrumentos(bufeteCargado(), abogadoSeleccionadoId, null, null);
-        if (Boolean.TRUE.equals(respuesta.getEstado())) {
-            todosInstrumentos = (List<Instrumento>) respuesta.getResultado("Instrumentos");
-            // listaInstrumentos.setAll(todosInstrumentos);
-        }
-
-    }
-
-    @FXML
-    private void btnOnActionGenerarReporteVEREMOS(ActionEvent event) {
-    }
 
     @FXML
     private void btnOnActionBuscar(ActionEvent event) {
@@ -203,7 +155,6 @@ public class ReportesController extends Controller implements Initializable {
                 abogadoSeleccionadoId = abogado.getAboId();
                 txtParteElegida.setText(abogado.getAboNombre());
                 AppContext.getInstance().delete("abogadoSeleccionado");
-                cargarTabla();
             }
 
         } else {
