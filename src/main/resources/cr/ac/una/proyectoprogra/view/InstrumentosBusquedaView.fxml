@@ -40,7 +40,7 @@
                         </MFXScrollPane>
                         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="414.0" styleClass="hboxIcon">
+                              <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="414.0" styleClass="hboxI">
                                  <children>
                                     <MFXButton fx:id="btnAgregarFiltro" minHeight="35.0" onAction="#onActionBtnAgregarFiltro" prefHeight="35.0" prefWidth="230.0" styleClass="btnNS" text="%btn.agregarFiltro">
                                        <graphic>
@@ -59,7 +59,7 @@
                               </HBox>
                               <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="414.0" styleClass="hboxI">
                                  <children>
-                                    <MFXButton fx:id="btnLimpiarFiltros" minHeight="35.0" onAction="#onActionBtnLimpiarFiltros" prefHeight="35.0" prefWidth="230.0" styleClass="btnW" text="%btn.limpiar">
+                                    <MFXButton fx:id="btnLimpiarFiltros" minHeight="35.0" onAction="#onActionBtnLimpiarFiltros" prefHeight="35.0" prefWidth="230.0" styleClass="btnNS" text="%btn.limpiar">
                                        <graphic>
                                           <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <styleClass>
@@ -74,9 +74,9 @@
                                     </MFXButton>
                                  </children>
                               </HBox>
-                              <HBox prefHeight="55.0" prefWidth="374.0" styleClass="hboxI">
+                              <HBox alignment="CENTER" prefHeight="55.0" prefWidth="374.0" styleClass="hboxI">
                                  <children>
-                                    <MFXButton fx:id="btnBuscar" minHeight="35.0" onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="218.0" styleClass="btnW" text="%btn.buscar">
+                                    <MFXButton fx:id="btnBuscar" minHeight="35.0" onAction="#onActionBtnBuscar" prefHeight="46.0" prefWidth="226.0" styleClass="btnNS" text="%btn.buscar">
                                        <graphic>
                                           <ImageView fitHeight="39.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <styleClass>

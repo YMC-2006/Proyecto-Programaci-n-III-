@@ -13,6 +13,7 @@ import java.time.LocalDate;
  * @author Nikole
  */
 public class ContableDto {
+    
     private String tipo;
     private String detalle;
     private LocalDate fecha;

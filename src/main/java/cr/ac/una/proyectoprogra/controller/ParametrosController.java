@@ -174,10 +174,6 @@ public class ParametrosController extends Controller implements Initializable {
         return dato != null && dato.toLowerCase().contains(buscado);
     }
 
-    private void onActionBtnAgregar(ActionEvent event) {
-        FlowController.getInstance().goViewInWindowModal("RegistrarParametroView", stage, false);
-        cargarTabla();
-    }
 
     private void modificarParametro(Parametro parametro) {
         TextInputDialog dialogo = new TextInputDialog(parametro.getParValor());
@@ -194,7 +190,7 @@ public class ParametrosController extends Controller implements Initializable {
 
         Optional<String> resultado = dialogo.showAndWait();
         if (resultado.isEmpty()) {
-            return;   // canceló
+            return; 
         }
 
         String nuevoValor = resultado.get().trim();
@@ -203,7 +199,7 @@ public class ParametrosController extends Controller implements Initializable {
             return;
         }
         if (nuevoValor.equals(parametro.getParValor())) {
-            return;   // no cambió nada
+            return;  
         }
 
         String valorAnterior = parametro.getParValor(); // guardamos el valor que tenia en caso de que falle volver a este
@@ -213,7 +209,7 @@ public class ParametrosController extends Controller implements Initializable {
         if (Boolean.TRUE.equals(respuesta.getEstado())) {
             mostrarExito("Parámetro actualizado correctamente.");
         } else {
-            parametro.setParValor(valorAnterior);   // si falló, la tabla vuelve al valor que tenía
+            parametro.setParValor(valorAnterior);   // si fallo, la tabla vuelve al valor que tenia
             mostrarError(respuesta.getMensaje());
         }
         cargarTabla();

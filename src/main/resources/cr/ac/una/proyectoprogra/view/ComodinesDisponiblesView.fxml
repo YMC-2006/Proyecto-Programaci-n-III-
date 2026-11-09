@@ -13,7 +13,7 @@
          <children>
             <HBox prefHeight="442.0" prefWidth="634.0">
                <children>
-                  <TableView fx:id="tblComodines" prefHeight="503.0" prefWidth="634.0">
+                  <TableView fx:id="tblComodines" prefHeight="503.0" prefWidth="634.0" styleClass="tblInstrumento">
                     <columns>
                       <TableColumn fx:id="colNombreComodin" prefWidth="295.20000076293945" text="%comodines.col.nombre" />
                       <TableColumn fx:id="colDescripcion" prefWidth="337.60003662109375" text="%comodines.col.descripcion" />

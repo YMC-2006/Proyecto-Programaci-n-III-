@@ -8,6 +8,7 @@ import cr.ac.una.proyectoprogra.model.Evento;
 import cr.ac.una.proyectoprogra.model.UsuarioDto;
 import cr.ac.una.proyectoprogra.service.EventoService;
 import cr.ac.una.proyectoprogra.util.AppContext;
+import cr.ac.una.proyectoprogra.util.FlowController;
 import cr.ac.una.proyectoprogra.util.Respuesta;
 import java.net.URL;
 import java.time.LocalDate;
@@ -93,11 +94,17 @@ public class AgendaController extends Controller implements Initializable {
         }
         generarCalendario();
     }
+    
+    private String traducirMeses(YearMonth mesActual, String anio){
+        
+       return FlowController.getIdioma().getString("mes" +  mesActual.getMonthValue()) + anio;
+    }
  
     private void generarCalendario(){
         gridCalendario.getChildren().clear();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("MMMM yyyy");
-        lblMesAnio.setText(mesActual.format(formato).toUpperCase());
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern(" yyyy");
+        lblMesAnio.setText(traducirMeses(mesActual, mesActual.format(formato)).toUpperCase());
+      
         
         LocalDate primerDiaMes = mesActual.atDay(1);
         int diaMes = mesActual.lengthOfMonth();
@@ -169,5 +176,5 @@ public class AgendaController extends Controller implements Initializable {
         mesActual = mesActual.plusMonths(1);
         cargarEventos();
     }
-    
+
 }

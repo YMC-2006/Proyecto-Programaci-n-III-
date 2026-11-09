@@ -92,8 +92,8 @@
             </MFXScrollPane>
             <HBox prefHeight="100.0" prefWidth="200.0" styleClass="hboxI">
                <children>
-                  <Label styleClass="chipEventoAtendido" text="Eventos Atendidos" />
-                  <Label styleClass="chipEventoNoAtendido" text="Eventos Sin Atender" />
+                  <Label styleClass="chipEventoAtendido" text="%calendario.evento.atendido" />
+                  <Label styleClass="chipEventoNoAtendido" text="%calendario.evento.inatendido" />
                </children>
             </HBox>
          </children>

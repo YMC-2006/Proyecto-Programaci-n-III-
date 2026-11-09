@@ -113,16 +113,27 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="233.0" prefWidth="1002.0">
                                  <children>
-                                    <VBox prefHeight="456.0" prefWidth="1015.0">
+                                    <VBox prefHeight="742.0" prefWidth="1343.0">
                                        <styleClass>
                                           <String fx:value="card" />
                                           <String fx:value="card2" />
                                        </styleClass>
                                        <children>
-                                          <Label styleClass="titl2" text="Generar reporte (modulo contable) " />
-                                          <HBox prefHeight="248.0" prefWidth="975.0" styleClass="hbox">
+                                          <HBox prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <MFXButton onAction="#btnOnActionGenerarReporteContabilidad" styleClass="btnNS" text="Generar reporte">
+                                                <Label styleClass="titl2" text="Reporte de Contabilidad de " />
+                                                <Label fx:id="lblNombreBufete" styleClass="titl2" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="593.0" prefWidth="1303.0" styleClass="hbox">
+                                             <children>
+                                                <MFXDatePicker fx:id="dpContableFechaInicio" prefWidth="241.0" promptText="Inicio" styleClass="loginTextField" />
+                                                <MFXDatePicker fx:id="dpContableFechaFin" prefWidth="241.0" promptText="Fin" styleClass="loginTextField" />
+                                             </children>
+                                          </HBox>
+                                          <HBox prefHeight="835.0" prefWidth="1303.0" styleClass="hboxI">
+                                             <children>
+                                                <MFXButton fx:id="btnReporteContable" onAction="#btnOnActionGenerarReporteContable" styleClass="btnNS" text="Generar reporte">
                                                    <graphic>
                                                       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                                          <styleClass>
@@ -140,7 +151,7 @@
                               </AnchorPane>
                            </content>
                         </Tab>
-                        <Tab text="Reporte por ver">
+                        <Tab text="Reporte Eventos">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="538.0" prefWidth="1215.0">
                                  <children>
@@ -148,7 +159,7 @@
                                        <children>
                                           <VBox prefHeight="749.0" prefWidth="1102.0">
                                              <children>
-                                                <Label styleClass="titl2" text="Generar reporte " />
+                                                <Label styleClass="titl2" text="Reporte de los eventos " />
                                                 <HBox prefHeight="648.0" prefWidth="1102.0" styleClass="hbox">
                                                    <children>
                                                       <MFXButton onAction="#btnOnActionGenerarReporteVEREMOS" styleClass="btnNS" text="Generar reporte">

@@ -16,7 +16,9 @@ import cr.ac.una.proyectoprogra.service.InstrumentoService;
 import cr.ac.una.proyectoprogra.service.ReporteService;
 import cr.ac.una.proyectoprogra.util.AppContext;
 import cr.ac.una.proyectoprogra.util.FlowController;
+import cr.ac.una.proyectoprogra.util.Mensaje;
 import cr.ac.una.proyectoprogra.util.Respuesta;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.awt.Desktop;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -84,12 +87,20 @@ public class ReportesController extends Controller implements Initializable {
     private MFXDatePicker dpFechaInicioFiltro;
     @FXML
     private MFXDatePicker dpFechaFinFiltro;
+    private ObservableList<ResultadoInstrumento> listaInstrumentos = FXCollections.observableArrayList();
 
-    
     private AbogadoService aService = new AbogadoService();
     private ClienteService cService = new ClienteService();
     private InstrumentoService iService = new InstrumentoService();
-    
+    @FXML
+    private MFXButton btnReporteContable;
+    @FXML
+    private Label lblNombreBufete;
+    @FXML
+    private MFXDatePicker dpContableFechaInicio;
+    @FXML
+    private MFXDatePicker dpContableFechaFin;
+
     /**
      * Initializes the controller class.
      */
@@ -125,7 +136,7 @@ public class ReportesController extends Controller implements Initializable {
 
     @Override
     public void initialize() {
-        rdbAbogado.setSelected(true); 
+        rdbAbogado.setSelected(true);
         abogadoSeleccionadoId = null;
         clienteSeleccionadoId = null;
         txtParteElegida.clear();
@@ -164,44 +175,19 @@ public class ReportesController extends Controller implements Initializable {
 
         abrirPdf((ArchivoDto) respuesta.getResultado("Reporte"));
     }
-    
-//    private void cargarTabla(){
-//        List<Instrumento> todosInstrumentos = new ArrayList<>();
-//        Respuesta respuesta = iService.getInstrumentos(bufeteCargado(), abogadoSeleccionadoId, null, null);
-//        if(Boolean.TRUE.equals(respuesta.getEstado())){
-//            todosInstrumentos = (Instrumento|) respuesta.getResultado("Instrumento");
-//        }
-//        // de este abogado o cliente vaya busque los instrumentos relacionados y muestrelos en la tabla
-//        //
-//        
-//        if(abogadoSeleccionadoId != null){
-//            Respuesta respuesta = aService.getAbogado(abogadoSeleccionadoId);
-//            Abogado abogadoSeleccionado = (Abogado) respuesta.getResultado("Abogado");
-//            
-//        }else{
-//            
-//        }
-//    }
 
-    @FXML
-    private void btnOnActionGenerarReporteContabilidad(ActionEvent event) {
+    private void cargarTabla() {
+        List<Instrumento> todosInstrumentos;
+        Respuesta respuesta = iService.getInstrumentos(bufeteCargado(), abogadoSeleccionadoId, null, null);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            todosInstrumentos = (List<Instrumento>) respuesta.getResultado("Instrumentos");
+            // listaInstrumentos.setAll(todosInstrumentos);
+        }
+
     }
 
     @FXML
     private void btnOnActionGenerarReporteVEREMOS(ActionEvent event) {
-    }
-
-
-    private void mostrarError(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
-        alert.setHeaderText(null);
-        alert.showAndWait();
-    }
-
-    private void mostrarExito(String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
-        alert.setHeaderText(null);
-        alert.showAndWait();
     }
 
     @FXML
@@ -217,7 +203,7 @@ public class ReportesController extends Controller implements Initializable {
                 abogadoSeleccionadoId = abogado.getAboId();
                 txtParteElegida.setText(abogado.getAboNombre());
                 AppContext.getInstance().delete("abogadoSeleccionado");
-
+                cargarTabla();
             }
 
         } else {
@@ -250,6 +236,45 @@ public class ReportesController extends Controller implements Initializable {
         } catch (IOException ex) {
             mostrarError("No se pudo abrir el reporte: " + ex.getMessage());
         }
+    }
+
+    private void mostrarError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    private void mostrarExito(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje, ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void btnOnActionGenerarReporteContable(ActionEvent event) {
+        LocalDate desde = dpContableFechaInicio.getValue();
+        LocalDate hasta = dpContableFechaFin.getValue();
+
+        if (desde == null || hasta == null) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Reporte contable", getStage(), "Seleccione el rango de fechas.");
+            return;
+        }
+        if (desde.isAfter(hasta)) {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Reporte contable", getStage(), "La fecha inicial no puede ser mayor que la final.");
+            return;
+        }
+
+        Respuesta respuesta = reporteService.getReporteContable(bufeteCarga(), desde, hasta);
+        if (Boolean.TRUE.equals(respuesta.getEstado())) {
+            abrirPdf((ArchivoDto) respuesta.getResultado("Reporte"));
+        } else {
+            new Mensaje().showModal(Alert.AlertType.ERROR, "Reporte contable", getStage(), respuesta.getMensaje());
+        }
+    }
+
+    private Long bufeteCarga() {
+        UsuarioDto usuarioSesion = (UsuarioDto) AppContext.getInstance().get("Usuario");
+        return usuarioSesion.getUsrBufeteId();
     }
 
 }

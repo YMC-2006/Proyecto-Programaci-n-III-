@@ -22,7 +22,6 @@ public class TipoInstrumento {
     private List<TipoInstRequisito> tipoInstRequisitoList = new ArrayList<>();
     private List<TipoInstRequisito> tipoInstRequisitoEliminadosList = new ArrayList<>();
     
-    
     public TipoInstrumento(){
         
     }
